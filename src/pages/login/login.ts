@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { NavController } from 'ionic-angular';
+import { NavController, ToastController, LoadingController } from 'ionic-angular';
 
 import { GamesServerProvider } from '../../providers/gamesserver';
 import { UserData } from '../../providers/user-data';
@@ -10,7 +10,6 @@ import { UserOptions } from '../../interfaces/user-options';
 
 import { TabsPage } from '../tabs-page/tabs-page';
 import { SignupPage } from '../signup/signup';
-
 
 @Component({
   selector: 'page-user',
@@ -24,17 +23,37 @@ export class LoginPage {
     public navCtrl: NavController,
     public userData: UserData,
     public gamesServer: GamesServerProvider,
+    public toastCtrl: ToastController,
+    public loadingCtrl: LoadingController,
   ) { }
 
   onLogin(form: NgForm) {
     this.submitted = true;
     if (form.valid) {
-      this.gamesServer.login(this.login).subscribe((currentUsername) => {
-        if (currentUsername === this.login.username) {
-          this.userData.login(this.login.username);
-          this.navCtrl.push(TabsPage);
-        }
+      let loading = this.loadingCtrl.create({
+        content: 'Please wait...'
       });
+      loading.present();
+      let subscription = this.gamesServer.login(this.login)
+        .subscribe((currentUsername) => {
+          loading.dismiss();
+          if (currentUsername === this.login.username) {
+            this.toastCtrl.create({
+              message: `You have successfully logged in as ${currentUsername}`,
+              duration: 3000,
+              position: 'top'
+            }).present();
+            this.userData.login(this.login.username);
+            this.navCtrl.push(TabsPage);
+          } else {
+            this.toastCtrl.create({
+              message: `Wrong username/password!`,
+              duration: 3000,
+              position: 'top'
+            }).present();
+          }
+          subscription.unsubscribe();
+        });
     }
   }
 

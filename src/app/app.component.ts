@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { Events, MenuController, Nav, Platform } from 'ionic-angular';
+import { Events, MenuController, Nav, Platform, ToastController, LoadingController } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { Storage } from '@ionic/storage';
@@ -18,6 +18,7 @@ import { SupportPage } from '../pages/support/support';
 
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
+import { GamesServerProvider } from '../providers/gamesserver';
 
 export interface PageInterface {
   title: string;
@@ -66,7 +67,10 @@ export class ConferenceApp {
     public platform: Platform,
     public confData: ConferenceData,
     public storage: Storage,
-    public splashScreen: SplashScreen
+    public splashScreen: SplashScreen,
+    public gamesServer: GamesServerProvider,
+    public toastCtrl: ToastController,
+    public loadingCtrl: LoadingController,
   ) {
 
     // Check if the user has already seen the tutorial
@@ -116,7 +120,20 @@ export class ConferenceApp {
 
     if (page.logsOut === true) {
       // Give the menu time to close before changing to logged out
-      this.userData.logout();
+      let loading = this.loadingCtrl.create({
+        content: 'Please wait...'
+      });
+      let subscription = this.gamesServer.logout()
+      .subscribe(() => {
+        loading.dismiss();
+        this.toastCtrl.create({
+          message: `You have successfully logged out`,
+          duration: 3000,
+          position: 'top'
+        }).present();
+        this.userData.logout();
+        subscription.unsubscribe();
+      });
     }
   }
 

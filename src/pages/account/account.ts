@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 
-import { AlertController, NavController } from 'ionic-angular';
+import { AlertController, NavController, ToastController, LoadingController } from 'ionic-angular';
 
 import { UserData } from '../../providers/user-data';
+import { GamesServerProvider } from '../../providers/gamesserver';
 
 
 @Component({
@@ -12,7 +13,14 @@ import { UserData } from '../../providers/user-data';
 export class AccountPage {
   username: string;
 
-  constructor(public alertCtrl: AlertController, public nav: NavController, public userData: UserData) {
+  constructor(
+    public alertCtrl: AlertController,
+    public nav: NavController,
+    public userData: UserData,
+    public gamesServer: GamesServerProvider,
+    public toastCtrl: ToastController,
+    public loadingCtrl: LoadingController,
+  ) {
 
   }
 
@@ -63,6 +71,21 @@ export class AccountPage {
   logout() {
     this.userData.logout();
     this.nav.setRoot('LoginPage');
+
+    let loading = this.loadingCtrl.create({
+      content: 'Please wait...'
+    });
+    let subscription = this.gamesServer.logout()
+    .subscribe(() => {
+      loading.dismiss();
+      this.toastCtrl.create({
+        message: `You have successfully logged out`,
+        duration: 3000,
+        position: 'top'
+      }).present();
+      this.userData.logout();
+      subscription.unsubscribe();
+    });
   }
 
   support() {

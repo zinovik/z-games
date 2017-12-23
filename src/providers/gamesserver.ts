@@ -7,17 +7,20 @@ import { ToastController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
+import { Subject } from 'rxjs/Subject';
+
 @Injectable()
 export class GamesServerProvider {
   socket: any;
   usersOnline: any;
-  currentUsername: any;
+  currentUsername: any = new Subject<any>();
   openGameNumber: any;
 
   constructor(
     private toastCtrl: ToastController,
   ) {
     this.socket = io('http://gamesserver.herokuapp.com');
+    // this.socket = io('http://localhost:3000');
 
     this.socket.emit('getCurrentUsername');
     this.socket.emit('getAllGamesInfo');
@@ -40,10 +43,9 @@ export class GamesServerProvider {
     });
 
     // updates from the server
-    this.socket.on('updateCurrentUsername', function(username) {
-      console.log('updateCurrentUsername', username);
-      this.currentUsername = username;
-      // this.updateOpenGameNumber();
+    this.socket.on('updateCurrentUsername', (username) => {
+      this.currentUsername.next(username);
+      this.updateOpenGameNumber();
     });
 
   //   this.socket.on('updateAllGamesInfo', function(games) {
@@ -64,30 +66,33 @@ export class GamesServerProvider {
   //     }
   //   });
 
-    this.socket.on('updateUsersOnline', function(users) {
+    this.socket.on('updateUsersOnline', (users) => {
       this.usersOnline = users;
-      // this.updateOpenGameNumber();
+      this.updateOpenGameNumber();
     });
   }
 
   updateOpenGameNumber(): any {
-    for (let i = 0; i < this.usersOnline.length; i++) {
-      if (this.usersOnline[i].username === this.currentUsername) {
-          this.openGameNumber = this.usersOnline[i].openGameNumber;
-      }
-    }
+    // for (let i = 0; i < this.usersOnline.length; i++) {
+    //   if (this.usersOnline[i].username === this.currentUsername) {
+    //       this.openGameNumber = this.usersOnline[i].openGameNumber;
+    //   }
+    // }
   }
 
-  login(login) {
+  register(signup): Observable<any> {
+    this.socket.emit('register', signup.username, signup.password);
+    return this.currentUsername.asObservable();
+  }
+
+  login(login): Observable<any> {
     this.socket.emit('authorize', login.username, login.password);
-    // return this.getUsername();
-    this.getUsername().subscribe((asd: any) => {
-      console.log('login', asd);
-    });
-    return Observable.of(this.currentUsername);
+    return this.currentUsername.asObservable();
   }
 
-  getUsername() {
-    return Observable.of(this.currentUsername);
+  logout(): Observable<any> {
+    this.socket.emit('logout');
+    return this.currentUsername.asObservable();
   }
+
 }
