@@ -23,8 +23,11 @@ node_modules/
 tmp/
 temp/
 hooks/
-platforms/
 plugins/
+platforms/*
+!platforms/browser/
+!platforms/browser/www
+!platforms/browser/www/plugins
 plugins/android.json
 plugins/ios.json
 $RECYCLE.BIN/
