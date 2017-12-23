@@ -28,6 +28,7 @@ import { SupportPage } from '../pages/support/support';
 
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
+import { GamesServerProvider } from '../providers/gamesserver';
 
 
 @NgModule({
@@ -92,6 +93,7 @@ import { UserData } from '../providers/user-data';
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     ConferenceData,
     UserData,
+    GamesServerProvider,
     InAppBrowser,
     SplashScreen
   ]
