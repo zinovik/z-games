@@ -8,7 +8,7 @@ import { UserData } from '../../providers/user-data';
 
 import { UserOptions } from '../../interfaces/user-options';
 
-import { TabsPage } from '../tabs-page/tabs-page';
+import { SchedulePage } from '../schedule/schedule';
 
 
 @Component({
@@ -44,7 +44,7 @@ export class SignupPage {
               position: 'top'
             }).present();
             this.userData.signup(this.signup.username);
-            this.navCtrl.push(TabsPage);
+            this.navCtrl.push(SchedulePage);
           } else {
             this.toastCtrl.create({
               message: `You can't register with this username/password!`,

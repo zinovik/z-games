@@ -8,7 +8,7 @@ import { UserData } from '../../providers/user-data';
 
 import { UserOptions } from '../../interfaces/user-options';
 
-import { TabsPage } from '../tabs-page/tabs-page';
+import { SchedulePage } from '../schedule/schedule';
 import { SignupPage } from '../signup/signup';
 
 @Component({
@@ -44,7 +44,7 @@ export class LoginPage {
               position: 'top'
             }).present();
             this.userData.login(this.login.username);
-            this.navCtrl.push(TabsPage);
+            this.navCtrl.push(SchedulePage);
           } else {
             this.toastCtrl.create({
               message: `Wrong username/password!`,
