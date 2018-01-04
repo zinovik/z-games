@@ -1,7 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
 import { Events, MenuController, Nav, Platform, ToastController, LoadingController } from 'ionic-angular';
-import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { Storage } from '@ionic/storage';
 
@@ -61,13 +60,10 @@ export class ConferenceApp {
     public platform: Platform,
     public confData: ConferenceData,
     public storage: Storage,
-    public splashScreen: SplashScreen,
     public gamesServer: GamesServerProvider,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
   ) {
-
-    this.splashScreen.hide();
 
     // Check if the user has already seen the tutorial
     this.rootPage = SchedulePage;
@@ -151,7 +147,7 @@ export class ConferenceApp {
   platformReady() {
     // Call any initial plugins when ready
     this.platform.ready().then(() => {
-      this.splashScreen.hide();
+
     });
   }
 

@@ -61,14 +61,14 @@ module.exports = [
 module.exports.metadata = 
 // TOP OF METADATA
 {
+    "cordova-plugin-crosswalk-webview": "2.3.0",
     "cordova-plugin-device": "1.1.7",
     "cordova-plugin-inappbrowser": "1.7.2",
+    "cordova-plugin-ionic-keyboard": "2.0.5",
     "cordova-plugin-ionic-webview": "1.1.16",
     "cordova-plugin-splashscreen": "4.1.0",
     "cordova-plugin-statusbar": "2.3.0",
-    "cordova-plugin-whitelist": "1.3.3",
-    "cordova-plugin-crosswalk-webview": "2.3.0",
-    "cordova-plugin-ionic-keyboard": "2.0.5"
+    "cordova-plugin-whitelist": "1.3.3"
 }
 // BOTTOM OF METADATA
 });
