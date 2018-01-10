@@ -4,11 +4,8 @@ import { NgForm } from '@angular/forms';
 import { NavController, ToastController, LoadingController } from 'ionic-angular';
 
 import { GamesServerProvider } from '../../providers/gamesserver';
-import { UserData } from '../../providers/user-data';
 
 import { UserOptions } from '../../interfaces/user-options';
-
-import { SchedulePage } from '../schedule/schedule';
 
 
 @Component({
@@ -21,10 +18,9 @@ export class SignupPage {
 
   constructor(
     public navCtrl: NavController,
-    public userData: UserData,
-    public gamesServer: GamesServerProvider,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
+    public gamesServer: GamesServerProvider,
   ) {}
 
   onSignup(form: NgForm) {
@@ -43,8 +39,7 @@ export class SignupPage {
               duration: 3000,
               position: 'top'
             }).present();
-            this.userData.signup(this.signup.username);
-            this.navCtrl.push(SchedulePage);
+            this.navCtrl.push('GamesPage');
           } else {
             this.toastCtrl.create({
               message: `You can't register with this username/password!`,

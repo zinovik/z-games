@@ -2,6 +2,16 @@ const path = require('path');
 const express = require('express'),
       app = express();
 
+app.get('*', (req, res, next) => {
+  // TODO RegExp
+  if ((req.url.indexOf('#') > -1) ||
+      ((req.url.lastIndexOf('.') === -1) ||
+      (req.url.indexOf('/', req.url.lastIndexOf('.')) > -1))) {
+    req.url = `/#${req.url}`;
+  }
+  next();
+});
+
 app.use(express.static(path.join(__dirname, 'platforms/browser/www')));
 
 // CORS (Cross-Origin Resource Sharing) headers to support Cross-site HTTP requests

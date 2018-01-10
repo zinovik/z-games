@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { Events, MenuController, Nav, Platform, ToastController, LoadingController } from 'ionic-angular';
+import { MenuController, Nav, Platform, ToastController, LoadingController } from 'ionic-angular';
 
 import { Storage } from '@ionic/storage';
 
@@ -8,11 +8,9 @@ import { AboutPage } from '../pages/about/about';
 import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
-import { SchedulePage } from '../pages/schedule/schedule';
+import { GamesPage } from '../pages/games/games';
 import { SupportPage } from '../pages/support/support';
 
-import { ConferenceData } from '../providers/conference-data';
-import { UserData } from '../providers/user-data';
 import { GamesServerProvider } from '../providers/gamesserver';
 
 export interface PageInterface {
@@ -38,13 +36,13 @@ export class ConferenceApp {
   // the left menu only works after login
   // the login page disables the left menu
   appPages: PageInterface[] = [
-    { title: 'Schedule', name: 'SchedulePage', component: SchedulePage, icon: 'calendar' },
+    { title: 'Games', name: 'GamesPage', component: GamesPage, icon: 'calendar' },
     { title: 'About', name: 'AboutPage', component: AboutPage, icon: 'information-circle' }
   ];
   loggedInPages: PageInterface[] = [
     { title: 'Account', name: 'AccountPage', component: AccountPage, icon: 'person' },
     { title: 'Support', name: 'SupportPage', component: SupportPage, icon: 'help' },
-    { title: 'Logout', name: 'SchedulePage', component: SchedulePage, icon: 'log-out', logsOut: true }
+    { title: 'Logout', name: 'SchedulePage', component: GamesPage, icon: 'log-out', logsOut: true }
   ];
   loggedOutPages: PageInterface[] = [
     { title: 'Login', name: 'LoginPage', component: LoginPage, icon: 'log-in' },
@@ -54,30 +52,17 @@ export class ConferenceApp {
   rootPage: any;
 
   constructor(
-    public events: Events,
-    public userData: UserData,
     public menu: MenuController,
     public platform: Platform,
-    public confData: ConferenceData,
     public storage: Storage,
     public gamesServer: GamesServerProvider,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
   ) {
 
-    // Check if the user has already seen the tutorial
-    this.rootPage = SchedulePage;
+    this.rootPage = GamesPage;
 
-    // load the conference data
-    confData.load();
-
-    // decide which menu items should be hidden by current login status stored in local storage
-    this.userData.hasLoggedIn().then((hasLoggedIn) => {
-      this.enableMenu(hasLoggedIn === true);
-    });
     this.enableMenu(true);
-
-    this.listenToLoginEvents();
   }
 
   openPage(page: PageInterface) {
@@ -115,40 +100,14 @@ export class ConferenceApp {
           duration: 3000,
           position: 'top'
         }).present();
-        this.userData.logout();
         subscription.unsubscribe();
       });
     }
   }
 
-  openTutorial() {
-    this.nav.setRoot(SchedulePage);
-  }
-
-  listenToLoginEvents() {
-    this.events.subscribe('user:login', () => {
-      this.enableMenu(true);
-    });
-
-    this.events.subscribe('user:signup', () => {
-      this.enableMenu(true);
-    });
-
-    this.events.subscribe('user:logout', () => {
-      this.enableMenu(false);
-    });
-  }
-
   enableMenu(loggedIn: boolean) {
     this.menu.enable(loggedIn, 'loggedInMenu');
     this.menu.enable(!loggedIn, 'loggedOutMenu');
-  }
-
-  platformReady() {
-    // Call any initial plugins when ready
-    this.platform.ready().then(() => {
-
-    });
   }
 
   isActive(page: PageInterface) {
@@ -163,7 +122,7 @@ export class ConferenceApp {
     }
 
     if (this.nav.getActive() && this.nav.getActive().name === page.name) {
-      return 'primary';
+      return 'google';
     }
     return;
   }

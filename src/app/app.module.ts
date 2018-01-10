@@ -14,14 +14,12 @@ import { AboutPage } from '../pages/about/about';
 import { PopoverPage } from '../pages/about-popover/about-popover';
 import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
-import { SchedulePage } from '../pages/schedule/schedule';
+import { GamesPage } from '../pages/games/games';
 import { ScheduleFilterPage } from '../pages/schedule-filter/schedule-filter';
 import { SessionDetailPage } from '../pages/session-detail/session-detail';
 import { SignupPage } from '../pages/signup/signup';
 import { SupportPage } from '../pages/support/support';
 
-import { ConferenceData } from '../providers/conference-data';
-import { UserData } from '../providers/user-data';
 import { GamesServerProvider } from '../providers/gamesserver';
 
 
@@ -32,7 +30,7 @@ import { GamesServerProvider } from '../providers/gamesserver';
     AccountPage,
     LoginPage,
     PopoverPage,
-    SchedulePage,
+    GamesPage,
     ScheduleFilterPage,
     SessionDetailPage,
     SignupPage,
@@ -41,9 +39,11 @@ import { GamesServerProvider } from '../providers/gamesserver';
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(ConferenceApp, {}, {
+    IonicModule.forRoot(ConferenceApp, {
+      locationStrategy: 'path',
+    }, {
       links: [
-        { component: SchedulePage, name: 'Schedule', segment: 'schedule' },
+        { component: GamesPage, name: 'GamesPage', segment: 'games' },
         { component: SessionDetailPage, name: 'SessionDetail', segment: 'sessionDetail/:sessionId' },
         { component: ScheduleFilterPage, name: 'ScheduleFilter', segment: 'scheduleFilter' },
         { component: AboutPage, name: 'About', segment: 'about' },
@@ -62,7 +62,7 @@ import { GamesServerProvider } from '../providers/gamesserver';
     AccountPage,
     LoginPage,
     PopoverPage,
-    SchedulePage,
+    GamesPage,
     ScheduleFilterPage,
     SessionDetailPage,
     SignupPage,
@@ -70,8 +70,6 @@ import { GamesServerProvider } from '../providers/gamesserver';
   ],
   providers: [
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    ConferenceData,
-    UserData,
     GamesServerProvider,
     InAppBrowser,
   ]

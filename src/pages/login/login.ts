@@ -4,12 +4,9 @@ import { NgForm } from '@angular/forms';
 import { NavController, ToastController, LoadingController } from 'ionic-angular';
 
 import { GamesServerProvider } from '../../providers/gamesserver';
-import { UserData } from '../../providers/user-data';
 
 import { UserOptions } from '../../interfaces/user-options';
 
-import { SchedulePage } from '../schedule/schedule';
-import { SignupPage } from '../signup/signup';
 
 @Component({
   selector: 'page-user',
@@ -21,7 +18,6 @@ export class LoginPage {
 
   constructor(
     public navCtrl: NavController,
-    public userData: UserData,
     public gamesServer: GamesServerProvider,
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
@@ -43,8 +39,7 @@ export class LoginPage {
               duration: 3000,
               position: 'top'
             }).present();
-            this.userData.login(this.login.username);
-            this.navCtrl.push(SchedulePage);
+            this.navCtrl.push('GamesPage');
           } else {
             this.toastCtrl.create({
               message: `Wrong username/password!`,
@@ -58,6 +53,6 @@ export class LoginPage {
   }
 
   onSignup() {
-    this.navCtrl.push(SignupPage);
+    this.navCtrl.push('SignupPage');
   }
 }
