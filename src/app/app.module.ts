@@ -20,7 +20,7 @@ import { SessionDetailPage } from '../pages/session-detail/session-detail';
 import { SignupPage } from '../pages/signup/signup';
 import { SupportPage } from '../pages/support/support';
 
-import { GamesServerProvider } from '../providers/gamesserver';
+import { GamesServerProvider } from '../providers/gamesserver/gamesserver';
 
 
 @NgModule({

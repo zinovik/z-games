@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 
 import { NavController, ToastController, LoadingController } from 'ionic-angular';
 
-import { GamesServerProvider } from '../../providers/gamesserver';
+import { GamesServerProvider } from '../../providers/gamesserver/gamesserver';
 
 import { UserOptions } from '../../interfaces/user-options';
 

@@ -2,14 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 
 import { AlertController, App, FabContainer, List, ModalController, NavController, ToastController, LoadingController } from 'ionic-angular';
 
-/*
-  To learn how to use third party libs in an
-  Ionic app check out our docs here: http://ionicframework.com/docs/v2/resources/third-party-libs/
-*/
-// import moment from 'moment';
-
-import { SessionDetailPage } from '../session-detail/session-detail';
-import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
+import { GamesServerProvider } from '../../providers/gamesserver/gamesserver';
 
 
 @Component({
@@ -30,6 +23,7 @@ export class GamesPage {
   shownSessions: any = [];
   groups: any = [];
   confDate: string;
+  allGamesInfo: any = [];
 
   constructor(
     public alertCtrl: AlertController,
@@ -38,7 +32,13 @@ export class GamesPage {
     public modalCtrl: ModalController,
     public navCtrl: NavController,
     public toastCtrl: ToastController,
-  ) {}
+    public gamesServer: GamesServerProvider,
+  ) {
+    gamesServer.getAllGamesInfo().subscribe((allGamesInfo) => {
+      this.allGamesInfo = allGamesInfo;
+      console.log(this.allGamesInfo);
+    });
+  }
 
   ionViewDidLoad() {
     this.app.setTitle('Games');
@@ -51,7 +51,7 @@ export class GamesPage {
   }
 
   presentFilter() {
-    let modal = this.modalCtrl.create(ScheduleFilterPage, this.excludeTracks);
+    let modal = this.modalCtrl.create('ScheduleFilterPage', this.excludeTracks);
     modal.present();
 
     modal.onWillDismiss((data: any[]) => {
@@ -64,7 +64,7 @@ export class GamesPage {
   }
 
   goToSessionDetail(sessionData: any) {
-    this.navCtrl.push(SessionDetailPage, { sessionId: sessionData.id, name: sessionData.name });
+    this.navCtrl.push('SessionDetailPage', { sessionId: sessionData.id, name: sessionData.name });
   }
 
   openSocial(network: string, fab: FabContainer) {

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { AlertController, NavController, ToastController, LoadingController } from 'ionic-angular';
 
-import { GamesServerProvider } from '../../providers/gamesserver';
+import { GamesServerProvider } from '../../providers/gamesserver/gamesserver';
 
 
 @Component({

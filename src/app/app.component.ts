@@ -11,7 +11,7 @@ import { SignupPage } from '../pages/signup/signup';
 import { GamesPage } from '../pages/games/games';
 import { SupportPage } from '../pages/support/support';
 
-import { GamesServerProvider } from '../providers/gamesserver';
+import { GamesServerProvider } from '../providers/gamesserver/gamesserver';
 
 export interface PageInterface {
   title: string;
@@ -121,8 +121,8 @@ export class ConferenceApp {
       return;
     }
 
-    if (this.nav.getActive() && this.nav.getActive().name === page.name) {
-      return 'google';
+    if (this.nav.getActive() && (this.nav.getActive().name === page.name || this.nav.getActive().id === page.name || this.nav.getActive().id === page.title.toLowerCase())) {
+      return 'secondary';
     }
     return;
   }

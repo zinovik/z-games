@@ -67,3 +67,17 @@
     }
   }
 }
+
+@media (min-width: 1200px) {
+  .app-root {
+    width: 1200px;
+    margin: auto;
+    position: relative;
+  }
+  body {
+    background: #F6F6F6;
+  }
+  .scroll-content {
+    overflow-y:auto;
+  }
+}
