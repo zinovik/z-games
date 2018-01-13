@@ -4,12 +4,12 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
+    <ion-segment [(ngModel)]="segment" (ionChange)="updateGames()">
       <ion-segment-button value="all">
         All
       </ion-segment-button>
       <ion-segment-button value="favorites">
-        Favorites
+        Games with me
       </ion-segment-button>
     </ion-segment>
 
@@ -23,27 +23,27 @@
   <ion-toolbar no-border-top>
     <ion-searchbar color="primary"
                    [(ngModel)]="queryText"
-                   (ionInput)="updateSchedule()"
+                   (ionInput)="updateGames()"
                    placeholder="Search">
     </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-refresher (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
-  </ion-refresher>
 
-  <ion-list #gamesList [hidden]="shownSessions === 0">
+  <ion-list #gamesList [hidden]="!allGamesInfo">
 
-    <ion-item-sliding *ngFor="let game of allGamesInfo" #slidingItem [attr.track]="session | lowercase" [hidden]="session">
+    <ion-item-sliding *ngFor="let game of allGamesInfo.reverse(); let i = index" #slidingItem [attr.track]="session | lowercase" [hidden]="session">
 
-      <button ion-item (click)="goToSessionDetail(session)">
-        <h3>[{{ game.index }}] {{ game.name }}</h3>
+      <button ion-item (click)="goToGameDetail(allGamesInfo.length - i - 1)">
+        <img class="gameLogo" src="{{ SERVER_URL + '/images/' + game.name + '.jpg' }}">
+        <h1 class="gameNumber">#{{ allGamesInfo.length - i - 1 }}</h1>
+        <h3>{{ game.name }}</h3>
         <p>
-          {{ game.gameInfo.started }} &mdash;
-          {{ game.gameInfo.finished }}:
-          {{ game.players.length }}
+          {{ ((game.gameInfo.started) ? ((game.gameInfo.finished) ? 'finished' : 'started') : 'not started') }}
+        </p>
+        <p>
+          {{ game.players.length }} players
         </p>
       </button>
 
@@ -51,8 +51,8 @@
 
   </ion-list>
 
-  <ion-list-header [hidden]="shownSessions > 0">
-      No Sessions Found
+  <ion-list-header [hidden]="allGamesInfo">
+      No Games Found
   </ion-list-header>
 
 </ion-content>

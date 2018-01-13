@@ -1,9 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { AlertController, App, FabContainer, List, ModalController, NavController, ToastController, LoadingController } from 'ionic-angular';
+import { AlertController, App, List, ModalController, NavController, ToastController, LoadingController } from 'ionic-angular';
 
 import { GamesServerProvider } from '../../providers/gamesserver/gamesserver';
-
 
 @Component({
   selector: 'page-schedule',
@@ -24,6 +23,7 @@ export class GamesPage {
   groups: any = [];
   confDate: string;
   allGamesInfo: any = [];
+  SERVER_URL = 'https://gamesserver.herokuapp.com';
 
   constructor(
     public alertCtrl: AlertController,
@@ -42,39 +42,25 @@ export class GamesPage {
 
   ionViewDidLoad() {
     this.app.setTitle('Games');
-    this.updateSchedule();
   }
 
-  updateSchedule() {
-    // Close any open sliding items when the schedule updates
-    this.scheduleList && this.scheduleList.closeSlidingItems();
+  updateGames() {
+    console.log('updateGames()');
   }
 
   presentFilter() {
-    let modal = this.modalCtrl.create('ScheduleFilterPage', this.excludeTracks);
+    let modal = this.modalCtrl.create('GamesFilterPage', this.excludeTracks);
     modal.present();
 
     modal.onWillDismiss((data: any[]) => {
       if (data) {
         this.excludeTracks = data;
-        this.updateSchedule();
       }
     });
 
   }
 
-  goToSessionDetail(sessionData: any) {
-    this.navCtrl.push('SessionDetailPage', { sessionId: sessionData.id, name: sessionData.name });
-  }
-
-  openSocial(network: string, fab: FabContainer) {
-    let loading = this.loadingCtrl.create({
-      content: `Posting to ${network}`,
-      duration: (Math.random() * 1000) + 500
-    });
-    loading.onWillDismiss(() => {
-      fab.close();
-    });
-    loading.present();
+  goToGameDetail(gameNumber: any) {
+    this.navCtrl.push('GameDetailPage', { gameNumber: gameNumber });
   }
 }

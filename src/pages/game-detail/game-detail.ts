@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { NavParams } from 'ionic-angular';
 
 @Component({
-  selector: 'page-session-detail',
-  templateUrl: 'session-detail.html'
+  selector: 'page-game-detail',
+  templateUrl: 'game-detail.html'
 })
-export class SessionDetailPage {
+export class GameDetailPage {
   session: any;
 
   constructor(

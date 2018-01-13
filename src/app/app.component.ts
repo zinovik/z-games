@@ -92,15 +92,13 @@ export class ConferenceApp {
       let loading = this.loadingCtrl.create({
         content: 'Please wait...'
       });
-      let subscription = this.gamesServer.logout()
-      .subscribe(() => {
+      this.gamesServer.logout().subscribe(() => {
         loading.dismiss();
         this.toastCtrl.create({
           message: `You have successfully logged out`,
           duration: 3000,
           position: 'top'
         }).present();
-        subscription.unsubscribe();
       });
     }
   }

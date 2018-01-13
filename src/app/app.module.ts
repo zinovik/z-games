@@ -15,8 +15,8 @@ import { PopoverPage } from '../pages/about-popover/about-popover';
 import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
 import { GamesPage } from '../pages/games/games';
-import { ScheduleFilterPage } from '../pages/schedule-filter/schedule-filter';
-import { SessionDetailPage } from '../pages/session-detail/session-detail';
+import { GamesFilterPage } from '../pages/games-filter/games-filter';
+import { GameDetailPage } from '../pages/game-detail/game-detail';
 import { SignupPage } from '../pages/signup/signup';
 import { SupportPage } from '../pages/support/support';
 
@@ -31,8 +31,8 @@ import { GamesServerProvider } from '../providers/gamesserver/gamesserver';
     LoginPage,
     PopoverPage,
     GamesPage,
-    ScheduleFilterPage,
-    SessionDetailPage,
+    GamesFilterPage,
+    GameDetailPage,
     SignupPage,
     SupportPage
   ],
@@ -44,9 +44,9 @@ import { GamesServerProvider } from '../providers/gamesserver/gamesserver';
     }, {
       links: [
         { component: GamesPage, name: 'GamesPage', segment: 'games' },
-        { component: SessionDetailPage, name: 'SessionDetail', segment: 'sessionDetail/:sessionId' },
-        { component: ScheduleFilterPage, name: 'ScheduleFilter', segment: 'scheduleFilter' },
-        { component: AboutPage, name: 'About', segment: 'about' },
+        { component: GameDetailPage, name: 'GameDetailPage', segment: 'game/:gameNumber' },
+        { component: GamesFilterPage, name: 'GamesFilterPage', segment: 'games-filter' },
+        { component: AboutPage, name: 'AboutPage', segment: 'about' },
         { component: SupportPage, name: 'SupportPage', segment: 'support' },
         { component: LoginPage, name: 'LoginPage', segment: 'login' },
         { component: AccountPage, name: 'AccountPage', segment: 'account' },
@@ -63,8 +63,8 @@ import { GamesServerProvider } from '../providers/gamesserver/gamesserver';
     LoginPage,
     PopoverPage,
     GamesPage,
-    ScheduleFilterPage,
-    SessionDetailPage,
+    GamesFilterPage,
+    GameDetailPage,
     SignupPage,
     SupportPage
   ],

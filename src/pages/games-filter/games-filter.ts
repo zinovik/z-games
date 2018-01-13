@@ -4,10 +4,10 @@ import { NavParams, ViewController } from 'ionic-angular';
 
 
 @Component({
-  selector: 'page-schedule-filter',
-  templateUrl: 'schedule-filter.html'
+  selector: 'page-games-filter',
+  templateUrl: 'games-filter.html'
 })
-export class ScheduleFilterPage {
+export class GamesFilterPage {
   tracks: Array<{name: string, isChecked: boolean}> = [];
 
   constructor(

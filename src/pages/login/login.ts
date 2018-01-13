@@ -30,25 +30,27 @@ export class LoginPage {
         content: 'Please wait...'
       });
       loading.present();
-      let subscription = this.gamesServer.login(this.login)
-        .subscribe((currentUsername) => {
+      var subscription = this.gamesServer.login(this.login).subscribe((currentUsername) => {
+        loading.dismissAll();
+        if (currentUsername === this.login.username) {
+          this.toastCtrl.create({
+            message: `You have successfully logged in as ${currentUsername}`,
+            duration: 3000,
+            position: 'top'
+          }).present();
+          this.navCtrl.push('GamesPage');
+        } else {
+          this.toastCtrl.create({
+            message: `Wrong username/password!`,
+            duration: 3000,
+            position: 'top'
+          }).present();
+        }
+        setTimeout(() => {
           loading.dismiss();
-          if (currentUsername === this.login.username) {
-            this.toastCtrl.create({
-              message: `You have successfully logged in as ${currentUsername}`,
-              duration: 3000,
-              position: 'top'
-            }).present();
-            this.navCtrl.push('GamesPage');
-          } else {
-            this.toastCtrl.create({
-              message: `Wrong username/password!`,
-              duration: 3000,
-              position: 'top'
-            }).present();
-          }
           subscription.unsubscribe();
-        });
+        })
+      });
     }
   }
 
