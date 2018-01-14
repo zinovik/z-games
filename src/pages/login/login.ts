@@ -49,7 +49,7 @@ export class LoginPage {
         setTimeout(() => {
           loading.dismiss();
           subscription.unsubscribe();
-        })
+        });
       });
     }
   }

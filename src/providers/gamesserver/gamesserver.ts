@@ -12,16 +12,16 @@ import io from 'socket.io-client';
 @Injectable()
 export class GamesServerProvider {
   socket: any;
-  usersOnline: any = new BehaviorSubject<any>(null);
+  usersOnline: any = new BehaviorSubject<any>([]);
   currentUsername: any = new BehaviorSubject<any>(null);
   openGameNumber: any = new BehaviorSubject<any>(null);
   allGamesInfo: any = new BehaviorSubject<any>([]);
+  SERVER_URL = window["process_env"].serverURL;
 
   constructor(
     private toastCtrl: ToastController,
   ) {
-    this.socket = io('http://gamesserver.herokuapp.com');
-    // this.socket = io('http://localhost:3000');
+    this.socket = io(this.SERVER_URL);
 
     this.socket.emit('getCurrentUsername');
     this.socket.emit('getAllGamesInfo');
@@ -51,31 +51,37 @@ export class GamesServerProvider {
     });
 
     this.socket.on('updateAllGamesInfo', (allGamesInfo) => {
+      // console.log('socket.io: updateAllGamesInfo', allGamesInfo);
       if ((this.openGameNumber.value || this.openGameNumber.value === 0) && this.allGamesInfo.value) {
         allGamesInfo[this.openGameNumber.value] = this.allGamesInfo.value[this.openGameNumber];
       }
       this.allGamesInfo.next(allGamesInfo);
     });
 
-    // this.socket.on('updateOpenGameInfo', function(game) {
-    //   if (!this.allGamesInfo ) {
-    //     this.allGamesInfo = [];
-    //   }
-    //   if ((this.openGameNumber || this.openGameNumber === 0)) {
-    //     this.allGamesInfo[this.openGameNumber] = game;
-    //   }
-    // });
+    this.socket.on('updateOpenGameInfo', function(game) {
+      // console.log('socket.io: updateOpenGameInfo', game);
+      let allGamesInfo = this.allGamesInfo ? this.allGamesInfo.value : [];
+      if (!allGamesInfo) {
+        allGamesInfo = [];
+      }
+      ////// never
+      if (this.openGameNumber && (this.openGameNumber.value || this.openGameNumber.value === 0)) {
+        allGamesInfo[this.openGameNumber.value] = game;
+        this.allGamesInfo.next(allGamesInfo);
+      }
+    });
 
-    // this.socket.on('updateUsersOnline', (users) => {
-    //   this.usersOnline.next(users);
-    //   this.updateOpenGameNumber();
-    // });
+    this.socket.on('updateUsersOnline', (users) => {
+      // console.log('socket.io: updateUsersOnline', users);
+      this.usersOnline.next(users);
+      this.updateOpenGameNumber();
+    });
   }
 
   updateOpenGameNumber(): any {
-    for (let i = 0; i < this.usersOnline.length; i++) {
-      if (this.usersOnline[i].username === this.currentUsername) {
-          this.openGameNumber.next(this.usersOnline[i].openGameNumber);
+    for (let i = 0; i < this.usersOnline.value.length; i++) {
+      if (this.usersOnline.value[i].username === this.currentUsername.value) {
+        this.openGameNumber.next({ gameNumber: this.usersOnline.value[i].openGameNumber });
       }
     }
   }
@@ -84,9 +90,9 @@ export class GamesServerProvider {
   //   return this.usersOnline.asObservable();
   // }
 
-  // getCurrentUsername(): Observable<any> {
-  //   return this.currentUsername.asObservable();
-  // }
+  getCurrentUsername(): Observable<any> {
+    return this.currentUsername.asObservable();
+  }
 
   // getOpenGameNumber(): Observable<any> {
   //   return this.openGameNumber.asObservable();
@@ -94,6 +100,19 @@ export class GamesServerProvider {
 
   getAllGamesInfo(): Observable<any> {
     return this.allGamesInfo.asObservable();
+  }
+
+  joinGame(gameNumber) {
+    this.socket.emit('joingame', gameNumber);
+    return this.openGameNumber.asObservable();
+  }
+
+  leaveGame() {
+    this.socket.emit('leavegame');
+  }
+
+  readyToGame() {
+    this.socket.emit('readytogame');
   }
 
   // Accounts

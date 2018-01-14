@@ -23,7 +23,7 @@ export class GamesPage {
   groups: any = [];
   confDate: string;
   allGamesInfo: any = [];
-  SERVER_URL = 'https://gamesserver.herokuapp.com';
+  SERVER_URL = window["process_env"].serverURL;
 
   constructor(
     public alertCtrl: AlertController,
@@ -36,7 +36,6 @@ export class GamesPage {
   ) {
     gamesServer.getAllGamesInfo().subscribe((allGamesInfo) => {
       this.allGamesInfo = allGamesInfo;
-      console.log(this.allGamesInfo);
     });
   }
 
@@ -57,10 +56,16 @@ export class GamesPage {
         this.excludeTracks = data;
       }
     });
-
   }
 
   goToGameDetail(gameNumber: any) {
-    this.navCtrl.push('GameDetailPage', { gameNumber: gameNumber });
+    let subscription = this.gamesServer.joinGame(gameNumber).subscribe((openGameNumber) => {
+      if (openGameNumber && openGameNumber.gameNumber === gameNumber) {
+        this.navCtrl.push('GameDetailPage', { gameNumber: gameNumber });
+        setTimeout(() => {
+          subscription.unsubscribe();
+        });
+      }
+    });
   }
 }

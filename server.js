@@ -1,4 +1,6 @@
 const path = require('path');
+const fs = require('fs');
+require('dotenv').load();
 const express = require('express'),
       app = express();
 
@@ -19,6 +21,22 @@ app.all('*', (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
+});
+
+const content = 'var process_env = ' + JSON.stringify({
+  serverURL: process.env.serverURL,
+});
+
+fs.writeFile(__dirname + '/platforms/browser/www/process_env.js', content, function(err) {
+  if (err) {
+    return console.error(err);
+  }
+});
+
+fs.writeFile(__dirname + '/www/process_env.js', content, function(err) {
+  if (err) {
+    return console.error(err);
+  }
 });
 
 // API Routes

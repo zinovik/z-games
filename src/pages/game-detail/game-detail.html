@@ -1,19 +1,84 @@
 <ion-header>
   <ion-navbar>
-    <ion-title *ngIf="session">{{session.name}}</ion-title>
+    <ion-title *ngIf="game">#{{ gameNumber }} {{ game.name }}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <div *ngIf="session">
-    <h1>{{session.name}}</h1>
-    <h4 *ngFor="let speaker of session?.speakers">
-    {{speaker.name}}
-  </h4>
-    <p>
-      {{session.timeStart}} - {{session.timeEnd}}
-    </p>
-    <p>{{session.location}}</p>
-    <p>{{session.description}}</p>
+  <div *ngIf="game">
+
+    <img src="{{ SERVER_URL + '/images/' + game.name + '.jpg' }}">
+    <div><b>Game status</b>: {{ status }}</div>
+    <div>
+      <b>Players in game</b>:
+      <p *ngFor="let player of game.players">&nbsp;&nbsp;&nbsp;{{ player.username }}: {{ player.ready ? 'ready' : 'not ready' }}</p>
+    </div>
+    <div *ngIf="game.watchers && game.watchers.length">
+      <b>Watchers in game</b>:
+      <p *ngFor="let watcher of game.watchers">&nbsp;&nbsp;&nbsp;{{ watcher.username }}</p>
+    </div>
+    <button ion-button (click)="leaveButtonClick()">Leave</button>
+
+    <div *ngIf="!game.gameInfo.started">
+      <div>Minimum players in this game: {{ game.gameInfo.PLAYERS_MIN }}</div>
+      <div>Maximum players in this game: {{ game.gameInfo.PLAYERS_MAX }}</div>
+      <button ion-button (click)="readyButtonClick()">{{ ready }}</button>
+      <button ion-button (click)="startButtonClick()">Start</button>
+    </div>
+    <hr>
+    <div id="startedNotFinishedGame">
+      <div id="nextMovePlayerDiv"></div>
+
+      <div *ngIf="game.name === 'No, Thanks!'">
+        <div id="noThanksCardsLeft"></div>
+        <div id="noThanksCard"></div>
+        <div id="noThanksOtherPlayersInfo"></div>
+        <div id="noThanksCurrentPlayerInfo"></div>
+        <div id="noThanksButtonsDiv">
+          <button ion-button id="noThanksPayButton">Pay</button>
+          <button ion-button id="noThanksTakeButton">Take</button>
+        </div>
+      </div>
+
+      <div *ngIf="game.name === 'Perudo'">
+        <div id="perudoLastPlayerNumber"></div>
+        <div id="perudoLastRoundResults"></div>
+        <div id="perudoCurrentRound"></div>
+        <div id="perudoCurrentBet"></div>
+        <div id="perudoOtherPlayersInfo"></div>
+        <div id="perudoCurrentPlayerInfo"></div>
+        <div id="perudoButtonsDiv">
+          <b>Dice number:</b>
+          <select id="perudoDiceNumber" class="form-control"></select>
+          <b>Dice figure:</b>
+          <select id="perudoDiceFigure" class="form-control"></select><br>
+          <button ion-button id="perudoBetButton">Bet</button>
+          <button ion-button id="perudoNotBelieveButton">Not Believe</button>
+        </div>
+      </div>
+
+    </div>
+
+    <hr>
+
+    <div id="gameResultsDiv"></div>
+
+    <button ion-button id="rulesButton">Show rules</button>
+    <div id="rulesDiv" style='display: none;'></div>
+
+
+
+    <div>
+
+      <ion-item>
+        <ion-input type="tel" placeholder="Enter message" id="messageInput"></ion-input>
+      </ion-item>
+
+      <button ion-button id="sendButton">Send</button>
+
+      <div id="messagesDiv"></div>
+
+    </div>
+
   </div>
 </ion-content>
