@@ -35,6 +35,7 @@ export class GamesPage {
     public gamesServer: GamesServerProvider,
   ) {
     gamesServer.getAllGamesInfo().subscribe((allGamesInfo) => {
+      console.log('allGamesInfo', allGamesInfo);
       this.allGamesInfo = allGamesInfo;
     });
   }
@@ -60,7 +61,7 @@ export class GamesPage {
 
   goToGameDetail(gameNumber: any) {
     let subscription = this.gamesServer.joinGame(gameNumber).subscribe((openGameNumber) => {
-      if (openGameNumber && openGameNumber.gameNumber === gameNumber) {
+      if (openGameNumber === gameNumber) {
         this.navCtrl.push('GameDetailPage', { gameNumber: gameNumber });
         setTimeout(() => {
           subscription.unsubscribe();

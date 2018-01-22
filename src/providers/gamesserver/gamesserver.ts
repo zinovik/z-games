@@ -11,12 +11,16 @@ import io from 'socket.io-client';
 
 @Injectable()
 export class GamesServerProvider {
-  socket: any;
-  usersOnline: any = new BehaviorSubject<any>([]);
-  currentUsername: any = new BehaviorSubject<any>(null);
-  openGameNumber: any = new BehaviorSubject<any>(null);
-  allGamesInfo: any = new BehaviorSubject<any>([]);
+
   SERVER_URL = window["process_env"].serverURL;
+
+  socket: any;
+
+  currentUsername: any = new BehaviorSubject<any>(null);
+  allGamesInfo: any = new BehaviorSubject<any>([]);
+  openGameInfo: any = new BehaviorSubject<any>({});
+  usersOnline: any = new BehaviorSubject<any>([]);
+  openGameNumber: any = new BehaviorSubject<any>(null);
 
   constructor(
     private toastCtrl: ToastController,
@@ -51,28 +55,24 @@ export class GamesServerProvider {
     });
 
     this.socket.on('updateAllGamesInfo', (allGamesInfo) => {
-      // console.log('socket.io: updateAllGamesInfo', allGamesInfo);
-      if ((this.openGameNumber.value || this.openGameNumber.value === 0) && this.allGamesInfo.value) {
-        allGamesInfo[this.openGameNumber.value] = this.allGamesInfo.value[this.openGameNumber];
+      if ((this.openGameNumber.value || this.openGameNumber.value === 0)
+          && this.allGamesInfo.value
+          && this.allGamesInfo.value[this.openGameNumber.value]) {
+        allGamesInfo[this.openGameNumber.value] = this.allGamesInfo.value[this.openGameNumber.value];
       }
       this.allGamesInfo.next(allGamesInfo);
     });
 
-    this.socket.on('updateOpenGameInfo', function(game) {
-      // console.log('socket.io: updateOpenGameInfo', game);
-      let allGamesInfo = this.allGamesInfo ? this.allGamesInfo.value : [];
-      if (!allGamesInfo) {
-        allGamesInfo = [];
-      }
-      ////// never
-      if (this.openGameNumber && (this.openGameNumber.value || this.openGameNumber.value === 0)) {
+    this.socket.on('updateOpenGameInfo', (game) => {
+      let allGamesInfo = this.allGamesInfo.value ? this.allGamesInfo.value : [];
+
+      if (this.openGameNumber.value || this.openGameNumber.value === 0) {
         allGamesInfo[this.openGameNumber.value] = game;
         this.allGamesInfo.next(allGamesInfo);
       }
     });
 
     this.socket.on('updateUsersOnline', (users) => {
-      // console.log('socket.io: updateUsersOnline', users);
       this.usersOnline.next(users);
       this.updateOpenGameNumber();
     });
@@ -81,7 +81,7 @@ export class GamesServerProvider {
   updateOpenGameNumber(): any {
     for (let i = 0; i < this.usersOnline.value.length; i++) {
       if (this.usersOnline.value[i].username === this.currentUsername.value) {
-        this.openGameNumber.next({ gameNumber: this.usersOnline.value[i].openGameNumber });
+        this.openGameNumber.next(this.usersOnline.value[i].openGameNumber);
       }
     }
   }
@@ -113,6 +113,18 @@ export class GamesServerProvider {
 
   readyToGame() {
     this.socket.emit('readytogame');
+  }
+
+  startGame() {
+    this.socket.emit('startgame');
+  }
+
+  move(move) {
+    this.socket.emit('move', move);
+  }
+
+  message(message) {
+    this.socket.emit('message', message);
   }
 
   // Accounts

@@ -13,9 +13,13 @@ export class GameDetailPage {
   game: any;
   currentUsername: string;
   status: string;
-  ready: string;
+  readyButtonLabel: string;
   allGamesInfoSubscription: any;
   currentUsernameSubscription: any;
+  perudoDiceNumber: number;
+  perudoDiceFigure: number;
+  showRules: boolean = false;
+  messageInput: string;
 
   SERVER_URL = window["process_env"].serverURL;
 
@@ -34,7 +38,6 @@ export class GameDetailPage {
 
     this.allGamesInfoSubscription = gamesServer.getAllGamesInfo().subscribe((allGamesInfo) => {
       this.game = allGamesInfo[this.gameNumber];
-      console.log('game-detail.ts', this.game);
       if (!this.game) return;
       this.status = this.game.gameInfo.started ? (this.game.gameInfo.finished ? 'finished' : 'started') : 'not started';
       this.updateReady();
@@ -49,7 +52,7 @@ export class GameDetailPage {
   updateReady() {
     for (let i = 0; i < this.game.players.length; i++) {
       if (this.game.players[i].username === this.currentUsername) {
-        this.ready = this.game.players[i].ready ? 'Ready' : 'Not Ready';
+        this.readyButtonLabel = this.game.players[i].ready ? 'Not ready' : 'Ready';
       }
     }
   }
@@ -64,6 +67,43 @@ export class GameDetailPage {
   }
 
   startButtonClick() {
-    console.log(2);
+    this.gamesServer.startGame();
+  }
+
+  noThanksPayButtonClick() {
+    this.gamesServer.move({ takeCard: false });
+  }
+
+  noThanksTakeButtonClick() {
+    this.gamesServer.move({ takeCard: true });
+  }
+
+  onPerudoDiceNumberChange() {
+
+  }
+
+  onPerudoDiceFigureChange() {
+
+  }
+
+  perudoBetButtonClick() {
+    this.gamesServer.move({ number: this.perudoDiceNumber, figure: this.perudoDiceFigure });
+  }
+
+  perudoNotBelieveButtonClick() {
+    this.gamesServer.move({ notBelieve: true });
+  }
+
+  rulesButtonClick() {
+    this.showRules = !this.showRules;
+  }
+
+  messageInputKeyUp(key) {
+    console.log(key);
+  }
+
+  sendButtonClick() {
+    this.gamesServer.message(this.messageInput);
+    this.messageInput = '';
   }
 }

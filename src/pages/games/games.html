@@ -31,9 +31,9 @@
 
 <ion-content>
 
-  <ion-list #gamesList [hidden]="!allGamesInfo">
+  <ion-list #gamesList *ngIf="allGamesInfo">
 
-    <ion-item-sliding *ngFor="let game of allGamesInfo.reverse(); let i = index" #slidingItem [attr.track]="session | lowercase" [hidden]="session">
+    <ion-item-sliding *ngFor="let game of allGamesInfo.reverse(); let i = index" #slidingItem>
 
       <button ion-item (click)="goToGameDetail(allGamesInfo.length - i - 1)">
         <img class="gameLogo" src="{{ SERVER_URL + '/images/' + game.name + '.jpg' }}">
