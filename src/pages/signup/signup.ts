@@ -30,7 +30,10 @@ export class SignupPage {
         content: 'Please wait...'
       });
       loading.present();
-      let subscription = this.gamesServer.register(this.signup).subscribe((currentUsername) => {
+      let step = 0;
+      let signUpsubscription = this.gamesServer.register(this.signup).subscribe((currentUsername) => {
+        step++;
+        if (step === 1) return;
         if (currentUsername === this.signup.username) {
           this.toastCtrl.create({
             message: `You have successfully registered and logged in as ${currentUsername}`,
@@ -45,10 +48,10 @@ export class SignupPage {
             position: 'top'
           }).present();
         }
-        setTimeout(() => {
+        if (step === 2) {
           loading.dismiss();
-          subscription.unsubscribe();
-        })
+          signUpsubscription.unsubscribe();
+        }
       });
     }
   }

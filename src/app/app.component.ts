@@ -50,6 +50,7 @@ export class ConferenceApp {
     { title: 'Signup', name: 'SignupPage', component: SignupPage, icon: 'person-add' }
   ];
   rootPage: any;
+  currentUsernameSubscription: any;
 
   constructor(
     public menu: MenuController,
@@ -62,6 +63,9 @@ export class ConferenceApp {
 
     this.rootPage = GamesPage;
 
+    this.currentUsernameSubscription = gamesServer.getCurrentUsername().subscribe((currentUsername) => {
+      this.enableMenu(!!currentUsername);
+    });
     this.enableMenu(true);
   }
 
@@ -92,13 +96,16 @@ export class ConferenceApp {
       let loading = this.loadingCtrl.create({
         content: 'Please wait...'
       });
-      this.gamesServer.logout().subscribe(() => {
+      let logoutSubscription = this.gamesServer.logout().subscribe(() => {
         loading.dismiss();
         this.toastCtrl.create({
           message: `You have successfully logged out`,
           duration: 3000,
           position: 'top'
         }).present();
+        setTimeout(() => {
+          logoutSubscription.unsubscribe();
+        });
       });
     }
   }

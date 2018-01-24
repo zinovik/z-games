@@ -30,8 +30,10 @@ export class LoginPage {
         content: 'Please wait...'
       });
       loading.present();
-      var subscription = this.gamesServer.login(this.login).subscribe((currentUsername) => {
-        loading.dismissAll();
+      let step = 0;
+      var loginSubscription = this.gamesServer.login(this.login).subscribe((currentUsername) => {
+        step++;
+        if (step === 1) return;
         if (currentUsername === this.login.username) {
           this.toastCtrl.create({
             message: `You have successfully logged in as ${currentUsername}`,
@@ -46,10 +48,10 @@ export class LoginPage {
             position: 'top'
           }).present();
         }
-        setTimeout(() => {
+        if (step === 2) {
           loading.dismiss();
-          subscription.unsubscribe();
-        });
+          loginSubscription.unsubscribe();
+        }
       });
     }
   }
