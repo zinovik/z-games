@@ -18,6 +18,12 @@
         <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
       </button>
     </ion-buttons>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
   <ion-toolbar no-border-top>
@@ -33,11 +39,11 @@
 
   <ion-list #gamesList *ngIf="allGamesInfo">
 
-    <ion-item-sliding *ngFor="let game of allGamesInfo.reverse(); let i = index" #slidingItem>
+    <ion-item-sliding *ngFor="let game of allGamesInfo; let i = index" #slidingItem>
 
-      <button ion-item (click)="goToGameDetail(allGamesInfo.length - i - 1)">
+      <button ion-item (click)="goToGameDetail(i)">
         <img class="gameLogo" src="{{ SERVER_URL + '/images/' + game.name + '.jpg' }}">
-        <h1 class="gameNumber">#{{ allGamesInfo.length - i - 1 }}</h1>
+        <h1 class="gameNumber">#{{ i }}</h1>
         <h3>{{ game.name }}</h3>
         <p>
           {{ ((game.gameInfo.started) ? ((game.gameInfo.finished) ? 'finished' : 'started') : 'not started') }}

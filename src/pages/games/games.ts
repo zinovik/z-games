@@ -1,6 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { AlertController, App, List, ModalController, NavController, ToastController, LoadingController } from 'ionic-angular';
+import { PopoverController, AlertController, App, List, ModalController, NavController, ToastController, LoadingController } from 'ionic-angular';
+
+import { PopoverPage } from '../about-popover/about-popover';
 
 import { GamesServerProvider } from '../../providers/gamesserver/gamesserver';
 
@@ -23,6 +25,9 @@ export class GamesPage {
   groups: any = [];
   confDate: string;
   allGamesInfo: any = [];
+  allGamesInfoSubscription: any;
+  currentUsername: string;
+  currentUsernameSubscription: any;
   SERVER_URL = window["process_env"].serverURL;
 
   constructor(
@@ -33,15 +38,30 @@ export class GamesPage {
     public navCtrl: NavController,
     public toastCtrl: ToastController,
     public gamesServer: GamesServerProvider,
+    public popoverCtrl: PopoverController,
   ) {
-    gamesServer.getAllGamesInfo().subscribe((allGamesInfo) => {
+    this.allGamesInfoSubscription = gamesServer.getAllGamesInfo().subscribe((allGamesInfo) => {
       console.log('allGamesInfo', allGamesInfo);
       this.allGamesInfo = allGamesInfo;
+    });
+
+    this.currentUsernameSubscription = gamesServer.getCurrentUsername().subscribe((currentUsername) => {
+      this.currentUsername = currentUsername;
     });
   }
 
   ionViewDidLoad() {
     this.app.setTitle('Games');
+  }
+
+  ngOnDestroy() {
+    this.allGamesInfoSubscription.unsubscribe();
+    this.currentUsernameSubscription.unsubscribe();
+  }
+
+  presentPopover(event: Event) {
+    let popover = this.popoverCtrl.create(PopoverPage);
+    popover.present({ ev: event });
   }
 
   updateGames() {
@@ -60,6 +80,15 @@ export class GamesPage {
   }
 
   goToGameDetail(gameNumber: any) {
+    if (!this.currentUsername) {
+      this.toastCtrl.create({
+        message: `You need to login to join the game`,
+        duration: 3000,
+        position: 'top'
+      }).present();
+      return;
+    }
+
     let subscription = this.gamesServer.joinGame(gameNumber).subscribe((openGameNumber) => {
       if (openGameNumber === gameNumber) {
         this.navCtrl.push('GameDetailPage', { gameNumber: gameNumber });

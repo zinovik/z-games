@@ -2,15 +2,13 @@ import { Component } from '@angular/core';
 
 import { App, NavController, ModalController, ViewController } from 'ionic-angular';
 
+import { GamesServerProvider } from '../../providers/gamesserver/gamesserver';
 
 @Component({
   template: `
     <ion-list>
-      <button ion-item (click)="close('http://ionicframework.com/docs/v2/getting-started')">Learn Ionic</button>
-      <button ion-item (click)="close('http://ionicframework.com/docs/v2')">Documentation</button>
-      <button ion-item (click)="close('http://showcase.ionicframework.com')">Showcase</button>
-      <button ion-item (click)="close('https://github.com/ionic-team/ionic')">GitHub Repo</button>
-      <button ion-item (click)="support()">Support</button>
+      <button ion-item (click)="newGame('No, Thanks!')">No, Thanks!</button>
+      <button ion-item (click)="newGame('Perudo')">Perudo</button>
     </ion-list>
   `
 })
@@ -20,16 +18,12 @@ export class PopoverPage {
     public viewCtrl: ViewController,
     public navCtrl: NavController,
     public app: App,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    public gamesServer: GamesServerProvider,
   ) { }
 
-  support() {
-    this.app.getRootNav().push('SupportPage');
-    this.viewCtrl.dismiss();
-  }
-
-  close(url: string) {
-    window.open(url, '_blank');
+  newGame(gameName) {
+    this.gamesServer.newGame(gameName);
     this.viewCtrl.dismiss();
   }
 }

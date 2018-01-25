@@ -16,8 +16,8 @@ export class GameDetailPage {
   readyButtonLabel: string;
   allGamesInfoSubscription: any;
   currentUsernameSubscription: any;
-  perudoDiceNumber: number;
-  perudoDiceFigure: number;
+  perudoDiceNumber: number = 1;
+  perudoDiceFigure: number = 1;
   showRules: boolean = false;
   messageInput: string;
 
@@ -39,6 +39,16 @@ export class GameDetailPage {
     this.allGamesInfoSubscription = gamesServer.getAllGamesInfo().subscribe((allGamesInfo) => {
       this.game = allGamesInfo[this.gameNumber];
       if (!this.game) return;
+      if (this.game.nextPlayersNames && this.game.nextPlayersNames.indexOf(this.currentUsername) >= 0) {
+        if (this.game.gameInfo.currentDiceFigure >= 6) {
+          this.perudoDiceNumber = this.game.gameInfo.currentDiceNumber + 1;
+          this.perudoDiceFigure = 1;
+        } else {
+          this.perudoDiceNumber = this.game.gameInfo.currentDiceNumber;
+          this.perudoDiceFigure = this.game.gameInfo.currentDiceFigure + 1;
+        }
+      }
+
       this.status = this.game.gameInfo.started ? (this.game.gameInfo.finished ? 'finished' : 'started') : 'not started';
       this.updateReady();
     });
@@ -78,12 +88,32 @@ export class GameDetailPage {
     this.gamesServer.move({ takeCard: true });
   }
 
-  onPerudoDiceNumberChange() {
-
+  perudoDiceNumberInc() {
+    // < all dices number?
+    this.perudoDiceNumber++;
   }
 
-  onPerudoDiceFigureChange() {
+  perudoDiceNumberDec() {
+    if (this.perudoDiceNumber > this.game.gameInfo.currentDiceNumber) {
+      this.perudoDiceNumber--;
+      if (this.perudoDiceNumber <= this.game.gameInfo.currentDiceNumber && this.perudoDiceFigure <= this.game.gameInfo.currentDiceFigure) {
+        this.perudoDiceFigure = this.game.gameInfo.currentDiceFigure + 1;
+      }
+    }
+  }
 
+  perudoDiceFigureInc() {
+    if (this.perudoDiceFigure < 6) {
+      this.perudoDiceFigure++;
+    }
+  }
+
+  perudoDiceFigureDec() {
+    if ((this.perudoDiceNumber === this.game.gameInfo.currentDiceNumber &&
+        this.perudoDiceFigure > this.game.gameInfo.currentDiceFigure + 1) ||
+        this.perudoDiceFigure > 1) {
+      this.perudoDiceFigure--;
+    }
   }
 
   perudoBetButtonClick() {

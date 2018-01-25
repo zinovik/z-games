@@ -25,8 +25,9 @@
       <button ion-button (click)="readyButtonClick()">{{ readyButtonLabel }}</button>
       <button ion-button (click)="startButtonClick()">Start</button>
     </div>
-    <hr>
+
     <div *ngIf="status === 'started'">
+      <hr>
       <div><b>Next player</b>: {{ game.nextPlayersNames }}</div>
 
       <div *ngIf="game.name === 'No, Thanks!'">
@@ -73,29 +74,19 @@
 
         <div *ngIf="game.nextPlayersNames && game.nextPlayersNames.indexOf(currentUsername) >= 0">
 
-          <ion-item>
-            <ion-label stacked color="primary">Dice number</ion-label>
-            <ion-select (ionChange)="onPerudoDiceNumberChange()" [(ngModel)]="perudoDiceNumber">
-              <ion-option value="1">1</ion-option>
-              <ion-option value="2">2</ion-option>
-              <ion-option value="3">3</ion-option>
-              <ion-option value="4">4</ion-option>
-              <ion-option value="5">5</ion-option>
-              <ion-option value="6">6</ion-option>
-            </ion-select>
-          </ion-item>
+          <p>Dice number</p>
+          <p>
+            <button ion-button (click)="perudoDiceNumberDec()" [disabled]="perudoDiceNumber <= game.gameInfo.currentDiceNumber">-</button>
+            {{ perudoDiceNumber }}
+            <button ion-button (click)="perudoDiceNumberInc();">+</button>
+          </p>
 
-          <ion-item>
-            <ion-label stacked color="primary">Dice figure</ion-label>
-            <ion-select (ionChange)="onPerudoDiceFigureChange()" [(ngModel)]="perudoDiceFigure">
-              <ion-option value="1">1</ion-option>
-              <ion-option value="2">2</ion-option>
-              <ion-option value="3">3</ion-option>
-              <ion-option value="4">4</ion-option>
-              <ion-option value="5">5</ion-option>
-              <ion-option value="6">6</ion-option>
-            </ion-select>
-          </ion-item>
+          <p>Dice figure</p>
+          <p>
+            <button ion-button (click)="perudoDiceFigureDec();" [disabled]="(perudoDiceNumber <= game.gameInfo.currentDiceNumber && perudoDiceFigure <= game.gameInfo.currentDiceFigure + 1) || perudoDiceFigure < 2">-</button>
+            {{ perudoDiceFigure }}
+            <button ion-button (click)="perudoDiceFigureInc();" [disabled]="perudoDiceFigure >= 6">+</button>
+          </p>
 
           <button ion-button (click)="perudoBetButtonClick()">Bet</button>
           <button ion-button (click)="perudoNotBelieveButtonClick()">Not Believe</button>
@@ -126,7 +117,7 @@
       <button ion-button (click)="sendButtonClick()">Send</button>
 
       <div *ngIf="game.logNchat">
-        <p *ngFor="let message of game.logNchat.reverse()">
+        <p *ngFor="let message of game.logNchat">
           <span *ngIf="message.type === 'message'"><b>{{ message.username }}</b>: {{ message.text }}</span>
           <span *ngIf="message.type === 'move'"><i>{{ message.username }} {{ message.text }}</i></span>
           <span *ngIf="message.type === 'event'"><i>{{ message.text }}</i></span>

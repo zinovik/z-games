@@ -127,6 +127,10 @@ export class GamesServerProvider {
     this.socket.emit('message', message);
   }
 
+  newGame(gameName) {
+    this.socket.emit('newgame', gameName);
+  }
+
   // Accounts
   register(signup): Observable<any> {
     this.socket.emit('register', signup.username, signup.password);
