@@ -89,8 +89,13 @@ export class GameDetailPage {
   }
 
   perudoDiceNumberInc() {
-    // < all dices number?
-    this.perudoDiceNumber++;
+    // let allDicesNumber = 0;
+    // for (let i = 0; i < this.game.players.length; i++) {
+    //   allDicesNumber += this.game.players[i].dicesCount;
+    // }
+    // if (this.perudoDiceNumber < allDicesNumber) {
+      this.perudoDiceNumber++;
+    // }
   }
 
   perudoDiceNumberDec() {

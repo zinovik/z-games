@@ -1,8 +1,11 @@
 const path = require('path');
 const fs = require('fs');
+const helmet = require('helmet');
 require('dotenv').load();
-const express = require('express'),
-      app = express();
+const express = require('express');
+
+app = express();
+app.use(helmet());
 
 app.get('*', (req, res, next) => {
   // TODO RegExp
@@ -39,8 +42,7 @@ fs.writeFile(__dirname + '/www/process_env.js', content, function(err) {
   }
 });
 
-// API Routes
-// app.get('/blah', routeHandler);
+fs.unlink(__dirname + '/platforms/browser/www/.gitignore', (err) => {});
 
 app.set('port', process.env.PORT || 8100);
 
