@@ -33,6 +33,7 @@ platforms/browser/www/.gitignore
 plugins/android.json
 plugins/ios.json
 $RECYCLE.BIN/
+platforms/browser/cordova/node_modules/
 
 .DS_Store
 Thumbs.db

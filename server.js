@@ -27,7 +27,7 @@ app.all('*', (req, res, next) => {
 });
 
 const content = 'var process_env = ' + JSON.stringify({
-  serverURL: process.env.serverURL,
+  serverURL: process.env.serverURL || 'http://localhost:3000',
 });
 
 fs.writeFile(__dirname + '/platforms/browser/www/process_env.js', content, function(err) {

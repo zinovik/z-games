@@ -1,1 +1,1 @@
-var process_env = {"serverURL":"https://gamesserver.herokuapp.com"}
+var process_env = {"serverURL":"http://localhost:3000"}
