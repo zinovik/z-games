@@ -12,7 +12,7 @@ log.txt
 .vscode/
 npm-debug.log*
 
-.ENV
+.env
 .idea/
 .sourcemaps/
 .sass-cache/
@@ -24,16 +24,7 @@ node_modules/
 tmp/
 temp/
 hooks/
-plugins/
-platforms/*
-!platforms/browser/
-!platforms/browser/www
-!platforms/browser/www/plugins
-platforms/browser/www/.gitignore
-plugins/android.json
-plugins/ios.json
 $RECYCLE.BIN/
-platforms/browser/cordova/node_modules/
 
 .DS_Store
 Thumbs.db

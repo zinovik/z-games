@@ -17,7 +17,7 @@ app.get('*', (req, res, next) => {
   next();
 });
 
-app.use(express.static(path.join(__dirname, 'platforms/browser/www')));
+app.use(express.static(path.join(__dirname, 'www')));
 
 // CORS (Cross-Origin Resource Sharing) headers to support Cross-site HTTP requests
 app.all('*', (req, res, next) => {
@@ -30,19 +30,11 @@ const content = 'var process_env = ' + JSON.stringify({
   serverURL: process.env.serverURL || 'http://localhost:3000',
 });
 
-fs.writeFile(__dirname + '/platforms/browser/www/process_env.js', content, function(err) {
-  if (err) {
-    return console.error(err);
-  }
-});
-
 fs.writeFile(__dirname + '/www/process_env.js', content, function(err) {
   if (err) {
     return console.error(err);
   }
 });
-
-fs.unlink(__dirname + '/platforms/browser/www/.gitignore', (err) => {});
 
 app.set('port', process.env.PORT || 8100);
 
