@@ -3,9 +3,11 @@ const fs = require('fs');
 const helmet = require('helmet');
 require('dotenv').load();
 const express = require('express');
+const compression = require("compression");
 
 app = express();
 app.use(helmet());
+app.use(compression());
 
 app.get('*', (req, res, next) => {
   // TODO RegExp

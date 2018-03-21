@@ -25,6 +25,7 @@ tmp/
 temp/
 hooks/
 $RECYCLE.BIN/
+www/
 
 .DS_Store
 Thumbs.db
