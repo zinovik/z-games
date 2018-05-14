@@ -1,0 +1,7 @@
+<input type="text" [(ngModel)]="message" placeholder="Message">
+<button (click)="sendMessage()">Send</button>
+<ul>
+  <li *ngFor="let message of game.logNchat">
+    [{{ message.type }}] {{ message.username }}: {{ message.text }}
+  </li>
+</ul>

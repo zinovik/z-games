@@ -1,0 +1,49 @@
+<span class="label">Next player:</span> {{ game.nextPlayersNames }}
+<br>
+<div *ngIf="currentBet">
+  <span class="label">Last player:</span>
+  {{ game.players[game.gameInfo.lastPlayerNumber] && game.players[game.gameInfo.lastPlayerNumber].username }}
+  <br>
+  <span class="label">Last round results:</span> {{ '' }}
+  <br>
+</div>
+<span class="label">Round:</span> {{ game.gameInfo.currentRound }}
+<br>
+<div *ngIf="currentBet">
+  <span class="label">Current bet:</span>
+  <div class="currentBet">{{ currentBet }}</div>
+  <br>
+</div>
+<br>
+
+<div *ngFor="let player of game.gameInfo.players; let i = index">
+  <div *ngIf="game.players[i].username !== currentUsername">
+    <span class="label">{{ game.players[i].username }}</span>'s dices count: {{ game.gameInfo.players[i].dicesCount }}
+  </div>
+</div>
+
+<div *ngFor="let player of game.gameInfo.players; let i = index">
+  <div *ngIf="game.players[i].username === currentUsername">
+    <span class="label">My dices:</span> {{ game.gameInfo.players[i].dices }}
+  </div>
+</div>
+<br>
+
+<div *ngIf="game.nextPlayersNames && game.nextPlayersNames.indexOf(currentUsername) >= 0">
+  <p>Dice number</p>
+  <p>
+    <button (click)="diceNumberDec()" [disabled]="diceNumber <= game.gameInfo.currentDiceNumber || this.diceNumber < 2">-</button>
+    {{ diceNumber }}
+    <button (click)="diceNumberInc();">+</button>
+  </p>
+
+  <p>Dice figure</p>
+  <p>
+    <button (click)="diceFigureDec();" [disabled]="(diceNumber <= game.gameInfo.currentDiceNumber && diceFigure <= game.gameInfo.currentDiceFigure + 1) || diceFigure < 2">-</button>
+    {{ diceFigure }}
+    <button (click)="diceFigureInc();" [disabled]="diceFigure >= 6">+</button>
+  </p>
+
+  <button (click)="moveBet()">Bet</button>
+  <button (click)="moveNotBelieve()" [disabled]="!currentBet">Not Believe</button>
+</div>
