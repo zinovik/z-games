@@ -1,77 +1,41 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpModule } from '@angular/http';
-import { NgModule, ErrorHandler } from '@angular/core';
+import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { AppComponent } from './app.component';
+import { AuthorizeComponent } from './authorize/authorize.component';
+import { NewGameComponent } from './new-game/new-game.component';
+import { GamesListComponent } from './games-list/games-list.component';
+import { GameComponent } from './game/game.component';
+import { GameInfoComponent } from './game-info/game-info.component';
+import { NoThanksComponent } from './no-thanks/no-thanks.component';
+import { PerudoComponent } from './perudo/perudo.component';
+import { ChatAndLogComponent } from './chat-and-log/chat-and-log.component';
+import { GameResultsComponent } from './game-results/game-results.component';
 
-import { InAppBrowser } from '@ionic-native/in-app-browser';
-
-import { IonicStorageModule } from '@ionic/storage';
-
-import { ConferenceApp } from './app.component';
-
-import { AboutPage } from '../pages/about/about';
-import { PopoverPage } from '../pages/about-popover/about-popover';
-import { AccountPage } from '../pages/account/account';
-import { LoginPage } from '../pages/login/login';
-import { GamesPage } from '../pages/games/games';
-import { GamesFilterPage } from '../pages/games-filter/games-filter';
-import { GameDetailPage } from '../pages/game-detail/game-detail';
-import { SignupPage } from '../pages/signup/signup';
-import { SupportPage } from '../pages/support/support';
-
-import { GamesServerProvider } from '../providers/gamesserver/gamesserver';
+import { GamesserverService } from './gamesserver.service';
 
 
 @NgModule({
   declarations: [
-    ConferenceApp,
-    AboutPage,
-    AccountPage,
-    LoginPage,
-    PopoverPage,
-    GamesPage,
-    GamesFilterPage,
-    GameDetailPage,
-    SignupPage,
-    SupportPage
+    AppComponent,
+    AuthorizeComponent,
+    NewGameComponent,
+    GamesListComponent,
+    GameComponent,
+    GameInfoComponent,
+    NoThanksComponent,
+    PerudoComponent,
+    ChatAndLogComponent,
+    GameResultsComponent,
   ],
   imports: [
     BrowserModule,
-    HttpModule,
-    IonicModule.forRoot(ConferenceApp, {
-      locationStrategy: 'path',
-    }, {
-      links: [
-        { component: GamesPage, name: 'GamesPage', segment: 'games' },
-        { component: GameDetailPage, name: 'GameDetailPage', segment: 'game/:gameNumber' },
-        { component: GamesFilterPage, name: 'GamesFilterPage', segment: 'games-filter' },
-        { component: AboutPage, name: 'AboutPage', segment: 'about' },
-        { component: SupportPage, name: 'SupportPage', segment: 'support' },
-        { component: LoginPage, name: 'LoginPage', segment: 'login' },
-        { component: AccountPage, name: 'AccountPage', segment: 'account' },
-        { component: SignupPage, name: 'SignupPage', segment: 'signup' }
-      ]
-    }),
-    IonicStorageModule.forRoot()
-  ],
-  bootstrap: [IonicApp],
-  entryComponents: [
-    ConferenceApp,
-    AboutPage,
-    AccountPage,
-    LoginPage,
-    PopoverPage,
-    GamesPage,
-    GamesFilterPage,
-    GameDetailPage,
-    SignupPage,
-    SupportPage
+    FormsModule,
   ],
   providers: [
-    { provide: ErrorHandler, useClass: IonicErrorHandler },
-    GamesServerProvider,
-    InAppBrowser,
-  ]
+    GamesserverService,
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
