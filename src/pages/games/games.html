@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-navbar no-border-bottom>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-segment [(ngModel)]="segment" (ionChange)="updateGames()">
+      <ion-segment-button value="all">
+        All
+      </ion-segment-button>
+      <ion-segment-button value="favorites">
+        Games with me
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentFilter()">
+        <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
+      </button>
+    </ion-buttons>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+  <ion-toolbar no-border-top>
+    <ion-searchbar color="primary"
+                   [(ngModel)]="queryText"
+                   (ionInput)="updateGames()"
+                   placeholder="Search">
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list #gamesList *ngIf="allGamesInfo">
+
+    <ion-item-sliding *ngFor="let game of allGamesInfo; let i = index" #slidingItem>
+
+      <button ion-item (click)="goToGameDetail(i)">
+        <img class="gameLogo" src="{{ SERVER_URL + '/images/' + game.name + '.jpg' }}">
+        <h1 class="gameNumber">#{{ i }}</h1>
+        <h3>{{ game.name }}</h3>
+        <p>
+          {{ ((game.gameInfo.started) ? ((game.gameInfo.finished) ? 'finished' : 'started') : 'not started') }}
+        </p>
+        <p>
+          {{ game.players.length }} players
+        </p>
+      </button>
+
+    </ion-item-sliding>
+
+  </ion-list>
+
+  <ion-list-header [hidden]="allGamesInfo">
+      No Games Found
+  </ion-list-header>
+
+</ion-content>
