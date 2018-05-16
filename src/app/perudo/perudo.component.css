@@ -1,8 +1,8 @@
 .label {
-    font-weight: bold;
+  font-weight: bold;
 }
 
-.currentBet {
-    font-size: 200%;
-    font-weight: bold;
+.bet {
+  font-size: 200%;
+  font-weight: bold;
 }

@@ -16,6 +16,7 @@ export class PerudoComponent implements OnInit, OnDestroy {
   diceFigure: number;
 
   currentBet: String;
+  newBet: String = '';
 
   constructor(
     public gamesServer: GamesserverService,
@@ -44,14 +45,14 @@ export class PerudoComponent implements OnInit, OnDestroy {
   }
 
   updateNewBet() {
-    if (this.game.nextPlayersNames && this.game.nextPlayersNames.indexOf(this.currentUsername) >= 0) {
-      if (this.game.gameInfo.currentDiceFigure >= 6) {
-        this.diceNumber = this.game.gameInfo.currentDiceNumber + 1;
-        this.diceFigure = 1;
-      } else {
-        this.diceNumber = this.game.gameInfo.currentDiceNumber;
-        this.diceFigure = this.game.gameInfo.currentDiceFigure + 1;
-      }
+    if (this.game.nextPlayersNames && this.game.nextPlayersNames.indexOf(this.currentUsername) >= 0
+      && this.diceNumber === 1 && this.diceFigure === 1) {
+      this.diceNumber = this.game.gameInfo.currentDiceNumber + 1;
+      this.diceFigure = this.game.gameInfo.currentDiceFigure;
+    }
+    this.newBet = '';
+    for (let i = 0; i < this.diceNumber; i++) {
+      this.newBet += this.diceFigure + ' ';
     }
   }
 
@@ -71,6 +72,7 @@ export class PerudoComponent implements OnInit, OnDestroy {
     // if (this.diceNumber < allDicesNumber) {
     this.diceNumber++;
     // }
+    this.updateNewBet();
   }
 
   diceNumberDec() {
@@ -80,12 +82,14 @@ export class PerudoComponent implements OnInit, OnDestroy {
         this.diceFigure = this.game.gameInfo.currentDiceFigure + 1;
       }
     }
+    this.updateNewBet();
   }
 
   diceFigureInc() {
     if (this.diceFigure < 6) {
       this.diceFigure++;
     }
+    this.updateNewBet();
   }
 
   diceFigureDec() {
@@ -94,6 +98,7 @@ export class PerudoComponent implements OnInit, OnDestroy {
       this.diceFigure > 1) {
       this.diceFigure--;
     }
+    this.updateNewBet();
   }
 
   moveBet() {

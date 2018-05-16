@@ -34,5 +34,6 @@ export class ChatAndLogComponent implements OnInit, OnDestroy {
 
   sendMessage() {
     this.gamesServer.message(this.message);
+    this.message = '';
   }
 }

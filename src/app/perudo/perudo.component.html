@@ -11,8 +11,11 @@
 <br>
 <div *ngIf="currentBet">
   <span class="label">Current bet:</span>
-  <div class="currentBet">{{ currentBet }}</div>
-  <br>
+  <div class="bet">{{ currentBet }}</div>
+</div>
+<div *ngIf="game.nextPlayersNames && game.nextPlayersNames.indexOf(currentUsername) >= 0">
+  <span class="label">New bet:</span>
+  <div class="bet">{{ newBet }}</div>
 </div>
 <br>
 
@@ -44,6 +47,6 @@
     <button (click)="diceFigureInc();" [disabled]="diceFigure >= 6">+</button>
   </p>
 
-  <button (click)="moveBet()">Bet</button>
+  <button (click)="moveBet()">Bet</button>&nbsp;
   <button (click)="moveNotBelieve()" [disabled]="!currentBet">Not Believe</button>
 </div>

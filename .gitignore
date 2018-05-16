@@ -44,3 +44,4 @@ testem.log
 Thumbs.db
 
 .env
+/src/assets/config_vars.js

@@ -18,7 +18,6 @@
   <br>
 </div>
 
-
 <button (click)="leaveGame()">Leave</button>
 <br>
 <br>
@@ -27,6 +26,11 @@
   <br>Maximum players in this game: {{ game.gameInfo.PLAYERS_MAX }}
   <br>
   <br>
-  <button (click)="redyToGame()">Ready</button>
+  <button (click)="redyToGame()">Ready</button>&nbsp;
   <button (click)="startGame()">Start</button>
+  <br>
+  <br>
 </div>
+
+<button (click)="showRules = !showRules">{{ showRules ? 'Hide rules' : 'Show rules' }}</button>
+<div *ngIf="showRules" innerHTML="{{ game.rules }}"></div>

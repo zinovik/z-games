@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { GamesserverService } from './../gamesserver.service';
 
@@ -7,7 +7,7 @@ import { GamesserverService } from './../gamesserver.service';
   templateUrl: './no-thanks.component.html',
   styleUrls: ['./no-thanks.component.css']
 })
-export class NoThanksComponent implements OnInit {
+export class NoThanksComponent implements OnInit, OnDestroy {
   gameSubscription: any;
   game: any = { gameInfo: {} };
   currentUsernameSubscription: any;
@@ -42,5 +42,4 @@ export class NoThanksComponent implements OnInit {
   moveTake() {
     this.gamesServer.move({ takeCard: true });
   }
-  
 }
