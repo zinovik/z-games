@@ -1,0 +1,12 @@
+<app-authorize></app-authorize>
+
+<div *ngIf="!openGameNumber && openGameNumber !== 0">
+  <div *ngIf="currentUsername">
+    <app-new-game></app-new-game>
+  </div>
+  <app-games-list></app-games-list>
+</div>
+
+<div *ngIf="openGameNumber || openGameNumber === 0">
+  <app-game></app-game>
+</div>

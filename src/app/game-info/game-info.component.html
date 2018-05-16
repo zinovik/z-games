@@ -1,0 +1,32 @@
+<img *ngIf="game.name" src="{{ SERVER_URL + '/images/' + game.name + '.jpg' }}">
+<br>
+<span class="label">Game status:</span> {{ ((game.gameInfo.started) ? ((game.gameInfo.finished) ? 'finished' : 'started') : 'not started') }}
+<br>
+<br>
+
+<span class="label">Players in game:</span>
+<div *ngFor="let player of game.players">
+  &nbsp;&nbsp;&nbsp;{{ player.username }}: {{ player.ready ? 'ready' : 'not ready' }}
+</div>
+<br>
+
+<div *ngIf="game.watchers && game.watchers.length">
+  <span class="label">Watchers in game:</span>
+  <div *ngFor="let watcher of game.watchers">
+    &nbsp;&nbsp;&nbsp;{{ watcher.username }}
+  </div>
+  <br>
+</div>
+
+
+<button (click)="leaveGame()">Leave</button>
+<br>
+<br>
+<div *ngIf="!game.gameInfo.started && !game.gameInfo.finished">
+  Minimum players in this game: {{ game.gameInfo.PLAYERS_MIN }}
+  <br>Maximum players in this game: {{ game.gameInfo.PLAYERS_MAX }}
+  <br>
+  <br>
+  <button (click)="redyToGame()">Ready</button>
+  <button (click)="startGame()">Start</button>
+</div>

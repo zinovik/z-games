@@ -1,0 +1,33 @@
+<span class="label">Next player:</span> {{ game.nextPlayersNames }}
+<br>
+<span class="label">Cards left:</span> {{ game.gameInfo.cardsLeft }}
+<br>
+<span class="label">Current card:</span>
+<br>
+<div class="currentCard">{{ game.gameInfo.currentCard }}</div>
+({{ game.gameInfo.currentCardCost }} chips)
+<br>
+<br>
+
+<div *ngFor="let player of game.gameInfo.players; let i = index">
+  <div *ngIf="game.players[i].username !== currentUsername">
+    <span class="label">{{ game.players[i].username }}</span>'s cards: {{ player.cards }}
+  </div>
+</div>
+
+<div *ngFor="let player of game.gameInfo.players; let i = index">
+  <div *ngIf="game.players[i].username === currentUsername">
+    <br>
+    <span class="label">My chips:</span> {{ player.chips }}
+    <br>
+    <span class="label">My cards:</span> {{ player.cards }}
+    <br>
+    <span class="label">My points:</span> {{ player.points }}
+  </div>
+</div>
+<br>
+
+<div *ngIf="game.nextPlayersNames && game.nextPlayersNames.indexOf(currentUsername) >= 0">
+  <button (click)="movePay()">Pay</button>
+  <button (click)="moveTake()">Take</button>
+</div>
