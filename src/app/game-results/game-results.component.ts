@@ -19,6 +19,8 @@ export class GameResultsComponent implements OnInit, OnDestroy {
         this.results = openGame.gameInfo.players;
         this.results.forEach((result, i) => {
           result.username = openGame.players[i].username;
+          result.cards = openGame.gameInfo.players[i].cards;
+          result.dicesCount = openGame.gameInfo.players[i].dicesCount;
         });
         this.results.sort((a, b) => {
           if (a.place === b.place) {

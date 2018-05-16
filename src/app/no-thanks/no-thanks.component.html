@@ -11,7 +11,10 @@
 
 <div *ngFor="let player of game.gameInfo.players; let i = index">
   <div *ngIf="game.players[i].username !== currentUsername">
-    <span class="label">{{ game.players[i].username }}</span>'s cards: {{ player.cards }}
+    <span class="label">{{ game.players[i].username }}</span>'s cards:
+    <span *ngFor="let card of player.cards; let i = index">
+      <span class="{{ i === 0 || card !== player.cards[i - 1] + 1 ? 'bold' : 'grey' }}"> {{ card }}</span>
+    </span>
   </div>
 </div>
 
@@ -20,7 +23,10 @@
     <br>
     <span class="label">My chips:</span> {{ player.chips }}
     <br>
-    <span class="label">My cards:</span> {{ player.cards }}
+    <span class="label">My cards:</span>
+    <span *ngFor="let card of player.cards; let i = index">
+      <span class="{{ i === 0 || card !== player.cards[i - 1] + 1 ? 'bold' : 'grey' }}"> {{ card }}</span>
+    </span>
     <br>
     <span class="label">My points:</span> {{ player.points }}
   </div>
@@ -28,6 +34,6 @@
 <br>
 
 <div *ngIf="game.nextPlayersNames && game.nextPlayersNames.indexOf(currentUsername) >= 0">
-  <button (click)="movePay()">Pay</button>
+  <button (click)="movePay()">Pay</button>&nbsp;
   <button (click)="moveTake()">Take</button>
 </div>

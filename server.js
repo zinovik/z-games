@@ -9,7 +9,13 @@ const configVars = 'var configVars = ' + JSON.stringify({
   serverURL: process.env.serverURL,
 }) + ';\n';
 
-fs.writeFile(`${__dirname}/dist/config_vars.js`, configVars, (err) => {
+fs.writeFile(`${__dirname}/dist/assets/config_vars.js`, configVars, (err) => {
+  if (err) {
+    return console.error('Error creating config_vars.js', err);
+  }
+});
+
+fs.writeFile(`${__dirname}/src/assets/config_vars.js`, configVars, (err) => {
   if (err) {
     return console.error('Error creating config_vars.js', err);
   }

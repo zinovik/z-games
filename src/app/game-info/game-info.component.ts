@@ -11,6 +11,7 @@ export class GameInfoComponent implements OnInit, OnDestroy {
   gameSubscription: any;
   game: any = { gameInfo: {} };
   SERVER_URL: String;
+  showRules: Boolean = false;
 
   constructor(
     public gamesServer: GamesserverService,

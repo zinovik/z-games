@@ -1,8 +1,16 @@
 .label {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .currentCard {
-    font-size: 200%;
-    font-weight: bold;
+  font-size: 200%;
+  font-weight: bold;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.grey {
+  color: grey;
 }

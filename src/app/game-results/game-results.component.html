@@ -1,6 +1,11 @@
 <ul>
   <li *ngFor="let result of results">
     {{ result.place }} place - {{ result.username }}
-    <span *ngIf="result.points">({{ result.points }} points)</span>
+    <span *ngIf="result.points"> | {{ result.points }} points</span>
+    <span *ngIf="result.cards"> | cards:
+      <span *ngFor="let card of result.cards; let i = index"><span class="{{ i === 0 || card !== result.cards[i - 1] + 1 ? 'bold' : 'grey' }}"> {{ card }}</span></span>
+    </span>
+
+    <span *ngIf="result.dicesCount"> | dices remaining: {{ result.dicesCount }}</span>
   </li>
 </ul>
