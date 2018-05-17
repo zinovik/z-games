@@ -1,5 +1,7 @@
-<input type="text" [(ngModel)]="message" placeholder="Message">&nbsp;
-<button (click)="sendMessage()" [disabled]="message === ''">Send</button>
+<mat-form-field>
+  <input matInput type="text" [(ngModel)]="message" placeholder="Message" maxlength="256">
+</mat-form-field>&nbsp;
+<button mat-raised-button (click)="sendMessage()" [disabled]="message === ''">Send</button>
 <ul>
   <li *ngFor="let message of game.logNchat">
     <span *ngIf="message.type === 'move'" class="move">{{ message.username }} {{ message.text }}</span>

@@ -1,13 +1,16 @@
 <div *ngIf="!currentUsername">
-  <input type="text" [(ngModel)]="username" placeholder="Username">
-  <input type="password" [(ngModel)]="password" placeholder="Password">
-  <button (click)="signIn()">Sign in</button>
-  <button (click)="signUp()">Sign up</button>
+  <mat-form-field>
+    <input matInput type="text" [(ngModel)]="username" placeholder="Username" maxlength="25">
+  </mat-form-field>&nbsp;
+  <mat-form-field>
+    <input matInput type="password" [(ngModel)]="password" placeholder="Password" maxlength="25">
+  </mat-form-field>&nbsp;
+  <button mat-raised-button (click)="signIn()">Sign in</button>&nbsp;
+  <button mat-raised-button (click)="signUp()">Sign up</button>
 </div>
 
 <div *ngIf="currentUsername">
   You are logged in as {{ currentUsername }}.
-  <button (click)="logOut()">Log out</button>
+  <button mat-raised-button (click)="logOut()">Log out</button>
 </div>
-
-<hr>
+<br>
