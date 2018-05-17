@@ -10,18 +10,27 @@ import { GamesserverService } from './../gamesserver.service';
 export class GameInfoComponent implements OnInit, OnDestroy {
   gameSubscription: any;
   game: any = { gameInfo: {} };
+    currentUsernameSubscription: any;
+  currentUsername: any;
   SERVER_URL: String;
   showRules: Boolean = false;
+  ready: Boolean;
 
   constructor(
     public gamesServer: GamesserverService,
   ) {
     this.SERVER_URL = window['configVars'].serverURL;
-    this.gameSubscription = gamesServer.getGame().subscribe((openGame) => {
-      if (openGame) {
-        this.game = openGame;
-      }
-    });
+    this.gameSubscription = gamesServer.getGame()
+      .subscribe((openGame) => {
+        if (openGame) {
+          this.game = openGame;
+        }
+      });
+
+    this.currentUsernameSubscription = gamesServer.getCurrentUsername()
+      .subscribe((currentUsername) => {
+        this.currentUsername = currentUsername;
+      });
   }
 
   ngOnInit() {
@@ -29,14 +38,21 @@ export class GameInfoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.gameSubscription.unsubscribe();
+    this.currentUsernameSubscription.unsubscribe();
   }
 
   leaveGame() {
     this.gamesServer.leaveGame();
   }
 
-  redyToGame() {
+  readyToGame() {
     this.gamesServer.readyToGame();
+
+    for (let i = 0; i < this.game.players.length; i++) {
+      if (this.game.players[i].username === this.currentUsername) {
+        this.ready = !this.game.players[i].ready;
+      }
+    }
   }
 
   startGame() {

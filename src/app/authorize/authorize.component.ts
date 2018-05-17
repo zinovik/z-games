@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { GamesserverService } from './../gamesserver.service';
 
@@ -7,7 +7,7 @@ import { GamesserverService } from './../gamesserver.service';
   templateUrl: './authorize.component.html',
   styleUrls: ['./authorize.component.css']
 })
-export class AuthorizeComponent implements OnInit {
+export class AuthorizeComponent implements OnInit, OnDestroy {
   currentUsernameSubscription: any;
   currentUsername: any;
   username: string;
@@ -31,10 +31,12 @@ export class AuthorizeComponent implements OnInit {
   signIn() {
     console.log('Loading...');
     let step = 0;
-    let loginSubscription = this.gamesServer.login(this.username, this.password)
+    const loginSubscription = this.gamesServer.login(this.username, this.password)
       .subscribe((currentUsername) => {
         step++;
-        if (step === 1) return;
+        if (step === 1) {
+          return;
+        }
         if (currentUsername === this.username) {
           console.log(`You have successfully logged in as ${currentUsername}`);
         } else {
@@ -50,10 +52,12 @@ export class AuthorizeComponent implements OnInit {
   signUp() {
     console.log('Loading...');
     let step = 0;
-    let signUpsubscription = this.gamesServer.register(this.username, this.password)
+    const signUpsubscription = this.gamesServer.register(this.username, this.password)
       .subscribe((currentUsername) => {
         step++;
-        if (step === 1) return;
+        if (step === 1) {
+          return;
+        }
         if (currentUsername === this.username) {
           console.log(`You have successfully registered and logged in as ${currentUsername}`);
         } else {
@@ -68,7 +72,7 @@ export class AuthorizeComponent implements OnInit {
 
   logOut() {
     console.log('Loading...');
-    let logoutSubscription = this.gamesServer.logout().subscribe(() => {
+    const logoutSubscription = this.gamesServer.logout().subscribe(() => {
       console.log('Loading... Finished!');
       console.log(`You have successfully logged out`);
       setTimeout(() => {
