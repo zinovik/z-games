@@ -34,6 +34,6 @@
 <br>
 
 <div *ngIf="game.nextPlayersNames && game.nextPlayersNames.indexOf(currentUsername) >= 0">
-  <button (click)="movePay()">Pay</button>&nbsp;
-  <button (click)="moveTake()">Take</button>
+  <button mat-raised-button (click)="movePay()">Pay</button>&nbsp;
+  <button mat-raised-button (click)="moveTake()">Take</button>
 </div>

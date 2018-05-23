@@ -18,7 +18,8 @@
   <br>
 </div>
 
-<button (click)="leaveGame()">Leave</button>
+<button mat-raised-button (click)="leaveGame()">Leave</button>&nbsp;
+<button mat-raised-button (click)="showRules = !showRules">{{ showRules ? 'Hide rules' : 'Show rules' }}</button>
 <br>
 <br>
 <div *ngIf="!game.gameInfo.started && !game.gameInfo.finished">
@@ -26,11 +27,10 @@
   <br>Maximum players in this game: {{ game.gameInfo.PLAYERS_MAX }}
   <br>
   <br>
-  <button (click)="redyToGame()">Ready</button>&nbsp;
-  <button (click)="startGame()">Start</button>
+  <button mat-raised-button (click)="readyToGame()">{{ ready ? 'Not Ready' : 'Ready' }}</button>&nbsp;
+  <button mat-raised-button (click)="startGame()">Start</button>
   <br>
   <br>
 </div>
 
-<button (click)="showRules = !showRules">{{ showRules ? 'Hide rules' : 'Show rules' }}</button>
 <div *ngIf="showRules" innerHTML="{{ game.rules }}"></div>

@@ -62,8 +62,8 @@ export class GamesserverService {
       this.updateGame();
     });
 
-    this.socket.on('updateUsersOnline', (users) => {
-      this.usersOnline.next(users);
+    this.socket.on('updateUsersOnline', (usersOnline) => {
+      this.usersOnline.next(usersOnline);
       this.updateOpenGameNumber();
     });
   }

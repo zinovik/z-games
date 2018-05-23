@@ -15,12 +15,11 @@ export class GamesListComponent implements OnInit, OnDestroy {
   usersOnline: any = [];
   usersOnlineSubscription: any;
   currentGames: any = [];
-  SERVER_URL: String;
+  SERVER_URL: String = window['configVars'].serverURL;
 
   constructor(
     public gamesServer: GamesserverService,
   ) {
-    this.SERVER_URL = window['configVars'].serverURL;
     this.allGamesInfoSubscription = gamesServer.getAllGamesInfo().subscribe((allGamesInfo) => {
       this.allGamesInfo = JSON.parse(JSON.stringify(allGamesInfo));
       this.allGamesInfo.reverse();
@@ -64,13 +63,14 @@ export class GamesListComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const subscription = this.gamesServer.joinGame(gameNumber).subscribe((openGameNumber) => {
-      if (openGameNumber === gameNumber) {
-        setTimeout(() => {
-          subscription.unsubscribe();
-        });
-      }
-    });
+    const subscription = this.gamesServer.joinGame(gameNumber)
+      .subscribe((openGameNumber) => {
+        if (openGameNumber === gameNumber) {
+          setTimeout(() => {
+            subscription.unsubscribe();
+          });
+        }
+      });
   }
 
 }

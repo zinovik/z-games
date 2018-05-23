@@ -14,27 +14,44 @@ export class PerudoComponent implements OnInit, OnDestroy {
   currentUsername: any;
   diceNumber: number;
   diceFigure: number;
+  allDicesCount: number;
 
-  currentBet: String;
-  newBet: String = '';
+  currentBet: String = '';
+  myBet: String = '';
+
+  myBetNumberIncDisable: Boolean;
+  myBetNumberDecDisable: Boolean;
+  myBetFigureIncDisable: Boolean;
+  myBetFigureDecDisable: Boolean;
 
   constructor(
     public gamesServer: GamesserverService,
   ) {
-    this.diceNumber = 1;
-    this.diceFigure = 1;
+    this.gameSubscription = gamesServer.getGame()
+      .subscribe((openGame) => {
+        if (openGame) {
+          this.game = openGame;
+          this.updateAllDicesCount();
+          this.updateCurrentBet();
+          this.updateMyBet();
+        }
+      });
 
-    this.gameSubscription = gamesServer.getGame().subscribe((openGame) => {
-      if (openGame) {
-        this.game = openGame;
-        this.updateCurrentBet();
-        this.updateNewBet();
+    this.currentUsernameSubscription = gamesServer.getCurrentUsername()
+      .subscribe((currentUsername) => {
+        console.log('app-perudo: currentUsername', currentUsername);
+        this.currentUsername = currentUsername;
+        this.updateMyBet();
+      });
+  }
+
+  updateAllDicesCount() {
+    if (this.game.gameInfo.players) {
+      this.allDicesCount = 0;
+      for (let i = 0; i < this.game.gameInfo.players.length; i++) {
+        this.allDicesCount += this.game.gameInfo.players[i].dicesCount;
       }
-    });
-    this.currentUsernameSubscription = gamesServer.getCurrentUsername().subscribe((currentUsername) => {
-      console.log('app-perudo: currentUsername', currentUsername);
-      this.currentUsername = currentUsername;
-    });
+    }
   }
 
   updateCurrentBet() {
@@ -44,16 +61,32 @@ export class PerudoComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateNewBet() {
-    if (this.game.nextPlayersNames && this.game.nextPlayersNames.indexOf(this.currentUsername) >= 0
-      && this.diceNumber === 1 && this.diceFigure === 1) {
-      this.diceNumber = this.game.gameInfo.currentDiceNumber + 1;
-      this.diceFigure = this.game.gameInfo.currentDiceFigure;
+  updateMyBet() {
+    if (this.game.nextPlayersNames
+      && this.game.nextPlayersNames.indexOf(this.currentUsername) >= 0) {
+      if (!this.diceNumber || !this.diceFigure) {
+        this.diceNumber = 1;
+        this.diceFigure = 2;
+        if (this.game.gameInfo.currentDiceNumber && this.game.gameInfo.currentDiceFigure) {
+          this.diceNumber = this.game.gameInfo.currentDiceNumber + 1;
+          this.diceFigure = this.game.gameInfo.currentDiceFigure;
+        }
+      }
     }
-    this.newBet = '';
+
+    this.myBet = '';
     for (let i = 0; i < this.diceNumber; i++) {
-      this.newBet += this.diceFigure + ' ';
+      this.myBet += this.diceFigure + ' ';
     }
+
+    this.myBetNumberIncDisable = this.diceNumber >= this.allDicesCount;
+    this.myBetNumberDecDisable = this.diceNumber <= 1
+      || this.diceNumber <= this.game.gameInfo.currentDiceNumber
+      || (this.diceNumber <= this.game.gameInfo.currentDiceNumber + 1 && this.diceFigure <= this.game.gameInfo.currentDiceFigure);
+
+    this.myBetFigureIncDisable = this.diceFigure >= 6;
+    this.myBetFigureDecDisable = this.diceFigure <= 2
+      || (this.diceNumber === this.game.gameInfo.currentDiceNumber && this.diceFigure <= this.game.gameInfo.currentDiceFigure + 1);
   }
 
   ngOnInit() {
@@ -65,44 +98,37 @@ export class PerudoComponent implements OnInit, OnDestroy {
   }
 
   diceNumberInc() {
-    // let allDicesNumber = 0;
-    // for (let i = 0; i < this.game.players.length; i++) {
-    //   allDicesNumber += this.game.players[i].dicesCount;
-    // }
-    // if (this.diceNumber < allDicesNumber) {
-    this.diceNumber++;
-    // }
-    this.updateNewBet();
+    if (!this.myBetNumberIncDisable) {
+      this.diceNumber++;
+      this.updateMyBet();
+    }
   }
 
   diceNumberDec() {
-    if (this.diceNumber > this.game.gameInfo.currentDiceNumber && this.diceNumber > 1) {
+    if (!this.myBetNumberDecDisable) {
       this.diceNumber--;
-      if (this.diceNumber <= this.game.gameInfo.currentDiceNumber && this.diceFigure <= this.game.gameInfo.currentDiceFigure) {
-        this.diceFigure = this.game.gameInfo.currentDiceFigure + 1;
-      }
+      this.updateMyBet();
     }
-    this.updateNewBet();
   }
 
   diceFigureInc() {
-    if (this.diceFigure < 6) {
+    if (!this.myBetFigureIncDisable) {
       this.diceFigure++;
+      this.updateMyBet();
     }
-    this.updateNewBet();
   }
 
   diceFigureDec() {
-    if ((this.diceFigure === this.game.gameInfo.currentDiceNumber &&
-      this.diceFigure > this.game.gameInfo.currentDiceFigure + 1) ||
-      this.diceFigure > 1) {
+    if (!this.myBetFigureDecDisable) {
       this.diceFigure--;
+      this.updateMyBet();
     }
-    this.updateNewBet();
   }
 
   moveBet() {
     this.gamesServer.move({ number: this.diceNumber, figure: this.diceFigure });
+    this.diceNumber = 0;
+    this.diceFigure = 0;
   }
 
   moveNotBelieve() {
