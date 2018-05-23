@@ -127,6 +127,8 @@ export class PerudoComponent implements OnInit, OnDestroy {
 
   moveBet() {
     this.gamesServer.move({ number: this.diceNumber, figure: this.diceFigure });
+    this.diceNumber = '';
+    this.diceFigure = '';
   }
 
   moveNotBelieve() {
