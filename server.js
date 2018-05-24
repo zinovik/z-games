@@ -9,10 +9,15 @@ const configVars = 'var configVars = ' + JSON.stringify({
   serverURL: process.env.serverURL,
 }) + ';\n';
 
-fs.writeFile(`${__dirname}/dist/assets/config_vars.js`, configVars, (err) => {
-  if (err) {
-    return console.error('Error creating config_vars.js', err);
+fs.mkdir(`${__dirname}/dist/assets/`, (err) => {
+  if (err && err.code !== 'EEXIST') {
+    return console.error('Error creating assets directory', err);
   }
+  fs.writeFile(`${__dirname}/dist/assets/config_vars.js`, configVars, (err) => {
+    if (err) {
+      return console.error('Error creating config_vars.js', err);
+    }
+  });
 });
 
 fs.writeFile(`${__dirname}/src/assets/config_vars.js`, configVars, (err) => {

@@ -12,9 +12,13 @@ import { NoThanksComponent } from './no-thanks/no-thanks.component';
 import { PerudoComponent } from './perudo/perudo.component';
 import { ChatAndLogComponent } from './chat-and-log/chat-and-log.component';
 import { GameResultsComponent } from './game-results/game-results.component';
+import { UsersListComponent } from './users-list/users-list.component';
 
 import { GamesserverService } from './gamesserver.service';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -28,10 +32,14 @@ import { GamesserverService } from './gamesserver.service';
     PerudoComponent,
     ChatAndLogComponent,
     GameResultsComponent,
+    UsersListComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatInputModule,
   ],
   providers: [
     GamesserverService,

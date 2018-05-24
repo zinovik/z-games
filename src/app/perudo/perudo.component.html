@@ -4,9 +4,14 @@
   <span class="label">Last player:</span>
   {{ game.players[game.gameInfo.lastPlayerNumber] && game.players[game.gameInfo.lastPlayerNumber].username }}
   <br>
-  <span class="label">Last round results:</span> {{ '' }}
   <br>
 </div>
+
+<span class="label">Last round results:</span> {{ '' }}
+<div *ngFor="let player of game.gameInfo.players; let i = index">
+    &nbsp;&nbsp;&nbsp;<span class="label">{{ game.players[i].username }}</span>'s dices: {{ game.gameInfo.lastRoundResults[i] }}
+</div>
+
 <span class="label">Round:</span> {{ game.gameInfo.currentRound }}
 <br>
 <div *ngIf="currentBet">
@@ -14,11 +19,12 @@
   <div class="bet">{{ currentBet }}</div>
 </div>
 <div *ngIf="game.nextPlayersNames && game.nextPlayersNames.indexOf(currentUsername) >= 0">
-  <span class="label">New bet:</span>
-  <div class="bet">{{ newBet }}</div>
+  <span class="label">My bet:</span>
+  <div class="bet">{{ myBet }}</div>
 </div>
 <br>
 
+<span class="label">All dices count:</span> {{ allDicesCount }}
 <div *ngFor="let player of game.gameInfo.players; let i = index">
   <div *ngIf="game.players[i].username !== currentUsername">
     <span class="label">{{ game.players[i].username }}</span>'s dices count: {{ game.gameInfo.players[i].dicesCount }}
@@ -35,18 +41,18 @@
 <div *ngIf="game.nextPlayersNames && game.nextPlayersNames.indexOf(currentUsername) >= 0">
   <p>Dice number</p>
   <p>
-    <button (click)="diceNumberDec()" [disabled]="diceNumber <= game.gameInfo.currentDiceNumber || this.diceNumber < 2">-</button>
+    <button mat-raised-button (click)="diceNumberDec()" [disabled]="myBetNumberDecDisable">-</button>
     {{ diceNumber }}
-    <button (click)="diceNumberInc();">+</button>
+    <button mat-raised-button (click)="diceNumberInc();" [disabled]="myBetNumberIncDisable">+</button>
   </p>
 
   <p>Dice figure</p>
   <p>
-    <button (click)="diceFigureDec();" [disabled]="(diceNumber <= game.gameInfo.currentDiceNumber && diceFigure <= game.gameInfo.currentDiceFigure + 1) || diceFigure < 2">-</button>
+    <button mat-raised-button (click)="diceFigureDec();" [disabled]="myBetFigureDecDisable">-</button>
     {{ diceFigure }}
-    <button (click)="diceFigureInc();" [disabled]="diceFigure >= 6">+</button>
+    <button mat-raised-button (click)="diceFigureInc();" [disabled]="myBetFigureIncDisable">+</button>
   </p>
 
-  <button (click)="moveBet()">Bet</button>&nbsp;
-  <button (click)="moveNotBelieve()" [disabled]="!currentBet">Not Believe</button>
+  <button mat-raised-button (click)="moveBet()">Bet</button>&nbsp;
+  <button mat-raised-button (click)="moveNotBelieve()" [disabled]="!currentBet">Not Believe</button>
 </div>
