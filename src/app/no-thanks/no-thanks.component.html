@@ -2,10 +2,13 @@
 <br>
 <span class="label">Cards left:</span> {{ game.gameInfo.cardsLeft }}
 <br>
+<br>
 <span class="label">Current card:</span>
 <br>
-<div class="currentCard">{{ game.gameInfo.currentCard }}</div>
-({{ game.gameInfo.currentCardCost }} chips)
+<div>
+  <span class="bold">{{ game.gameInfo.currentCard }}</span>
+</div>
+<span class="chips">{{ ' o '.repeat(game.gameInfo.currentCardCost) }}</span> ({{ game.gameInfo.currentCardCost }} chips)
 <br>
 <br>
 
@@ -21,14 +24,18 @@
 <div *ngFor="let player of game.gameInfo.players; let i = index">
   <div *ngIf="game.players[i].username === currentUsername">
     <br>
-    <span class="label">My chips:</span> {{ player.chips }}
+    <span class="label">My chips: </span>
+    <span class="chips">{{ ' o '.repeat(player.chips) }}</span> ({{ player.chips }} chips)
     <br>
-    <span class="label">My cards:</span>
+    <br>
+    <span class="label">My cards: </span>
     <span *ngFor="let card of player.cards; let i = index">
       <span class="{{ i === 0 || card !== player.cards[i - 1] + 1 ? 'bold' : 'grey' }}"> {{ card }}</span>
     </span>
     <br>
-    <span class="label">My points:</span> {{ player.points }}
+    <br>
+    <span class="label">My points: </span>
+    <span class="result">{{ player.points }}</span>
   </div>
 </div>
 <br>
