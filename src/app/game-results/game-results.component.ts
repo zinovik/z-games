@@ -20,6 +20,7 @@ export class GameResultsComponent implements OnInit, OnDestroy {
         this.results.forEach((result, i) => {
           result.username = openGame.players[i].username;
           result.cards = openGame.gameInfo.players[i].cards;
+          result.chips = openGame.gameInfo.players[i].chips;
           result.dicesCount = openGame.gameInfo.players[i].dicesCount;
         });
         this.results.sort((a, b) => {
@@ -28,7 +29,6 @@ export class GameResultsComponent implements OnInit, OnDestroy {
           }
           return a.place > b.place;
         });
-        console.log(this.results);
       }
     });
   }

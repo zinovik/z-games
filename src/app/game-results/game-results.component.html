@@ -1,11 +1,12 @@
 <ul>
   Game results:
   <li *ngFor="let result of results">
-    {{ result.place }} place - {{ result.username }}
-    <span *ngIf="result.points"> | {{ result.points }} points</span>
-    <span *ngIf="result.cards"> | cards:
+    <span class="result">{{ result.place }}</span> place - <span class="result">{{ result.username }}</span>
+    <span *ngIf="result.points"> | <span class="result">{{ result.points }}</span> points</span>
+    <span *ngIf="result.cards"> | 
       <span *ngFor="let card of result.cards; let i = index"><span class="{{ i === 0 || card !== result.cards[i - 1] + 1 ? 'bold' : 'grey' }}"> {{ card }}</span></span>
     </span>
+    <span *ngIf="result.chips || result.chips === 0"> - <span class="chips">{{ ' o '.repeat(result.chips) }}</span> ({{ result.chips }} chips)</span>
 
     <span *ngIf="result.dicesCount"> | dices remaining: {{ result.dicesCount }}</span>
   </li>
