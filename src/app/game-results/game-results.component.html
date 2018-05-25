@@ -6,7 +6,7 @@
     <span *ngIf="result.cards"> | 
       <span *ngFor="let card of result.cards; let i = index"><span class="{{ i === 0 || card !== result.cards[i - 1] + 1 ? 'bold' : 'grey' }}"> {{ card }}</span></span>
     </span>
-    <span *ngIf="result.chips || result.chips === 0"> - <span class="chips">{{ ' o '.repeat(result.chips) }}</span> ({{ result.chips }} chips)</span>
+    <span *ngIf="result.chips || result.chips === 0"> - <span class="chips">{{ ' \u2B24 '.repeat(result.chips) }}</span> ({{ result.chips }} chips)</span>
 
     <span *ngIf="result.dicesCount"> | dices remaining: {{ result.dicesCount }}</span>
   </li>
