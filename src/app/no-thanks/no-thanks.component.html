@@ -8,7 +8,7 @@
 <div>
   <span class="bold">{{ game.gameInfo.currentCard }}</span>
 </div>
-<span class="chips">{{ ' o '.repeat(game.gameInfo.currentCardCost) }}</span> ({{ game.gameInfo.currentCardCost }} chips)
+<span class="chips">{{ ' \u2B24 '.repeat(game.gameInfo.currentCardCost) }}</span> ({{ game.gameInfo.currentCardCost }} chips)
 <br>
 <br>
 
@@ -25,7 +25,7 @@
   <div *ngIf="game.players[i].username === currentUsername">
     <br>
     <span class="label">My chips: </span>
-    <span class="chips">{{ ' o '.repeat(player.chips) }}</span> ({{ player.chips }} chips)
+    <span class="chips">{{ ' \u2B24 '.repeat(player.chips) }}</span> ({{ player.chips }} chips)
     <br>
     <br>
     <span class="label">My cards: </span>
