@@ -1,5 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
+import { MatSnackBar } from '@angular/material';
+
 import { GamesserverService } from './../gamesserver.service';
 
 @Component({
@@ -14,6 +16,7 @@ export class AuthorizeComponent implements OnInit, OnDestroy {
   password: string;
 
   constructor(
+    public snackBar: MatSnackBar,
     public gamesServer: GamesserverService,
   ) {
     this.currentUsernameSubscription = gamesServer.getCurrentUsername().subscribe((currentUsername) => {
@@ -38,9 +41,13 @@ export class AuthorizeComponent implements OnInit, OnDestroy {
           return;
         }
         if (currentUsername === this.username) {
-          console.log(`You have successfully logged in as ${currentUsername}`);
+          this.snackBar.open(`You have successfully logged in as ${currentUsername}`, 'Close', {
+            duration: 3000
+          });
         } else {
-          console.log(`Wrong username/password!`);
+          this.snackBar.open(`Wrong username/password!`, 'Close', {
+            duration: 3000
+          });
         }
         if (step === 2) {
           console.log('Loading... Finished!');
@@ -59,9 +66,13 @@ export class AuthorizeComponent implements OnInit, OnDestroy {
           return;
         }
         if (currentUsername === this.username) {
-          console.log(`You have successfully registered and logged in as ${currentUsername}`);
+          this.snackBar.open(`You have successfully registered and logged in as ${currentUsername}`, 'Close', {
+            duration: 3000
+          });
         } else {
-          console.log(`You can't register with this username/password!`);
+          this.snackBar.open(`You can't register with this username/password!`, 'Close', {
+            duration: 3000
+          });
         }
         if (step === 2) {
           console.log('Loading... Finished!');
@@ -74,7 +85,9 @@ export class AuthorizeComponent implements OnInit, OnDestroy {
     console.log('Loading...');
     const logoutSubscription = this.gamesServer.logout().subscribe(() => {
       console.log('Loading... Finished!');
-      console.log(`You have successfully logged out`);
+      this.snackBar.open(`You have successfully logged out`, 'Close', {
+        duration: 3000
+      });
       setTimeout(() => {
         logoutSubscription.unsubscribe();
       });

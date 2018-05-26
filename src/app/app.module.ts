@@ -19,6 +19,8 @@ import { GamesserverService } from './gamesserver.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { MatInputModule } from '@angular/material/input';
     BrowserAnimationsModule,
     MatButtonModule,
     MatInputModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
     GamesserverService,

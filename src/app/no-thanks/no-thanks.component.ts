@@ -13,6 +13,8 @@ export class NoThanksComponent implements OnInit, OnDestroy {
   currentUsernameSubscription: any;
   currentUsername: any;
 
+  CHIP: String = '\u2B24';
+
   constructor(
     public gamesServer: GamesserverService,
   ) {

@@ -24,6 +24,15 @@ export class PerudoComponent implements OnInit, OnDestroy {
   myBetFigureIncDisable: Boolean;
   myBetFigureDecDisable: Boolean;
 
+  DICES: Array<String> = [
+    '\u2680',
+    '\u2681',
+    '\u2682',
+    '\u2683',
+    '\u2684',
+    '\u2685',
+  ];
+
   constructor(
     public gamesServer: GamesserverService,
   ) {
@@ -57,7 +66,7 @@ export class PerudoComponent implements OnInit, OnDestroy {
   updateCurrentBet() {
     this.currentBet = '';
     for (let i = 0; i < this.game.gameInfo.currentDiceNumber; i++) {
-      this.currentBet += this.game.gameInfo.currentDiceFigure + ' ';
+      this.currentBet = `${this.currentBet}${this.DICES[this.game.gameInfo.currentDiceFigure - 1]}`;
     }
   }
 
@@ -76,7 +85,7 @@ export class PerudoComponent implements OnInit, OnDestroy {
 
     this.myBet = '';
     for (let i = 0; i < this.diceNumber; i++) {
-      this.myBet += this.diceFigure + ' ';
+      this.myBet = `${this.myBet}${this.DICES[this.diceFigure - 1]}`;
     }
 
     this.myBetNumberIncDisable = this.diceNumber >= this.allDicesCount;

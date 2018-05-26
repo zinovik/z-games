@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { GamesserverService } from './../gamesserver.service';
 
@@ -7,7 +7,7 @@ import { GamesserverService } from './../gamesserver.service';
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
   gameSubscription: any;
   game: any = { gameInfo: {} };
 
