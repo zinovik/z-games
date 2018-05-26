@@ -1,4 +1,4 @@
-<img *ngIf="game.name" src="{{ SERVER_URL + '/images/' + game.name + '.jpg' }}">
+<img *ngIf="game.name" src="{{ SERVER_URL + '/images/' + game.name + '.png' }}">
 <br>
 <span class="label">Game status:</span> {{ ((game.gameInfo.started) ? ((game.gameInfo.finished) ? 'finished' : 'started') : 'not started') }}
 <br>

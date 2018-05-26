@@ -11,6 +11,8 @@ export class GameResultsComponent implements OnInit, OnDestroy {
   gameSubscription: any;
   results: any;
 
+  CHIP: String = '\u2B24';
+
   constructor(
     public gamesServer: GamesserverService,
   ) {

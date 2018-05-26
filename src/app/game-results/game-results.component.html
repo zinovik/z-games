@@ -1,13 +1,26 @@
 <ul>
   Game results:
+  <br>
+  <br>
   <li *ngFor="let result of results">
-    <span class="result">{{ result.place }}</span> place - <span class="result">{{ result.username }}</span>
-    <span *ngIf="result.points"> | <span class="result">{{ result.points }}</span> points</span>
-    <span *ngIf="result.cards"> | 
-      <span *ngFor="let card of result.cards; let i = index"><span class="{{ i === 0 || card !== result.cards[i - 1] + 1 ? 'bold' : 'grey' }}"> {{ card }}</span></span>
+    <span class="result">{{ result.place }}</span> place
+    <br>
+    <span class="result">{{ result.username }}</span>
+    <span *ngIf="result.points">
+      <br>
+      <span class="result">{{ result.points }}</span> points</span>
+    <span *ngIf="result.cards">
+      <br>
+      <span *ngFor="let card of result.cards; let i = index">
+        <span class="{{ i === 0 || card !== result.cards[i - 1] + 1 ? 'bold' : 'grey' }}"> {{ card }}</span>
+      </span>
     </span>
-    <span *ngIf="result.chips || result.chips === 0"> - <span class="chips">{{ ' \u2B24 '.repeat(result.chips) }}</span> ({{ result.chips }} chips)</span>
+    <span *ngIf="result.chips || result.chips === 0">
+      <br>
+      <span class="chips">{{ CHIP.repeat(result.chips) }}</span> ({{ result.chips }})</span>
 
     <span *ngIf="result.dicesCount"> | dices remaining: {{ result.dicesCount }}</span>
+    <br>
+    <br>
   </li>
 </ul>

@@ -1,14 +1,21 @@
-<app-users-list></app-users-list>
-<br>
-<app-authorize></app-authorize>
+<div *ngIf="connected">
+  <app-users-list></app-users-list>
+  <br>
+  <app-authorize></app-authorize>
 
-<div *ngIf="!openGameNumber && openGameNumber !== 0">
-  <div *ngIf="currentUsername">
-    <app-new-game></app-new-game>
+  <div *ngIf="!openGameNumber && openGameNumber !== 0">
+    <div *ngIf="currentUsername">
+      <app-new-game></app-new-game>
+    </div>
+    <app-games-list></app-games-list>
   </div>
-  <app-games-list></app-games-list>
+
+  <div *ngIf="openGameNumber || openGameNumber === 0">
+    <app-game></app-game>
+  </div>
 </div>
 
-<div *ngIf="openGameNumber || openGameNumber === 0">
-  <app-game></app-game>
+<div *ngIf="!connected">
+  <mat-progress-spinner mode="indeterminate">
+  </mat-progress-spinner>
 </div>

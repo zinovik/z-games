@@ -1,4 +1,4 @@
 <div *ngIf="usersOnline && usersOnline.length">
   Users Online: 
-  <span *ngFor="let user of usersOnline">{{ user.username }} </span>
+  <span *ngFor="let user of usersOnline" class="name">{{ user.username }} </span>
 </div>

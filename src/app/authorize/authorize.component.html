@@ -10,7 +10,7 @@
 </div>
 
 <div *ngIf="currentUsername">
-  You are logged in as {{ currentUsername }}.
+  You are logged in as <span class="name">{{ currentUsername }} </span>
   <button mat-raised-button (click)="logOut()">Log out</button>
 </div>
 <br>

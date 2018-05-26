@@ -9,6 +9,7 @@ import * as io from 'socket.io-client';
 export class GamesserverService {
 
   SERVER_URL: String;
+  connected: any = new BehaviorSubject<any>(null);
 
   socket: any;
 
@@ -30,10 +31,12 @@ export class GamesserverService {
     this.socket.emit('getOpenGameInfo');
 
     this.socket.on('connect_error', () => {
+      this.connected.next(false);
       console.log(`Server connection error`);
     });
 
     this.socket.on('connect', () => {
+      this.connected.next(true);
       console.log(`Connected to the server`);
     });
 
@@ -79,6 +82,10 @@ export class GamesserverService {
 
   updateGame() {
     this.openGame.next(this.allGamesInfo.value[this.openGameNumber.value]);
+  }
+
+  getConnected(): Observable<any> {
+    return this.connected.asObservable();
   }
 
   getGame(): Observable<any> {

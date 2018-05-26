@@ -9,10 +9,13 @@
 
 <span class="label">Last round results:</span> {{ '' }}
 <div *ngFor="let player of game.gameInfo.players; let i = index">
-    &nbsp;&nbsp;&nbsp;<span class="label">{{ game.players[i].username }}</span>'s dices: {{ game.gameInfo.lastRoundResults[i] }}
+  &nbsp;&nbsp;&nbsp;
+  <span class="label">{{ game.players[i].username }}</span>'s dices:
+  <span class="bet" *ngFor="let dice of game.gameInfo.lastRoundResults[i]"> {{ DICES[dice - 1] }}</span>
 </div>
-
 <span class="label">Round:</span> {{ game.gameInfo.currentRound }}
+
+<br>
 <br>
 <div *ngIf="currentBet">
   <span class="label">Current bet:</span>
@@ -33,7 +36,8 @@
 
 <div *ngFor="let player of game.gameInfo.players; let i = index">
   <div *ngIf="game.players[i].username === currentUsername">
-    <span class="label">My dices:</span> {{ game.gameInfo.players[i].dices }}
+    <span class="label">My dices:</span>
+    <span class="bet" *ngFor="let dice of game.gameInfo.players[i].dices"> {{ DICES[dice - 1] }}</span>
   </div>
 </div>
 <br>

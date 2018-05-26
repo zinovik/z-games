@@ -10,7 +10,7 @@ import { GamesserverService } from './../gamesserver.service';
 export class GameInfoComponent implements OnInit, OnDestroy {
   gameSubscription: any;
   game: any = { gameInfo: {} };
-    currentUsernameSubscription: any;
+  currentUsernameSubscription: any;
   currentUsername: any;
   SERVER_URL: String;
   showRules: Boolean = false;
