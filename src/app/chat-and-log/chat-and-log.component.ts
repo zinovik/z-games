@@ -15,14 +15,15 @@ export class ChatAndLogComponent implements OnInit, OnDestroy {
   constructor(
     public gamesServer: GamesserverService,
   ) {
-    this.gameSubscription = gamesServer.getGame().subscribe((openGame) => {
-      if (openGame) {
-        this.game = openGame;
-        if (this.game.logNchat) {
-          this.game.logNchat.reverse();
+    this.gameSubscription = gamesServer.getGame()
+      .subscribe((openGame) => {
+        if (openGame) {
+          this.game = openGame;
+          if (this.game.logNchat) {
+            this.game.logNchat.reverse();
+          }
         }
-      }
-    });
+      });
   }
 
   ngOnInit() {

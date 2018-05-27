@@ -1,20 +1,29 @@
 <div *ngIf="allGamesInfo">
+
+  <mat-checkbox [(ngModel)]="notStarted">not started</mat-checkbox>&nbsp;
+  <mat-checkbox [(ngModel)]="started">started</mat-checkbox>&nbsp;
+  <mat-checkbox [(ngModel)]="finished">finished</mat-checkbox>
+  <br>
+  <br>
+
   <table class="games-list">
 
-    <tr *ngFor="let game of allGamesInfo; let i = index">
-      <td>
-        <img src="{{ SERVER_URL + '/images/' + game.name + '.png' }}">
-      </td>
-      <td>#{{ allGamesInfo.length - i - 1 }}</td>
-      <td>{{ game.name }}</td>
-      <td>{{ (game.gameInfo.started ? ((game.gameInfo.finished) ? 'finished' : 'started') : 'not started') }}</td>
-      <td>{{ game.players.length }}</td>
-      <td>
-        <button mat-raised-button *ngIf="currentUsername" (click)="joinGame(allGamesInfo.length - i - 1)">
-          {{ (game.gameInfo.started ? (currentGames.indexOf(allGamesInfo.length - i - 1) >= 0 ? 'Open' : 'Watch') : (game.players.length < game.gameInfo.PLAYERS_MAX ? 'Join' : 'Watch')) }}
-        </button>
-      </td>
-    </tr>
+    <ng-container *ngFor="let game of allGamesInfo; let i = index">
+      <tr *ngIf="(notStarted && !game.gameInfo.started) || (started && game.gameInfo.started && !game.gameInfo.finished) || (finished && game.gameInfo.finished)">
+        <td>
+          <img src="{{ GAMES_IMAGES[game.name] }}">
+        </td>
+        <td>#{{ allGamesInfo.length - i - 1 }}</td>
+        <td>{{ game.name }}</td>
+        <td>{{ (game.gameInfo.started ? ((game.gameInfo.finished) ? 'finished' : 'started') : 'not started') }}</td>
+        <td>{{ game.players.length }}</td>
+        <td>
+          <button mat-raised-button *ngIf="currentUsername" (click)="joinGame(allGamesInfo.length - i - 1)">
+            {{ (game.gameInfo.started ? (currentGames.indexOf(allGamesInfo.length - i - 1) >= 0 ? 'Open' : 'Watch') : (game.players.length
+            < game.gameInfo.PLAYERS_MAX ? 'Join' : 'Watch')) }} </button>
+        </td>
+      </tr>
+    </ng-container>
 
   </table>
 </div>

@@ -6,3 +6,43 @@
 * {
   font-family: Roboto; 
 }
+
+.label {
+  font-weight: bold;
+}
+
+.nothanks-bold {
+  display: inline-block;
+  border: 1px solid black;
+  font-weight: bold;
+  width: 30px;
+  height: 50px;
+  align-content: center;
+  vertical-align: middle;
+  text-align: center;
+  margin: 1px;
+  padding: 2px;
+}
+
+.nothanks-grey {
+  display: inline-block;
+  border: 1px solid lightgray;
+  color: lightgray;
+  width: 30px;
+  height: 50px;
+  align-content: center;
+  vertical-align: middle;
+  text-align: center;
+  margin: 1px;
+  padding: 2px;
+}
+
+.chips {
+  font-size: 120%;
+  font-weight: bold;
+}
+
+.result {
+  font-size: 120%;
+  font-weight: bold;
+}

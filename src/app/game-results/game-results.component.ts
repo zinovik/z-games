@@ -11,11 +11,13 @@ export class GameResultsComponent implements OnInit, OnDestroy {
   gameSubscription: any;
   results: any;
 
-  CHIP: String = '\u2B24';
+  CHIP: String;
 
   constructor(
     public gamesServer: GamesserverService,
   ) {
+    this.CHIP = gamesServer.CHIP;
+
     this.gameSubscription = gamesServer.getGame().subscribe((openGame) => {
       if (openGame && openGame.gameInfo.players) {
         this.results = openGame.gameInfo.players;

@@ -14,6 +14,7 @@ export class AuthorizeComponent implements OnInit, OnDestroy {
   currentUsername: any;
   username: string;
   password: string;
+  loading: Boolean;
 
   constructor(
     public snackBar: MatSnackBar,
@@ -32,7 +33,7 @@ export class AuthorizeComponent implements OnInit, OnDestroy {
   }
 
   signIn() {
-    console.log('Loading...');
+    this.loading = true;
     let step = 0;
     const loginSubscription = this.gamesServer.login(this.username, this.password)
       .subscribe((currentUsername) => {
@@ -50,14 +51,14 @@ export class AuthorizeComponent implements OnInit, OnDestroy {
           });
         }
         if (step === 2) {
-          console.log('Loading... Finished!');
+          this.loading = false;
           loginSubscription.unsubscribe();
         }
       });
   }
 
   signUp() {
-    console.log('Loading...');
+    this.loading = true;
     let step = 0;
     const signUpsubscription = this.gamesServer.register(this.username, this.password)
       .subscribe((currentUsername) => {
@@ -75,16 +76,16 @@ export class AuthorizeComponent implements OnInit, OnDestroy {
           });
         }
         if (step === 2) {
-          console.log('Loading... Finished!');
+          this.loading = false;
           signUpsubscription.unsubscribe();
         }
       });
   }
 
   logOut() {
-    console.log('Loading...');
+    this.loading = true;
     const logoutSubscription = this.gamesServer.logout().subscribe(() => {
-      console.log('Loading... Finished!');
+      this.loading = false;
       this.snackBar.open(`You have successfully logged out`, 'Close', {
         duration: 3000
       });

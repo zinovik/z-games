@@ -15,23 +15,34 @@ export class GamesListComponent implements OnInit, OnDestroy {
   usersOnline: any = [];
   usersOnlineSubscription: any;
   currentGames: any = [];
-  SERVER_URL: String = window['configVars'].serverURL;
+  GAMES_IMAGES: any;
+
+  notStarted: Boolean = true;
+  started: Boolean = false;
+  finished: Boolean = false;
 
   constructor(
     public gamesServer: GamesserverService,
   ) {
-    this.allGamesInfoSubscription = gamesServer.getAllGamesInfo().subscribe((allGamesInfo) => {
-      this.allGamesInfo = JSON.parse(JSON.stringify(allGamesInfo));
-      this.allGamesInfo.reverse();
-    });
-    this.currentUsernameSubscription = gamesServer.getCurrentUsername().subscribe((currentUsername) => {
-      this.currentUsername = currentUsername;
-      this.updateCurrentGames();
-    });
-    this.usersOnlineSubscription = gamesServer.getUsersOnline().subscribe((usersOnline) => {
-      this.usersOnline = usersOnline;
-      this.updateCurrentGames();
-    });
+    this.GAMES_IMAGES = gamesServer.GAMES_IMAGES;
+
+    this.allGamesInfoSubscription = gamesServer.getAllGamesInfo()
+      .subscribe((allGamesInfo) => {
+        this.allGamesInfo = JSON.parse(JSON.stringify(allGamesInfo));
+        this.allGamesInfo.reverse();
+      });
+
+    this.currentUsernameSubscription = gamesServer.getCurrentUsername()
+      .subscribe((currentUsername) => {
+        this.currentUsername = currentUsername;
+        this.updateCurrentGames();
+      });
+
+    this.usersOnlineSubscription = gamesServer.getUsersOnline()
+      .subscribe((usersOnline) => {
+        this.usersOnline = usersOnline;
+        this.updateCurrentGames();
+      });
   }
 
   ngOnInit() {
@@ -53,16 +64,7 @@ export class GamesListComponent implements OnInit, OnDestroy {
     }
   }
 
-  updateGames() {
-    console.log('updateGames()');
-  }
-
   joinGame(gameNumber: number) {
-    if (!this.currentUsername) {
-      console.log(`You need to login to join the game`);
-      return;
-    }
-
     const subscription = this.gamesServer.joinGame(gameNumber)
       .subscribe((openGameNumber) => {
         if (openGameNumber === gameNumber) {
@@ -72,5 +74,4 @@ export class GamesListComponent implements OnInit, OnDestroy {
         }
       });
   }
-
 }
