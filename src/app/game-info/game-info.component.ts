@@ -60,6 +60,8 @@ export class GameInfoComponent implements OnInit, OnDestroy {
 
   updateYourMove() {
     if (this.game
+      && this.game.gameInfo
+      && !this.game.gameInfo.finished
       && this.game.nextPlayersNames
       && this.game.nextPlayersNames.indexOf(this.currentUsername) >= 0) {
       if (!this.yourMove) {
