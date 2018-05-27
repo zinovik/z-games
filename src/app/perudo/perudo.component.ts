@@ -24,18 +24,13 @@ export class PerudoComponent implements OnInit, OnDestroy {
   myBetFigureIncDisable: Boolean;
   myBetFigureDecDisable: Boolean;
 
-  DICES: Array<String> = [
-    '\u2680',
-    '\u2681',
-    '\u2682',
-    '\u2683',
-    '\u2684',
-    '\u2685',
-  ];
+  DICES: Array<String>;
 
   constructor(
     public gamesServer: GamesserverService,
   ) {
+    this.DICES = gamesServer.DICES;
+
     this.gameSubscription = gamesServer.getGame()
       .subscribe((openGame) => {
         if (openGame) {
@@ -48,7 +43,6 @@ export class PerudoComponent implements OnInit, OnDestroy {
 
     this.currentUsernameSubscription = gamesServer.getCurrentUsername()
       .subscribe((currentUsername) => {
-        console.log('app-perudo: currentUsername', currentUsername);
         this.currentUsername = currentUsername;
         this.updateMyBet();
       });

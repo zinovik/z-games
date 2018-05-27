@@ -13,18 +13,20 @@ export class NoThanksComponent implements OnInit, OnDestroy {
   currentUsernameSubscription: any;
   currentUsername: any;
 
-  CHIP: String = '\u2B24';
+  CHIP: String;
 
   constructor(
     public gamesServer: GamesserverService,
   ) {
+    this.CHIP = gamesServer.CHIP;
+
     this.gameSubscription = gamesServer.getGame().subscribe((openGame) => {
       if (openGame) {
         this.game = openGame;
       }
     });
+
     this.currentUsernameSubscription = gamesServer.getCurrentUsername().subscribe((currentUsername) => {
-      console.log('app-no-thanks: currentUsername', currentUsername);
       this.currentUsername = currentUsername;
     });
   }

@@ -8,7 +8,6 @@ import * as io from 'socket.io-client';
 @Injectable()
 export class GamesserverService {
 
-  SERVER_URL: String;
   connected: any = new BehaviorSubject<any>(null);
 
   socket: any;
@@ -20,9 +19,23 @@ export class GamesserverService {
   openGameNumber: any = new BehaviorSubject<any>(null);
   openGame: any = new BehaviorSubject<any>(null);
 
-  constructor() {
-    this.SERVER_URL = window['configVars'].serverURL;
+  SERVER_URL: String = window['configVars'].SERVER_URL;
 
+  public GAMES_IMAGES: any = {
+    'No, Thanks!': `${this.SERVER_URL}/images/No,%20Thanks!.png`,
+    'Perudo': `${this.SERVER_URL}/images/Perudo.png`,
+  };
+  public CHIP: String = '\u2B24';
+  public DICES: Array<String> = [
+    '\u2680',
+    '\u2681',
+    '\u2682',
+    '\u2683',
+    '\u2684',
+    '\u2685',
+  ];
+
+  constructor() {
     this.socket = io(this.SERVER_URL);
 
     this.socket.emit('getCurrentUsername');
@@ -31,22 +44,24 @@ export class GamesserverService {
     this.socket.emit('getOpenGameInfo');
 
     this.socket.on('connect_error', () => {
+      console.log(`socket.on('connect_error')`);
       this.connected.next(false);
-      console.log(`Server connection error`);
     });
 
     this.socket.on('connect', () => {
+      console.log(`socket.on('connect')`);
       this.connected.next(true);
-      console.log(`Connected to the server`);
     });
 
     // updates from the server
     this.socket.on('updateCurrentUsername', (username) => {
+      console.log(`socket.on('updateCurrentUsername') - username: ${username}`);
       this.currentUsername.next(username);
       this.updateOpenGameNumber();
     });
 
     this.socket.on('updateAllGamesInfo', (allGamesInfo) => {
+      console.log(`socket.on('updateAllGamesInfo') - allGamesInfo: `, allGamesInfo);
       if ((this.openGameNumber.value || this.openGameNumber.value === 0)
         && this.allGamesInfo.value
         && this.allGamesInfo.value[this.openGameNumber.value]) {
@@ -57,6 +72,7 @@ export class GamesserverService {
     });
 
     this.socket.on('updateOpenGameInfo', (game) => {
+      console.log(`socket.on('updateOpenGameInfo') - game: `, game);
       const allGamesInfo = this.allGamesInfo.value ? this.allGamesInfo.value : [];
       if (this.openGameNumber.value || this.openGameNumber.value === 0) {
         allGamesInfo[this.openGameNumber.value] = game;
@@ -66,6 +82,7 @@ export class GamesserverService {
     });
 
     this.socket.on('updateUsersOnline', (usersOnline) => {
+      console.log(`socket.on('updateUsersOnline') - usersOnline: `, usersOnline);
       this.usersOnline.next(usersOnline);
       this.updateOpenGameNumber();
     });
@@ -109,7 +126,6 @@ export class GamesserverService {
   }
 
   joinGame(gameNumber: number) {
-    console.log(gameNumber);
     this.socket.emit('joingame', gameNumber);
     return this.openGameNumber.asObservable();
   }

@@ -14,12 +14,12 @@ export class UsersListComponent implements OnInit, OnDestroy {
   constructor(
     public gamesServer: GamesserverService,
   ) {
-    this.usersOnlineSubscription = gamesServer.getUsersOnline().subscribe((usersOnline) => {
-      console.log(usersOnline);
-      if (usersOnline) {
-        this.usersOnline = usersOnline;
-      }
-    });
+    this.usersOnlineSubscription = gamesServer.getUsersOnline()
+      .subscribe((usersOnline) => {
+        if (usersOnline) {
+          this.usersOnline = usersOnline;
+        }
+      });
   }
 
   ngOnInit() {

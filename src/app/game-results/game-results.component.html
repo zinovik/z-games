@@ -12,7 +12,7 @@
     <span *ngIf="result.cards">
       <br>
       <span *ngFor="let card of result.cards; let i = index">
-        <span class="{{ i === 0 || card !== result.cards[i - 1] + 1 ? 'bold' : 'grey' }}"> {{ card }}</span>
+        <span class="{{ i === 0 || card !== result.cards[i - 1] + 1 ? 'nothanks-bold' : 'nothanks-grey' }}"> {{ card }}</span>
       </span>
     </span>
     <span *ngIf="result.chips || result.chips === 0">

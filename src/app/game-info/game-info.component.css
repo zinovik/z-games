@@ -1,3 +1,5 @@
-.label {
-    font-weight: bold;
+.move {
+  font-weight: bold;
+  color: red;
+  margin: 20px 0px;
 }

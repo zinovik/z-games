@@ -1,4 +1,12 @@
 <div *ngIf="usersOnline && usersOnline.length">
-  Users Online: 
-  <span *ngFor="let user of usersOnline" class="name">{{ user.username }} </span>
+  Users Online:
+  <span *ngFor="let user of usersOnline" class="name">
+    {{ user.username }}
+    <span *ngIf="user.currentGames.length">
+      (
+      <span *ngFor="let game of user.currentGames; let i = index">
+        {{ game }} {{ i === user.currentGames.length - 1 ? '' : ', ' }}
+      </span>)
+    </span>
+  </span>
 </div>

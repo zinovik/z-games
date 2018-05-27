@@ -1,4 +1,4 @@
-<img *ngIf="game.name" src="{{ SERVER_URL + '/images/' + game.name + '.png' }}">
+<img *ngIf="game.name" src="{{ GAMES_IMAGES[game.name] }}">
 <br>
 <span class="label">Game status:</span> {{ ((game.gameInfo.started) ? ((game.gameInfo.finished) ? 'finished' : 'started') : 'not started') }}
 <br>
@@ -18,7 +18,7 @@
   <br>
 </div>
 
-<button mat-raised-button (click)="leaveGame()">Leave</button>&nbsp;
+<button mat-raised-button (click)="leaveGame()">{{ !watcher && game.gameInfo.started && !game.gameInfo.finished ? 'Close' : 'Leave' }}</button>&nbsp;
 <button mat-raised-button (click)="showRules = !showRules">{{ showRules ? 'Hide rules' : 'Show rules' }}</button>
 <br>
 <br>
@@ -34,3 +34,7 @@
 </div>
 
 <div *ngIf="showRules" innerHTML="{{ game.rules }}"></div>
+
+<div *ngIf="yourMove" class="move">
+  YOUR MOVE!
+</div>

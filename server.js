@@ -6,7 +6,7 @@ const app = express();
 app.use(express.static(__dirname + '/dist'));
 
 const configVars = 'var configVars = ' + JSON.stringify({
-  serverURL: process.env.serverURL,
+  SERVER_URL: process.env.SERVER_URL,
 }) + ';\n';
 
 fs.mkdir(`${__dirname}/dist/assets/`, (err) => {
