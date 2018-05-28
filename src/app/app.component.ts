@@ -15,7 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
   openGameNumberSubscription: any;
   openGameNumber: number;
   progress: any = 0;
-  PROGRESS_TIME: any = 27;
+  PROGRESS_TIME: any = 13;
 
   constructor(
     public gamesServer: GamesserverService,
