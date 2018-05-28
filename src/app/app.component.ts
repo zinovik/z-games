@@ -14,10 +14,19 @@ export class AppComponent implements OnInit, OnDestroy {
   currentUsername: any;
   openGameNumberSubscription: any;
   openGameNumber: number;
+  progress: any = 0;
+  PROGRESS_TIME: any = 27;
 
   constructor(
     public gamesServer: GamesserverService,
   ) {
+    let timer = setInterval(() => {
+      this.progress += 10 / this.PROGRESS_TIME;
+      if (this.progress > 100) {
+        timer = undefined;
+      }
+    }, 100);
+
     this.connectedSubscription = gamesServer.getConnected()
       .subscribe((connected) => {
         this.connected = connected;
