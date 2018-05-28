@@ -16,6 +16,5 @@
 </div>
 
 <div *ngIf="!connected">
-  <mat-progress-spinner mode="indeterminate">
-  </mat-progress-spinner>
+  <mat-progress-bar mode="determinate" [value]="progress"></mat-progress-bar>
 </div>
