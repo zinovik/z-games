@@ -13,6 +13,7 @@ import { PerudoComponent } from './perudo/perudo.component';
 import { ChatAndLogComponent } from './chat-and-log/chat-and-log.component';
 import { GameResultsComponent } from './game-results/game-results.component';
 import { UsersListComponent } from './users-list/users-list.component';
+import { AppRoutingModule } from './/app-routing.module';
 
 import { GamesserverService } from './gamesserver.service';
 
@@ -48,6 +49,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatProgressSpinnerModule,
     MatCheckboxModule,
     MatProgressBarModule,
+    AppRoutingModule,
   ],
   providers: [
     GamesserverService,

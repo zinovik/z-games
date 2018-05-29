@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Location } from '@angular/common';
 
 import { GamesserverService } from './../gamesserver.service';
 
@@ -12,8 +13,11 @@ export class GameComponent implements OnInit, OnDestroy {
   game: any = { gameInfo: {} };
 
   constructor(
+    public location: Location,
     public gamesServer: GamesserverService,
   ) {
+    location.replaceState('game');
+
     this.gameSubscription = gamesServer.getGame().subscribe((openGame) => {
       if (openGame) {
         this.game = openGame;

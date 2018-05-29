@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Location } from '@angular/common';
 
 import { MatSnackBar } from '@angular/material';
 
@@ -22,6 +23,7 @@ export class GameInfoComponent implements OnInit, OnDestroy {
   watcher: Boolean;
 
   constructor(
+    public location: Location,
     public snackBar: MatSnackBar,
     public gamesServer: GamesserverService,
   ) {
@@ -88,6 +90,7 @@ export class GameInfoComponent implements OnInit, OnDestroy {
   }
 
   leaveGame() {
+    this.location.replaceState('games');
     this.gamesServer.leaveGame();
   }
 
