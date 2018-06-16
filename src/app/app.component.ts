@@ -10,10 +10,6 @@ import { GamesserverService } from './gamesserver.service';
 export class AppComponent implements OnInit, OnDestroy {
   connectedSubscription: any;
   connected: boolean;
-  currentUsernameSubscription: any;
-  currentUsername: any;
-  openGameNumberSubscription: any;
-  openGameNumber: number;
   progress: any = 0;
   PROGRESS_TIME: any = 13;
 
@@ -31,14 +27,6 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe((connected) => {
         this.connected = connected;
       });
-    this.currentUsernameSubscription = gamesServer.getCurrentUsername()
-      .subscribe((currentUsername) => {
-        this.currentUsername = currentUsername;
-      });
-    this.openGameNumberSubscription = gamesServer.getOpenGameNumber()
-      .subscribe((openGameNumber) => {
-        this.openGameNumber = openGameNumber;
-      });
   }
 
   ngOnInit() {
@@ -46,7 +34,5 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.connectedSubscription.unsubscribe();
-    this.currentUsernameSubscription.unsubscribe();
-    this.openGameNumberSubscription.unsubscribe();
   }
 }

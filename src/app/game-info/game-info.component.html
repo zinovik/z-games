@@ -18,7 +18,7 @@
   <br>
 </div>
 
-<button mat-raised-button (click)="leaveGame()">{{ !watcher && game.gameInfo.started && !game.gameInfo.finished ? 'Close' : 'Leave' }}</button>&nbsp;
+<button mat-raised-button routerLink="/games" (click)="leaveGame()">{{ !watcher && game.gameInfo.started && !game.gameInfo.finished ? 'Close' : 'Leave' }}</button>&nbsp;
 <button mat-raised-button (click)="showRules = !showRules">{{ showRules ? 'Hide rules' : 'Show rules' }}</button>
 <br>
 <br>
