@@ -5,6 +5,10 @@ const app = express();
 
 app.use(express.static(__dirname + '/dist'));
 
+app.get('/*', (req, res) => {
+  res.sendFile(__dirname + '/dist/index.html');
+});
+
 const configVars = 'var configVars = ' + JSON.stringify({
   SERVER_URL: process.env.SERVER_URL,
 }) + ';\n';
