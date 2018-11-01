@@ -1,6 +1,6 @@
 import * as types from '../constants/ActionTypes';
 
-const currentUser = (state = <any>[], action) => {
+const currentUser = (state = <any>{}, action) => {
   switch (action.type) {
     case types.UPDATE_STATUS:
       return {

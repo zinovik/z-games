@@ -14,8 +14,12 @@ export class Authorization extends React.Component<AuthorizationProps, {}> {
 	render() {
 		return (
 			<div>
-				<Authorize onSignInClick={this.props.signIn} onSignUpClick={this.props.signUp} />
-				<CurrentUser currentUsername={this.props.currentUsername} onLogOutClick={this.props.logOut} />
+				{!this.props.currentUsername &&
+					<Authorize onSignInClick={this.props.signIn} onSignUpClick={this.props.signUp} />
+				}
+				{this.props.currentUsername &&
+					<CurrentUser currentUsername={this.props.currentUsername} onLogOutClick={this.props.logOut} />
+				}
 			</div>
 		);
 	}

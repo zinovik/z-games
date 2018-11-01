@@ -1,6 +1,6 @@
 import * as types from '../constants/ActionTypes';
 
-const games = (state = <any>[], action) => {
+const games = (state = <any>{}, action) => {
   switch (action.type) {
     case types.MAKE_MOVE:
       return {
