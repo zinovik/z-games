@@ -1,6 +1,6 @@
-import * as types from '../constants/ActionTypes';
+import * as types from '../constants';
 
-const currentUser = (state = <any>{}, action) => {
+const users = (state = <types.UsersState>{}, action): types.UsersState => {
   switch (action.type) {
     case types.UPDATE_STATUS:
       return {
@@ -17,4 +17,4 @@ const currentUser = (state = <any>{}, action) => {
   }
 };
 
-export default currentUser;
+export default users;

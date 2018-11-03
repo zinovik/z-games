@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { connect } from "react-redux";
 
+import * as types from '../../constants';
 import { Authorization } from '../';
 import { ZGamesApi } from '../../services';
 
 interface HomePageProps extends React.Props<{}> {
-	currentUsername: string,
-	connected: boolean,
+  currentUsername: string,
+  connected: boolean,
 }
 
 class HomePage extends React.Component<HomePageProps, {}> {
@@ -27,10 +28,10 @@ class HomePage extends React.Component<HomePageProps, {}> {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: { users: types.UsersState }) => {
   return {
-    connected: state.currentUser.connected,
-    currentUsername: state.currentUser.currentUsername,
+    connected: state.users.connected,
+    currentUsername: state.users.currentUsername,
   };
 };
 

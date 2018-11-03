@@ -4,19 +4,19 @@ import { updateStatus, setCurrentUsername } from '../../actions';
 
 const SERVER_URL = 'https://z-games-api-dev.herokuapp.com';
 
-// const GAMES_IMAGES: any = {
-//   'No, Thanks!': `${SERVER_URL}/images/No,%20Thanks!.png`,
-//   'Perudo': `${SERVER_URL}/images/Perudo.png`,
-// };
-// const CHIP: string = '\u2B24';
-// const DICES: string[] = [
-//   '\u2680',
-//   '\u2681',
-//   '\u2682',
-//   '\u2683',
-//   '\u2684',
-//   '\u2685',
-// ];
+export const GAMES_IMAGES: any = {
+  'No, Thanks!': `${SERVER_URL}/images/No,%20Thanks!.png`,
+  'Perudo': `${SERVER_URL}/images/Perudo.png`,
+};
+export const CHIP: string = '\u2B24';
+export const DICES: string[] = [
+  '\u2680',
+  '\u2681',
+  '\u2682',
+  '\u2683',
+  '\u2684',
+  '\u2685',
+];
 
 export class ZGamesApi {
   private static _instance: ZGamesApi;
@@ -98,7 +98,7 @@ export class ZGamesApi {
     this.socket.emit('newgame', gameName);
   }
 }
-// add subscrivers to resux to emit socket.io!!!!
+// add subscribers to resux to emit socket.io!!!!
 
 
 
