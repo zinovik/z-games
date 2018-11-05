@@ -1,6 +1,14 @@
 import * as io from 'socket.io-client';
 
-import { updateStatus, setCurrentUsername } from '../../actions';
+import {
+  updateStatus,
+  setCurrentUsername,
+  updateUsersOnline,
+  updateAllGamesInfo,
+  updateOpenGameInfo,
+  updateOpenGameNumber,
+} from '../../actions';
+import * as types from '../../constants';
 
 const SERVER_URL = 'https://z-games-api-dev.herokuapp.com';
 
@@ -39,6 +47,7 @@ export class ZGamesApi {
     this.socket.emit('getUsersOnline');
     this.socket.emit('getOpenGameInfo');
 
+    // updates from the server
     this.socket.on('connect_error', () => {
       console.log(`socket.on('connect_error')`);
       this.store.dispatch(updateStatus(false));
@@ -49,10 +58,26 @@ export class ZGamesApi {
       this.store.dispatch(updateStatus(true));
     });
 
-    this.socket.on('updateCurrentUsername', username => {
-      console.log(`socket.on('updateCurrentUsername') - username: ${username}`);
-      this.store.dispatch(setCurrentUsername(username));
-      // this.updateOpenGameNumber();
+    this.socket.on('updateCurrentUsername', (currentUsername: string): void => {
+      console.log(`socket.on('updateCurrentUsername'): ${currentUsername}`);
+      this.store.dispatch(setCurrentUsername(currentUsername));
+      this.updateOpenGameNumber();
+    });
+
+    this.socket.on('updateUsersOnline', (usersOnline: types.UserOnline[]): void => {
+      console.log(`socket.on('updateUsersOnline'): `, usersOnline);
+      this.store.dispatch(updateUsersOnline(usersOnline))
+      this.updateOpenGameNumber();
+    });
+
+    this.socket.on('updateAllGamesInfo', (allGames: types.Game[]): void => {
+      console.log(`socket.on('updateAllGamesInfo'): `, allGames);
+      this.store.dispatch(updateAllGamesInfo(allGames));
+    });
+
+    this.socket.on('updateOpenGameInfo', (openGameInfo: types.GameInfo): void => {
+      console.log(`socket.on('updateOpenGameInfo'): `, openGameInfo);
+      this.store.dispatch(updateOpenGameInfo(openGameInfo));
     });
   }
 
@@ -97,58 +122,15 @@ export class ZGamesApi {
   newGame = (gameName: string): void => {
     this.socket.emit('newgame', gameName);
   }
+
+  updateOpenGameNumber = (): void => {
+    const { currentUsername, usersOnline } = this.store.getState().users;
+
+    usersOnline.forEach((userOnline) => {
+      if (userOnline.username === currentUsername) {
+        this.store.dispatch(updateOpenGameNumber(userOnline.openGameNumber));
+      }
+    });
+  };
 }
 // add subscribers to resux to emit socket.io!!!!
-
-
-
-
-// allGamesInfo: any = new BehaviorSubject<any>([]);
-// openGameInfo: any = new BehaviorSubject<any>({});
-// usersOnline: any = new BehaviorSubject<any>([]);
-// openGameNumber: any = new BehaviorSubject<any>(null);
-// openGame: any = new BehaviorSubject<any>(null);
-
-
-// // updates from the server
-
-// this.socket.on('updateAllGamesInfo', (allGamesInfo) => {
-//   console.log(`socket.on('updateAllGamesInfo') - allGamesInfo: `, allGamesInfo);
-//   if ((this.openGameNumber.value || this.openGameNumber.value === 0)
-//     && this.allGamesInfo.value
-//     && this.allGamesInfo.value[this.openGameNumber.value]) {
-//     allGamesInfo[this.openGameNumber.value] = this.allGamesInfo.value[this.openGameNumber.value];
-//   }
-//   this.allGamesInfo.next(allGamesInfo);
-//   this.updateGame();
-// });
-
-// this.socket.on('updateOpenGameInfo', (game) => {
-//   console.log(`socket.on('updateOpenGameInfo') - game: `, game);
-//   const allGamesInfo = this.allGamesInfo.value ? this.allGamesInfo.value : [];
-//   if (this.openGameNumber.value || this.openGameNumber.value === 0) {
-//     allGamesInfo[this.openGameNumber.value] = game;
-//     this.allGamesInfo.next(allGamesInfo);
-//   }
-//   this.updateGame();
-// });
-
-// this.socket.on('updateUsersOnline', (usersOnline) => {
-//   console.log(`socket.on('updateUsersOnline') - usersOnline: `, usersOnline);
-//   this.usersOnline.next(usersOnline);
-//   this.updateOpenGameNumber();
-// });
-//   }
-
-// updateOpenGameNumber(): any {
-//   for (let i = 0; i < this.usersOnline.value.length; i++) {
-//     if (this.usersOnline.value[i].username === this.currentUsername.value) {
-//       this.openGameNumber.next(this.usersOnline.value[i].openGameNumber);
-//     }
-//   }
-//   this.updateGame();
-// }
-
-// updateGame() {
-//   this.openGame.next(this.allGamesInfo.value[this.openGameNumber.value]);
-// }
