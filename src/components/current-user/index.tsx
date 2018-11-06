@@ -3,8 +3,7 @@ import * as PropTypes from 'prop-types';
 
 const CurrentUser = ({ currentUsername, onLogOutClick }) => (
   <div>
-    You are logged in as {currentUsername}
-    <button onClick={() => { onLogOutClick(); }}>Log out</button>
+    You are logged in as {currentUsername} - <button onClick={() => { onLogOutClick(); }}>Log out</button>
   </div>
 );
 
