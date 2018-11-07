@@ -1,7 +1,6 @@
 import * as React from 'react';
 
-import Authorize from '../../components/authorize';
-import CurrentUser from '../../components/current-user';
+import { Authorize, CurrentUser } from '../../components';
 
 interface AuthorizationProps extends React.Props<{}> {
 	currentUsername: string,

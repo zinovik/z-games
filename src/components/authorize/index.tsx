@@ -1,7 +1,7 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 
-const Authorize = ({ onSignInClick, onSignUpClick }) => {
+export const Authorize = ({ onSignInClick, onSignUpClick }) => {
   let username;
   let password;
 
@@ -19,5 +19,3 @@ Authorize.propTypes = {
   onSignInClick: PropTypes.func.isRequired,
   onSignUpClick: PropTypes.func.isRequired,
 }
-
-export default Authorize;

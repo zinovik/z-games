@@ -1,3 +1,4 @@
+import { createBrowserHistory } from 'history';
 import * as io from 'socket.io-client';
 
 import {
@@ -30,6 +31,7 @@ export class ZGamesApi {
   private static _instance: ZGamesApi;
   private socket;
   private store;
+  private history = createBrowserHistory();
 
   private constructor() {
     this.socket = io(SERVER_URL);
@@ -129,6 +131,11 @@ export class ZGamesApi {
     usersOnline.forEach((userOnline) => {
       if (userOnline.username === currentUsername) {
         this.store.dispatch(updateOpenGameNumber(userOnline.openGameNumber));
+        if (userOnline.openGameNumber || userOnline.openGameNumber === 0) {
+          this.history.push(`/game/${userOnline.openGameNumber}`);
+        } else {
+          this.history.push(`/games`);
+        }
       }
     });
   };
