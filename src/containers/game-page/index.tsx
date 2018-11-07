@@ -1,38 +1,26 @@
 import * as React from 'react';
 import { connect } from "react-redux";
 
-import { Authorization } from '../';
-import { GamesList } from '../';
-import { UsersOnline } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 
-interface HomePageProps extends React.Props<{}> {
+interface GamePageProps extends React.Props<{}> {
   currentUsername: string,
   connected: boolean,
   allGames: types.Game[],
   usersOnline: types.UserOnline[],
+  match: { params: { id: string } },
 }
 
-class HomePage extends React.Component<HomePageProps, {}> {
+class GamePage extends React.Component<GamePageProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
   render() {
+    console.log(this.props);
     return (
       <div>
         {this.props.connected && <div>connected</div>}
-        <UsersOnline usersOnline={this.props.usersOnline} />
-        <Authorization
-          currentUsername={this.props.currentUsername}
-          signUp={this.zGamesApi.register}
-          signIn={this.zGamesApi.login}
-          logOut={this.zGamesApi.logout}
-        />
-        <GamesList
-          allGames={this.props.allGames}
-          currentUsername={this.props.currentUsername}
-          joinGame={this.zGamesApi.joinGame}
-        />
+        {this.props.match.params.id}
       </div>
     );
   }
@@ -53,4 +41,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(HomePage);
+)(GamePage);

@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 
 import * as types from '../../constants';
 
-const Game = ({ game, currentUsername, index, join }: { game: types.Game, currentUsername: string | null, index: number, join: any }) => {
+export const Game = ({ game, currentUsername, index, join }: { game: types.Game, currentUsername: string | null, index: number, join: any }) => {
   const gameStatus = (game.gameInfo.started ? ((game.gameInfo.finished) ? 'finished' : 'started') : 'not started');
 
   return (
@@ -19,5 +19,3 @@ Game.propTypes = {
   index: PropTypes.number.isRequired,
   join: PropTypes.func.isRequired,
 }
-
-export default Game;

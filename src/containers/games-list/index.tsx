@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import Game from '../../components/game';
+import { Game } from '../../components';
 import * as types from '../../constants';
 
 interface GamesListProps extends React.Props<{}> {

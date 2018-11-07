@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 
 import * as types from '../../constants';
 
-const UsersOnline = ({ usersOnline }: { usersOnline: types.UserOnline[] }) => {
+export const UsersOnline = ({ usersOnline }: { usersOnline: types.UserOnline[] }) => {
   return (
     <div>
       {usersOnline.map((userOnline, index) => <span key={index}>{userOnline.username} ({userOnline.openGameNumber})</span>)}
@@ -14,5 +14,3 @@ const UsersOnline = ({ usersOnline }: { usersOnline: types.UserOnline[] }) => {
 UsersOnline.propTypes = {
   usersOnline: PropTypes.array.isRequired,
 }
-
-export default UsersOnline;

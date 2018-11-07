@@ -5,6 +5,7 @@ import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 import reducers from './reducers';
 import { ZGamesApi } from './services';
@@ -15,9 +16,11 @@ const store = createStore(reducers, {}, (window as any).__REDUX_DEVTOOLS_EXTENSI
 zGamesApi.addStore(store);
 
 ReactDOM.render(
-  <Provider store={store}>
-    <App />
-  </Provider>,
+  <Router>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </Router>,
   document.getElementById('root') as HTMLElement,
 );
 registerServiceWorker();
