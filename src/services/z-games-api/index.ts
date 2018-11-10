@@ -1,4 +1,3 @@
-import { createBrowserHistory } from 'history';
 import * as io from 'socket.io-client';
 
 import {
@@ -11,6 +10,7 @@ import {
 } from '../../actions';
 import * as types from '../../constants';
 
+// const SERVER_URL = 'http://localhost:4000';
 const SERVER_URL = 'https://z-games-api-dev.herokuapp.com';
 
 export const GAMES_IMAGES: any = {
@@ -31,7 +31,7 @@ export class ZGamesApi {
   private static _instance: ZGamesApi;
   private socket;
   private store;
-  private history = createBrowserHistory();
+  private history;
 
   private constructor() {
     this.socket = io(SERVER_URL);
@@ -41,28 +41,23 @@ export class ZGamesApi {
     return this._instance || (this._instance = new this());
   }
 
-  addStore = store => {
+  setStore = store => {
     this.store = store;
-
-    this.socket.emit('getCurrentUsername');
-    this.socket.emit('getAllGamesInfo');
-    this.socket.emit('getUsersOnline');
-    this.socket.emit('getOpenGameInfo');
 
     // updates from the server
     this.socket.on('connect_error', () => {
       console.log(`socket.on('connect_error')`);
-      this.store.dispatch(updateStatus(false));
+      store.dispatch(updateStatus(false));
     });
 
     this.socket.on('connect', () => {
       console.log(`socket.on('connect')`);
-      this.store.dispatch(updateStatus(true));
+      store.dispatch(updateStatus(true));
     });
 
     this.socket.on('updateCurrentUsername', (currentUsername: string): void => {
       console.log(`socket.on('updateCurrentUsername'): ${currentUsername}`);
-      this.store.dispatch(setCurrentUsername(currentUsername));
+      store.dispatch(setCurrentUsername(currentUsername));
       this.updateOpenGameNumber();
     });
 
@@ -74,13 +69,22 @@ export class ZGamesApi {
 
     this.socket.on('updateAllGamesInfo', (allGames: types.Game[]): void => {
       console.log(`socket.on('updateAllGamesInfo'): `, allGames);
-      this.store.dispatch(updateAllGamesInfo(allGames));
+      store.dispatch(updateAllGamesInfo(allGames));
     });
 
     this.socket.on('updateOpenGameInfo', (openGameInfo: types.GameInfo): void => {
       console.log(`socket.on('updateOpenGameInfo'): `, openGameInfo);
-      this.store.dispatch(updateOpenGameInfo(openGameInfo));
+      store.dispatch(updateOpenGameInfo(openGameInfo));
     });
+
+    this.socket.emit('getCurrentUsername');
+    this.socket.emit('getAllGamesInfo');
+    this.socket.emit('getUsersOnline');
+    this.socket.emit('getOpenGameInfo');
+  }
+
+  setHistory = history => {
+    this.history = history;
   }
 
   // Accounts
@@ -128,14 +132,19 @@ export class ZGamesApi {
   updateOpenGameNumber = (): void => {
     const { currentUsername, usersOnline } = this.store.getState().users;
 
+    if (!currentUsername || !usersOnline.length) {
+      return this.history.push(`/games`);
+    }
+
     usersOnline.forEach((userOnline) => {
       if (userOnline.username === currentUsername) {
         this.store.dispatch(updateOpenGameNumber(userOnline.openGameNumber));
+
         if (userOnline.openGameNumber || userOnline.openGameNumber === 0) {
-          this.history.push(`/game/${userOnline.openGameNumber}`);
-        } else {
-          this.history.push(`/games`);
+          return this.history.push(`/game/${userOnline.openGameNumber}`);
         }
+
+        this.history.push(`/games`);
       }
     });
   };

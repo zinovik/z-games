@@ -13,7 +13,7 @@ import { ZGamesApi } from './services';
 const zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
 const store = createStore(reducers, {}, (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__());
-zGamesApi.addStore(store);
+zGamesApi.setStore(store);
 
 ReactDOM.render(
   <Router>

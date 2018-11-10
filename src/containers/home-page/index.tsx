@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 
 import { Authorization } from '../';
 import { GamesList } from '../';
-import { UsersOnline } from '../../components';
+import { UsersOnline, NewGame } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 
@@ -28,6 +28,7 @@ class HomePage extends React.Component<HomePageProps, {}> {
           signIn={this.zGamesApi.login}
           logOut={this.zGamesApi.logout}
         />
+        <NewGame newGame={this.zGamesApi.newGame} />
         <GamesList
           allGames={this.props.allGames}
           currentUsername={this.props.currentUsername}
