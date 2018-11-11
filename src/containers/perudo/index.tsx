@@ -9,163 +9,106 @@ interface PerudoProps extends React.Props<{}> {
 	move: any,
 }
 
-export class Perudo extends React.Component<PerudoProps, {}> {
-
+interface PerudoState {
 	diceNumber: number;
 	diceFigure: number;
+}
 
-	allDicesCount: number;
+export class Perudo extends React.Component<PerudoProps, PerudoState> {
+	public state = {
+		diceNumber: 0,
+		diceFigure: 0,
+	};
 
-	currentBet: String = '';
-	myBet: String = '';
-
-	myBetNumberIncDisable: Boolean;
-	myBetNumberDecDisable: Boolean;
-	myBetFigureIncDisable: Boolean;
-	myBetFigureDecDisable: Boolean;
-
-	diceNumberInc() {
-		if (!this.myBetNumberIncDisable) {
-			this.diceNumber++;
-			this.updateMyBet();
-		}
-	}
-
-	diceNumberDec() {
-		if (!this.myBetNumberDecDisable) {
-			this.diceNumber--;
-			this.updateMyBet();
-		}
-	}
-
-	diceFigureInc() {
-		if (!this.myBetFigureIncDisable) {
-			this.diceFigure++;
-			this.updateMyBet();
-		}
-	}
-
-	diceFigureDec() {
-		if (!this.myBetFigureDecDisable) {
-			this.diceFigure--;
-			this.updateMyBet();
-		}
-	}
-
-	moveBet() {
-		this.props.move({ number: this.diceNumber, figure: this.diceFigure });
-		this.diceNumber = 0;
-		this.diceFigure = 0;
+	moveBet(diceNumber: number, diceFigure: number) {
+		this.props.move({ number: diceNumber, figure: diceFigure });
+		this.setState({ diceNumber: 0, diceFigure: 0 });
 	}
 
 	moveNotBelieve() {
 		this.props.move({ notBelieve: true });
-		this.diceNumber = 0;
-		this.diceFigure = 0;
-	}
-
-	updateAllDicesCount() {
-		const {
-			game: {
-				gameInfo: {
-					players = [],
-				},
-			},
-		} = this.props;
-
-		this.allDicesCount = 0;
-
-		players.forEach(player => {
-			this.allDicesCount += player.dicesCount || 0;
-		});
-	}
-
-	updateMyBet() {
-		const {
-			game: {
-				nextPlayersNames = [],
-				gameInfo: {
-					currentDiceNumber = 0,
-					currentDiceFigure = 0,
-				},
-			},
-			currentUsername,
-		} = this.props;
-
-		if (nextPlayersNames[0] === currentUsername) {
-			if (!this.diceNumber || !this.diceFigure) {
-				this.diceNumber = 1;
-				this.diceFigure = 2;
-				if (currentDiceNumber && currentDiceFigure) {
-					this.diceNumber = currentDiceNumber + 1;
-					this.diceFigure = currentDiceFigure;
-				}
-			}
-		}
-
-		this.myBet = '';
-		for (let i = 0; i < this.diceNumber; i++) {
-			this.myBet = `${this.myBet}${DICES[this.diceFigure - 1]}`;
-		}
-
-		this.myBetNumberIncDisable = this.diceNumber >= this.allDicesCount;
-		this.myBetNumberDecDisable = this.diceNumber <= 1
-			|| this.diceNumber <= currentDiceNumber
-			|| (this.diceNumber <= currentDiceNumber + 1 && this.diceFigure <= currentDiceFigure);
-
-		this.myBetFigureIncDisable = this.diceFigure >= 6;
-		this.myBetFigureDecDisable = this.diceFigure <= 2
-			|| (this.diceNumber === currentDiceNumber && this.diceFigure <= currentDiceFigure + 1);
+		this.setState({ diceNumber: 0, diceFigure: 0 });
 	}
 
 	render() {
-		this.updateAllDicesCount();
-		this.updateMyBet();
+		const {
+			game: {
+				gameInfo: {
+					currentDiceNumber = 0,
+					currentDiceFigure = 0,
+					currentRound,
+					players = [],
+				},
+				name,
+				nextPlayersNames,
+			},
+			currentUsername
+		} = this.props;
 
-		const { game, currentUsername } = this.props;
+		let { diceNumber, diceFigure } = this.state;
+
+		if ((diceNumber === currentDiceNumber && diceFigure === currentDiceFigure)
+			|| (diceNumber < currentDiceNumber) || (diceFigure < currentDiceFigure)) {
+			diceNumber = currentDiceNumber + 1;
+			diceFigure = currentDiceFigure || 2;
+		}
+
+		const allDicesCount = players.reduce((diceCount, player) => diceCount + (player.dicesCount || 0), 0);
+
+		const myBetNumberIncDisable = diceNumber >= allDicesCount;
+		const myBetNumberDecDisable = diceNumber <= 1 || diceNumber <= currentDiceNumber || (diceNumber <= currentDiceNumber + 1 && diceFigure <= currentDiceFigure);
+		const myBetFigureIncDisable = diceFigure >= 6;
+		const myBetFigureDecDisable = diceFigure <= 2 || (diceNumber === currentDiceNumber && diceFigure <= currentDiceFigure + 1);
 
 		return (
 			<div>
 				<div>
-					{game.name}
+					{name}
 				</div>
 				<div>
-					{game.nextPlayersNames && game.nextPlayersNames[0] === currentUsername && <span>YOUR MOVE!</span>}
+					{nextPlayersNames && nextPlayersNames[0] === currentUsername && <span>YOUR MOVE!</span>}
 				</div>
 				<div>
-					Next player: {game.nextPlayersNames && game.nextPlayersNames[0]}
+					Next player: {nextPlayersNames && nextPlayersNames[0]}
 				</div>
 				<div>
 					Last round results:
 				</div>
 				<div>
-					Round: {game.gameInfo.currentRound}
+					Round: {currentRound}
 				</div>
 				<div>
-					My bet:
+					Current bet: {Array(currentDiceNumber).map(() => (DICES[(currentDiceFigure || 0) - 1]))}
 				</div>
 				<div>
-					All dices count:
+					My bet: {Array(diceNumber).map(() => (DICES[diceFigure - 1]))}
+				</div>
+				<div>
+					All dices count: {allDicesCount}
 				</div>
 				<div>
 					My dices:
 				</div>
 
-				{game.nextPlayersNames && game.nextPlayersNames[0] === currentUsername && <div>
+				{nextPlayersNames && nextPlayersNames[0] === currentUsername && <div>
+
 					Dice number:
 					<div>
-						<button>+</button>
-						{this.diceNumber}
-						<button>-</button>
+						<button onClick={() => { this.setState({ diceNumber: diceNumber - 1 }); }} disabled={myBetNumberDecDisable}>-</button>
+						{diceNumber}
+						<button onClick={() => { this.setState({ diceNumber: diceNumber + 1 }); }} disabled={myBetNumberIncDisable}>+</button>
 					</div>
+
 					Dice figure:
 					<div>
-						<button>+</button>
-						{this.diceFigure}
-						<button>-</button>
+						<button onClick={() => { this.setState({ diceFigure: diceFigure - 1 }); }} disabled={myBetFigureDecDisable}>-</button>
+						{diceFigure}
+						<button onClick={() => { this.setState({ diceFigure: diceFigure + 1 }); }} disabled={myBetFigureIncDisable}>+</button>
 					</div>
-					<button onClick={this.moveBet}>Bet</button>
-					<button onClick={this.moveNotBelieve}>Not Believe</button>
+
+					<button onClick={() => { this.moveBet(diceNumber, diceFigure); }}>Bet</button>
+					<button onClick={() => { this.moveNotBelieve(); }}>Not Believe</button>
+
 				</div>}
 			</div>
 		);

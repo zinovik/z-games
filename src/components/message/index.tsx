@@ -4,9 +4,7 @@ import * as PropTypes from 'prop-types';
 export const Message = ({ type, time, username, text }: { type: string, time: number, username: string, text: string }) => {
   return (
     <div>
-      {type === 'message' &&
-        <span>{username}: </span>
-      }
+      {type === 'move' ? <span>{username} </span> : <span>{username}: </span>}
       <span>{text} </span>
       <span>({time})</span>
     </div>
