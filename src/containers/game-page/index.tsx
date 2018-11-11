@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { NoThanks, Perudo } from '..';
+import { NoThanks, Perudo, Chat } from '..';
 import { GameInfo } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
@@ -19,6 +19,7 @@ class GamePage extends React.Component<GamePageProps, {}> {
 
 
   render() {
+    const { currentUsername } = this.props;
     const game = this.props.allGames[this.props.match.params.id];
 
     return (
@@ -32,8 +33,9 @@ class GamePage extends React.Component<GamePageProps, {}> {
             ready={this.zGamesApi.readyToGame}
             start={this.zGamesApi.startGame}
           />}
-        {game && game.name === 'No, Thanks!' && <NoThanks game={game} currentUsername={this.props.currentUsername} move={this.zGamesApi.move} />}
-        {game && game.name === 'Perudo' && <Perudo game={game} currentUsername={this.props.currentUsername} move={this.zGamesApi.move} />}
+        {game && game.name === 'No, Thanks!' && <NoThanks game={game} currentUsername={currentUsername} move={this.zGamesApi.move} />}
+        {game && game.name === 'Perudo' && <Perudo game={game} currentUsername={currentUsername} move={this.zGamesApi.move} />}
+        {game && game.logNchat && <Chat messages={game.logNchat} newMessage={this.zGamesApi.message} />}
       </div>
     );
   }

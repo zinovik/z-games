@@ -72,9 +72,9 @@ export class ZGamesApi {
       store.dispatch(updateAllGamesInfo(allGames));
     });
 
-    this.socket.on('updateOpenGameInfo', (openGameInfo: types.GameInfo): void => {
-      console.log(`socket.on('updateOpenGameInfo'): `, openGameInfo);
-      store.dispatch(updateOpenGameInfo(openGameInfo));
+    this.socket.on('updateOpenGameInfo', (openGame: types.Game): void => {
+      console.log(`socket.on('updateOpenGameInfo'): `, openGame);
+      store.dispatch(updateOpenGameInfo(openGame));
     });
 
     this.socket.emit('getCurrentUsername');
