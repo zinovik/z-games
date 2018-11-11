@@ -26,10 +26,10 @@ export const GameInfo = ({ game, leave, ready, start }: { game: types.Game, leav
       <div>
         Maximum players in this game: {game.gameInfo.PLAYERS_MAX}
       </div>
-      <div>
+      {!game.gameInfo.started && <div>
         <button onClick={ready}>Ready</button>
         <button onClick={start}>Start</button>
-      </div>
+      </div>}
     </div>
   );
 }

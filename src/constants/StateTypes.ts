@@ -12,19 +12,20 @@ export interface UserOnline {
 
 export interface GamesState {
   allGames: Game[];
-  openGameInfo: GameInfo | null;
+  openGame: Game | null;
   openGameNumber: number | null;
 }
 
 export interface Game {
   gameInfo: GameInfo;
-  logNchat?: Message[];
   name: string;
-  nextPlayersNames?: any[];
   players: Player[];
-  rules?: string;
   timeStarted: number;
   watchers: any[];
+
+  logNchat?: Message[];
+  nextPlayersNames?: any[];
+  rules?: string;
 }
 
 export interface GameInfo {
@@ -33,6 +34,18 @@ export interface GameInfo {
   finished: boolean;
   nextPlayers: number[];
   started: boolean;
+
+  players?: PlayerInGame[];
+
+  cardsLeft?: number;
+  currentCard?: number;
+  currentCardCost?: number;
+
+  currentDiceFigure?: number;
+  currentDiceNumber?: number;
+  currentRound?: number;
+  lastPlayerNumber?: number;
+  lastRoundResults?: any;
 }
 
 export interface Player {
@@ -45,4 +58,15 @@ export interface Message {
   time: number;
   username: string;
   text: string;
+}
+
+export interface PlayerInGame {
+  place: number;
+
+  cards?: number[];
+  chips?: number;
+  points?: number;
+
+  dicesCount?: number;
+  dices?: number[];
 }
