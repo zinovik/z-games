@@ -20,7 +20,7 @@ export const updateAllGamesInfo = (allGames: types.Game[]) => ({
   allGames,
 });
 
-export const updateOpenGameInfo = (openGameInfo: types.GameInfo) => ({
+export const updateOpenGameInfo = (openGameInfo: types.Game) => ({
   type: types.UPDATE_OPEN_GAME_INFO,
   openGameInfo,
 });

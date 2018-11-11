@@ -18,8 +18,11 @@ export interface GamesState {
 
 export interface Game {
   gameInfo: GameInfo;
+  logNchat?: Message[];
   name: string;
+  nextPlayersNames?: any[];
   players: Player[];
+  rules?: string;
   timeStarted: number;
   watchers: any[];
 }
@@ -35,4 +38,11 @@ export interface GameInfo {
 export interface Player {
   username: string;
   ready: boolean;
+}
+
+export interface Message {
+  type: string;
+  time: number;
+  username: string;
+  text: string;
 }

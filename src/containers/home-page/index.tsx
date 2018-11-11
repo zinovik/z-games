@@ -28,7 +28,7 @@ class HomePage extends React.Component<HomePageProps, {}> {
           signIn={this.zGamesApi.login}
           logOut={this.zGamesApi.logout}
         />
-        <NewGame newGame={this.zGamesApi.newGame} />
+        {this.props.currentUsername && <NewGame newGame={this.zGamesApi.newGame} />}
         <GamesList
           allGames={this.props.allGames}
           currentUsername={this.props.currentUsername}
