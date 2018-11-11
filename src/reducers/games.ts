@@ -2,7 +2,7 @@ import * as types from '../constants';
 
 const initialState = {
   allGames: [],
-  openGameInfo: null,
+  openGame: null,
   openGameNumber: null,
 };
 
@@ -10,7 +10,7 @@ const games = (state: types.GamesState = initialState, action): types.GamesState
 
   switch (action.type) {
 
-    case types.UPDATE_ALL_GAMES_INFO:
+    case types.UPDATE_ALL_GAMES:
       if ((state.openGameNumber || state.openGameNumber === 0)
         && state.allGames
         && state.allGames[state.openGameNumber]
@@ -19,11 +19,12 @@ const games = (state: types.GamesState = initialState, action): types.GamesState
         return {
           ...state,
           allGames: action.allGames.map((gameInfo, gameNumber) => {
+
             if (gameNumber === state.openGameNumber) {
               return { ...state.allGames[gameNumber] };
-            } else {
-              return { ...gameInfo };
             }
+
+            return { ...gameInfo };
           }),
         };
       }
@@ -32,18 +33,19 @@ const games = (state: types.GamesState = initialState, action): types.GamesState
         allGames: [...action.allGames],
       };
 
-    case types.UPDATE_OPEN_GAME_INFO:
+    case types.UPDATE_OPEN_GAME:
       if (state.openGameNumber || state.openGameNumber === 0) {
         return {
           ...state,
-          allGames: state.allGames.map((gameInfo, gameNumber) => {
+          allGames: state.allGames.map((game, gameNumber) => {
+
             if (gameNumber === state.openGameNumber) {
-              return { ...action.openGameInfo };
-            } else {
-              return { ...gameInfo };
+              return { ...action.openGame };
             }
+
+            return { ...game };
           }),
-          openGameInfo: { ...action.openGameInfo },
+          openGame: { ...action.openGame },
         };
       }
       return state;
@@ -52,7 +54,7 @@ const games = (state: types.GamesState = initialState, action): types.GamesState
       return {
         ...state,
         openGameNumber: action.openGameNumber,
-        openGameInfo: action.openGameNumber ? { ...state.allGames[action.openGameNumber]!.gameInfo } : null,
+        openGame: action.openGameNumber ? { ...state.allGames[action.openGameNumber] } : null,
       };
 
     default:

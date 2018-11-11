@@ -15,14 +15,14 @@ export const updateUsersOnline = (usersOnline: types.UserOnline[]) => ({
   usersOnline,
 });
 
-export const updateAllGamesInfo = (allGames: types.Game[]) => ({
-  type: types.UPDATE_ALL_GAMES_INFO,
+export const updateAllGames = (allGames: types.Game[]) => ({
+  type: types.UPDATE_ALL_GAMES,
   allGames,
 });
 
-export const updateOpenGameInfo = (openGameInfo: types.Game) => ({
-  type: types.UPDATE_OPEN_GAME_INFO,
-  openGameInfo,
+export const updateOpenGame = (openGame: types.Game) => ({
+  type: types.UPDATE_OPEN_GAME,
+  openGame,
 });
 
 export const updateOpenGameNumber = (openGameNumber: number) => ({

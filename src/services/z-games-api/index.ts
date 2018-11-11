@@ -4,8 +4,8 @@ import {
   updateStatus,
   setCurrentUsername,
   updateUsersOnline,
-  updateAllGamesInfo,
-  updateOpenGameInfo,
+  updateAllGames,
+  updateOpenGame,
   updateOpenGameNumber,
 } from '../../actions';
 import * as types from '../../constants';
@@ -69,12 +69,12 @@ export class ZGamesApi {
 
     this.socket.on('updateAllGamesInfo', (allGames: types.Game[]): void => {
       console.log(`socket.on('updateAllGamesInfo'): `, allGames);
-      store.dispatch(updateAllGamesInfo(allGames));
+      store.dispatch(updateAllGames(allGames));
     });
 
     this.socket.on('updateOpenGameInfo', (openGame: types.Game): void => {
       console.log(`socket.on('updateOpenGameInfo'): `, openGame);
-      store.dispatch(updateOpenGameInfo(openGame));
+      store.dispatch(updateOpenGame(openGame));
     });
 
     this.socket.emit('getCurrentUsername');
@@ -117,7 +117,7 @@ export class ZGamesApi {
     this.socket.emit('startgame');
   }
 
-  move = (move: any): void => {
+  move = (move: { takeCard?: boolean, number?: number, figure?: number, notBelieve?: boolean }): void => {
     this.socket.emit('move', move);
   }
 
