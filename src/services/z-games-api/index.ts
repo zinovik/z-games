@@ -35,6 +35,7 @@ export class ZGamesApi {
 
   private constructor() {
     this.socket = io(SERVER_URL);
+    fetch(SERVER_URL, { credentials: 'include' }).catch(() => { });
   }
 
   public static get Instance() {

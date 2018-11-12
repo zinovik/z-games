@@ -54,7 +54,7 @@ const games = (state: types.GamesState = initialState, action): types.GamesState
       return {
         ...state,
         openGameNumber: action.openGameNumber,
-        openGame: action.openGameNumber ? { ...state.allGames[action.openGameNumber] } : null,
+        openGame: (action.openGameNumber || action.openGameNumber === 0) ? { ...state.allGames[action.openGameNumber] } : null,
       };
 
     default:
