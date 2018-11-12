@@ -25,7 +25,7 @@ class GamePage extends React.Component<GamePageProps, {}> {
       <div>
         {this.props.connected && <div>connected</div>}
         {this.props.match.params.id}
-        {game && <div>
+        {game && game.gameInfo && <div>
           <GameInfo
             game={game}
             leave={this.zGamesApi.leaveGame}

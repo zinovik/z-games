@@ -11,14 +11,16 @@ interface GamesListProps extends React.Props<{}> {
 
 export class GamesList extends React.Component<GamesListProps, {}> {
 	render() {
+		const { allGames, currentUsername, joinGame } = this.props;
+
 		return (
 			<div>
-				{this.props.allGames.map((game, index) => (
+				{allGames.map((game, index) => (
 					<Game
 						game={game}
-						currentUsername={this.props.currentUsername}
+						currentUsername={currentUsername}
 						index={index}
-						join={() => { this.props.joinGame(index); }}
+						join={() => { joinGame(index); }}
 						key={index}
 					/>)
 				)}
