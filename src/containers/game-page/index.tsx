@@ -17,28 +17,39 @@ interface GamePageProps extends React.Props<{}> {
 class GamePage extends React.Component<GamePageProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
-
   render() {
     const { currentUsername, game } = this.props;
 
     return (
       <div>
+
         {this.props.connected && <div>connected</div>}
+
         {this.props.match.params.id}
+
         {game && game.gameInfo && <div>
-          <GameInfo
-            game={game}
-            leave={this.zGamesApi.leaveGame}
-            ready={this.zGamesApi.readyToGame}
-            start={this.zGamesApi.startGame}
-          />
-          {game.gameInfo.started && !game.gameInfo.finished && <div>
-            {game.name === 'No, Thanks!' && <NoThanks game={game} currentUsername={currentUsername} move={this.zGamesApi.move} />}
-            {game.name === 'Perudo' && <Perudo game={game} currentUsername={currentUsername} move={this.zGamesApi.move} />}
-          </div>}
-          {game.gameInfo.finished && <GameResults players={game.players} playersInGame={game.gameInfo.players || []} />}
-          {game.logNchat && <Chat messages={game.logNchat} newMessage={this.zGamesApi.message} />}
+          <React.Fragment>
+            <GameInfo
+              game={game}
+              leave={this.zGamesApi.leaveGame}
+              ready={this.zGamesApi.readyToGame}
+              start={this.zGamesApi.startGame}
+            />
+          </React.Fragment>
+
+          <React.Fragment>
+            {game.gameInfo.started && !game.gameInfo.finished && <div>
+              {game.name === types.NO_THANKS && <NoThanks game={game} currentUsername={currentUsername} move={this.zGamesApi.move} />}
+              {game.name === types.PERUDO && <Perudo game={game} currentUsername={currentUsername} move={this.zGamesApi.move} />}
+            </div>}
+            {game.gameInfo.finished && <GameResults game={game.name} players={game.players} playersInGame={game.gameInfo.players || []} />}
+          </React.Fragment>
+
+          <React.Fragment>
+            {game.logNchat && <Chat messages={game.logNchat} newMessage={this.zGamesApi.message} />}
+          </React.Fragment>
         </div>}
+
       </div>
     );
   }
@@ -58,5 +69,5 @@ const mapDispatchToProps = {
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(GamePage);

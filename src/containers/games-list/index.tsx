@@ -15,12 +15,12 @@ export class GamesList extends React.Component<GamesListProps, {}> {
 
 		return (
 			<div>
-				{allGames.map((game, index) => (
+				{allGames.reverse().map((game, index) => (
 					<Game
 						game={game}
 						currentUsername={currentUsername}
-						index={index}
-						join={() => { joinGame(index); }}
+						index={allGames.length - index - 1}
+						join={() => { joinGame(allGames.length - index - 1); }}
 						key={index}
 					/>)
 				)}

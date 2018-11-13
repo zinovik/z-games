@@ -1,21 +1,42 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import { Button, Input } from '@material-ui/core';
 
-export const Authorize = ({ onSignInClick, onSignUpClick }) => {
-  let username;
-  let password;
-
-  return (
-    <div>
-      <input type="email" placeholder="Username" ref={node => (username = node)} />
-      <input type="password" placeholder="Password" ref={node => (password = node)} />
-      <button onClick={() => { onSignInClick(username.value, password.value); }}>Sign in</button>
-      <button onClick={() => { onSignUpClick(username.value, password.value); }}>Sign up</button>
-    </div>
-  );
+interface AuthorizeProps extends React.Props<{}> {
+  onSignInClick: any,
+  onSignUpClick: any,
 }
 
-Authorize.propTypes = {
-  onSignInClick: PropTypes.func.isRequired,
-  onSignUpClick: PropTypes.func.isRequired,
+export class Authorize extends React.Component<AuthorizeProps, {}> {
+  static propTypes = {
+    onSignInClick: PropTypes.func.isRequired,
+    onSignUpClick: PropTypes.func.isRequired,
+  }
+
+  state = {
+    username: '',
+    password: '',
+  };
+
+  handleUsernameChange = (e) => {
+    this.setState({ username: e.target.value });
+  };
+
+  handlePasswordChange = (e) => {
+    this.setState({ password: e.target.value });
+  };
+
+  render() {
+    const { onSignInClick, onSignUpClick } = this.props;
+    const { username, password } = this.state;
+
+    return (
+      <div>
+        <Input type="email" placeholder="Username" onChange={this.handleUsernameChange} />
+        <Input type="password" placeholder="Password" onChange={this.handlePasswordChange} />
+        <Button variant='contained' color='primary' onClick={() => { onSignInClick(username, password); }}>Sign in</Button>
+        <Button variant='contained' color='primary' onClick={() => { onSignUpClick(username, password); }}>Sign up</Button>
+      </div>
+    );
+  }
 }

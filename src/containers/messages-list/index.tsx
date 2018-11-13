@@ -9,9 +9,11 @@ interface MessagesListProps extends React.Props<{}> {
 
 export class MessagesList extends React.Component<MessagesListProps, {}> {
   render() {
+    const { messages } = this.props;
+
     return (
       <div>
-        {this.props.messages.map((message, index) => (
+        {messages.reverse().map((message, index) => (
           <div key={index}>
             <Message
               type={message.type}
