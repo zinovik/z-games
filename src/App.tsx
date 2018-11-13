@@ -7,7 +7,7 @@ import GamePage from './containers/game-page';
 import { ZGamesApi } from './services';
 import './App.css';
 
-class App extends React.Component {
+class App extends React.Component<{}, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
   constructor(props) {

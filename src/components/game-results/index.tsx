@@ -5,13 +5,18 @@ import * as types from '../../constants';
 
 interface Result {
   username: string;
+  place: number,
+
   cards: number[],
   chips: number,
   points: number,
-  place: number,
+
+  dicesCount: number,
 }
 
-export const GameResults = ({ players, playersInGame }: { players: types.Player[], playersInGame: types.PlayerInGame[] }) => {
+export const GameResults = ({ game, players, playersInGame }: { game: string, players: types.Player[], playersInGame: types.PlayerInGame[] }) => {
+
+  console.log(game, playersInGame);
 
   const results: Result[] = playersInGame.map((playerInGame, index) => {
     return {
@@ -20,6 +25,7 @@ export const GameResults = ({ players, playersInGame }: { players: types.Player[
       chips: playerInGame.chips || 0,
       points: playerInGame.points || 0,
       place: playerInGame.place,
+      dicesCount: playerInGame.dicesCount || 0,
     };
   });
 
@@ -34,7 +40,9 @@ export const GameResults = ({ players, playersInGame }: { players: types.Player[
     <div>
       {results.map((result, index) => (
         <div key={index}>
-          {result.place} place - {result.username} ({result.points} points)
+          {result.place} place - {result.username}
+          {game === types.NO_THANKS && <span>({result.points} points)</span>}
+          {game === types.PERUDO && result.dicesCount ? <span>(dices remaining: {result.dicesCount})</span> : ''}
         </div>
       ))}
     </div>
@@ -42,6 +50,7 @@ export const GameResults = ({ players, playersInGame }: { players: types.Player[
 }
 
 GameResults.propTypes = {
+  game: PropTypes.string.isRequired,
   players: PropTypes.array.isRequired,
   playersInGame: PropTypes.array.isRequired,
 }

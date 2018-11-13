@@ -1,17 +1,33 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import { Button, Input } from '@material-ui/core';
 
-export const NewMessage = ({ newMessage }: { newMessage: any }) => {
-  let message;
-
-  return (
-    <div>
-      <input type="text" placeholder="Message" ref={node => (message = node)} />
-      <button onClick={() => { newMessage(message.value); }}>Send</button>
-    </div>
-  );
+interface NewMessageProps extends React.Props<{}> {
+  newMessage: any,
 }
 
-NewMessage.propTypes = {
-  newMessage: PropTypes.func.isRequired,
+export class NewMessage extends React.Component<NewMessageProps, {}> {
+  static propTypes = {
+    newMessage: PropTypes.func.isRequired,
+  }
+
+  state = {
+    message: '',
+  };
+
+  handleMessageChange = (e) => {
+    this.setState({ message: e.target.value });
+  };
+
+  render() {
+    const { newMessage } = this.props;
+    const { message } = this.state;
+
+    return (
+      <div>
+        <Input type="text" placeholder="Message" onChange={this.handleMessageChange} />
+        <Button variant='contained' color='primary' onClick={() => { newMessage(message); }}>Send</Button>
+      </div>
+    );
+  }
 }

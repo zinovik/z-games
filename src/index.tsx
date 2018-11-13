@@ -6,6 +6,7 @@ import registerServiceWorker from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { BrowserRouter as Router } from 'react-router-dom';
+import 'typeface-roboto';
 
 import reducers from './reducers';
 import { ZGamesApi } from './services';

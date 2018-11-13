@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Button } from '@material-ui/core';
 
 import { CHIP } from '../../services';
 import * as types from '../../constants';
@@ -11,35 +12,51 @@ interface NoThanksProps extends React.Props<{}> {
 
 export class NoThanks extends React.Component<NoThanksProps, {}> {
 	render() {
-		const { game, currentUsername, move } = this.props;
+		const {
+			game: {
+				gameInfo: {
+					cardsLeft,
+					currentCard,
+					currentCardCost,
+					players: playersInGame = [],
+				},
+				name,
+				nextPlayersNames,
+				players,
+			},
+			currentUsername,
+			move,
+		} = this.props;
+
+		const myTurn = nextPlayersNames && nextPlayersNames.indexOf(currentUsername) >= 0;
 
 		return (
 			<div>
 				<div>
-					{game.name}
+					{name}
 				</div>
 				<div>
-					{game.nextPlayersNames && game.nextPlayersNames[0] === currentUsername && <span>YOUR MOVE!</span>}
+					{myTurn && <span>YOUR MOVE!</span>}
 				</div>
 				<div>
-					Next player: {game.nextPlayersNames && game.nextPlayersNames[0]}
+					Next player: {nextPlayersNames && nextPlayersNames[0]}
 				</div>
 				<div>
-					Cards left: {game.gameInfo.cardsLeft}
+					Cards left: {cardsLeft}
 				</div>
 				<div>
-					Current card: {game.gameInfo.currentCard}
+					Current card: {currentCard}
 				</div>
 				<div>
-					({game.gameInfo.currentCardCost})
+					{Array((currentCardCost || 0) + 1).join(CHIP)} ({currentCardCost})
 				</div>
 
-				{(game.gameInfo.players || []).map((player, index) => (
+				{playersInGame.map((playerInGame, index) => (
 					<div key={index}>
-						{game.players[index].username !== currentUsername && <div key={index}>
-							{game.players[index].username}:
-							{(player.cards || []).map((card, index) => (
-								<span key={index}>
+						{players[index].username !== currentUsername && <div key={index}>
+							{players[index].username}:
+							{(playerInGame.cards || []).map((card, i) => (
+								<span key={i}>
 									{card},
 								</span>
 							))}
@@ -47,30 +64,30 @@ export class NoThanks extends React.Component<NoThanksProps, {}> {
 					</div>
 				))}
 
-				{(game.gameInfo.players || []).map((player, index) => (
+				{playersInGame.map((playerInGame, index) => (
 					<div key={index}>
-						{(game.players[index].username === currentUsername) && <div>
+						{(players[index].username === currentUsername) && <div>
 							<div>
-								My chips: {Array(player.chips).map(() => ({CHIP}))} ({player.chips})
+								My chips: {Array((playerInGame.chips || 0) + 1).join(CHIP)} ({playerInGame.chips})
 							</div>
 							<div>
 								My cards:
-								{(player.cards || []).map((card, index) => (
-									<span key={index}>
+								{(playerInGame.cards || []).map((card, i) => (
+									<span key={i}>
 										{card},
 									</span>
 								))}
 							</div>
 							<div>
-								My points: {player.points}
+								My points: {playerInGame.points}
 							</div>
 						</div>}
 					</div>
 				))}
 
-				{game.nextPlayersNames && game.nextPlayersNames[0] === currentUsername && <div>
-					<button onClick={() => { move({ takeCard: false }); }}>Pay</button>
-					<button onClick={() => { move({ takeCard: true }); }}>Take</button>
+				{myTurn && <div>
+					<Button variant='contained' color='primary' onClick={() => { move({ takeCard: false }); }}>Pay</Button>
+					<Button variant='contained' color='primary' onClick={() => { move({ takeCard: true }); }}>Take</Button>
 				</div>}
 			</div>
 		);

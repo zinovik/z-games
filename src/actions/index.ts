@@ -1,6 +1,6 @@
 import * as types from '../constants';
 
-export const updateStatus = connected => ({
+export const updateStatus = (connected: boolean) => ({
   type: types.UPDATE_STATUS,
   connected,
 });
@@ -11,8 +11,8 @@ export const setCurrentUsername = (currentUsername: string) => ({
 });
 
 export const updateUsersOnline = (usersOnline: types.UserOnline[]) => ({
-  type: types.UPDATE_USERS_ONLINE,
   usersOnline,
+  type: types.UPDATE_USERS_ONLINE,
 });
 
 export const updateAllGames = (allGames: types.Game[]) => ({

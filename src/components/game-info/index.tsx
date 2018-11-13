@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import { Button } from '@material-ui/core';
 
 import * as types from '../../constants';
 
@@ -9,13 +10,13 @@ export const GameInfo = ({ game, leave, ready, start }: { game: types.Game, leav
   return (
     <div>
       <div>
-        {game.name}
+        Game name: {game.name}
       </div>
       <div>
-        {gameStatus}
+        Game status: {gameStatus}
       </div>
       <div>
-        <button onClick={leave}>Leave</button>
+        <Button variant='contained' color='primary' onClick={leave}>Leave</Button>
       </div>
       <div>
         Players: {game.players.map((player, index) => (<span key={index}>{player.username}: {player.ready ? 'ready' : 'not ready'}, </span>))}
@@ -27,8 +28,8 @@ export const GameInfo = ({ game, leave, ready, start }: { game: types.Game, leav
         Maximum players in this game: {game.gameInfo.PLAYERS_MAX}
       </div>
       {!game.gameInfo.started && <div>
-        <button onClick={ready}>Ready</button>
-        <button onClick={start}>Start</button>
+        <Button variant='contained' color='primary' onClick={ready}>Ready</Button>
+        <Button variant='contained' color='primary' onClick={start}>Start</Button>
       </div>}
     </div>
   );

@@ -28,18 +28,18 @@ export const DICES: string[] = [
 ];
 
 export class ZGamesApi {
-  private static _instance: ZGamesApi;
+  private static instance: ZGamesApi;
   private socket;
   private store;
   private history;
 
   private constructor() {
     this.socket = io(SERVER_URL);
-    fetch(SERVER_URL, { credentials: 'include' }).catch(() => { });
+    fetch(SERVER_URL, { credentials: 'include' });
   }
 
   public static get Instance() {
-    return this._instance || (this._instance = new this());
+    return this.instance || (this.instance = new this());
   }
 
   setStore = store => {

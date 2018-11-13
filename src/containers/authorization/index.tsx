@@ -4,9 +4,9 @@ import { Authorize, CurrentUser } from '../../components';
 
 interface AuthorizationProps extends React.Props<{}> {
 	currentUsername: string,
-	signIn: Function,
-	signUp: Function,
-	logOut: Function,
+	signIn: (username: string, password: string) => void,
+	signUp: (username: string, password: string) => void,
+	logOut: () => void,
 }
 
 export class Authorization extends React.Component<AuthorizationProps, {}> {
