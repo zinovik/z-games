@@ -6,7 +6,7 @@ import * as types from '../../constants';
 
 interface NoThanksProps extends React.Props<{}> {
 	game: types.Game,
-	currentUsername: string | null,
+	currentUsername: string | '',
 	move: any,
 }
 
@@ -29,6 +29,13 @@ export class NoThanks extends React.Component<NoThanksProps, {}> {
 		} = this.props;
 
 		const myTurn = nextPlayersNames && nextPlayersNames.indexOf(currentUsername) >= 0;
+
+		let myChips = 0;
+		players.forEach((player, index) => {
+			if (player.username === currentUsername) {
+				myChips = playersInGame[index] && playersInGame[index].chips || 0;
+			}
+		});
 
 		return (
 			<div>
@@ -68,7 +75,7 @@ export class NoThanks extends React.Component<NoThanksProps, {}> {
 					<div key={index}>
 						{(players[index].username === currentUsername) && <div>
 							<div>
-								My chips: {Array((playerInGame.chips || 0) + 1).join(CHIP)} ({playerInGame.chips})
+								My chips: {Array(myChips + 1).join(CHIP)} ({myChips})
 							</div>
 							<div>
 								My cards:
@@ -86,7 +93,14 @@ export class NoThanks extends React.Component<NoThanksProps, {}> {
 				))}
 
 				{myTurn && <div>
-					<Button variant='contained' color='primary' onClick={() => { move({ takeCard: false }); }}>Pay</Button>
+					<Button
+						variant='contained'
+						color='primary'
+						onClick={() => { move({ takeCard: false }); }}
+						disabled={!myChips}
+					>
+						Pay
+					</Button>
 					<Button variant='contained' color='primary' onClick={() => { move({ takeCard: true }); }}>Take</Button>
 				</div>}
 			</div>

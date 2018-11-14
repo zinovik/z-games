@@ -5,11 +5,19 @@ import { Button } from '@material-ui/core';
 import * as types from '../../constants';
 
 export const NewGame = ({ newGame }: { newGame: any }) => {
+  const handleNewNoThanksGame = () => {
+    newGame(types.NO_THANKS);
+  };
+
+  const handleNewPerudoGame = () => {
+    newGame(types.NO_THANKS);
+  };
+
   return (
     <div>
       New game
-      <Button variant='contained' color='primary' onClick={() => { newGame(types.NO_THANKS); }}>{types.NO_THANKS}</Button>
-      <Button variant='contained' color='primary' onClick={() => { newGame(types.PERUDO); }}>{types.PERUDO}</Button>
+      <Button variant='contained' color='primary' onClick={handleNewNoThanksGame}>{types.NO_THANKS}</Button>
+      <Button variant='contained' color='primary' onClick={handleNewPerudoGame}>{types.PERUDO}</Button>
     </div>
   );
 }

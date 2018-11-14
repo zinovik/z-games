@@ -13,7 +13,7 @@ export class MessagesList extends React.Component<MessagesListProps, {}> {
 
     return (
       <div>
-        {messages.reverse().map((message, index) => (
+        {[...messages].reverse().map((message, index) => (
           <div key={index}>
             <Message
               type={message.type}
