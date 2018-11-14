@@ -19,14 +19,19 @@ export class NewMessage extends React.Component<NewMessageProps, {}> {
     this.setState({ message: e.target.value });
   };
 
-  render() {
+  handleNewMessageClick = () => {
     const { newMessage } = this.props;
     const { message } = this.state;
+
+    newMessage(message);
+  };
+
+  render() {
 
     return (
       <div>
         <Input type="text" placeholder="Message" onChange={this.handleMessageChange} />
-        <Button variant='contained' color='primary' onClick={() => { newMessage(message); }}>Send</Button>
+        <Button variant='contained' color='primary' onClick={this.handleNewMessageClick}>Send</Button>
       </div>
     );
   }

@@ -6,7 +6,9 @@ import * as types from '../../constants';
 export const UsersOnline = ({ usersOnline }: { usersOnline: types.UserOnline[] }) => {
   return (
     <div>
-      {usersOnline.map((userOnline, index) => <span key={index}>{userOnline.username} ({userOnline.openGameNumber})</span>)}
+      {usersOnline.map((userOnline, index) => (
+        <span key={index}>{userOnline.username} ({userOnline.currentGames.join(', ')})</span>)
+      )}
     </div>
   );
 }

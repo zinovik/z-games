@@ -7,6 +7,8 @@ import * as types from '../../constants';
 export const GameInfo = ({ game, leave, ready, start }: { game: types.Game, leave: any, ready: any, start: any }) => {
   const gameStatus = (game.gameInfo.started ? ((game.gameInfo.finished) ? 'finished' : 'started') : 'not started');
 
+  const label = game.gameInfo.started ? 'Close' : 'Leave';
+
   return (
     <div>
       <div>
@@ -16,7 +18,7 @@ export const GameInfo = ({ game, leave, ready, start }: { game: types.Game, leav
         Game status: {gameStatus}
       </div>
       <div>
-        <Button variant='contained' color='primary' onClick={leave}>Leave</Button>
+        <Button variant='contained' color='primary' onClick={leave}>{label}</Button>
       </div>
       <div>
         Players: {game.players.map((player, index) => (<span key={index}>{player.username}: {player.ready ? 'ready' : 'not ready'}, </span>))}

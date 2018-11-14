@@ -33,25 +33,24 @@ export class ZGamesApi {
   private store;
   private history;
 
-  private constructor() {
-    this.socket = io(SERVER_URL);
-    fetch(SERVER_URL, { credentials: 'include' });
-  }
-
   public static get Instance() {
     return this.instance || (this.instance = new this());
   }
 
-  setStore = store => {
+  setStore = async store => {
+    await fetch(`${SERVER_URL}/api`, { credentials: 'include' });
+
+    this.socket = io(SERVER_URL);
+
     this.store = store;
 
     // updates from the server
-    this.socket.on('connect_error', () => {
+    this.socket.on('connect_error', (): void => {
       console.log(`socket.on('connect_error')`);
       store.dispatch(updateStatus(false));
     });
 
-    this.socket.on('connect', () => {
+    this.socket.on('connect', (): void => {
       console.log(`socket.on('connect')`);
       store.dispatch(updateStatus(true));
     });

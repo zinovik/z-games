@@ -11,8 +11,8 @@ export const setCurrentUsername = (currentUsername: string) => ({
 });
 
 export const updateUsersOnline = (usersOnline: types.UserOnline[]) => ({
-  usersOnline,
   type: types.UPDATE_USERS_ONLINE,
+  usersOnline,
 });
 
 export const updateAllGames = (allGames: types.Game[]) => ({

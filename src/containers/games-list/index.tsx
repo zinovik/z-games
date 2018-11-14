@@ -15,7 +15,7 @@ export class GamesList extends React.Component<GamesListProps, {}> {
 
 		return (
 			<div>
-				{allGames.reverse().map((game, index) => (
+				{[...allGames].reverse().map((game, index) => (
 					<Game
 						game={game}
 						currentUsername={currentUsername}
