@@ -10,8 +10,7 @@ import {
 } from '../../actions';
 import * as types from '../../constants';
 
-// const SERVER_URL = 'http://localhost:4000';
-const SERVER_URL = 'https://z-games-api-dev.herokuapp.com';
+const SERVER_URL = ((window as any).envs && (window as any).envs.SERVER_URL) || 'http://localhost:4000';
 
 export const GAMES_IMAGES: any = {
   'No, Thanks!': `${SERVER_URL}/images/No,%20Thanks!.png`,
