@@ -87,8 +87,32 @@ export class ZGamesApi {
   }
 
   // Accounts
-  register = (username: string, password: string): void => {
-    this.socket.emit('register', username, password);
+  register = async (email: string, password: string): Promise<any> => {
+    // const fetchResult = await fetch(`${SERVER_URL}/api/users`, {
+    //   method: 'post',
+    //   body: JSON.stringify({
+    //     email,
+    //     password,
+    //   }),
+    //   credentials: 'include',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    // });
+
+    // const parseResult = await fetchResult.json();
+
+    // if (parseResult.email) {
+    //   alert(`Check ${parseResult.email}`);
+    // }
+
+    // if (parseResult.errors) {
+    //   alert(parseResult.message);
+    // }
+
+    // return parseResult;
+
+    this.socket.emit('register', email, password);
   };
 
   login = (username: string, password: string): void => {
