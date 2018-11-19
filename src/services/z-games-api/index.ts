@@ -37,9 +37,12 @@ export class ZGamesApi {
   }
 
   setStore = async store => {
-    await fetch(`${SERVER_URL}/api`, { credentials: 'include' });
 
-    this.socket = io(SERVER_URL);
+    const token = localStorage.getItem('token');
+
+    this.socket = io(SERVER_URL, {
+      query: { token },
+    });
 
     this.store = store;
 
@@ -88,39 +91,55 @@ export class ZGamesApi {
 
   // Accounts
   register = async (email: string, password: string): Promise<any> => {
-    // const fetchResult = await fetch(`${SERVER_URL}/api/users`, {
-    //   method: 'post',
-    //   body: JSON.stringify({
-    //     email,
-    //     password,
-    //   }),
-    //   credentials: 'include',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // });
+    const fetchResult = await fetch(`${SERVER_URL}/api/users`, {
+      method: 'post',
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 
-    // const parseResult = await fetchResult.json();
+    const parseResult = await fetchResult.json();
 
-    // if (parseResult.email) {
-    //   alert(`Check ${parseResult.email}`);
-    // }
-
-    // if (parseResult.errors) {
-    //   alert(parseResult.message);
-    // }
-
-    // return parseResult;
-
-    this.socket.emit('register', email, password);
+    return parseResult;
   };
 
-  login = (username: string, password: string): void => {
-    this.socket.emit('authorize', username, password);
+  login = async (email: string, password: string): Promise<any> => {
+    const fetchResult = await fetch(`${SERVER_URL}/api/users/authorize`, {
+      method: 'post',
+      body: JSON.stringify({
+        email,
+        password,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const token = fetchResult.headers.get('Authorization');
+
+    if (token) {
+      localStorage.setItem('token', token);
+      this.socket.query.token = token;
+
+      this.store.dispatch(setCurrentUsername(email));
+      this.updateOpenGameNumber();
+    }
+
+    const parseResult = await fetchResult.json();
+
+    return parseResult;
   };
 
   logout = (): void => {
+    localStorage.setItem('token', '');
+
     this.socket.emit('logout');
+
+    delete this.socket.query.token;
   };
 
 
@@ -150,6 +169,10 @@ export class ZGamesApi {
 
   newGame = (gameName: string): void => {
     this.socket.emit('newgame', gameName);
+  }
+
+  setToken = (token: string): void => {
+    this.socket.socket.options.query.token = token;
   }
 
   updateOpenGameNumber = (): void => {
