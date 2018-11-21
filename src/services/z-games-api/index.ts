@@ -91,7 +91,7 @@ export class ZGamesApi {
 
   // Accounts
   register = async (email: string, password: string): Promise<any> => {
-    const fetchResult = await fetch(`${SERVER_URL}/api/users`, {
+    const fetchResult = await fetch(`${SERVER_URL}/api/users/register`, {
       method: 'post',
       body: JSON.stringify({
         email,
@@ -168,7 +168,7 @@ export class ZGamesApi {
   }
 
   newGame = (gameName: string): void => {
-    this.socket.emit('newgame', gameName);
+    this.socket.emit('new-game', gameName);
   }
 
   setToken = (token: string): void => {
