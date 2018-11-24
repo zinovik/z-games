@@ -6,12 +6,14 @@ import * as types from '../../constants';
 interface GamesListProps extends React.Props<{}> {
 	allGames: types.Game[],
 	currentUsername: string | null,
-	joinGame: any,
+	joinGame: (gameNumber: number) => void,
+	openGame: (gameNumber: number) => void,
+	watchGame: (gameNumber: number) => void,
 }
 
 export class GamesList extends React.Component<GamesListProps, {}> {
 	render() {
-		const { allGames, currentUsername, joinGame } = this.props;
+		const { allGames, currentUsername, joinGame, openGame, watchGame } = this.props;
 
 		return (
 			<div>
@@ -19,8 +21,9 @@ export class GamesList extends React.Component<GamesListProps, {}> {
 					<Game
 						game={game}
 						currentUsername={currentUsername}
-						index={allGames.length - index}
-						join={() => { joinGame(game.id); }}
+						join={() => { joinGame(game.number); }}
+						open={() => { openGame(game.number); }}
+						watch={() => { watchGame(game.number); }}
 						key={index}
 					/>)
 				)}

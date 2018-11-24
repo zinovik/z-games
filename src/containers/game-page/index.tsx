@@ -12,8 +12,8 @@ interface GamePageProps extends React.Props<{}> {
   currentUsername: string,
   connected: boolean,
   game: types.Game,
-  usersOnline: types.UserOnline[],
-  match: { params: { id: string } },
+  usersOnline: types.User[],
+  match: { params: { number: string } },
 }
 
 class GamePage extends React.Component<GamePageProps, {}> {
@@ -27,13 +27,14 @@ class GamePage extends React.Component<GamePageProps, {}> {
 
         {this.props.connected && <div>connected</div>}
 
-        {this.props.match.params.id}
+        {this.props.match.params.number}
 
         {game && game.gameData && <div>
           <React.Fragment>
             <GameInfo
               game={game}
-              leave={this.zGamesApi.leaveGame}
+              leave={() => { this.zGamesApi.leaveGame(game.number); }}
+              close={() => { this.zGamesApi.closeGame(game.number); }}
               ready={this.zGamesApi.readyToGame}
               start={this.zGamesApi.startGame}
             />
@@ -61,7 +62,7 @@ const mapStateToProps = (state: { users: types.UsersState, games: types.GamesSta
   return {
     usersOnline: state.users.usersOnline,
     connected: state.users.connected,
-    currentUsername: state.users.currentUsername,
+    currentUsername: state.users.currentUser && state.users.currentUser.email,
     game: state.games.openGame,
   };
 };

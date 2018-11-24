@@ -8,10 +8,10 @@ import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 
 interface HomePageProps extends React.Props<{}> {
-  currentUsername: string,
+  currentUser: types.User,
   connected: boolean,
   allGames: types.Game[],
-  usersOnline: types.UserOnline[],
+  usersOnline: types.User[],
 }
 
 class HomePage extends React.Component<HomePageProps, {}> {
@@ -23,16 +23,18 @@ class HomePage extends React.Component<HomePageProps, {}> {
         {this.props.connected && <div>connected</div>}
         <UsersOnline usersOnline={this.props.usersOnline} />
         <Authorization
-          currentUsername={this.props.currentUsername}
+          currentUsername={this.props.currentUser && this.props.currentUser.username}
           signUp={this.zGamesApi.register}
           signIn={this.zGamesApi.login}
           logOut={this.zGamesApi.logout}
         />
-        {this.props.currentUsername && <NewGame newGame={this.zGamesApi.newGame} />}
+        {this.props.currentUser && <NewGame newGame={this.zGamesApi.newGame} />}
         <GamesList
           allGames={this.props.allGames}
-          currentUsername={this.props.currentUsername}
+          currentUsername={this.props.currentUser && this.props.currentUser.username}
           joinGame={this.zGamesApi.joinGame}
+          openGame={this.zGamesApi.openGame}
+          watchGame={this.zGamesApi.watchGame}
         />
       </div>
     );
@@ -43,7 +45,7 @@ const mapStateToProps = (state: { users: types.UsersState, games: types.GamesSta
   return {
     usersOnline: state.users.usersOnline,
     connected: state.users.connected,
-    currentUsername: state.users.currentUsername,
+    currentUser: state.users.currentUser,
     allGames: state.games.allGames,
   };
 };

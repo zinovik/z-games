@@ -17,9 +17,31 @@ const games = (state: types.GamesState = initialState, action): types.GamesState
       };
 
     case types.UPDATE_OPEN_GAME:
+      if (action.openGame) {
+        return {
+          ...state,
+          openGame: { ...action.openGame },
+        };
+      }
       return {
         ...state,
-        openGame: { ...action.openGame },
+        openGame: null,
+      };
+
+    case types.ADD_NEW_GAME:
+      return {
+        ...state,
+        allGames: [
+          ...state.allGames,
+          action.newGame,
+        ],
+      };
+
+    case types.UPDATE_GAME:
+      const allGames = state.allGames.map(game => game.id === action.game.id ? action.game : { ...game });
+      return {
+        ...state,
+        allGames,
       };
 
     default:
