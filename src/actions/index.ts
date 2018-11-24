@@ -24,8 +24,3 @@ export const updateOpenGame = (openGame: types.Game) => ({
   type: types.UPDATE_OPEN_GAME,
   openGame,
 });
-
-export const updateOpenGameNumber = (openGameNumber: number) => ({
-  type: types.UPDATE_OPEN_GAME_NUMBER,
-  openGameNumber,
-});

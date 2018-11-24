@@ -6,7 +6,6 @@ import {
   updateUsersOnline,
   updateAllGames,
   updateOpenGame,
-  updateOpenGameNumber,
 } from '../../actions';
 import * as types from '../../constants';
 
@@ -69,20 +68,28 @@ export class ZGamesApi {
       this.updateOpenGameNumber();
     });
 
-    this.socket.on('updateAllGamesInfo', (allGames: types.Game[]): void => {
-      console.log(`socket.on('updateAllGamesInfo'): `, allGames);
+
+
+
+
+
+    this.socket.on('all-games', (allGames: types.Game[]): void => {
+      console.log(`socket.on('all-games'): `, allGames);
       store.dispatch(updateAllGames(allGames));
     });
 
-    this.socket.on('updateOpenGameInfo', (openGame: types.Game): void => {
-      console.log(`socket.on('updateOpenGameInfo'): `, openGame);
+    this.socket.on('update-open-game', (openGame: types.Game): void => {
+      console.log(`socket.on('update-open-game'): `, openGame);
       store.dispatch(updateOpenGame(openGame));
+      this.history.push(`/game/${openGame.id}`);
     });
 
     this.socket.emit('getCurrentUsername');
     this.socket.emit('getAllGamesInfo');
     this.socket.emit('getUsersOnline');
     this.socket.emit('getOpenGameInfo');
+    
+    this.socket.emit('get-all-games');
   }
 
   setHistory = history => {
@@ -143,8 +150,8 @@ export class ZGamesApi {
   };
 
 
-  joinGame = (gameNumber: number): void => {
-    this.socket.emit('joingame', gameNumber);
+  joinGame = (gameId: string): void => {
+    this.socket.emit('join-game', gameId);
   }
 
   leaveGame = (): void => {
@@ -184,7 +191,7 @@ export class ZGamesApi {
 
     usersOnline.forEach((userOnline) => {
       if (userOnline.username === currentUsername) {
-        this.store.dispatch(updateOpenGameNumber(userOnline.openGameNumber));
+        // this.store.dispatch(updateOpenGameNumber(userOnline.openGameNumber));
 
         if (userOnline.openGameNumber || userOnline.openGameNumber === 0) {
           return this.history.push(`/game/${userOnline.openGameNumber}`);

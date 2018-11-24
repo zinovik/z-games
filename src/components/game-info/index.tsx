@@ -5,9 +5,9 @@ import { Button } from '@material-ui/core';
 import * as types from '../../constants';
 
 export const GameInfo = ({ game, leave, ready, start }: { game: types.Game, leave: any, ready: any, start: any }) => {
-  const gameStatus = (game.gameInfo.started ? ((game.gameInfo.finished) ? 'finished' : 'started') : 'not started');
+  const gameState = (game.state ? ((game.state === 1) ? 'started' : 'finished') : 'not started');
 
-  const label = game.gameInfo.started ? 'Close' : 'Leave';
+  const label = game.state ? 'Close' : 'Leave';
 
   return (
     <div>
@@ -15,7 +15,7 @@ export const GameInfo = ({ game, leave, ready, start }: { game: types.Game, leav
         Game name: {game.name}
       </div>
       <div>
-        Game status: {gameStatus}
+        Game status: {gameState}
       </div>
       <div>
         <Button variant='contained' color='primary' onClick={leave}>{label}</Button>
@@ -24,12 +24,12 @@ export const GameInfo = ({ game, leave, ready, start }: { game: types.Game, leav
         Players: {game.players.map((player, index) => (<span key={index}>{player.username}: {player.ready ? 'ready' : 'not ready'}, </span>))}
       </div>
       <div>
-        Minimum players in this game: {game.gameInfo.PLAYERS_MIN}
+        Minimum players in this game: {game.playersMin}
       </div>
       <div>
-        Maximum players in this game: {game.gameInfo.PLAYERS_MAX}
+        Maximum players in this game: {game.playersMax}
       </div>
-      {!game.gameInfo.started && <div>
+      {!game.state && <div>
         <Button variant='contained' color='primary' onClick={ready}>Ready</Button>
         <Button variant='contained' color='primary' onClick={start}>Start</Button>
       </div>}

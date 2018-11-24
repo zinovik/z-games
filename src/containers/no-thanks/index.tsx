@@ -14,12 +14,7 @@ export class NoThanks extends React.Component<NoThanksProps, {}> {
 	render() {
 		const {
 			game: {
-				gameInfo: {
-					cardsLeft,
-					currentCard,
-					currentCardCost,
-					players: playersInGame = [],
-				},
+				gameData,
 				name,
 				nextPlayersNames,
 				players,
@@ -28,12 +23,14 @@ export class NoThanks extends React.Component<NoThanksProps, {}> {
 			move,
 		} = this.props;
 
+		const { currentCard, currentCardCost, cardsLeft } = JSON.parse(gameData);
+
 		const myTurn = nextPlayersNames && nextPlayersNames.indexOf(currentUsername) >= 0;
 
-		let myChips = 0;
+		// let myChips = 0;
 		players.forEach((player, index) => {
 			if (player.username === currentUsername) {
-				myChips = playersInGame[index] && playersInGame[index].chips || 0;
+				// myChips = playersInGame[index] && playersInGame[index].chips || 0;
 			}
 		});
 
@@ -58,7 +55,7 @@ export class NoThanks extends React.Component<NoThanksProps, {}> {
 					{Array((currentCardCost || 0) + 1).join(CHIP)} ({currentCardCost})
 				</div>
 
-				{playersInGame.map((playerInGame, index) => (
+				{/* {playersInGame.map((playerInGame, index) => (
 					<div key={index}>
 						{players[index].username !== currentUsername && <div key={index}>
 							{players[index].username}:
@@ -90,14 +87,14 @@ export class NoThanks extends React.Component<NoThanksProps, {}> {
 							</div>
 						</div>}
 					</div>
-				))}
+				))} */}
 
 				{myTurn && <div>
 					<Button
 						variant='contained'
 						color='primary'
 						onClick={() => { move({ takeCard: false }); }}
-						disabled={!myChips}
+						// disabled={!myChips}
 					>
 						Pay
 					</Button>

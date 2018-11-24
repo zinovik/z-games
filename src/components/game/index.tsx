@@ -5,9 +5,9 @@ import { Button } from '@material-ui/core';
 import * as types from '../../constants';
 
 export const Game = ({ game, currentUsername, index, join }: { game: types.Game, currentUsername: string | null, index: number, join: any }) => {
-  const gameStatus = (game.gameInfo.started ? ((game.gameInfo.finished) ? 'finished' : 'started') : 'not started');
+  const gameState = (game.state ? ((game.state === 1) ? 'started' : 'finished') : 'not started');
 
-  let label = !game.gameInfo.started ? 'Join' : 'Watch';
+  let label = !game.state ? 'Join' : 'Watch';
   game.players.forEach((player) => {
     if (player.username === currentUsername) {
       label = 'Open';
@@ -16,7 +16,7 @@ export const Game = ({ game, currentUsername, index, join }: { game: types.Game,
 
   return (
     <div>
-      {index} - {game.name} - {gameStatus} - {game.players.length} - {currentUsername && <Button variant='contained' color='primary' onClick={join}>{label}</Button>}
+      {index} - {game.name} - {gameState} - {game.players.length} - {currentUsername && <Button variant='contained' color='primary' onClick={join}>{label}</Button>}
     </div>
   );
 }

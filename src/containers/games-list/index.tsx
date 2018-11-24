@@ -19,8 +19,8 @@ export class GamesList extends React.Component<GamesListProps, {}> {
 					<Game
 						game={game}
 						currentUsername={currentUsername}
-						index={allGames.length - index - 1}
-						join={() => { joinGame(allGames.length - index - 1); }}
+						index={allGames.length - index}
+						join={() => { joinGame(game.id); }}
 						key={index}
 					/>)
 				)}
