@@ -14,12 +14,12 @@ export class Authorize extends React.Component<AuthorizeProps, {}> {
   }
 
   state = {
-    email: '',
+    username: '',
     password: '',
   };
 
-  handleEmailChange = (e) => {
-    this.setState({ email: e.target.value });
+  handleUsernameChange = (e) => {
+    this.setState({ username: e.target.value });
   };
 
   handlePasswordChange = (e) => {
@@ -28,22 +28,22 @@ export class Authorize extends React.Component<AuthorizeProps, {}> {
 
   handleSignInClick = () => {
     const { onSignInClick } = this.props;
-    const { email, password } = this.state;
+    const { username, password } = this.state;
 
-    onSignInClick(email, password);
+    onSignInClick(username, password);
   };
 
   handleSignUpClick = () => {
     const { onSignUpClick } = this.props;
-    const { email, password } = this.state;
+    const { username, password } = this.state;
 
-    onSignUpClick(email, password);
+    onSignUpClick(username, password);
   };
 
   render() {
     return (
       <div>
-        <Input type="email" placeholder="Email" onChange={this.handleEmailChange} />
+        <Input type="text" placeholder="Username" onChange={this.handleUsernameChange} />
         <Input type="password" placeholder="Password" onChange={this.handlePasswordChange} />
         <Button variant='contained' color='primary' onClick={this.handleSignInClick}>Sign in</Button>
         <Button variant='contained' color='primary' onClick={this.handleSignUpClick}>Sign up</Button>

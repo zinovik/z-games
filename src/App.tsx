@@ -19,7 +19,7 @@ class App extends React.Component<{}, {}> {
     return (
       <Switch>
         <Route path='/games' component={HomePage} />
-        <Route path='/game/:id' component={GamePage} />
+        <Route path='/game/:number' component={GamePage} />
         <Redirect from='*' to='/games' />
       </Switch>
     );

@@ -2,10 +2,12 @@ import * as io from 'socket.io-client';
 
 import {
   updateStatus,
-  setCurrentUsername,
+  updateCurrentUser,
   updateUsersOnline,
   updateAllGames,
   updateOpenGame,
+  addNewGame,
+  updateGame,
 } from '../../actions';
 import * as types from '../../constants';
 
@@ -56,13 +58,7 @@ export class ZGamesApi {
       store.dispatch(updateStatus(true));
     });
 
-    this.socket.on('updateCurrentUsername', (currentUsername: string): void => {
-      console.log(`socket.on('updateCurrentUsername'): ${currentUsername}`);
-      store.dispatch(setCurrentUsername(currentUsername));
-      this.updateOpenGameNumber();
-    });
-
-    this.socket.on('updateUsersOnline', (usersOnline: types.UserOnline[]): void => {
+    this.socket.on('updateUsersOnline', (usersOnline: types.User[]): void => {
       console.log(`socket.on('updateUsersOnline'): `, usersOnline);
       this.store.dispatch(updateUsersOnline(usersOnline))
       this.updateOpenGameNumber();
@@ -70,7 +66,10 @@ export class ZGamesApi {
 
 
 
-
+    this.socket.on('update-current-user', (currentUser: types.User): void => {
+      console.log(`socket.on('update-current-user'): `, currentUser);
+      store.dispatch(updateCurrentUser(currentUser));
+    });
 
 
     this.socket.on('all-games', (allGames: types.Game[]): void => {
@@ -78,18 +77,33 @@ export class ZGamesApi {
       store.dispatch(updateAllGames(allGames));
     });
 
-    this.socket.on('update-open-game', (openGame: types.Game): void => {
-      console.log(`socket.on('update-open-game'): `, openGame);
-      store.dispatch(updateOpenGame(openGame));
-      this.history.push(`/game/${openGame.id}`);
+    this.socket.on('new-game', (newGame: types.Game): void => {
+      console.log(`socket.on('new-game'): `, newGame);
+      store.dispatch(addNewGame(newGame));
     });
 
-    this.socket.emit('getCurrentUsername');
-    this.socket.emit('getAllGamesInfo');
+    this.socket.on('update-game', (game: types.Game): void => {
+      console.log(`socket.on('update-game'): `, game);
+      store.dispatch(updateGame(game));
+    });
+
+    this.socket.on('update-open-game', (openGame: types.Game): void => {
+      console.log(`socket.on('update-open-game'): `, openGame);
+
+      const oldOpenGame = this.store.getState().games.openGame;
+
+      store.dispatch(updateOpenGame(openGame));
+
+      if (openGame !== oldOpenGame) {
+        this.updateRoute(openGame && openGame.number);
+      }
+    });
+
     this.socket.emit('getUsersOnline');
     this.socket.emit('getOpenGameInfo');
-    
+
     this.socket.emit('get-all-games');
+    this.socket.emit('get-current-user');
   }
 
   setHistory = history => {
@@ -97,11 +111,11 @@ export class ZGamesApi {
   }
 
   // Accounts
-  register = async (email: string, password: string): Promise<any> => {
+  register = async (username: string, password: string): Promise<any> => {
     const fetchResult = await fetch(`${SERVER_URL}/api/users/register`, {
       method: 'post',
       body: JSON.stringify({
-        email,
+        username,
         password,
       }),
       headers: {
@@ -114,11 +128,11 @@ export class ZGamesApi {
     return parseResult;
   };
 
-  login = async (email: string, password: string): Promise<any> => {
+  login = async (username: string, password: string): Promise<any> => {
     const fetchResult = await fetch(`${SERVER_URL}/api/users/authorize`, {
       method: 'post',
       body: JSON.stringify({
-        email,
+        username,
         password,
       }),
       headers: {
@@ -127,18 +141,17 @@ export class ZGamesApi {
     });
 
     const token = fetchResult.headers.get('Authorization');
+    const currentUser = await fetchResult.json();
 
     if (token) {
       localStorage.setItem('token', token);
       this.socket.query.token = token;
 
-      this.store.dispatch(setCurrentUsername(email));
+      this.store.dispatch(updateCurrentUser(currentUser));
       this.updateOpenGameNumber();
     }
 
-    const parseResult = await fetchResult.json();
-
-    return parseResult;
+    return currentUser;
   };
 
   logout = (): void => {
@@ -150,13 +163,26 @@ export class ZGamesApi {
   };
 
 
-  joinGame = (gameId: string): void => {
-    this.socket.emit('join-game', gameId);
+  joinGame = (gameNumber: number): void => {
+    this.socket.emit('join-game', gameNumber);
   }
 
-  leaveGame = (): void => {
-    this.socket.emit('leavegame');
+  openGame = (gameNumber: number): void => {
+    this.socket.emit('open-game', gameNumber);
   }
+
+  watchGame = (gameNumber: number): void => {
+    this.socket.emit('watch-game', gameNumber);
+  }
+
+  leaveGame = (gameNumber: number): void => {
+    this.socket.emit('leave-game', gameNumber);
+  }
+
+  closeGame = (gameNumber: number): void => {
+    this.socket.emit('close-game', gameNumber);
+  }
+
 
   readyToGame = (): void => {
     this.socket.emit('readytogame');
@@ -180,6 +206,14 @@ export class ZGamesApi {
 
   setToken = (token: string): void => {
     this.socket.socket.options.query.token = token;
+  }
+
+  updateRoute(gameNumber?: number) {
+    if (gameNumber === undefined) {
+      return this.history.push('/games');
+    }
+
+    return this.history.push(`/game/${gameNumber}`);
   }
 
   updateOpenGameNumber = (): void => {

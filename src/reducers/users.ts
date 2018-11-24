@@ -2,7 +2,7 @@ import * as types from '../constants';
 
 const initialState = {
   connected: false,
-  currentUsername: null,
+  currentUser: null,
   usersOnline: [],
 };
 
@@ -16,10 +16,10 @@ const users = (state: types.UsersState = initialState, action): types.UsersState
         connected: action.connected,
       };
 
-    case types.UPDATE_CURRENT_USERNAME:
+    case types.UPDATE_CURRENT_USER:
       return {
         ...state,
-        currentUsername: action.currentUsername,
+        currentUser: action.currentUser,
       };
 
     case types.UPDATE_USERS_ONLINE:
