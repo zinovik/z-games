@@ -1,8 +1,10 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { NoThanks, Perudo, Chat } from '..';
-import { GameInfo, GameResults } from '../../components';
+import { NoThanks, Perudo } from '..';
+// import { NoThanks, Perudo, Chat } from '..';
+import { GameInfo } from '../../components';
+// import { GameInfo, GameResults } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 
@@ -27,7 +29,7 @@ class GamePage extends React.Component<GamePageProps, {}> {
 
         {this.props.match.params.id}
 
-        {game && game.gameInfo && <div>
+        {game && game.gameData && <div>
           <React.Fragment>
             <GameInfo
               game={game}
@@ -38,15 +40,15 @@ class GamePage extends React.Component<GamePageProps, {}> {
           </React.Fragment>
 
           <React.Fragment>
-            {game.gameInfo.started && !game.gameInfo.finished && <div>
+            {game.state === 1 && <div>
               {game.name === types.NO_THANKS && <NoThanks game={game} currentUsername={currentUsername} move={this.zGamesApi.move} />}
               {game.name === types.PERUDO && <Perudo game={game} currentUsername={currentUsername} move={this.zGamesApi.move} />}
             </div>}
-            {game.gameInfo.finished && <GameResults game={game.name} players={game.players} playersInGame={game.gameInfo.players || []} />}
+            {/* {game.state === 2 && <GameResults game={game.name} players={game.players} playersInGame={game.players || []} />} */}
           </React.Fragment>
 
           <React.Fragment>
-            {game.logNchat && <Chat messages={game.logNchat} newMessage={this.zGamesApi.message} />}
+            {/* {game.logNchat && <Chat messages={game.logNchat} newMessage={this.zGamesApi.message} />} */}
           </React.Fragment>
         </div>}
 

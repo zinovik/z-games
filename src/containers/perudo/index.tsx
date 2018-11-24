@@ -34,19 +34,15 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 	render() {
 		const {
 			game: {
-				gameInfo: {
-					currentDiceNumber = 0,
-					currentDiceFigure = 0,
-					currentRound,
-					players: playersInGame = [],
-					lastPlayerNumber,
-				},
+				gameData,
 				name,
 				nextPlayersNames,
 				players,
 			},
 			currentUsername,
 		} = this.props;
+
+		const { currentDiceNumber = 0, currentDiceFigure = 0, currentRound, lastPlayerNumber } = JSON.parse(gameData);
 
 		let { diceNumber, diceFigure } = this.state;
 
@@ -55,10 +51,10 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 			diceFigure = currentDiceFigure || 2;
 		}
 
-		const allDicesCount = playersInGame.reduce((diceCount, player) => diceCount + (player.dicesCount || 0), 0);
+		// const allDicesCount = playersInGame.reduce((diceCount, player) => diceCount + (player.dicesCount || 0), 0);
 
 		const myBetNumberDecDisable = diceNumber <= 1 || diceNumber <= currentDiceNumber || (diceNumber <= currentDiceNumber + 1 && diceFigure <= currentDiceFigure);
-		const myBetNumberIncDisable = diceNumber >= allDicesCount;
+		// const myBetNumberIncDisable = diceNumber >= allDicesCount;
 		const myBetFigureDecDisable = diceFigure <= 2 || (diceNumber === currentDiceNumber && diceFigure <= currentDiceFigure + 1);
 		const myBetFigureIncDisable = diceFigure >= 6;
 
@@ -91,10 +87,10 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 					My bet: {Array(diceNumber + 1).join(DICES[diceFigure - 1])}
 				</div>}
 				<div>
-					All dices count: {allDicesCount}
+					{/* All dices count: {allDicesCount} */}
 				</div>
 
-				{playersInGame.map((playerInGame, index) => (
+				{/* {playersInGame.map((playerInGame, index) => (
 					<div key={index}>
 						{players[index].username !== currentUsername && <div key={index}>
 							{players[index].username}: {playerInGame.dicesCount} dices
@@ -110,7 +106,7 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 							</div>
 						</div>}
 					</div>
-				))}
+				))} */}
 
 				{myTurn && <div>
 
@@ -118,7 +114,7 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 					<div>
 						<Button variant='contained' color='primary' onClick={() => { this.setState({ diceNumber: diceNumber - 1, diceFigure }); }} disabled={myBetNumberDecDisable}>-</Button>
 						{diceNumber}
-						<Button variant='contained' color='primary' onClick={() => { this.setState({ diceNumber: diceNumber + 1, diceFigure }); }} disabled={myBetNumberIncDisable}>+</Button>
+						{/* <Button variant='contained' color='primary' onClick={() => { this.setState({ diceNumber: diceNumber + 1, diceFigure }); }} disabled={myBetNumberIncDisable}>+</Button> */}
 					</div>
 
 					Dice figure:

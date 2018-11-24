@@ -17,13 +17,17 @@ export interface GamesState {
 }
 
 export interface Game {
-  gameInfo: GameInfo;
+  id: string;
   name: string;
+  state: number;
+  playersMax: number;
+  playersMin: number;
+  createdAt: Date;
+  gameData: string;
   players: Player[];
-  timeStarted: number;
+
   watchers: any[];
 
-  logNchat?: Message[];
   nextPlayersNames?: any[];
   rules?: string;
 }
