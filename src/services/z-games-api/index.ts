@@ -3,11 +3,11 @@ import * as io from 'socket.io-client';
 import {
   updateStatus,
   updateCurrentUser,
-  updateUsersOnline,
   updateAllGames,
   updateOpenGame,
   addNewGame,
   updateGame,
+  addNewLog,
 } from '../../actions';
 import * as types from '../../constants';
 
@@ -58,13 +58,6 @@ export class ZGamesApi {
       store.dispatch(updateStatus(true));
     });
 
-    this.socket.on('updateUsersOnline', (usersOnline: types.User[]): void => {
-      console.log(`socket.on('updateUsersOnline'): `, usersOnline);
-      this.store.dispatch(updateUsersOnline(usersOnline))
-      this.updateOpenGameNumber();
-    });
-
-
 
     this.socket.on('update-current-user', (currentUser: types.User): void => {
       console.log(`socket.on('update-current-user'): `, currentUser);
@@ -87,8 +80,8 @@ export class ZGamesApi {
       store.dispatch(updateGame(game));
     });
 
-    this.socket.on('update-open-game', (openGame: types.Game): void => {
-      console.log(`socket.on('update-open-game'): `, openGame);
+    this.socket.on('update-opened-game', (openGame: types.Game): void => {
+      console.log(`socket.on('update-opened-game'): `, openGame);
 
       const oldOpenGame = this.store.getState().games.openGame;
 
@@ -99,11 +92,14 @@ export class ZGamesApi {
       }
     });
 
-    this.socket.emit('getUsersOnline');
-    this.socket.emit('getOpenGameInfo');
+    this.socket.on('new-log', (newLog: types.Log): void => {
+      console.log(`socket.on('new-log'): `, newLog);
+      store.dispatch(addNewLog(newLog));
+    });
 
     this.socket.emit('get-all-games');
     this.socket.emit('get-current-user');
+    this.socket.emit('get-opened-game');
   }
 
   setHistory = history => {
@@ -148,7 +144,6 @@ export class ZGamesApi {
       this.socket.query.token = token;
 
       this.store.dispatch(updateCurrentUser(currentUser));
-      this.updateOpenGameNumber();
     }
 
     return currentUser;
@@ -184,12 +179,12 @@ export class ZGamesApi {
   }
 
 
-  readyToGame = (): void => {
-    this.socket.emit('readytogame');
+  readyToGame = (gameNumber: number): void => {
+    this.socket.emit('ready-to-game', gameNumber);
   }
 
-  startGame = (): void => {
-    this.socket.emit('startgame');
+  startGame = (gameNumber: number): void => {
+    this.socket.emit('start-game', gameNumber);
   }
 
   move = (move: { takeCard?: boolean, number?: number, figure?: number, notBelieve?: boolean }): void => {
@@ -204,6 +199,7 @@ export class ZGamesApi {
     this.socket.emit('new-game', gameName);
   }
 
+
   setToken = (token: string): void => {
     this.socket.socket.options.query.token = token;
   }
@@ -216,23 +212,4 @@ export class ZGamesApi {
     return this.history.push(`/game/${gameNumber}`);
   }
 
-  updateOpenGameNumber = (): void => {
-    const { currentUsername, usersOnline } = this.store.getState().users;
-
-    if (!currentUsername || !usersOnline.length) {
-      return this.history.push(`/games`);
-    }
-
-    usersOnline.forEach((userOnline) => {
-      if (userOnline.username === currentUsername) {
-        // this.store.dispatch(updateOpenGameNumber(userOnline.openGameNumber));
-
-        if (userOnline.openGameNumber || userOnline.openGameNumber === 0) {
-          return this.history.push(`/game/${userOnline.openGameNumber}`);
-        }
-
-        this.history.push(`/games`);
-      }
-    });
-  };
 }

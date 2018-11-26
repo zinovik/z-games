@@ -1,12 +1,12 @@
 import * as React from 'react';
 
-import { MessagesList } from '..';
+import { LogsList } from '..';
 import { NewMessage } from '../../components';
 import * as types from '../../constants';
 
 interface ChatProps extends React.Props<{}> {
-  messages: types.Message[],
-  newMessage: any,
+  logs: types.Log[],
+  newMessage: (message: string) => void,
 }
 
 export class Chat extends React.Component<ChatProps, {}> {
@@ -14,7 +14,7 @@ export class Chat extends React.Component<ChatProps, {}> {
     return (
       <div>
         <NewMessage newMessage={this.props.newMessage} />
-        <MessagesList messages={this.props.messages} />
+        <LogsList logs={this.props.logs} />
       </div>
     );
   }

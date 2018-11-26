@@ -5,7 +5,7 @@ import { Button } from '@material-ui/core';
 import * as types from '../../constants';
 
 export const Game = ({ game, currentUsername, join, open, watch }: { game: types.Game, currentUsername: string | null, join: any, open: any, watch: any }) => {
-  const gameState = (game.state ? ((game.state === 1) ? 'started' : 'finished') : 'not started');
+  const gameState = (game.state ? (game.state > 1 ? 'finished' : 'started') : 'not started');
 
   const isAbleToJoin = !game.state && game.players.length < game.playersMax && !game.players.some(player => player.username === currentUsername);
   const isAbleToOpen = game.players.some(player => player.username === currentUsername);

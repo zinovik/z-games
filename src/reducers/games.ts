@@ -28,12 +28,27 @@ const games = (state: types.GamesState = initialState, action): types.GamesState
         openGame: null,
       };
 
+    case types.ADD_NEW_LOG:
+      if (state.openGame) {
+        return {
+          ...state,
+          openGame: {
+            ...state.openGame,
+            logs: [
+              action.newLog,
+              ...state.openGame.logs,
+            ]
+          },
+        };
+      }
+      return state;
+
     case types.ADD_NEW_GAME:
       return {
         ...state,
         allGames: [
-          ...state.allGames,
           action.newGame,
+          ...state.allGames,
         ],
       };
 
