@@ -2,19 +2,19 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import * as moment from 'moment';
 
-export const Message = ({ type, time, username, text }: { type: string, time: number, username: string, text: string }) => {
+export const Log = ({ type, createdAt, username, text }: { type: string, createdAt: Date, username: string, text?: string }) => {
   return (
     <div>
       {type === 'move' ? <span>{username} </span> : <span>{username}: </span>}
-      <span>{text} </span>
-      <span>({moment(time).fromNow()})</span>
+      <span>{type} </span>
+      <span>({moment(createdAt).fromNow()})</span>
     </div>
   );
 }
 
-Message.propTypes = {
+Log.propTypes = {
   type: PropTypes.string.isRequired,
-  time: PropTypes.number.isRequired,
+  createdAt: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
-  text: PropTypes.string.isRequired,
+  text: PropTypes.string,
 }

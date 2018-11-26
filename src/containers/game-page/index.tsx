@@ -1,8 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { NoThanks, Perudo } from '..';
-// import { NoThanks, Perudo, Chat } from '..';
+import { NoThanks, Perudo, Chat } from '..';
 import { GameInfo } from '../../components';
 // import { GameInfo, GameResults } from '../../components';
 import { ZGamesApi } from '../../services';
@@ -35,8 +34,8 @@ class GamePage extends React.Component<GamePageProps, {}> {
               game={game}
               leave={() => { this.zGamesApi.leaveGame(game.number); }}
               close={() => { this.zGamesApi.closeGame(game.number); }}
-              ready={this.zGamesApi.readyToGame}
-              start={this.zGamesApi.startGame}
+              ready={() => { this.zGamesApi.readyToGame(game.number); }}
+              start={() => { this.zGamesApi.startGame(game.number); }}
             />
           </React.Fragment>
 
@@ -49,7 +48,7 @@ class GamePage extends React.Component<GamePageProps, {}> {
           </React.Fragment>
 
           <React.Fragment>
-            {/* {game.logNchat && <Chat messages={game.logNchat} newMessage={this.zGamesApi.message} />} */}
+            {game.logs && <Chat logs={game.logs} newMessage={this.zGamesApi.message} />}
           </React.Fragment>
         </div>}
 

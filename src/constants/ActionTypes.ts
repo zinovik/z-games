@@ -6,3 +6,4 @@ export const UPDATE_ALL_GAMES = 'UPDATE_ALL_GAMES';
 export const UPDATE_OPEN_GAME = 'UPDATE_OPEN_GAME';
 export const ADD_NEW_GAME = 'ADD_NEW_GAME';
 export const UPDATE_GAME = 'UPDATE_GAME';
+export const ADD_NEW_LOG = 'ADD_NEW_LOG';

@@ -34,3 +34,8 @@ export const updateGame = (game: types.Game) => ({
   type: types.UPDATE_GAME,
   game,
 });
+
+export const addNewLog = (newLog: types.Log) => ({
+  type: types.ADD_NEW_LOG,
+  newLog,
+});

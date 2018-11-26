@@ -38,36 +38,21 @@ export interface Game {
   players: User[];
 
   watchers: any[];
+  logs: Log[];
 
-  nextPlayersNames?: any[];
-  rules?: string;
+
+  nextPlayersNames?: any[]; // ?
+  rules?: string; // ?
 }
 
-export interface GameInfo {
-  PLAYERS_MAX: number;
-  PLAYERS_MIN: number;
-  finished: boolean;
-  nextPlayers: number[];
-  started: boolean;
-
-  players?: PlayerInGame[];
-
-  cardsLeft?: number;
-  currentCard?: number;
-  currentCardCost?: number;
-
-  currentDiceFigure?: number;
-  currentDiceNumber?: number;
-  currentRound?: number;
-  lastPlayerNumber?: number;
-  lastRoundResults?: any;
-}
-
-export interface Message {
+export interface Log {
+  createdAt: Date;
+  gameId: string;
+  id: string;
   type: string;
-  time: number;
-  username: string;
-  text: string;
+  userId: string;
+
+  text?: string;
 }
 
 export interface PlayerInGame {

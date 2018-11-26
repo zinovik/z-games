@@ -5,7 +5,8 @@ import { Button } from '@material-ui/core';
 import * as types from '../../constants';
 
 export const GameInfo = ({ game, leave, close, ready, start }: { game: types.Game, leave: any, close: any, ready: any, start: any }) => {
-  const gameState = (game.state ? ((game.state === 1) ? 'started' : 'finished') : 'not started');
+  const gameState = (game.state ? (game.state > 1 ? 'finished' : 'started') : 'not started');
+  const { players } = JSON.parse(game.gameData);
 
   return (
     <div>
@@ -22,7 +23,7 @@ export const GameInfo = ({ game, leave, close, ready, start }: { game: types.Gam
         <Button variant='contained' color='primary' onClick={close}>Close</Button>
       </div>
       <div>
-        Players: {game.players.map((player, index) => (<span key={index}>{player.username}: {player ? 'ready' : 'not ready'}, </span>))}
+        Players: {Object.keys(players).map((username, index) => (<span key={index}>{username}: {players[username].ready ? 'ready' : 'not ready'}, </span>))}
       </div>
       <div>
         Minimum players in this game: {game.playersMin}
