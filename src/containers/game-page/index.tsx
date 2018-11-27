@@ -2,13 +2,12 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { NoThanks, Perudo, Chat } from '..';
-import { GameInfo } from '../../components';
-// import { GameInfo, GameResults } from '../../components';
+import { GameInfo, GameResults } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 
 interface GamePageProps extends React.Props<{}> {
-  currentUsername: string,
+  currentUser: types.User,
   connected: boolean,
   game: types.Game,
   usersOnline: types.User[],
@@ -19,7 +18,12 @@ class GamePage extends React.Component<GamePageProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
   render() {
-    const { currentUsername, game } = this.props;
+    const { currentUser, game } = this.props;
+    let playersInGame;
+
+    if (game && game.gameData) {
+      playersInGame = JSON.parse(game.gameData).players;
+    }
 
     return (
       <div>
@@ -41,10 +45,10 @@ class GamePage extends React.Component<GamePageProps, {}> {
 
           <React.Fragment>
             {game.state === 1 && <div>
-              {game.name === types.NO_THANKS && <NoThanks game={game} currentUsername={currentUsername} move={this.zGamesApi.move} />}
-              {game.name === types.PERUDO && <Perudo game={game} currentUsername={currentUsername} move={this.zGamesApi.move} />}
+              {game.name === types.NO_THANKS && <NoThanks game={game} currentUser={currentUser} move={this.zGamesApi.makeMove} />}
+              {game.name === types.PERUDO && <Perudo game={game} currentUser={currentUser} move={this.zGamesApi.makeMove} />}
             </div>}
-            {/* {game.state === 2 && <GameResults game={game.name} players={game.players} playersInGame={game.players || []} />} */}
+            {game.state > 1 && <GameResults game={game.name} players={game.players} playersInGame={playersInGame || []} />}
           </React.Fragment>
 
           <React.Fragment>
@@ -61,7 +65,7 @@ const mapStateToProps = (state: { users: types.UsersState, games: types.GamesSta
   return {
     usersOnline: state.users.usersOnline,
     connected: state.users.connected,
-    currentUsername: state.users.currentUser && state.users.currentUser.email,
+    currentUser: state.users.currentUser,
     game: state.games.openGame,
   };
 };
