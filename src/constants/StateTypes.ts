@@ -40,9 +40,7 @@ export interface Game {
   watchers: any[];
   logs: Log[];
 
-
-  nextPlayersNames?: any[]; // ?
-  rules?: string; // ?
+  nextPlayers: User[];
 }
 
 export interface Log {

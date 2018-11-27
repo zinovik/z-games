@@ -187,8 +187,8 @@ export class ZGamesApi {
     this.socket.emit('start-game', gameNumber);
   }
 
-  move = (move: { takeCard?: boolean, number?: number, figure?: number, notBelieve?: boolean }): void => {
-    this.socket.emit('move', move);
+  makeMove = (move: string): void => {
+    this.socket.emit('make-move', move);
   }
 
   message = (message: string): void => {

@@ -6,7 +6,7 @@ import * as types from '../../constants';
 
 export const GameInfo = ({ game, leave, close, ready, start }: { game: types.Game, leave: any, close: any, ready: any, start: any }) => {
   const gameState = (game.state ? (game.state > 1 ? 'finished' : 'started') : 'not started');
-  const { players } = JSON.parse(game.gameData);
+  const { players: playersInGame } = JSON.parse(game.gameData);
 
   return (
     <div>
@@ -22,19 +22,26 @@ export const GameInfo = ({ game, leave, close, ready, start }: { game: types.Gam
       <div>
         <Button variant='contained' color='primary' onClick={close}>Close</Button>
       </div>
-      <div>
-        Players: {Object.keys(players).map((username, index) => (<span key={index}>{username}: {players[username].ready ? 'ready' : 'not ready'}, </span>))}
-      </div>
-      <div>
-        Minimum players in this game: {game.playersMin}
-      </div>
-      <div>
-        Maximum players in this game: {game.playersMax}
-      </div>
+
       {!game.state && <div>
+        <div>
+          Players: {playersInGame.map((playerInGame, index) => (
+            <span key={index}>
+              {game.players.find(player => player.id === playerInGame.id)!.username}:
+              {playerInGame.ready ? 'ready' : 'not ready'},
+            </span>
+          ))}
+        </div>
+        <div>
+          Minimum players in this game: {game.playersMin}
+        </div>
+        <div>
+          Maximum players in this game: {game.playersMax}
+        </div>
         <Button variant='contained' color='primary' onClick={ready}>Ready</Button>
         <Button variant='contained' color='primary' onClick={start}>Start</Button>
       </div>}
+
     </div>
   );
 }
