@@ -3,7 +3,7 @@ import * as PropTypes from 'prop-types';
 
 import * as types from '../../constants';
 
-export const UsersOnline = ({ usersOnline }: { usersOnline: types.UserOnline[] }) => {
+export const UsersOnline = ({ usersOnline }: { usersOnline: types.User[] }) => {
   return (
     <div>
       {usersOnline.map((userOnline, index) => (

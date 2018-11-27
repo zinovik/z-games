@@ -1,63 +1,56 @@
 export interface UsersState {
   connected: boolean;
-  currentUsername: string | null;
-  usersOnline: UserOnline[];
+  currentUser: User | null;
+  usersOnline: User[];
 }
 
-export interface UserOnline {
-  currentGames: any[];
-  openGameNumber: number;
+export interface User {
+  avatar: string;
+  createdAt: Date;
+  email: string;
+  firstName: string;
+  gamesPlayed: number;
+  gamesWon: number;
+  id: string;
+  isConfirmed: boolean;
+  lastName: string;
+  provider: string;
+  updatedAt: Date;
   username: string;
+
+  currentGames: Game[]; // ?
 }
 
 export interface GamesState {
   allGames: Game[];
   openGame: Game | null;
-  openGameNumber: number | null;
 }
 
 export interface Game {
-  gameInfo: GameInfo;
+  id: string;
+  number: number;
   name: string;
-  players: Player[];
-  timeStarted: number;
+  state: number;
+  playersMax: number;
+  playersMin: number;
+  createdAt: Date;
+  gameData: string;
+  players: User[];
+
   watchers: any[];
+  logs: Log[];
 
-  logNchat?: Message[];
-  nextPlayersNames?: any[];
-  rules?: string;
+  nextPlayers: User[];
 }
 
-export interface GameInfo {
-  PLAYERS_MAX: number;
-  PLAYERS_MIN: number;
-  finished: boolean;
-  nextPlayers: number[];
-  started: boolean;
-
-  players?: PlayerInGame[];
-
-  cardsLeft?: number;
-  currentCard?: number;
-  currentCardCost?: number;
-
-  currentDiceFigure?: number;
-  currentDiceNumber?: number;
-  currentRound?: number;
-  lastPlayerNumber?: number;
-  lastRoundResults?: any;
-}
-
-export interface Player {
-  username: string;
-  ready: boolean;
-}
-
-export interface Message {
+export interface Log {
+  createdAt: Date;
+  gameId: string;
+  id: string;
   type: string;
-  time: number;
-  username: string;
-  text: string;
+  userId: string;
+
+  text?: string;
 }
 
 export interface PlayerInGame {

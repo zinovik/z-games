@@ -14,7 +14,7 @@ interface Result {
   dicesCount: number,
 }
 
-export const GameResults = ({ game, players, playersInGame }: { game: string, players: types.Player[], playersInGame: types.PlayerInGame[] }) => {
+export const GameResults = ({ game, players, playersInGame }: { game: string, players: types.User[], playersInGame: types.PlayerInGame[] }) => {
 
   console.log(game, playersInGame);
 

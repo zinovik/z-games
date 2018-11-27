@@ -11,50 +11,52 @@ const games = (state: types.GamesState = initialState, action): types.GamesState
   switch (action.type) {
 
     case types.UPDATE_ALL_GAMES:
-      if ((state.openGameNumber || state.openGameNumber === 0)
-        && state.allGames
-        && state.allGames[state.openGameNumber]
-      ) {
-        action.allGames[state.openGameNumber] = state.allGames[state.openGameNumber];
-        return {
-          ...state,
-          allGames: action.allGames.map((gameInfo, gameNumber) => {
-
-            if (gameNumber === state.openGameNumber) {
-              return { ...state.allGames[gameNumber] };
-            }
-
-            return { ...gameInfo };
-          }),
-        };
-      }
       return {
         ...state,
         allGames: [...action.allGames],
       };
 
     case types.UPDATE_OPEN_GAME:
-      if (state.openGameNumber || state.openGameNumber === 0) {
+      if (action.openGame) {
         return {
           ...state,
-          allGames: state.allGames.map((game, gameNumber) => {
-
-            if (gameNumber === state.openGameNumber) {
-              return { ...action.openGame };
-            }
-
-            return { ...game };
-          }),
           openGame: { ...action.openGame },
+        };
+      }
+      return {
+        ...state,
+        openGame: null,
+      };
+
+    case types.ADD_NEW_LOG:
+      if (state.openGame) {
+        return {
+          ...state,
+          openGame: {
+            ...state.openGame,
+            logs: [
+              action.newLog,
+              ...state.openGame.logs,
+            ]
+          },
         };
       }
       return state;
 
-    case types.UPDATE_OPEN_GAME_NUMBER:
+    case types.ADD_NEW_GAME:
       return {
         ...state,
-        openGameNumber: action.openGameNumber,
-        openGame: (action.openGameNumber || action.openGameNumber === 0) ? { ...state.allGames[action.openGameNumber] } : null,
+        allGames: [
+          action.newGame,
+          ...state.allGames,
+        ],
+      };
+
+    case types.UPDATE_GAME:
+      const allGames = state.allGames.map(game => game.id === action.game.id ? action.game : { ...game });
+      return {
+        ...state,
+        allGames,
       };
 
     default:

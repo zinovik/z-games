@@ -5,12 +5,12 @@ export const updateStatus = (connected: boolean) => ({
   connected,
 });
 
-export const setCurrentUsername = (currentUsername: string) => ({
-  type: types.UPDATE_CURRENT_USERNAME,
-  currentUsername,
+export const updateCurrentUser = (currentUser: types.User) => ({
+  type: types.UPDATE_CURRENT_USER,
+  currentUser,
 });
 
-export const updateUsersOnline = (usersOnline: types.UserOnline[]) => ({
+export const updateUsersOnline = (usersOnline: types.User[]) => ({
   type: types.UPDATE_USERS_ONLINE,
   usersOnline,
 });
@@ -25,7 +25,17 @@ export const updateOpenGame = (openGame: types.Game) => ({
   openGame,
 });
 
-export const updateOpenGameNumber = (openGameNumber: number) => ({
-  type: types.UPDATE_OPEN_GAME_NUMBER,
-  openGameNumber,
+export const addNewGame = (newGame: types.Game) => ({
+  type: types.ADD_NEW_GAME,
+  newGame,
+});
+
+export const updateGame = (game: types.Game) => ({
+  type: types.UPDATE_GAME,
+  game,
+});
+
+export const addNewLog = (newLog: types.Log) => ({
+  type: types.ADD_NEW_LOG,
+  newLog,
 });

@@ -10,7 +10,7 @@ export const NewGame = ({ newGame }: { newGame: any }) => {
   };
 
   const handleNewPerudoGame = () => {
-    newGame(types.NO_THANKS);
+    newGame(types.PERUDO);
   };
 
   return (

@@ -7,46 +7,52 @@ import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 
 interface GamePageProps extends React.Props<{}> {
-  currentUsername: string,
+  currentUser: types.User,
   connected: boolean,
   game: types.Game,
-  usersOnline: types.UserOnline[],
-  match: { params: { id: string } },
+  usersOnline: types.User[],
+  match: { params: { number: string } },
 }
 
 class GamePage extends React.Component<GamePageProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
   render() {
-    const { currentUsername, game } = this.props;
+    const { currentUser, game } = this.props;
+    let playersInGame;
+
+    if (game && game.gameData) {
+      playersInGame = JSON.parse(game.gameData).players;
+    }
 
     return (
       <div>
 
         {this.props.connected && <div>connected</div>}
 
-        {this.props.match.params.id}
+        {this.props.match.params.number}
 
-        {game && game.gameInfo && <div>
+        {game && game.gameData && <div>
           <React.Fragment>
             <GameInfo
               game={game}
-              leave={this.zGamesApi.leaveGame}
-              ready={this.zGamesApi.readyToGame}
-              start={this.zGamesApi.startGame}
+              leave={() => { this.zGamesApi.leaveGame(game.number); }}
+              close={() => { this.zGamesApi.closeGame(game.number); }}
+              ready={() => { this.zGamesApi.readyToGame(game.number); }}
+              start={() => { this.zGamesApi.startGame(game.number); }}
             />
           </React.Fragment>
 
           <React.Fragment>
-            {game.gameInfo.started && !game.gameInfo.finished && <div>
-              {game.name === types.NO_THANKS && <NoThanks game={game} currentUsername={currentUsername} move={this.zGamesApi.move} />}
-              {game.name === types.PERUDO && <Perudo game={game} currentUsername={currentUsername} move={this.zGamesApi.move} />}
+            {game.state === 1 && <div>
+              {game.name === types.NO_THANKS && <NoThanks game={game} currentUser={currentUser} move={this.zGamesApi.makeMove} />}
+              {game.name === types.PERUDO && <Perudo game={game} currentUser={currentUser} move={this.zGamesApi.makeMove} />}
             </div>}
-            {game.gameInfo.finished && <GameResults game={game.name} players={game.players} playersInGame={game.gameInfo.players || []} />}
+            {game.state > 1 && <GameResults game={game.name} players={game.players} playersInGame={playersInGame || []} />}
           </React.Fragment>
 
           <React.Fragment>
-            {game.logNchat && <Chat messages={game.logNchat} newMessage={this.zGamesApi.message} />}
+            {game.logs && <Chat logs={game.logs} newMessage={this.zGamesApi.message} />}
           </React.Fragment>
         </div>}
 
@@ -59,7 +65,7 @@ const mapStateToProps = (state: { users: types.UsersState, games: types.GamesSta
   return {
     usersOnline: state.users.usersOnline,
     connected: state.users.connected,
-    currentUsername: state.users.currentUsername,
+    currentUser: state.users.currentUser,
     game: state.games.openGame,
   };
 };
