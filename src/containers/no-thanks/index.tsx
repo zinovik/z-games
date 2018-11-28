@@ -23,6 +23,10 @@ export class NoThanks extends React.Component<NoThanksProps, {}> {
 			move,
 		} = this.props;
 
+		if (!currentUser) {
+			return null;
+		}
+
 		const { currentCard, currentCardCost, cardsLeft, players: playersInGame } = JSON.parse(gameData);
 
 		const myTurn = nextPlayers.find(nextPlayer => nextPlayer.id === currentUser.id);

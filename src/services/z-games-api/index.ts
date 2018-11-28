@@ -56,6 +56,10 @@ export class ZGamesApi {
     this.socket.on('connect', (): void => {
       console.log(`socket.on('connect')`);
       store.dispatch(updateStatus(true));
+
+      this.socket.emit('get-all-games');
+      this.socket.emit('get-current-user');
+      this.socket.emit('get-opened-game');
     });
 
 
@@ -97,9 +101,10 @@ export class ZGamesApi {
       store.dispatch(addNewLog(newLog));
     });
 
-    this.socket.emit('get-all-games');
-    this.socket.emit('get-current-user');
-    this.socket.emit('get-opened-game');
+    this.socket.on('error-message', (message: string): void => {
+      console.log(`socket.on('error-message'): `, message);
+      alert(message);
+    });
   }
 
   setHistory = history => {
@@ -141,7 +146,7 @@ export class ZGamesApi {
 
     if (token) {
       localStorage.setItem('token', token);
-      this.socket.query.token = token;
+      this.setToken(token);
 
       this.store.dispatch(updateCurrentUser(currentUser));
     }
@@ -151,10 +156,9 @@ export class ZGamesApi {
 
   logout = (): void => {
     localStorage.setItem('token', '');
+    this.setToken('');
 
     this.socket.emit('logout');
-
-    delete this.socket.query.token;
   };
 
 
@@ -180,7 +184,7 @@ export class ZGamesApi {
 
 
   readyToGame = (gameNumber: number): void => {
-    this.socket.emit('ready-to-game', gameNumber);
+    this.socket.emit('toggle-ready', gameNumber);
   }
 
   startGame = (gameNumber: number): void => {
@@ -201,7 +205,9 @@ export class ZGamesApi {
 
 
   setToken = (token: string): void => {
-    this.socket.socket.options.query.token = token;
+    this.socket.query.token = token;
+    this.socket.disconnect();
+    this.socket.connect();
   }
 
   updateRoute(gameNumber?: number) {

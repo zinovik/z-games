@@ -19,7 +19,7 @@ export class LogsList extends React.Component<LogsListProps, {}> {
               type={log.type}
               text={log.text}
               createdAt={log.createdAt}
-              username={log.id}
+              username={log.user.username}
             />
           </div>
         ))}

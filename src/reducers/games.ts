@@ -53,7 +53,7 @@ const games = (state: types.GamesState = initialState, action): types.GamesState
       };
 
     case types.UPDATE_GAME:
-      const allGames = state.allGames.map(game => game.id === action.game.id ? action.game : { ...game });
+      const allGames = state.allGames.map(game => game.number === action.game.number ? action.game : { ...game });
       return {
         ...state,
         allGames,

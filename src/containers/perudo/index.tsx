@@ -1,5 +1,5 @@
 import * as React from 'react';
-// import { Button } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 import { DICES } from '../../services';
 import * as types from '../../constants';
@@ -22,12 +22,12 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 	};
 
 	moveBet(diceNumber: number, diceFigure: number) {
-		this.props.move({ number: diceNumber, figure: diceFigure });
+		this.props.move(JSON.stringify({ number: diceNumber, figure: diceFigure }));
 		this.setState({ diceNumber: 0, diceFigure: 0 });
 	}
 
 	moveNotBelieve() {
-		this.props.move({ notBelieve: true });
+		this.props.move(JSON.stringify({ notBelieve: true }));
 		this.setState({ diceNumber: 0, diceFigure: 0 });
 	}
 
@@ -39,10 +39,14 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 				nextPlayers,
 				players,
 			},
-			// currentUser,
+			currentUser,
 		} = this.props;
 
-		const { currentDiceNumber = 0, currentDiceFigure = 0, currentRound, lastPlayerNumber } = JSON.parse(gameData);
+		if (!currentUser) {
+			return null;
+		}
+
+		const { currentDiceNumber = 0, currentDiceFigure = 0, currentRound, lastPlayerNumber, players: playersInGame } = JSON.parse(gameData);
 
 		let { diceNumber, diceFigure } = this.state;
 
@@ -51,14 +55,14 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 			diceFigure = currentDiceFigure || 2;
 		}
 
-		// const allDicesCount = playersInGame.reduce((diceCount, player) => diceCount + (player.dicesCount || 0), 0);
+		const allDicesCount = playersInGame.reduce((diceCount, player) => diceCount + (player.dicesCount || 0), 0);
 
-		// const myBetNumberDecDisable = diceNumber <= 1 || diceNumber <= currentDiceNumber || (diceNumber <= currentDiceNumber + 1 && diceFigure <= currentDiceFigure);
-		// const myBetNumberIncDisable = diceNumber >= allDicesCount;
-		// const myBetFigureDecDisable = diceFigure <= 2 || (diceNumber === currentDiceNumber && diceFigure <= currentDiceFigure + 1);
-		// const myBetFigureIncDisable = diceFigure >= 6;
+		const myBetNumberDecDisable = diceNumber <= 1 || diceNumber <= currentDiceNumber || (diceNumber <= currentDiceNumber + 1 && diceFigure <= currentDiceFigure);
+		const myBetNumberIncDisable = diceNumber >= allDicesCount;
+		const myBetFigureDecDisable = diceFigure <= 2 || (diceNumber === currentDiceNumber && diceFigure <= currentDiceFigure + 1);
+		const myBetFigureIncDisable = diceFigure >= 6;
 
-		// const myTurn = nextPlayersNames && nextPlayersNames.indexOf(currentUsername) >= 0;
+		const myTurn = nextPlayers.find(nextPlayer => nextPlayer.id === currentUser.id);
 
 		return (
 			<div>
@@ -66,7 +70,7 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 					{name}
 				</div>
 				<div>
-					{/* {myTurn && <span>YOUR MOVE!</span>} */}
+					{myTurn && <span>YOUR MOVE!</span>}
 				</div>
 				{nextPlayers && nextPlayers.length && <div>
 					Next player: {players.find(player => player.id === nextPlayers[0].id)!.username}
@@ -83,16 +87,16 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 				{(currentDiceNumber && currentDiceFigure) ? <div>
 					Current bet: {Array(currentDiceNumber + 1).join(DICES[(currentDiceFigure || 0) - 1])}
 				</div> : ''}
-				{/* {myTurn && <div>
+				{myTurn && <div>
 					My bet: {Array(diceNumber + 1).join(DICES[diceFigure - 1])}
-				</div>} */}
+				</div>}
 				<div>
-					{/* All dices count: {allDicesCount} */}
+					All dices count: {allDicesCount}
 				</div>
 
-				{/* {playersInGame.map((playerInGame, index) => (
+				{playersInGame.map((playerInGame, index) => (
 					<div key={index}>
-						{players[index].username !== currentUsername && <div key={index}>
+						{playerInGame.id !== currentUser.id && <div key={index}>
 							{players[index].username}: {playerInGame.dicesCount} dices
 						</div>}
 					</div>
@@ -100,15 +104,15 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 
 				{playersInGame.map((playerInGame, index) => (
 					<div key={index}>
-						{(players[index].username === currentUsername) && <div>
+						{(playerInGame.id === currentUser.id) && <div>
 							<div>
 								My dices: {playerInGame.dices && playerInGame.dices.map((dice, i) => (<span key={i}>{DICES[dice - 1]}</span>))}
 							</div>
 						</div>}
 					</div>
-				))} */}
+				))}
 
-				{/* {myTurn && <div>
+				{myTurn && <div>
 
 					Dice number:
 					<div>
@@ -127,7 +131,7 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 					<Button variant='contained' color='primary' onClick={() => { this.moveBet(diceNumber, diceFigure); }}>Bet</Button>
 					<Button variant='contained' color='primary' onClick={() => { this.moveNotBelieve(); }} disabled={!currentDiceNumber || !currentDiceFigure}>Not Believe</Button>
 
-				</div>} */}
+				</div>}
 			</div>
 		);
 	}

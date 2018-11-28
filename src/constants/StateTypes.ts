@@ -48,7 +48,7 @@ export interface Log {
   gameId: string;
   id: string;
   type: string;
-  userId: string;
+  user: User;
 
   text?: string;
 }
