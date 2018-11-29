@@ -16,7 +16,7 @@ export const GameInfo = ({ game, leave, close, ready, start }: { game: types.Gam
       <div>
         Game status: {gameState}
       </div>
-      {game.state !== 1 && <div>
+      {!game.state && <div>
         <Button variant='contained' color='primary' onClick={leave}>Leave</Button>
       </div>}
       <div>

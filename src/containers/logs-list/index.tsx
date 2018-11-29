@@ -13,7 +13,7 @@ export class LogsList extends React.Component<LogsListProps, {}> {
 
     return (
       <div>
-        {[...logs].reverse().map((log, index) => (
+        {logs.map((log, index) => (
           <div key={index}>
             <Log
               type={log.type}

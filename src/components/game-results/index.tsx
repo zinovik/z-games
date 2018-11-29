@@ -16,8 +16,6 @@ interface Result {
 
 export const GameResults = ({ game, players, playersInGame }: { game: string, players: types.User[], playersInGame: types.PlayerInGame[] }) => {
 
-  console.log(game, playersInGame);
-
   const results: Result[] = playersInGame.map((playerInGame, index) => {
     return {
       username: players[index].username,
