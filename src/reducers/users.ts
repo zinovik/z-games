@@ -1,7 +1,7 @@
 import * as types from '../constants';
 
 const initialState = {
-  connected: false,
+  isConnected: false,
   currentUser: null,
   usersOnline: [],
 };
@@ -13,7 +13,7 @@ const users = (state: types.UsersState = initialState, action): types.UsersState
     case types.UPDATE_STATUS:
       return {
         ...state,
-        connected: action.connected,
+        isConnected: action.isConnected,
       };
 
     case types.UPDATE_CURRENT_USER:

@@ -9,7 +9,7 @@ export const CurrentUser = ({ currentUsername, onLogOutClick }) => {
 
   return (
     <div>
-      You are logged in as {currentUsername} <Button variant='contained' color='primary' onClick={handleLogOutClick}>Log out</Button>
+      {currentUsername} <Button variant='contained' color='primary' onClick={handleLogOutClick}>Log out</Button>
     </div>
   );
 };

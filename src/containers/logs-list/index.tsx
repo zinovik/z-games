@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import { Log } from '../../components';
 import * as types from '../../constants';
+import './index.css';
 
 interface LogsListProps extends React.Props<{}> {
   logs: types.Log[],
@@ -12,7 +13,7 @@ export class LogsList extends React.Component<LogsListProps, {}> {
     const { logs } = this.props;
 
     return (
-      <div>
+      <div className='logs-list-container'>
         {logs.map((log, index) => (
           <div key={index}>
             <Log

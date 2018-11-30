@@ -13,10 +13,6 @@ import * as types from '../../constants';
 
 const SERVER_URL = ((window as any).envs && (window as any).envs.SERVER_URL) || 'http://localhost:4000';
 
-export const GAMES_IMAGES: any = {
-  'No, Thanks!': `${SERVER_URL}/images/No,%20Thanks!.png`,
-  'Perudo': `${SERVER_URL}/images/Perudo.png`,
-};
 export const CHIP: string = '\u2B24';
 export const DICES: string[] = [
   '\u2680',

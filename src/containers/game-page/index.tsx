@@ -1,14 +1,15 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { NoThanks, Perudo, Chat } from '..';
+import { NoThanks, Perudo, Chat, Header } from '../../containers';
 import { GameInfo, GameResults } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
+import './index.css';
 
 interface GamePageProps extends React.Props<{}> {
   currentUser: types.User,
-  connected: boolean,
+  isConnected: boolean,
   game: types.Game,
   usersOnline: types.User[],
   match: { params: { number: string } },
@@ -27,8 +28,13 @@ class GamePage extends React.Component<GamePageProps, {}> {
 
     return (
       <div>
-
-        {this.props.connected && <div>connected</div>}
+        <Header
+          isConnected={this.props.isConnected}
+          currentUsername={this.props.currentUser && this.props.currentUser.username}
+          signUp={this.zGamesApi.register}
+          signIn={this.zGamesApi.login}
+          logOut={this.zGamesApi.logout}
+        />
 
         {this.props.match.params.number}
 
@@ -43,17 +49,19 @@ class GamePage extends React.Component<GamePageProps, {}> {
             />
           </React.Fragment>
 
-          <React.Fragment>
-            {game.state === 1 && <div>
-              {game.name === types.NO_THANKS && <NoThanks game={game} currentUser={currentUser} move={this.zGamesApi.makeMove} />}
-              {game.name === types.PERUDO && <Perudo game={game} currentUser={currentUser} move={this.zGamesApi.makeMove} />}
-            </div>}
-            {game.state > 1 && <GameResults game={game.name} players={game.players} playersInGame={playersInGame || []} />}
-          </React.Fragment>
+          <div className='game-log-container'>
+            <React.Fragment>
+              {game.state === 1 && <div>
+                {game.name === types.NO_THANKS && <NoThanks game={game} currentUser={currentUser} move={this.zGamesApi.makeMove} />}
+                {game.name === types.PERUDO && <Perudo game={game} currentUser={currentUser} move={this.zGamesApi.makeMove} />}
+              </div>}
+              {game.state > 1 && <GameResults game={game.name} players={game.players} playersInGame={playersInGame || []} />}
+            </React.Fragment>
 
-          <React.Fragment>
-            {game.logs && <Chat logs={game.logs} newMessage={this.zGamesApi.message} />}
-          </React.Fragment>
+            <React.Fragment>
+              {game.logs && <Chat logs={game.logs} newMessage={this.zGamesApi.message} />}
+            </React.Fragment>
+          </div>
         </div>}
 
       </div>
@@ -64,7 +72,7 @@ class GamePage extends React.Component<GamePageProps, {}> {
 const mapStateToProps = (state: { users: types.UsersState, games: types.GamesState }) => {
   return {
     usersOnline: state.users.usersOnline,
-    connected: state.users.connected,
+    isConnected: state.users.isConnected,
     currentUser: state.users.currentUser,
     game: state.games.openGame,
   };

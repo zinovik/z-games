@@ -1,5 +1,5 @@
 export interface UsersState {
-  connected: boolean;
+  isConnected: boolean;
   currentUser: User | null;
   usersOnline: User[];
 }

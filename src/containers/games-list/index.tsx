@@ -2,6 +2,8 @@ import * as React from 'react';
 
 import { Game } from '../../components';
 import * as types from '../../constants';
+import './index.css';
+
 
 interface GamesListProps extends React.Props<{}> {
 	allGames: types.Game[],
@@ -16,7 +18,7 @@ export class GamesList extends React.Component<GamesListProps, {}> {
 		const { allGames, currentUsername, joinGame, openGame, watchGame } = this.props;
 
 		return (
-			<div>
+			<div className='games-list'>
 				{allGames.map((game, index) => (
 					<Game
 						game={game}
