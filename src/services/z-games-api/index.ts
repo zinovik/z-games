@@ -12,19 +12,9 @@ import {
 import * as types from '../../constants';
 
 const SERVER_URL = ((window as any).envs && (window as any).envs.SERVER_URL) || 'http://localhost:4000';
-
-export const CHIP: string = '\u2B24';
-export const DICES: string[] = [
-  '\u2680',
-  '\u2681',
-  '\u2682',
-  '\u2683',
-  '\u2684',
-  '\u2685',
-];
-
 export class ZGamesApi {
   private static instance: ZGamesApi;
+
   private socket;
   private store;
   private history;

@@ -1,6 +1,8 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
+import { Typography } from '@material-ui/core';
 
+import { NoThanksCardsList, NoThanksChips } from '../../components'
 import * as types from '../../constants';
 
 interface Result {
@@ -14,7 +16,7 @@ interface Result {
   dicesCount: number,
 }
 
-export const GameResults = ({ game, players, playersInGame }: { game: string, players: types.User[], playersInGame: types.PlayerInGame[] }) => {
+export const GameResults = ({ gameName, players, playersInGame }: { gameName: string, players: types.User[], playersInGame: types.PlayerInGame[] }) => {
 
   const results: Result[] = playersInGame.map((playerInGame, index) => {
     return {
@@ -38,9 +40,18 @@ export const GameResults = ({ game, players, playersInGame }: { game: string, pl
     <div>
       {results.map((result, index) => (
         <div key={index}>
-          {result.place} place - {result.username}
-          {game === types.NO_THANKS && <span>({result.points} points)</span>}
-          {game === types.PERUDO && result.dicesCount ? <span>(dices remaining: {result.dicesCount})</span> : ''}
+          <Typography>{result.place} place - {result.username}</Typography>
+
+          {gameName === types.NO_THANKS && <div>
+            <Typography>Points: {result.points}</Typography>
+            <Typography><NoThanksCardsList cards={result.cards} /></Typography>
+            <Typography>
+              <NoThanksChips chips={result.chips} />
+            </Typography>
+          </div>}
+
+          {gameName === types.PERUDO && result.dicesCount ? <Typography>{result.dicesCount} dices remained</Typography> : ''}
+
         </div>
       ))}
     </div>
@@ -48,7 +59,7 @@ export const GameResults = ({ game, players, playersInGame }: { game: string, pl
 }
 
 GameResults.propTypes = {
-  game: PropTypes.string.isRequired,
+  gameName: PropTypes.string.isRequired,
   players: PropTypes.array.isRequired,
   playersInGame: PropTypes.array.isRequired,
 }

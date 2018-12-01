@@ -26,7 +26,9 @@ class GamesPage extends React.Component<GamesPageProps, {}> {
           signIn={this.zGamesApi.login}
           logOut={this.zGamesApi.logout}
         />
+
         {this.props.currentUser && <NewGame newGame={this.zGamesApi.newGame} />}
+
         <GamesList
           allGames={this.props.allGames}
           currentUsername={this.props.currentUser && this.props.currentUser.username}
@@ -34,6 +36,7 @@ class GamesPage extends React.Component<GamesPageProps, {}> {
           openGame={this.zGamesApi.openGame}
           watchGame={this.zGamesApi.watchGame}
         />
+
         <UsersOnline usersOnline={this.props.usersOnline} />
       </div>
     );

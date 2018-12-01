@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Paper } from '@material-ui/core';
 
 import { LogsList } from '..';
 import { NewMessage } from '../../components';
@@ -11,11 +12,13 @@ interface ChatProps extends React.Props<{}> {
 
 export class Chat extends React.Component<ChatProps, {}> {
   render() {
+    const { newMessage, logs } = this.props;
+
     return (
-      <div>
-        <NewMessage newMessage={this.props.newMessage} />
-        <LogsList logs={this.props.logs} />
-      </div>
+      <Paper>
+        <NewMessage newMessage={newMessage} />
+        <LogsList logs={logs} />
+      </Paper>
     );
   }
 };

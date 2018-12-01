@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { Button, Checkbox } from '@material-ui/core';
+import { Button, Checkbox, Typography } from '@material-ui/core';
 
-import { DICES } from '../../services';
+import { PerudoDices } from '../../components';
 import * as types from '../../constants';
 
 const DICE_MAX_FIGURE = 6;
@@ -102,7 +102,6 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 		const {
 			game: {
 				gameData,
-				name,
 				nextPlayers,
 				players,
 			},
@@ -113,7 +112,7 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 			return null;
 		}
 
-		const { currentDiceNumber, currentDiceFigure, currentRound, lastPlayerNumber, isMaputoRound, players: playersInGame } = JSON.parse(gameData);
+		const { currentDiceNumber, currentDiceFigure, currentRound, lastPlayerNumber, isMaputoRound, lastRoundResults, players: playersInGame } = JSON.parse(gameData);
 		const isMaputoAble = playersInGame.find(playerInGame => playerInGame.id === currentUser.id).dices.length === 1 && !currentDiceNumber && !currentDiceFigure;
 		const allDicesCount = playersInGame.reduce((diceCount, player) => diceCount + (player.dicesCount || 0), 0);
 		const minDiceNumber = currentDiceFigure === JOKER_FIGURE ? currentDiceNumber + 1 : Math.ceil(currentDiceNumber / 2);
@@ -156,73 +155,83 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 
 		return (
 			<div>
-				<div>
-					{name}
-				</div>
-				<div>
-					{myTurn && <span>YOUR MOVE!</span>}
-				</div>
-				{nextPlayers && nextPlayers.length && <div>
-					Next player: {players.find(player => player.id === nextPlayers[0].id)!.username}
-				</div>}
-				{(lastPlayerNumber || lastPlayerNumber === 0) && <div>
+				{myTurn && <Typography>
+					YOUR MOVE!
+				</Typography>}
+
+				{!myTurn && nextPlayers && nextPlayers.length && <Typography>
+					{players.find(player => player.id === nextPlayers[0].id)!.username} is going to make a move...
+				</Typography>}
+
+				{(lastPlayerNumber || lastPlayerNumber === 0) && <Typography>
 					Last player: {players[lastPlayerNumber].username}
+				</Typography>}
+
+				{lastRoundResults && <div>
+					<Typography>
+						Last round results:
+					</Typography>
+					{lastRoundResults.map((lastRoundResult, index) => (
+						<Typography key={index}>
+							{players[index].username}: <PerudoDices dices={lastRoundResult.dices} />
+						</Typography>
+					))}
 				</div>}
-				<div>
-					Last round results:
-				</div>
-				<div>
+
+				<Typography>
 					Round: {currentRound} {isMaputoRound && <span>(maputo)</span>}
-				</div>
-				{(currentDiceNumber && currentDiceFigure) ? <div>
-					Current bet: {Array(currentDiceNumber + 1).join(DICES[(currentDiceFigure || 0) - 1])}
-				</div> : ''}
-				{myTurn && <div>
-					My bet: {Array(diceNumber + 1).join(DICES[diceFigure - 1])}
-				</div>}
-				<div>
-					All dices count: {allDicesCount}
-				</div>
+				</Typography>
 
 				{playersInGame.map((playerInGame, index) => (
 					<div key={index}>
-						{playerInGame.id !== currentUser.id && <div key={index}>
+						{playerInGame.id !== currentUser.id && <Typography key={index}>
 							{players[index].username}: {playerInGame.dicesCount} dices
-						</div>}
+						</Typography>}
 					</div>
 				))}
 
 				{playersInGame.map((playerInGame, index) => (
 					<div key={index}>
-						{(playerInGame.id === currentUser.id) && <div>
-							<div>
-								My dices: {playerInGame.dices && playerInGame.dices.map((dice, i) => (<span key={i}>{DICES[dice - 1]}</span>))}
-							</div>
-						</div>}
+						{(playerInGame.id === currentUser.id) && <Typography>
+							My dices: <PerudoDices dices={playerInGame.dices} />
+						</Typography>}
 					</div>
 				))}
 
+				{(currentDiceNumber && currentDiceFigure) ? <Typography>
+					Current bet: <PerudoDices dices={Array(currentDiceNumber + 1).fill(currentDiceFigure)} />
+				</Typography> : ''}
+				{myTurn && <Typography>
+					My bet: <PerudoDices dices={Array(diceNumber + 1).fill(diceFigure)} />
+				</Typography>}
+
 				{myTurn && <div>
 
-					Dice number:
 					<div>
-						<Button variant='contained' color='primary' onClick={() => { this.numberDec({ diceNumber, diceFigure }); }} disabled={myBetNumberDecDisable}>-</Button>
-						{diceNumber}
-						<Button variant='contained' color='primary' onClick={() => { this.numberInc({ diceNumber, diceFigure }); }} disabled={myBetNumberIncDisable}>+</Button>
+						<Typography>
+							Dice number:
+						</Typography>
+						<Typography>
+							<Button variant='contained' onClick={() => { this.numberDec({ diceNumber, diceFigure }); }} disabled={myBetNumberDecDisable}>-</Button>
+							{diceNumber}
+							<Button variant='contained' onClick={() => { this.numberInc({ diceNumber, diceFigure }); }} disabled={myBetNumberIncDisable}>+</Button>
+						</Typography>
 					</div>
 
 					{!isMaputoRound && <div>
-						Dice figure:
-						<div>
-							<Button variant='contained' color='primary' onClick={() => { this.figureDec({ diceNumber, diceFigure }); }} disabled={myBetFigureDecDisable}>-</Button>
+						<Typography>
+							Dice figure:
+						</Typography>
+						<Typography>
+							<Button variant='contained' onClick={() => { this.figureDec({ diceNumber, diceFigure }); }} disabled={myBetFigureDecDisable}>-</Button>
 							{diceFigure}
-							<Button variant='contained' color='primary' onClick={() => { this.figureInc({ diceNumber, diceFigure }); }} disabled={myBetFigureIncDisable}>+</Button>
-						</div>
+							<Button variant='contained' onClick={() => { this.figureInc({ diceNumber, diceFigure }); }} disabled={myBetFigureIncDisable}>+</Button>
+						</Typography>
 					</div>}
 
-					{isMaputoAble && <div><Checkbox color='primary' onChange={this.handleMaputoChange} />Maputo</div>}
-					<Button variant='contained' color='primary' onClick={() => { this.moveBet(diceNumber, diceFigure); }} disabled={moveImpossible}>Bet</Button>
-					<Button variant='contained' color='primary' onClick={() => { this.moveNotBelieve(); }} disabled={!currentDiceNumber || !currentDiceFigure}>Not Believe</Button>
+					{isMaputoAble && <Typography><Checkbox onChange={this.handleMaputoChange} />Maputo</Typography>}
+					<Button variant='contained' onClick={() => { this.moveBet(diceNumber, diceFigure); }} disabled={moveImpossible}>Bet</Button>
+					<Button variant='contained' onClick={() => { this.moveNotBelieve(); }} disabled={!currentDiceNumber || !currentDiceFigure}>Not Believe</Button>
 
 				</div>}
 			</div>

@@ -1,0 +1,17 @@
+.no-thanks-card {
+  display: inline-block;
+  border: 1px solid;
+  font-weight: bold;
+  width: 30px;
+  height: 50px;
+  align-content: center;
+  vertical-align: middle;
+  text-align: center;
+  margin: 1px;
+  padding: 2px;
+}
+
+.no-thanks-card-dim {
+  border: 1px solid DimGrey;
+  color: DimGrey;
+}

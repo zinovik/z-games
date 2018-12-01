@@ -6,3 +6,29 @@
 .game-logo {
   text-align: center;
 }
+
+.game-dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.game-green-dot {
+  background-color: darkgreen;
+}
+
+.game-yellow-dot {
+  background-color: darkorange;
+}
+
+.game-red-dot {
+  background-color: darkred;
+}
+
+@media screen and (max-width: 516px) {
+  .game-card {
+    width: 100%;
+  }
+}

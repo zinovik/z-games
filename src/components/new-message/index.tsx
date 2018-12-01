@@ -2,8 +2,10 @@ import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import { Button, Input } from '@material-ui/core';
 
+import './index.css';
+
 interface NewMessageProps extends React.Props<{}> {
-  newMessage: any,
+  newMessage: (message: string) => void,
 }
 
 export class NewMessage extends React.Component<NewMessageProps, {}> {
@@ -30,8 +32,8 @@ export class NewMessage extends React.Component<NewMessageProps, {}> {
 
     return (
       <div>
-        <Input type="text" placeholder="Message" onChange={this.handleMessageChange} />
-        <Button variant='contained' color='primary' onClick={this.handleNewMessageClick}>Send</Button>
+        <Input type="text" placeholder="Message" onChange={this.handleMessageChange} className='new-message-input' />
+        <Button variant='contained' onClick={this.handleNewMessageClick}>Send</Button>
       </div>
     );
   }

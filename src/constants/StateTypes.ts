@@ -37,7 +37,7 @@ export interface Game {
   gameData: string;
   players: User[];
 
-  watchers: any[];
+  watchers: User[];
   logs: Log[];
 
   nextPlayers: User[];

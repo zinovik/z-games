@@ -1,31 +1,32 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import * as moment from 'moment';
+import { Typography } from '@material-ui/core';
 
 export const Log = ({ type, createdAt, username, text }: { type: string, createdAt: Date, username: string, text?: string }) => {
   return (
     <div>
-      <span>{moment(createdAt).calendar()}: </span>
+      <Typography>{moment(createdAt).calendar()}: </Typography>
 
-      {type === 'message' && <span>{username}: {text}</span>}
+      {type === 'message' && <Typography>{username}: {text}</Typography>}
 
       {(type === 'connect' ||
-        type === 'disconnect') && <span>{username} {type}ed</span>}
+        type === 'disconnect') && <Typography>{username} {type}ed</Typography>}
 
       {(type === 'join' ||
         type === 'start' ||
-        type === 'open') && <span>{username} {type}ed the game</span>}
+        type === 'open') && <Typography>{username} {type}ed the game</Typography>}
       {(type === 'create' ||
         type === 'close' ||
-        type === 'leave') && <span>{username} {type}d the game</span>}
+        type === 'leave') && <Typography>{username} {type}d the game</Typography>}
 
-      {type === 'ready' && <span>{username} updated his ready status</span>}
+      {type === 'ready' && <Typography>{username} updated his ready status</Typography>}
 
-      {type === 'watch' && <span>{username} started to watch the game</span>}
+      {type === 'watch' && <Typography>{username} started to watch the game</Typography>}
 
-      {type === 'move' && <span>{username} made a move</span>}
+      {type === 'move' && <Typography>{username} made a move</Typography>}
 
-      {type === 'finish' && <span>The game has been finished</span>}
+      {type === 'finish' && <Typography>The game has been finished</Typography>}
 
     </div>
   );

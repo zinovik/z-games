@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { Button } from '@material-ui/core';
+import { Button, Avatar } from '@material-ui/core';
 
 export const CurrentUser = ({ currentUsername, onLogOutClick }) => {
   const handleLogOutClick = () => {
@@ -9,7 +9,10 @@ export const CurrentUser = ({ currentUsername, onLogOutClick }) => {
 
   return (
     <div>
-      {currentUsername} <Button variant='contained' color='primary' onClick={handleLogOutClick}>Log out</Button>
+      <Avatar>
+        {currentUsername[0]}
+      </Avatar>
+      <Button variant='contained' onClick={handleLogOutClick}>Log out</Button>
     </div>
   );
 };

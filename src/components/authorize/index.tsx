@@ -3,8 +3,8 @@ import * as PropTypes from 'prop-types';
 import { Button, Input } from '@material-ui/core';
 
 interface AuthorizeProps extends React.Props<{}> {
-  onSignInClick: any,
-  onSignUpClick: any,
+  onSignInClick: (username: string, password: string) => void,
+  onSignUpClick: (username: string, password: string) => void,
 }
 
 export class Authorize extends React.Component<AuthorizeProps, {}> {
@@ -45,8 +45,8 @@ export class Authorize extends React.Component<AuthorizeProps, {}> {
       <div>
         <Input type="text" placeholder="Username" onChange={this.handleUsernameChange} />
         <Input type="password" placeholder="Password" onChange={this.handlePasswordChange} />
-        <Button variant='contained' color='primary' onClick={this.handleSignInClick}>Sign in</Button>
-        <Button variant='contained' color='primary' onClick={this.handleSignUpClick}>Sign up</Button>
+        <Button variant='contained' onClick={this.handleSignInClick}>Sign in</Button>
+        <Button variant='contained' onClick={this.handleSignUpClick}>Sign up</Button>
       </div>
     );
   }

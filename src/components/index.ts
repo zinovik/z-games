@@ -7,3 +7,7 @@ export * from './log';
 export * from './new-game';
 export * from './new-message';
 export * from './users-online';
+export * from './no-thanks-cards-list';
+export * from './no-thanks-card';
+export * from './no-thanks-chips';
+export * from './perudo-dices';

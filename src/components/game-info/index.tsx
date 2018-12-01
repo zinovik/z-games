@@ -1,54 +1,59 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
-import { Button } from '@material-ui/core';
+import { Button, Paper, Typography } from '@material-ui/core';
 
 import * as types from '../../constants';
 
-export const GameInfo = ({ game, leave, close, ready, start }: { game: types.Game, leave: any, close: any, ready: any, start: any }) => {
-  const gameState = (game.state ? (game.state > 1 ? 'finished' : 'started') : 'not started');
+export const GameInfo = ({ game, currentUserId, leave, close, ready, start }: {
+  game: types.Game,
+  currentUserId: string,
+  leave: () => void,
+  close: () => void,
+  ready: () => void,
+  start: () => void,
+}) => {
+
   const { players: playersInGame } = JSON.parse(game.gameData);
 
+  const isAbleToStart = game.players.length >= game.playersMin && game.players.length <= game.playersMax && playersInGame.every(player => player.ready);
+
   return (
-    <div>
-      <div>
-        Game name: {game.name}
-      </div>
-      <div>
-        Game status: {gameState}
-      </div>
-      {!game.state && <div>
-        <Button variant='contained' color='primary' onClick={leave}>Leave</Button>
-      </div>}
-      <div>
-        <Button variant='contained' color='primary' onClick={close}>Close</Button>
-      </div>
+    <Paper>
+      <Typography>
+        <img src={types.GAMES_LOGOS[game.name]} />
+      </Typography>
+      <Typography>
+        <Button variant='contained' onClick={close}>Close</Button>
+        {game.state === types.GAME_NOT_STARTED && <Button variant='contained' onClick={leave}>Leave</Button>}
+      </Typography>
 
       {!game.state && <div>
-        <div>
-          Players: {playersInGame.map((playerInGame, index) => (
-            <span key={index}>
-              {game.players.find(player => player.id === playerInGame.id)!.username}:
-              {playerInGame.ready ? 'ready' : 'not ready'},
-            </span>
-          ))}
-        </div>
-        <div>
-          Minimum players in this game: {game.playersMin}
-        </div>
-        <div>
-          Maximum players in this game: {game.playersMax}
-        </div>
-        <Button variant='contained' color='primary' onClick={ready}>Ready</Button>
-        <Button variant='contained' color='primary' onClick={start}>Start</Button>
+        <Button variant='contained' onClick={ready}>{playersInGame.find(playerInGame => playerInGame.id === currentUserId).ready ? 'Not Ready' : 'Ready'}</Button>
+        <Button variant='contained' onClick={start} disabled={!isAbleToStart}>Start</Button>
+
+        <Typography>
+          Players:
+        </Typography>
+        {playersInGame.map((playerInGame, index) => (
+          <Typography key={index}>
+            {game.players.find(player => player.id === playerInGame.id)!.username}: {playerInGame.ready ? 'ready' : 'not ready'}
+          </Typography>
+        ))}
+        <Typography>
+          {game.playersMin} players minimum
+        </Typography>
+        <Typography>
+          {game.playersMax} players maximum
+        </Typography>
       </div>}
 
-    </div>
+    </Paper>
   );
 }
 
 GameInfo.propTypes = {
   game: PropTypes.object.isRequired,
-  currentUsername: PropTypes.string,
+  currentUserId: PropTypes.string.isRequired,
   leave: PropTypes.func.isRequired,
   close: PropTypes.func.isRequired,
   ready: PropTypes.func.isRequired,

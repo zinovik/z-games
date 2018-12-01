@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
+import { Paper } from '@material-ui/core';
 
 import { NoThanks, Perudo, Chat, Header } from '../../containers';
 import { GameInfo, GameResults } from '../../components';
@@ -19,50 +20,52 @@ class GamePage extends React.Component<GamePageProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
   render() {
-    const { currentUser, game } = this.props;
-    let playersInGame;
+    const { isConnected, currentUser, game } = this.props;
 
-    if (game && game.gameData) {
-      playersInGame = JSON.parse(game.gameData).players;
+    if (!currentUser || !game) {
+      return null;
     }
+
+    const playersInGame = JSON.parse(game.gameData).players;
 
     return (
       <div>
         <Header
-          isConnected={this.props.isConnected}
-          currentUsername={this.props.currentUser && this.props.currentUser.username}
+          isConnected={isConnected}
+          currentUsername={currentUser.username}
           signUp={this.zGamesApi.register}
           signIn={this.zGamesApi.login}
           logOut={this.zGamesApi.logout}
         />
 
-        {this.props.match.params.number}
-
-        {game && game.gameData && <div>
-          <React.Fragment>
-            <GameInfo
-              game={game}
-              leave={() => { this.zGamesApi.leaveGame(game.number); }}
-              close={() => { this.zGamesApi.closeGame(game.number); }}
-              ready={() => { this.zGamesApi.readyToGame(game.number); }}
-              start={() => { this.zGamesApi.startGame(game.number); }}
-            />
-          </React.Fragment>
-
-          <div className='game-log-container'>
+        <div>
+          <div className='game-info-container'>
             <React.Fragment>
-              {game.state === 1 && <div>
+              <GameInfo
+                game={game}
+                currentUserId={currentUser.id}
+                leave={() => { this.zGamesApi.leaveGame(game.number); }}
+                close={() => { this.zGamesApi.closeGame(game.number); }}
+                ready={() => { this.zGamesApi.readyToGame(game.number); }}
+                start={() => { this.zGamesApi.startGame(game.number); }}
+              />
+            </React.Fragment>
+          </div>
+
+          <div className='game-and-log-container'>
+            <Paper>
+              {game.state === types.GAME_STARTED && <div>
                 {game.name === types.NO_THANKS && <NoThanks game={game} currentUser={currentUser} move={this.zGamesApi.makeMove} />}
                 {game.name === types.PERUDO && <Perudo game={game} currentUser={currentUser} move={this.zGamesApi.makeMove} />}
               </div>}
-              {game.state > 1 && <GameResults game={game.name} players={game.players} playersInGame={playersInGame || []} />}
-            </React.Fragment>
+              {game.state === types.GAME_FINISHED && <GameResults gameName={game.name} players={game.players} playersInGame={playersInGame || []} />}
+            </Paper>
 
             <React.Fragment>
               {game.logs && <Chat logs={game.logs} newMessage={this.zGamesApi.message} />}
             </React.Fragment>
           </div>
-        </div>}
+        </div>
 
       </div>
     );

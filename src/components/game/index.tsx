@@ -7,17 +7,17 @@ import { Gamepad, OpenInBrowser, RemoveRedEye } from '@material-ui/icons';
 import * as types from '../../constants';
 import './index.css';
 
-const GAMES_LOGOS: any = {
-  [types.NO_THANKS]: '/images/no-thanks.png',
-  [types.PERUDO]: '/images/perudo.png',
-};
-
-export const Game = ({ game, currentUsername, join, open, watch }: { game: types.Game, currentUsername: string | null, join: any, open: any, watch: any }) => {
-  const gameState = (game.state ? (game.state > 1 ? 'finished' : 'started') : 'not started');
+export const Game = ({ game, currentUsername, join, open, watch }: {
+  game: types.Game,
+  currentUsername: string | null,
+  join: () => void,
+  open: () => void,
+  watch: () => void
+}) => {
 
   const isAbleToJoin = !game.state && game.players.length < game.playersMax && !game.players.some(player => player.username === currentUsername);
   const isAbleToOpen = game.players.some(player => player.username === currentUsername);
-  const isAbleToWatch = game.state > 0 && !game.players.some(player => player.username === currentUsername);
+  const isAbleToWatch = game.state > types.GAME_NOT_STARTED && !game.players.some(player => player.username === currentUsername);
 
   return (
     <Card className='game-card'>
@@ -27,15 +27,18 @@ export const Game = ({ game, currentUsername, join, open, watch }: { game: types
       />
 
       <div className='game-logo'>
-        <img src={GAMES_LOGOS[game.name]} />
+        <img src={types.GAMES_LOGOS[game.name]} />
       </div>
 
       <CardContent>
         <Typography>
-          Players: {game.players.length}
+          {game.players.length} {game.players.length === 1 ? 'player' : 'players'}
         </Typography>
         <Typography>
-          {gameState}
+          {game.state === types.GAME_NOT_STARTED && <span className='game-dot game-green-dot' />}
+          {game.state === types.GAME_STARTED && <span className='game-dot game-yellow-dot' />}
+          {game.state === types.GAME_FINISHED && <span className='game-dot game-red-dot' />}
+          {types.GAME_STATE_LABEL[game.state]}
         </Typography>
       </CardContent>
 

@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 
-import { CHIP } from '../../services';
+import { NoThanksCardsList, NoThanksCard, NoThanksChips } from '../../components';
 import * as types from '../../constants';
+import './index.css';
 
 interface NoThanksProps extends React.Props<{}> {
 	game: types.Game,
@@ -15,7 +16,6 @@ export class NoThanks extends React.Component<NoThanksProps, {}> {
 		const {
 			game: {
 				gameData,
-				name,
 				nextPlayers,
 				players,
 			},
@@ -34,64 +34,57 @@ export class NoThanks extends React.Component<NoThanksProps, {}> {
 
 		return (
 			<div>
-				<div>
-					{name}
-				</div>
-				<div>
-					{myTurn && <span>YOUR MOVE!</span>}
-				</div>
-				{nextPlayers && nextPlayers.length && <div>
-					Next player: {players.find(player => player.id === nextPlayers[0].id)!.username}
-				</div>}
-				<div>
+				{myTurn && <Typography>
+					YOUR MOVE!
+				</Typography>}
+
+				{!myTurn && nextPlayers && nextPlayers.length && <Typography>
+					{players.find(player => player.id === nextPlayers[0].id)!.username} is going to make a move...
+				</Typography>}
+
+				<Typography>
+					<NoThanksCard card={currentCard} />
+				</Typography>
+				<Typography>
 					Cards left: {cardsLeft}
-				</div>
-				<div>
-					Current card: {currentCard}
-				</div>
-				<div>
-					{Array((currentCardCost || 0) + 1).join(CHIP)} ({currentCardCost})
-				</div>
+				</Typography>
+				<Typography>
+					<NoThanksChips chips={currentCardCost} />
+				</Typography>
 
 				{playersInGame.map((playerInGame, index) => (
 					<div key={index}>
 						{playerInGame.id !== currentUser.id && <div key={index}>
 							{players.find(player => player.id === playerInGame.id)!.username}:
-							{playerInGame.cards.map((card, i) => (
-								<span key={i}>
-									{card},
-								</span>
-							))}
+							<NoThanksCardsList cards={playerInGame.cards} />
 						</div>}
 					</div>
 				))}
 
-				<div>
-					<div>
-						My chips: {Array(myChips + 1).join(CHIP)} ({myChips})
-					</div>
-					<div>
-						My cards: {playersInGame.find(playerInGame => playerInGame.id === currentUser.id).cards.map((card, i) => (
-							<span key={i}>
-								{card},
-							</span>
-						))}
-					</div>
-					<div>
-						My points: {playersInGame.find(playerInGame => playerInGame.id === currentUser.id).points}
-					</div>
+				<div className='no-thanks-my'>
+					<Typography>
+						MY
+					</Typography>
+					<Typography>
+						<NoThanksCardsList cards={playersInGame.find(playerInGame => playerInGame.id === currentUser.id).cards} />
+					</Typography>
+					<Typography>
+						<NoThanksChips chips={myChips} />
+					</Typography>
+					<Typography>
+						{playersInGame.find(playerInGame => playerInGame.id === currentUser.id).points} points
+					</Typography>
 				</div>
 
 				{myTurn && <div>
 					<Button
 						variant='contained'
-						color='primary'
 						onClick={() => { move(JSON.stringify({ takeCard: false })); }}
 						disabled={!myChips}
 					>
 						Pay
 					</Button>
-					<Button variant='contained' color='primary' onClick={() => { move(JSON.stringify({ takeCard: true })); }}>Take</Button>
+					<Button variant='contained' onClick={() => { move(JSON.stringify({ takeCard: true })); }}>Take</Button>
 				</div>}
 			</div>
 		);
