@@ -1,0 +1,15 @@
+div .new-game-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+}
+
+.new-game-modal-window {
+  width: 300px;
+  padding: 10px;
+  text-align: center;
+}
+
+.new-game-modal-window Button {
+  margin: 10px;
+}

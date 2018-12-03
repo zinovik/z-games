@@ -1,0 +1,12 @@
+.new-message-container {
+  display: flex;
+}
+
+.new-message-container .new-message-input {
+  width: 100%;
+  margin: 5px;
+}
+
+.new-message-container .new-message-button {
+  margin: 5px;
+}
