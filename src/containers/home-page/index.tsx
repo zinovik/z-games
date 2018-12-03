@@ -1,32 +1,37 @@
-import * as React from 'react';
-import { connect } from "react-redux";
+import React, { Component, Props } from 'react';
+import { connect } from 'react-redux';
+import { Typography } from '@material-ui/core';
 
-import { Header } from '../../containers';
-import { NewGame } from '../../components';
+import { Header } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 
-interface HomePageProps extends React.Props<{}> {
+interface HomePageProps extends Props<{}> {
   currentUser: types.User,
   isConnected: boolean,
   allGames: types.Game[],
   usersOnline: types.User[],
 }
 
-class HomePage extends React.Component<HomePageProps, {}> {
+class HomePage extends Component<HomePageProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
   render() {
+    const { isConnected, currentUser } = this.props;
+
     return (
       <div>
         <Header
-          isConnected={this.props.isConnected}
-          currentUsername={this.props.currentUser && this.props.currentUser.username}
+          isConnected={isConnected}
+          currentUsername={currentUser && currentUser.username}
           signUp={this.zGamesApi.register}
           signIn={this.zGamesApi.login}
           logOut={this.zGamesApi.logout}
         />
-        {this.props.currentUser && <NewGame newGame={this.zGamesApi.newGame} />}
+
+        <Typography>
+          Home Page
+        </Typography>
       </div>
     );
   }

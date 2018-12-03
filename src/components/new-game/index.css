@@ -1,5 +1,7 @@
-.new-game-container {
-  text-align: center;
+div .new-game-button {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
 }
 
 .new-game-modal-window {

@@ -1,4 +1,5 @@
-import * as io from 'socket.io-client';
+import io, { Socket } from 'socket.io-client';
+import { Store } from 'redux';
 
 import {
   updateStatus,
@@ -11,25 +12,30 @@ import {
 } from '../../actions';
 import * as types from '../../constants';
 
+export interface History {
+  push: (path: string) => void;
+}
+
 const SERVER_URL = ((window as any).envs && (window as any).envs.SERVER_URL) || 'http://localhost:4000';
+
 export class ZGamesApi {
   private static instance: ZGamesApi;
 
-  private socket;
-  private store;
-  private history;
+  private socket: (typeof Socket) & { query: { token: string } };
+  private store: Store;
+  private history: History;
 
   public static get Instance() {
     return this.instance || (this.instance = new this());
   }
 
-  setStore = async store => {
+  setStore = async (store: Store) => {
 
     const token = localStorage.getItem('token');
 
     this.socket = io(SERVER_URL, {
       query: { token },
-    });
+    }) as (typeof Socket) & { query: { token: string } };
 
     this.store = store;
 
@@ -93,7 +99,7 @@ export class ZGamesApi {
     });
   }
 
-  setHistory = history => {
+  setHistory = (history: History) => {
     this.history = history;
   }
 
@@ -203,5 +209,4 @@ export class ZGamesApi {
 
     return this.history.push(`/game/${gameNumber}`);
   }
-
 }

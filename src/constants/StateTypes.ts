@@ -54,6 +54,8 @@ export interface Log {
 }
 
 export interface PlayerInGame {
+  id: string;
+  ready: boolean;
   place: number;
 
   cards?: number[];

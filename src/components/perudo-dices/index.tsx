@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import { arrayOf, number } from 'prop-types';
 
 import './index.css';
 
@@ -12,7 +12,15 @@ const DICES: string[] = [
   '\u2685',
 ];
 
-export const PerudoDices = ({ dices }: { dices: number[] }) => {
+PerudoDices.propTypes = {
+  dices: arrayOf(number).isRequired,
+}
+
+PerudoDices.defaultProps = {
+  dices: [],
+}
+
+export function PerudoDices({ dices }: { dices: number[] }) {
   return (
     <span>
       {dices.map((dice, i) => (
@@ -23,7 +31,3 @@ export const PerudoDices = ({ dices }: { dices: number[] }) => {
     </span>
   );
 };
-
-PerudoDices.propTypes = {
-  dices: PropTypes.array.isRequired,
-}

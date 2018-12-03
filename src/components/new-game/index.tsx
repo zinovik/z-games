@@ -1,21 +1,25 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import { Button, Modal, Fab, Typography } from '@material-ui/core';
+import React, { Component, Props } from 'react';
+import { func } from 'prop-types';
+import { Button, Modal, Fab } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 
 import * as types from '../../constants';
 import './index.css';
 
-interface NewGameProps extends React.Props<{}> {
+interface NewGameProps extends Props<{}> {
   newGame: (name: string) => void,
 }
 
-export class NewGame extends React.Component<NewGameProps, {}> {
+export class NewGame extends Component<NewGameProps, {}> {
   static propTypes = {
-    newGame: PropTypes.func.isRequired,
+    newGame: func.isRequired,
   };
 
-  state = {
+  static defaultProps = {
+    newGame: () => console.log,
+  }
+
+  public state = {
     isModalShow: false,
   };
 
@@ -41,16 +45,16 @@ export class NewGame extends React.Component<NewGameProps, {}> {
 
   render() {
     return (
-      <div className='new-game-container'>
-        <Fab onClick={this.handleNewGame}>
+      <div>
+        <Fab onClick={this.handleNewGame} className='new-game-button'>
           <Add />
         </Fab>
 
         <Modal open={this.state.isModalShow} onClose={this.handleClose}>
-          <Typography className='new-game-modal-window'>
+          <div className='new-game-modal-window'>
             <Button variant='contained' onClick={this.handleNewNoThanksGame}>{types.NO_THANKS}</Button>
             <Button variant='contained' onClick={this.handleNewPerudoGame}>{types.PERUDO}</Button>
-          </Typography>
+          </div>
         </Modal>
       </div>
     );

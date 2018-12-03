@@ -1,9 +1,17 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import { arrayOf, number } from 'prop-types';
 
 import { NoThanksCard } from '../../components';
 
-export const NoThanksCardsList = ({ cards }: { cards: number[] }) => {
+NoThanksCardsList.propTypes = {
+  cards: arrayOf(number).isRequired,
+}
+
+NoThanksCardsList.defaultProps = {
+  cards: [],
+}
+
+export function NoThanksCardsList({ cards }: { cards: number[] }) {
   return (
     <span>
       {cards.map((card, index) => (
@@ -12,7 +20,3 @@ export const NoThanksCardsList = ({ cards }: { cards: number[] }) => {
     </span>
   );
 };
-
-NoThanksCardsList.propTypes = {
-  cards: PropTypes.array.isRequired,
-}

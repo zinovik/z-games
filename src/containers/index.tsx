@@ -6,4 +6,3 @@ export * from './home-page';
 export * from './logs-list';
 export * from './no-thanks';
 export * from './perudo';
-export * from './header';

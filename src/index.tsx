@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import { render } from 'react-dom';
 import App from './App';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
@@ -25,7 +25,7 @@ const zGamesApi: ZGamesApi = ZGamesApi.Instance;
 const store = createStore(reducers, {}, (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__());
 zGamesApi.setStore(store);
 
-ReactDOM.render(
+render(
   <Router>
     <Provider store={store}>
       <MuiThemeProvider theme={theme}>

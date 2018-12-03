@@ -1,4 +1,5 @@
 import * as types from '../constants';
+import { Action } from '../actions';
 
 const initialState = {
   allGames: [],
@@ -6,7 +7,7 @@ const initialState = {
   openGameNumber: null,
 };
 
-const games = (state: types.GamesState = initialState, action): types.GamesState => {
+const games = (state: types.GamesState = initialState, action: Action): types.GamesState => {
 
   switch (action.type) {
 

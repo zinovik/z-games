@@ -1,14 +1,14 @@
-import * as React from 'react';
+import React, { Component, Props, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Paper } from '@material-ui/core';
 
-import { NoThanks, Perudo, Chat, Header } from '../../containers';
-import { GameInfo, GameResults } from '../../components';
+import { NoThanks, Perudo, Chat } from '../../containers';
+import { Header, GameInfo, GameResults } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 import './index.css';
 
-interface GamePageProps extends React.Props<{}> {
+interface GamePageProps extends Props<{}> {
   currentUser: types.User,
   isConnected: boolean,
   game: types.Game,
@@ -16,7 +16,7 @@ interface GamePageProps extends React.Props<{}> {
   match: { params: { number: string } },
 }
 
-class GamePage extends React.Component<GamePageProps, {}> {
+class GamePage extends Component<GamePageProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
   render() {
@@ -40,7 +40,7 @@ class GamePage extends React.Component<GamePageProps, {}> {
 
         <div>
           <div className='game-info-container'>
-            <React.Fragment>
+            <Fragment>
               <GameInfo
                 game={game}
                 currentUserId={currentUser.id}
@@ -49,7 +49,7 @@ class GamePage extends React.Component<GamePageProps, {}> {
                 ready={() => { this.zGamesApi.readyToGame(game.number); }}
                 start={() => { this.zGamesApi.startGame(game.number); }}
               />
-            </React.Fragment>
+            </Fragment>
           </div>
 
           <div className='game-and-log-container'>
@@ -61,9 +61,9 @@ class GamePage extends React.Component<GamePageProps, {}> {
               {game.state === types.GAME_FINISHED && <GameResults gameName={game.name} players={game.players} playersInGame={playersInGame || []} />}
             </Paper>
 
-            <React.Fragment>
+            <Fragment>
               {game.logs && <Chat logs={game.logs} newMessage={this.zGamesApi.message} />}
-            </React.Fragment>
+            </Fragment>
           </div>
         </div>
 

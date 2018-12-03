@@ -1,17 +1,30 @@
-import * as React from 'react';
+import React, { Component, Props } from 'react';
+import { object, func } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
 
 import { NoThanksCardsList, NoThanksCard, NoThanksChips } from '../../components';
 import * as types from '../../constants';
 import './index.css';
 
-interface NoThanksProps extends React.Props<{}> {
+interface NoThanksProps extends Props<{}> {
 	game: types.Game,
 	currentUser: types.User,
 	move: (move: string) => void,
 }
 
-export class NoThanks extends React.Component<NoThanksProps, {}> {
+export class NoThanks extends Component<NoThanksProps, {}> {
+	static propTypes = {
+		game: object.isRequired,
+		currentUser: object.isRequired,
+		move: func.isRequired,
+	}
+
+	static defaultProps = {
+		game: {},
+		currentUser: {},
+		move: () => console.log,
+	}
+
 	render() {
 		const {
 			game: {
@@ -30,7 +43,7 @@ export class NoThanks extends React.Component<NoThanksProps, {}> {
 		const { currentCard, currentCardCost, cardsLeft, players: playersInGame } = JSON.parse(gameData);
 
 		const myTurn = nextPlayers.find(nextPlayer => nextPlayer.id === currentUser.id);
-		const myChips = playersInGame.find(playerInGame => playerInGame.id === currentUser.id).chips;
+		const myChips = playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id).chips;
 
 		return (
 			<div>
@@ -52,11 +65,11 @@ export class NoThanks extends React.Component<NoThanksProps, {}> {
 					<NoThanksChips chips={currentCardCost} />
 				</Typography>
 
-				{playersInGame.map((playerInGame, index) => (
+				{playersInGame.map((playerInGame: types.PlayerInGame, index: number) => (
 					<div key={index}>
 						{playerInGame.id !== currentUser.id && <div key={index}>
 							{players.find(player => player.id === playerInGame.id)!.username}:
-							<NoThanksCardsList cards={playerInGame.cards} />
+							<NoThanksCardsList cards={playerInGame.cards || []} />
 						</div>}
 					</div>
 				))}
@@ -66,13 +79,13 @@ export class NoThanks extends React.Component<NoThanksProps, {}> {
 						MY
 					</Typography>
 					<Typography>
-						<NoThanksCardsList cards={playersInGame.find(playerInGame => playerInGame.id === currentUser.id).cards} />
+						<NoThanksCardsList cards={playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id).cards} />
 					</Typography>
 					<Typography>
 						<NoThanksChips chips={myChips} />
 					</Typography>
 					<Typography>
-						{playersInGame.find(playerInGame => playerInGame.id === currentUser.id).points} points
+						{playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id).points} points
 					</Typography>
 				</div>
 

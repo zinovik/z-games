@@ -1,5 +1,5 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import { string, array } from 'prop-types';
 import { Typography } from '@material-ui/core';
 
 import { NoThanksCardsList, NoThanksChips } from '../../components'
@@ -16,8 +16,23 @@ interface Result {
   dicesCount: number,
 }
 
-export const GameResults = ({ gameName, players, playersInGame }: { gameName: string, players: types.User[], playersInGame: types.PlayerInGame[] }) => {
+GameResults.propTypes = {
+  gameName: string.isRequired,
+  players: array.isRequired,
+  playersInGame: array.isRequired,
+}
 
+GameResults.defaultProps = {
+  gameName: 'game-name',
+  players: [],
+  playersInGame: [],
+}
+
+export function GameResults({ gameName, players, playersInGame }: {
+  gameName: string,
+  players: types.User[],
+  playersInGame: types.PlayerInGame[],
+}) {
   const results: Result[] = playersInGame.map((playerInGame, index) => {
     return {
       username: players[index].username,
@@ -56,10 +71,4 @@ export const GameResults = ({ gameName, players, playersInGame }: { gameName: st
       ))}
     </div>
   );
-}
-
-GameResults.propTypes = {
-  gameName: PropTypes.string.isRequired,
-  players: PropTypes.array.isRequired,
-  playersInGame: PropTypes.array.isRequired,
 }

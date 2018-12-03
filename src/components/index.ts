@@ -11,3 +11,4 @@ export * from './no-thanks-cards-list';
 export * from './no-thanks-card';
 export * from './no-thanks-chips';
 export * from './perudo-dices';
+export * from './header';

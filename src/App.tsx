@@ -1,17 +1,21 @@
-import * as React from 'react';
+import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
 import HomePage from './containers/home-page';
 import GamesPage from './containers/games-page';
 import GamePage from './containers/game-page';
-import { ZGamesApi } from './services';
+import { ZGamesApi, History } from './services';
 import './App.css';
 
-class App extends React.Component<{}, {}> {
+interface AppProps {
+  history: History,
+};
+
+class App extends Component<AppProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
-  constructor(props) {
+  constructor(props: AppProps) {
     super(props);
     this.zGamesApi.setHistory(props.history);
   }
@@ -29,4 +33,4 @@ class App extends React.Component<{}, {}> {
 
 }
 
-export default withRouter(App);
+export default withRouter(App as any);

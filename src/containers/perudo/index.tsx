@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React, { Component, Props } from 'react';
+import { object, func } from 'prop-types';
 import { Button, Checkbox, Typography } from '@material-ui/core';
 
 import { PerudoDices } from '../../components';
@@ -7,7 +8,7 @@ import * as types from '../../constants';
 const DICE_MAX_FIGURE = 6;
 const JOKER_FIGURE = 1;
 
-interface PerudoProps extends React.Props<{}> {
+interface PerudoProps extends Props<{}> {
 	game: types.Game,
 	currentUser: types.User,
 	move: (move: string) => void,
@@ -19,7 +20,19 @@ interface PerudoState {
 	isMaputo: boolean;
 }
 
-export class Perudo extends React.Component<PerudoProps, PerudoState> {
+export class Perudo extends Component<PerudoProps, PerudoState> {
+	static propTypes = {
+		game: object.isRequired,
+		currentUser: object.isRequired,
+		move: func.isRequired,
+	}
+
+	static defaultProps = {
+		game: {},
+		currentUser: {},
+		move: () => console.log,
+	}
+
 	public state = {
 		diceNumber: 0,
 		diceFigure: 0,
@@ -50,7 +63,9 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 
 		const { game: { gameData } } = this.props;
 		const { currentDiceFigure, currentDiceNumber, players: playersInGame } = JSON.parse(gameData);
-		const allDicesCount = playersInGame.reduce((diceCount, player) => diceCount + (player.dicesCount || 0), 0);
+		const allDicesCount = playersInGame.reduce((diceCount: number, playerInGame: types.PlayerInGame) => {
+			return diceCount + (playerInGame.dicesCount || 0);
+		}, 0);
 
 		if (currentDiceNumber === allDicesCount && diceFigure <= currentDiceFigure) {
 			diceNumber = allDicesCount;
@@ -67,7 +82,9 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 
 		const { game: { gameData } } = this.props;
 		const { currentDiceFigure, currentDiceNumber, players: playersInGame } = JSON.parse(gameData);
-		const allDicesCount = playersInGame.reduce((diceCount, player) => diceCount + (player.dicesCount || 0), 0);
+		const allDicesCount = playersInGame.reduce((diceCount: number, playerInGame: types.PlayerInGame) => {
+			return diceCount + (playerInGame.dicesCount || 0);
+		}, 0);
 		const minDiceNumber = currentDiceFigure === JOKER_FIGURE ? currentDiceNumber + 1 : Math.ceil(currentDiceNumber / 2);
 
 		if (diceNumber >= allDicesCount) {
@@ -83,14 +100,17 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 	}
 
 	moveBet = (diceNumber: number, diceFigure: number) => {
+		const { move } = this.props;
 		const { isMaputo } = this.state;
 
-		this.props.move(JSON.stringify({ number: diceNumber, figure: diceFigure, isMaputo }));
+		move(JSON.stringify({ number: diceNumber, figure: diceFigure, isMaputo }));
 		this.setState({ diceNumber: 0, diceFigure: 0 });
 	}
 
 	moveNotBelieve = () => {
-		this.props.move(JSON.stringify({ notBelieve: true }));
+		const { move } = this.props;
+
+		move(JSON.stringify({ notBelieve: true }));
 		this.setState({ diceNumber: 0, diceFigure: 0 });
 	}
 
@@ -113,8 +133,8 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 		}
 
 		const { currentDiceNumber, currentDiceFigure, currentRound, lastPlayerNumber, isMaputoRound, lastRoundResults, players: playersInGame } = JSON.parse(gameData);
-		const isMaputoAble = playersInGame.find(playerInGame => playerInGame.id === currentUser.id).dices.length === 1 && !currentDiceNumber && !currentDiceFigure;
-		const allDicesCount = playersInGame.reduce((diceCount, player) => diceCount + (player.dicesCount || 0), 0);
+		const isMaputoAble = playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id).dices.length === 1 && !currentDiceNumber && !currentDiceFigure;
+		const allDicesCount = playersInGame.reduce((diceCount: number, playerInGame: types.PlayerInGame) => diceCount + (playerInGame.dicesCount || 0), 0);
 		const minDiceNumber = currentDiceFigure === JOKER_FIGURE ? currentDiceNumber + 1 : Math.ceil(currentDiceNumber / 2);
 
 		let { diceNumber, diceFigure } = this.state;
@@ -167,13 +187,13 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 					Last player: {players[lastPlayerNumber].username}
 				</Typography>}
 
-				{lastRoundResults && <div>
+				{lastRoundResults.length > 0 && <div>
 					<Typography>
 						Last round results:
 					</Typography>
-					{lastRoundResults.map((lastRoundResult, index) => (
+					{lastRoundResults.map((playerResult: types.PlayerInGame, index: number) => (
 						<Typography key={index}>
-							{players[index].username}: <PerudoDices dices={lastRoundResult.dices} />
+							{players[index].username}: <PerudoDices dices={playerResult.dices || []} />
 						</Typography>
 					))}
 				</div>}
@@ -182,27 +202,27 @@ export class Perudo extends React.Component<PerudoProps, PerudoState> {
 					Round: {currentRound} {isMaputoRound && <span>(maputo)</span>}
 				</Typography>
 
-				{playersInGame.map((playerInGame, index) => (
+				{playersInGame.map((playerInGame: types.PlayerInGame, index: number) => (
 					<div key={index}>
 						{playerInGame.id !== currentUser.id && <Typography key={index}>
-							{players[index].username}: {playerInGame.dicesCount} dices
+							{players.find(player => player.id === playerInGame.id)!.username}: {playerInGame.dicesCount} dices
 						</Typography>}
 					</div>
 				))}
 
-				{playersInGame.map((playerInGame, index) => (
+				{playersInGame.map((playerInGame: types.PlayerInGame, index: number) => (
 					<div key={index}>
-						{(playerInGame.id === currentUser.id) && <Typography>
-							My dices: <PerudoDices dices={playerInGame.dices} />
+						{playerInGame.id === currentUser.id && <Typography>
+							My dices: <PerudoDices dices={playerInGame.dices || []} />
 						</Typography>}
 					</div>
 				))}
 
 				{(currentDiceNumber && currentDiceFigure) ? <Typography>
-					Current bet: <PerudoDices dices={Array(currentDiceNumber + 1).fill(currentDiceFigure)} />
+					Current bet: <PerudoDices dices={Array(currentDiceNumber).fill(currentDiceFigure)} />
 				</Typography> : ''}
 				{myTurn && <Typography>
-					My bet: <PerudoDices dices={Array(diceNumber + 1).fill(diceFigure)} />
+					My bet: <PerudoDices dices={Array(diceNumber).fill(diceFigure)} />
 				</Typography>}
 
 				{myTurn && <div>

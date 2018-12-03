@@ -1,4 +1,5 @@
 import * as types from '../constants';
+import { Action } from '../actions';
 
 const initialState = {
   isConnected: false,
@@ -6,7 +7,7 @@ const initialState = {
   usersOnline: [],
 };
 
-const users = (state: types.UsersState = initialState, action): types.UsersState => {
+const users = (state: types.UsersState = initialState, action: Action): types.UsersState => {
 
   switch (action.type) {
 

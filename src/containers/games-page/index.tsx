@@ -1,43 +1,45 @@
-import * as React from 'react';
+import React, { Component, Props } from 'react';
 import { connect } from "react-redux";
 
-import { Header, GamesList } from '../../containers';
-import { UsersOnline, NewGame } from '../../components';
+import { GamesList } from '../../containers';
+import { Header, UsersOnline, NewGame } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 
-interface GamesPageProps extends React.Props<{}> {
+interface GamesPageProps extends Props<{}> {
   currentUser: types.User,
   isConnected: boolean,
   allGames: types.Game[],
   usersOnline: types.User[],
 }
 
-class GamesPage extends React.Component<GamesPageProps, {}> {
+class GamesPage extends Component<GamesPageProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
   render() {
+    const { isConnected, currentUser, allGames, usersOnline } = this.props;
+
     return (
       <div>
         <Header
-          isConnected={this.props.isConnected}
-          currentUsername={this.props.currentUser && this.props.currentUser.username}
+          isConnected={isConnected}
+          currentUsername={currentUser && currentUser.username}
           signUp={this.zGamesApi.register}
           signIn={this.zGamesApi.login}
           logOut={this.zGamesApi.logout}
         />
 
-        {this.props.currentUser && <NewGame newGame={this.zGamesApi.newGame} />}
+        {currentUser && <NewGame newGame={this.zGamesApi.newGame} />}
 
         <GamesList
-          allGames={this.props.allGames}
-          currentUsername={this.props.currentUser && this.props.currentUser.username}
+          allGames={allGames}
+          currentUsername={currentUser && currentUser.username}
           joinGame={this.zGamesApi.joinGame}
           openGame={this.zGamesApi.openGame}
           watchGame={this.zGamesApi.watchGame}
         />
 
-        <UsersOnline usersOnline={this.props.usersOnline} />
+        <UsersOnline usersOnline={usersOnline} />
       </div>
     );
   }

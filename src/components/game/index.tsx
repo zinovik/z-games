@@ -1,20 +1,35 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
-import * as moment from 'moment';
+import React from 'react';
+import { object, string, func } from 'prop-types';
+import moment from 'moment';
 import { Card, CardHeader, CardContent, Typography, IconButton, CardActions } from '@material-ui/core';
 import { Gamepad, OpenInBrowser, RemoveRedEye } from '@material-ui/icons';
 
 import * as types from '../../constants';
 import './index.css';
 
-export const Game = ({ game, currentUsername, join, open, watch }: {
+Game.propTypes = {
+  game: object.isRequired,
+  currentUsername: string,
+  join: func.isRequired,
+  open: func.isRequired,
+  watch: func.isRequired,
+}
+
+Game.defaultProps = {
+  game: {},
+  currentUsername: undefined,
+  join: () => console.log,
+  open: () => console.log,
+  watch: () => console.log,
+}
+
+export function Game({ game, currentUsername, join, open, watch }: {
   game: types.Game,
-  currentUsername: string | null,
+  currentUsername: string | undefined,
   join: () => void,
   open: () => void,
   watch: () => void
-}) => {
-
+}) {
   const isAbleToJoin = !game.state && game.players.length < game.playersMax && !game.players.some(player => player.username === currentUsername);
   const isAbleToOpen = game.players.some(player => player.username === currentUsername);
   const isAbleToWatch = game.state > types.GAME_NOT_STARTED && !game.players.some(player => player.username === currentUsername);
@@ -55,12 +70,4 @@ export const Game = ({ game, currentUsername, join, open, watch }: {
       </CardActions>}
     </Card>
   );
-}
-
-Game.propTypes = {
-  game: PropTypes.object.isRequired,
-  currentUsername: PropTypes.string,
-  join: PropTypes.func.isRequired,
-  open: PropTypes.func.isRequired,
-  watch: PropTypes.func.isRequired,
 }

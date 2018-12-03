@@ -1,9 +1,17 @@
-import * as React from 'react';
-import * as PropTypes from 'prop-types';
+import React from 'react';
+import { array } from 'prop-types';
 
 import * as types from '../../constants';
 
-export const UsersOnline = ({ usersOnline }: { usersOnline: types.User[] }) => {
+UsersOnline.propTypes = {
+  usersOnline: array.isRequired,
+}
+
+UsersOnline.defaultProps = {
+  usersOnline: [],
+}
+
+export function UsersOnline({ usersOnline }: { usersOnline: types.User[] }) {
   return (
     <div>
       {usersOnline.map((userOnline, index) => (
@@ -11,8 +19,4 @@ export const UsersOnline = ({ usersOnline }: { usersOnline: types.User[] }) => {
       )}
     </div>
   );
-}
-
-UsersOnline.propTypes = {
-  usersOnline: PropTypes.array.isRequired,
 }
