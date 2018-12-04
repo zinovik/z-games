@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { array, func } from 'prop-types';
-import { Paper } from '@material-ui/core';
 
 import { LogsList } from '../../containers';
 import { NewMessage } from '../../components';
@@ -9,14 +8,19 @@ import * as types from '../../constants';
 
 export const Chat = ({ logs, newMessage }: { logs: types.Log[], newMessage: (message: string) => void }) => {
   return (
-    <Paper>
+    <Fragment>
       <NewMessage newMessage={newMessage} />
       <LogsList logs={logs} />
-    </Paper>
+    </Fragment>
   );
 };
 
 Chat.propTypes = {
   logs: array.isRequired,
   newMessage: func.isRequired,
+};
+
+Chat.defaultProps = {
+  logs: [],
+  newMessage: () => console.log,
 };

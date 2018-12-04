@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { string, array } from 'prop-types';
 import { Typography } from '@material-ui/core';
 
-import { NoThanksCardsList, NoThanksChips } from '../../components'
+import { GamePlayer } from '../../components'
 import * as types from '../../constants';
+import './index.css';
 
 interface Result {
   username: string;
@@ -35,7 +36,7 @@ export function GameResults({ gameName, players, playersInGame }: {
 }) {
   const results: Result[] = playersInGame.map((playerInGame, index) => {
     return {
-      username: players[index].username,
+      username: players.find(player => player.id === playerInGame.id)!.username,
       cards: playerInGame.cards || [],
       chips: playerInGame.chips || 0,
       points: playerInGame.points || 0,
@@ -44,31 +45,27 @@ export function GameResults({ gameName, players, playersInGame }: {
     };
   });
 
-  results.sort((a, b) => {
-    if (a.place === b.place) {
-      return a.points - b.points;
-    }
-    return a.place - b.place;
-  });
+  results.sort((a, b) => (a.place === b.place ? a.points - b.points : a.place - b.place));
 
   return (
-    <div>
+    <Fragment>
       {results.map((result, index) => (
-        <div key={index}>
-          <Typography>{result.place} place - {result.username}</Typography>
+        <div key={index} className='game-results-player'>
+          <Typography>
+            {result.place} place
+          </Typography>
 
-          {gameName === types.NO_THANKS && <div>
-            <Typography>Points: {result.points}</Typography>
-            <Typography><NoThanksCardsList cards={result.cards} /></Typography>
-            <Typography>
-              <NoThanksChips chips={result.chips} />
-            </Typography>
-          </div>}
-
-          {gameName === types.PERUDO && result.dicesCount ? <Typography>{result.dicesCount} dices remained</Typography> : ''}
+          <GamePlayer
+            gameName={gameName}
+            username={result.username}
+            cards={result.cards}
+            chips={result.chips}
+            points={result.points}
+            dicesCount={result.dicesCount}
+          />
 
         </div>
       ))}
-    </div>
+    </Fragment>
   );
 }

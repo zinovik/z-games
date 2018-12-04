@@ -2,8 +2,8 @@ import React, { Component, Props, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Paper } from '@material-ui/core';
 
-import { NoThanks, Perudo, Chat } from '../../containers';
-import { Header, GameInfo, GameResults } from '../../components';
+import { GameTable, Chat } from '../../containers';
+import { Header, GameInfo } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 import './index.css';
@@ -26,10 +26,8 @@ class GamePage extends Component<GamePageProps, {}> {
       return null;
     }
 
-    const playersInGame = JSON.parse(game.gameData).players;
-
     return (
-      <div>
+      <Fragment>
         <Header
           isConnected={isConnected}
           currentUsername={currentUser.username}
@@ -38,9 +36,15 @@ class GamePage extends Component<GamePageProps, {}> {
           logOut={this.zGamesApi.logout}
         />
 
-        <div>
-          <div className='game-info-container'>
-            <Fragment>
+        <div className='game-page-container'>
+          <div className='game-page-table'>
+            <Paper>
+              <GameTable game={game} currentUser={currentUser} move={this.zGamesApi.makeMove} />
+            </Paper>
+          </div>
+
+          <div className='game-page-info-and-chat'>
+            <Paper>
               <GameInfo
                 game={game}
                 currentUserId={currentUser.id}
@@ -49,25 +53,15 @@ class GamePage extends Component<GamePageProps, {}> {
                 ready={() => { this.zGamesApi.readyToGame(game.number); }}
                 start={() => { this.zGamesApi.startGame(game.number); }}
               />
-            </Fragment>
-          </div>
-
-          <div className='game-and-log-container'>
-            <Paper>
-              {game.state === types.GAME_STARTED && <div>
-                {game.name === types.NO_THANKS && <NoThanks game={game} currentUser={currentUser} move={this.zGamesApi.makeMove} />}
-                {game.name === types.PERUDO && <Perudo game={game} currentUser={currentUser} move={this.zGamesApi.makeMove} />}
-              </div>}
-              {game.state === types.GAME_FINISHED && <GameResults gameName={game.name} players={game.players} playersInGame={playersInGame || []} />}
             </Paper>
 
-            <Fragment>
-              {game.logs && <Chat logs={game.logs} newMessage={this.zGamesApi.message} />}
-            </Fragment>
+            <Paper>
+              <Chat logs={game.logs} newMessage={this.zGamesApi.message} />
+            </Paper>
           </div>
         </div>
 
-      </div>
+      </Fragment>
     );
   }
 }

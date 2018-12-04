@@ -1,25 +1,40 @@
-.game-info-container > div {
-  max-width: 1390px;
-  margin: 5px;
-  padding: 5px;
-}
-
-.game-and-log-container {
-  max-width: 1400px;
+.game-page-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  height: 100%;
 }
 
-.game-and-log-container > div {
+.game-page-container > div {
   flex: 1;
-  min-width: 350px;
+}
+
+.game-page-table {
   margin: 5px;
+  min-width: 500px;
+}
+
+.game-page-table > div {
+  height: 100%;
+  padding: 5px;
+}
+
+.game-page-info-and-chat {
+  min-width: 400px;
+  max-width: 500px;
+  width: 30%;
+}
+
+.game-page-info-and-chat > div {
+  margin: 5px;
+}
+
+.game-page-info-and-chat > div > div {
   padding: 5px;
 }
 
 @media screen and (max-width: 516px) {
-  .game-and-log-container > div {
+  .game-page-container > div {
     width: 100%;
   }
 }

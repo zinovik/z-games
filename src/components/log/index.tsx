@@ -19,30 +19,28 @@ Log.defaultProps = {
 
 export function Log({ type, createdAt, username, text }: { type: string, createdAt: Date, username: string, text?: string }) {
   return (
-    <div>
-      <Typography>
-        <span>{moment(createdAt).calendar()}: </span>
+    <Typography>
+      <span>{moment(createdAt).calendar()}: </span>
 
-        {type === 'message' && <span>{username}: {text}</span>}
+      {type === 'message' && <span>{username}: {text}</span>}
 
-        {(type === 'connect' ||
-          type === 'disconnect') && <span>{username} {type}ed</span>}
+      {(type === 'connect' ||
+        type === 'disconnect') && <span>{username} {type}ed</span>}
 
-        {(type === 'join' ||
-          type === 'start' ||
-          type === 'open') && <span>{username} {type}ed the game</span>}
-        {(type === 'create' ||
-          type === 'close' ||
-          type === 'leave') && <span>{username} {type}d the game</span>}
+      {(type === 'join' ||
+        type === 'start' ||
+        type === 'open') && <span>{username} {type}ed the game</span>}
+      {(type === 'create' ||
+        type === 'close' ||
+        type === 'leave') && <span>{username} {type}d the game</span>}
 
-        {type === 'ready' && <span>{username} updated his ready status</span>}
+      {type === 'ready' && <span>{username} updated his ready status</span>}
 
-        {type === 'watch' && <span>{username} started to watch the game</span>}
+      {type === 'watch' && <span>{username} started to watch the game</span>}
 
-        {type === 'move' && <span>{username} made a move</span>}
+      {type === 'move' && <span>{username} made a move</span>}
 
-        {type === 'finish' && <span>The game has been finished</span>}
-      </Typography>
-    </div>
+      {type === 'finish' && <span>The game has been finished</span>}
+    </Typography>
   );
 }

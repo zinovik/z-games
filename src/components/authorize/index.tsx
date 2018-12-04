@@ -1,6 +1,8 @@
 import React, { Component, ChangeEvent, Props } from 'react';
 import { func } from 'prop-types';
-import { Modal, Button, Input } from '@material-ui/core';
+import { Modal, Typography, Button, Input } from '@material-ui/core';
+
+import './index.css';
 
 interface AuthorizeProps extends Props<{}> {
   onSignInClick: (username: string, password: string) => void,
@@ -62,11 +64,21 @@ export class Authorize extends Component<AuthorizeProps, {}> {
         </Button>
 
         <Modal open={this.state.isModalShow} onClose={this.handleClose}>
-          <div>
-            <Input type="text" placeholder="Username" onChange={this.handleUsernameChange} />
-            <Input type="password" placeholder="Password" onChange={this.handlePasswordChange} />
-            <Button variant='contained' onClick={this.handleSignInClick}>Sign in</Button>
-            <Button variant='contained' onClick={this.handleSignUpClick}>Sign up</Button>
+          <div className='authorize-modal-window'>
+            <div>
+              <div>
+                <Input type="text" placeholder="Username" onChange={this.handleUsernameChange} />
+              </div>
+
+              <div>
+                <Input type="password" placeholder="Password" onChange={this.handlePasswordChange} />
+              </div>
+
+              <Typography>
+                <Button variant='contained' onClick={this.handleSignInClick}>Sign in</Button>
+                <Button variant='contained' onClick={this.handleSignUpClick}>Sign up</Button>
+              </Typography>
+            </div>
           </div>
         </Modal>
       </div>

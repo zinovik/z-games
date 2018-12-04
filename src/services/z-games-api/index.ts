@@ -118,6 +118,10 @@ export class ZGamesApi {
 
     const parseResult = await fetchResult.json();
 
+    if (parseResult === 'Check email') { // TODO!
+      alert('You\'ve successfully registered, you can sign in');
+    }
+
     return parseResult;
   };
 

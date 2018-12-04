@@ -1,15 +1,16 @@
-div .new-game-button {
+div.new-game-button {
   position: fixed;
   bottom: 30px;
   right: 30px;
 }
 
 .new-game-modal-window {
-  width: 300px;
-  padding: 10px;
-  text-align: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
 }
 
-.new-game-modal-window Button {
+.new-game-modal-window > div > button {
   margin: 10px;
 }

@@ -12,3 +12,7 @@ export * from './no-thanks-card';
 export * from './no-thanks-chips';
 export * from './perudo-dices';
 export * from './header';
+export * from './game-players';
+export * from './game-player';
+export * from './no-thanks-player';
+export * from './perudo-player';

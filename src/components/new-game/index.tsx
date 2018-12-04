@@ -1,4 +1,4 @@
-import React, { Component, Props } from 'react';
+import React, { Component, Props, Fragment } from 'react';
 import { func } from 'prop-types';
 import { Button, Modal, Fab } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
@@ -45,18 +45,22 @@ export class NewGame extends Component<NewGameProps, {}> {
 
   render() {
     return (
-      <div>
-        <Fab onClick={this.handleNewGame} className='new-game-button'>
-          <Add />
-        </Fab>
+      <Fragment>
+        <div className='new-game-button'>
+          <Fab onClick={this.handleNewGame}>
+            <Add />
+          </Fab>
+        </div>
 
         <Modal open={this.state.isModalShow} onClose={this.handleClose}>
           <div className='new-game-modal-window'>
-            <Button variant='contained' onClick={this.handleNewNoThanksGame}>{types.NO_THANKS}</Button>
-            <Button variant='contained' onClick={this.handleNewPerudoGame}>{types.PERUDO}</Button>
+            <div>
+              <Button variant='contained' onClick={this.handleNewNoThanksGame}>{types.NO_THANKS}</Button>
+              <Button variant='contained' onClick={this.handleNewPerudoGame}>{types.PERUDO}</Button>
+            </div>
           </div>
         </Modal>
-      </div>
+      </Fragment>
     );
   }
 
