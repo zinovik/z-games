@@ -1,8 +1,8 @@
-import React, { Component, Props } from 'react';
+import React, { Component, Props, Fragment } from 'react';
 import { object, func } from 'prop-types';
 import { Button, Checkbox, Typography } from '@material-ui/core';
 
-import { PerudoDices } from '../../components';
+import { GamePlayers, PerudoDices } from '../../components';
 import * as types from '../../constants';
 
 const DICE_MAX_FIGURE = 6;
@@ -171,90 +171,83 @@ export class Perudo extends Component<PerudoProps, PerudoState> {
 		const myBetFigureDecDisable = diceFigure <= (currentDiceNumber && currentDiceFigure ? 1 : 2) || figureChangeImpossible;
 		const myBetFigureIncDisable = diceFigure >= DICE_MAX_FIGURE || figureChangeImpossible;
 
-		const myTurn = nextPlayers.find(nextPlayer => nextPlayer.id === currentUser.id);
+		const myTurn = nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id);
 
 		return (
-			<div>
-				{myTurn && <Typography>
-					YOUR MOVE!
-				</Typography>}
-
-				{!myTurn && nextPlayers && nextPlayers.length && <Typography>
-					{players.find(player => player.id === nextPlayers[0].id)!.username} is going to make a move...
-				</Typography>}
-
-				{(lastPlayerNumber || lastPlayerNumber === 0) && <Typography>
-					Last player: {players[lastPlayerNumber].username}
-				</Typography>}
-
-				{lastRoundResults.length > 0 && <div>
+			<Fragment>
+				{lastRoundResults.length > 0 && <Fragment>
 					<Typography>
-						Last round results:
+						Last round results
 					</Typography>
-					{lastRoundResults.map((playerResult: types.PlayerInGame, index: number) => (
-						<Typography key={index}>
-							{players[index].username}: <PerudoDices dices={playerResult.dices || []} />
-						</Typography>
-					))}
-				</div>}
+
+					<GamePlayers
+						gameName={types.PERUDO}
+						currentUserId={''}
+						playersInGame={lastRoundResults}
+						players={players}
+						nextPlayers={[]}
+						results={true}
+					/>
+				</Fragment>}
 
 				<Typography>
 					Round: {currentRound} {isMaputoRound && <span>(maputo)</span>}
 				</Typography>
 
-				{playersInGame.map((playerInGame: types.PlayerInGame, index: number) => (
-					<div key={index}>
-						{playerInGame.id !== currentUser.id && <Typography key={index}>
-							{players.find(player => player.id === playerInGame.id)!.username}: {playerInGame.dicesCount} dices
-						</Typography>}
-					</div>
-				))}
-
-				{playersInGame.map((playerInGame: types.PlayerInGame, index: number) => (
-					<div key={index}>
-						{playerInGame.id === currentUser.id && <Typography>
-							My dices: <PerudoDices dices={playerInGame.dices || []} />
-						</Typography>}
-					</div>
-				))}
-
-				{(currentDiceNumber && currentDiceFigure) ? <Typography>
-					Current bet: <PerudoDices dices={Array(currentDiceNumber).fill(currentDiceFigure)} />
-				</Typography> : ''}
-				{myTurn && <Typography>
-					My bet: <PerudoDices dices={Array(diceNumber).fill(diceFigure)} />
+				{(lastPlayerNumber || lastPlayerNumber === 0) && <Typography>
+					Last player: {players[lastPlayerNumber].username}
 				</Typography>}
 
-				{myTurn && <div>
+				{(currentDiceNumber && currentDiceFigure) ? <Fragment>
+					<Typography>
+						Current bet
+					</Typography>
 
-					<div>
-						<Typography>
-							Dice number:
-						</Typography>
-						<Typography>
-							<Button variant='contained' onClick={() => { this.numberDec({ diceNumber, diceFigure }); }} disabled={myBetNumberDecDisable}>-</Button>
-							{diceNumber}
-							<Button variant='contained' onClick={() => { this.numberInc({ diceNumber, diceFigure }); }} disabled={myBetNumberIncDisable}>+</Button>
-						</Typography>
-					</div>
+					<PerudoDices dices={Array(currentDiceNumber).fill(currentDiceFigure)} />
+				</Fragment> : ''}
 
-					{!isMaputoRound && <div>
+				{myTurn && <Fragment>
+					<Typography>
+						My bet
+					</Typography>
+
+					<PerudoDices dices={Array(diceNumber).fill(diceFigure)} />
+				</Fragment>}
+
+				{myTurn && <Fragment>
+
+					<Typography>
+						Dice number
+						</Typography>
+					<Typography>
+						<Button variant='contained' onClick={() => { this.numberDec({ diceNumber, diceFigure }); }} disabled={myBetNumberDecDisable}>-</Button>
+						{diceNumber}
+						<Button variant='contained' onClick={() => { this.numberInc({ diceNumber, diceFigure }); }} disabled={myBetNumberIncDisable}>+</Button>
+					</Typography>
+
+					{!isMaputoRound && <Fragment>
 						<Typography>
-							Dice figure:
+							Dice figure
 						</Typography>
 						<Typography>
 							<Button variant='contained' onClick={() => { this.figureDec({ diceNumber, diceFigure }); }} disabled={myBetFigureDecDisable}>-</Button>
 							{diceFigure}
 							<Button variant='contained' onClick={() => { this.figureInc({ diceNumber, diceFigure }); }} disabled={myBetFigureIncDisable}>+</Button>
 						</Typography>
-					</div>}
+					</Fragment>}
 
-					{isMaputoAble && <Typography><Checkbox onChange={this.handleMaputoChange} />Maputo</Typography>}
-					<Button variant='contained' onClick={() => { this.moveBet(diceNumber, diceFigure); }} disabled={moveImpossible}>Bet</Button>
-					<Button variant='contained' onClick={() => { this.moveNotBelieve(); }} disabled={!currentDiceNumber || !currentDiceFigure}>Not Believe</Button>
+					{isMaputoAble && <Typography>
+						<Checkbox onChange={this.handleMaputoChange} />
+						Maputo
+					</Typography>}
 
-				</div>}
-			</div>
+					<Typography>
+						<Button variant='contained' onClick={() => { this.moveBet(diceNumber, diceFigure); }} disabled={moveImpossible}>Bet</Button>
+						<Button variant='contained' onClick={() => { this.moveNotBelieve(); }} disabled={!currentDiceNumber || !currentDiceFigure}>Not Believe</Button>
+					</Typography>
+
+				</Fragment>}
+			</Fragment>
 		);
 	}
 };

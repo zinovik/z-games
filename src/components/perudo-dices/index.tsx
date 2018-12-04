@@ -1,5 +1,6 @@
 import React from 'react';
 import { arrayOf, number } from 'prop-types';
+import { Typography } from '@material-ui/core';
 
 import './index.css';
 
@@ -22,12 +23,12 @@ PerudoDices.defaultProps = {
 
 export function PerudoDices({ dices }: { dices: number[] }) {
   return (
-    <span>
+    <Typography>
       {dices.map((dice, i) => (
         <span key={i} className='perudo-dices-dice'>
           {DICES[dice - 1]}
         </span>
       ))}
-    </span>
+    </Typography>
   );
 };

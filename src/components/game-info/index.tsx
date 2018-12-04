@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { object, string, func } from 'prop-types';
-import { Button, Paper, Typography } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 
 import * as types from '../../constants';
+import './index.css';
 
 GameInfo.propTypes = {
   game: object.isRequired,
@@ -37,37 +38,40 @@ export function GameInfo({ game, currentUserId, leave, close, ready, start }: {
     && playersInGame.every((playerInGame: types.PlayerInGame) => playerInGame.ready);
 
   return (
-    <Paper>
+    <div className='game-info-container'>
       <Typography>
         <img src={types.GAMES_LOGOS[game.name]} />
       </Typography>
-      <Typography>
-        <Button variant='contained' onClick={close}>Close</Button>
-        {game.state === types.GAME_NOT_STARTED && <Button variant='contained' onClick={leave}>Leave</Button>}
-      </Typography>
 
-      {!game.state && <div>
-        <Button variant='contained' onClick={ready}>
-          {playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUserId).ready ? 'Not Ready' : 'Ready'}
-        </Button>
-        <Button variant='contained' onClick={start} disabled={!isAbleToStart}>Start</Button>
-
+      <div className='game-info-players'>
         <Typography>
-          Players:
+          Players ({game.playersMin} min, {game.playersMax} max)
         </Typography>
+
         {playersInGame.map((playerInGame: types.PlayerInGame, index: number) => (
           <Typography key={index}>
-            {game.players.find(player => player.id === playerInGame.id)!.username}: {playerInGame.ready ? 'ready' : 'not ready'}
+            {playerInGame.ready ?
+              <span className='player-dot game-green-dot' /> :
+              <span className='player-dot game-red-dot' />}
+
+            {game.players.find(player => player.id === playerInGame.id)!.username}
           </Typography>
         ))}
-        <Typography>
-          {game.playersMin} players minimum
-        </Typography>
-        <Typography>
-          {game.playersMax} players maximum
-        </Typography>
-      </div>}
+      </div>
 
-    </Paper>
+      <div className='game-info-buttons'>
+        <Button variant='contained' onClick={close}>Close</Button>
+
+        {game.state === types.GAME_NOT_STARTED && <Button variant='contained' onClick={leave}>Leave</Button>}
+
+        {game.state === types.GAME_NOT_STARTED && <Fragment>
+          <Button variant='contained' onClick={ready}>
+            {playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUserId).ready ? 'Not Ready' : 'Ready'}
+          </Button>
+          <Button variant='contained' onClick={start} disabled={!isAbleToStart}>Start</Button>
+        </Fragment>}
+      </div>
+
+    </div>
   );
 };

@@ -1,0 +1,23 @@
+.game-table-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-table-container > div {
+  align-self: center;
+}
+
+.game-table-center {
+  width: 90%;
+  border: 3px solid dimgray;
+  border-radius: 30%;
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-table-center > p, .game-table-center > div, .game-table-center > div > p, .game-table-center > div > p > button {
+  align-self: center;
+  margin: 4px;
+}

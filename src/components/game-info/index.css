@@ -1,0 +1,36 @@
+.game-info-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+}
+
+.game-info-buttons {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-info-buttons > button {
+  width: 120px;
+  margin: 2px;
+}
+
+.game-info-players {
+  padding: 3px;
+}
+
+.player-dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.player-green-dot {
+  background-color: darkgreen;
+}
+
+.player-red-dot {
+  background-color: darkred;
+}

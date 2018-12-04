@@ -1,0 +1,9 @@
+.game-results-player {
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-results-player > p, .game-results-player > div {
+  align-self: center;
+}

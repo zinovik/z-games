@@ -1,5 +1,6 @@
 import React from 'react';
 import { number } from 'prop-types';
+import { Typography } from '@material-ui/core';
 
 const CHIP: string = '\u2B24';
 
@@ -13,8 +14,8 @@ NoThanksChips.defaultProps = {
 
 export function NoThanksChips({ chips }: { chips: number }) {
   return (
-    <span>
+    <Typography>
       {Array(chips + 1).join(CHIP)} ({chips})
-    </span>
+    </Typography>
   );
 };
