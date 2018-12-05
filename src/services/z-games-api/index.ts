@@ -49,7 +49,7 @@ export class ZGamesApi {
       console.log(`socket.on('connect')`);
       store.dispatch(updateStatus(true));
 
-      this.socket.emit('get-all-games');
+      this.socket.emit('get-all-games', { ignoreNotStarted: false, ignoreStarted: false, ignoreFinished: false });
       this.socket.emit('get-current-user');
       this.socket.emit('get-opened-game');
     });
@@ -118,8 +118,10 @@ export class ZGamesApi {
 
     const parseResult = await fetchResult.json();
 
-    if (parseResult === 'Check email') { // TODO!
-      alert('You\'ve successfully registered, you can sign in');
+    if (parseResult !== 'error') { // TODO: Error
+      alert(parseResult);
+    } else {
+      alert('Error, try another username');
     }
 
     return parseResult;

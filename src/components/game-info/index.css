@@ -27,6 +27,10 @@
   margin-right: 5px;
 }
 
+.player-yellow-dot {
+  background-color: darkgoldenrod;
+}
+
 .player-green-dot {
   background-color: darkgreen;
 }

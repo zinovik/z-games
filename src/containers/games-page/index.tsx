@@ -20,7 +20,7 @@ class GamesPage extends Component<GamesPageProps, {}> {
     const { isConnected, currentUser, allGames, usersOnline } = this.props;
 
     return (
-      <div>
+      <main>
         <Header
           isConnected={isConnected}
           currentUsername={currentUser && currentUser.username}
@@ -40,7 +40,7 @@ class GamesPage extends Component<GamesPageProps, {}> {
         />
 
         <UsersOnline usersOnline={usersOnline} />
-      </div>
+      </main>
     );
   }
 }

@@ -41,6 +41,7 @@ export interface Game {
   logs: Log[];
 
   nextPlayers: User[];
+  playersOnline: User[];
 }
 
 export interface Log {

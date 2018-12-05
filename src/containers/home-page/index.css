@@ -1,0 +1,5 @@
+.home-page-container {
+  height: 100vh;
+  width: 100vw;
+  background: url(/images/home.jpg) transparent no-repeat top center/cover;
+}

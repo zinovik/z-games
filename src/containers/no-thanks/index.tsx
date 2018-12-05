@@ -1,5 +1,5 @@
 import React, { Component, Props, Fragment } from 'react';
-import { object, func } from 'prop-types';
+import { object, bool, func } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
 
 import { NoThanksCard, NoThanksChips } from '../../components';
@@ -8,6 +8,7 @@ import * as types from '../../constants';
 interface NoThanksProps extends Props<{}> {
 	game: types.Game,
 	currentUser: types.User,
+	isMyTurn: boolean,
 	move: (move: string) => void,
 }
 
@@ -15,22 +16,22 @@ export class NoThanks extends Component<NoThanksProps, {}> {
 	static propTypes = {
 		game: object.isRequired,
 		currentUser: object.isRequired,
+		isMyTurn: bool.isRequired,
 		move: func.isRequired,
 	}
 
 	static defaultProps = {
 		game: {},
 		currentUser: {},
+		isMyTurn: false,
 		move: () => console.log,
 	}
 
 	render() {
 		const {
-			game: {
-				gameData,
-				nextPlayers,
-			},
+			game: { gameData },
 			currentUser,
+			isMyTurn,
 			move,
 		} = this.props;
 
@@ -40,7 +41,6 @@ export class NoThanks extends Component<NoThanksProps, {}> {
 
 		const { currentCard, currentCardCost, cardsLeft, players: playersInGame } = JSON.parse(gameData);
 
-		const myTurn = nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id);
 		const myChips = playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id).chips;
 
 		return (
@@ -52,7 +52,7 @@ export class NoThanks extends Component<NoThanksProps, {}> {
 				<NoThanksCard card={currentCard} />
 				<NoThanksChips chips={currentCardCost} />
 
-				{myTurn && <div>
+				{isMyTurn && <div>
 					<Button
 						variant='contained'
 						onClick={() => { move(JSON.stringify({ takeCard: false })); }}
