@@ -1,9 +1,10 @@
 
 .authorize-modal-window {
   display: flex;
-  height: 100%;
+  height: 240px;
   justify-content: center;
   align-items: center;
+  background-color: darkgray;
 }
 
 .authorize-modal-window > div > div > div, .authorize-modal-window > div > p > button {

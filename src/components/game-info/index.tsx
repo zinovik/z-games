@@ -31,6 +31,7 @@ export function GameInfo({ game, currentUserId, leave, close, ready, start }: {
   ready: () => void,
   start: () => void,
 }) {
+  const { playersOnline } = game;
   const { players: playersInGame } = JSON.parse(game.gameData);
 
   const isAbleToStart = game.players.length >= game.playersMin
@@ -50,9 +51,13 @@ export function GameInfo({ game, currentUserId, leave, close, ready, start }: {
 
         {playersInGame.map((playerInGame: types.PlayerInGame, index: number) => (
           <Typography key={index}>
-            {playerInGame.ready ?
-              <span className='player-dot game-green-dot' /> :
-              <span className='player-dot game-red-dot' />}
+
+            {playersOnline.some((playerOnline: types.User) => playerOnline.id === playerInGame.id) ?
+              (playerInGame.ready ?
+                <span className='player-dot game-green-dot' /> :
+                <span className='player-dot game-yellow-dot' />) :
+              <span className='player-dot game-red-dot' />
+            }
 
             {game.players.find(player => player.id === playerInGame.id)!.username}
           </Typography>

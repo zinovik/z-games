@@ -9,7 +9,14 @@ interface AuthorizeProps extends Props<{}> {
   onSignUpClick: (username: string, password: string) => void,
 }
 
-export class Authorize extends Component<AuthorizeProps, {}> {
+interface AuthorizeState extends Props<{}> {
+  isModalShow: boolean,
+  username: string,
+  password: string,
+  email: string,
+}
+
+export class Authorize extends Component<AuthorizeProps, AuthorizeState> {
   static propTypes = {
     onSignInClick: func.isRequired,
     onSignUpClick: func.isRequired,
@@ -24,6 +31,7 @@ export class Authorize extends Component<AuthorizeProps, {}> {
     isModalShow: false,
     username: '',
     password: '',
+    email: '',
   };
 
   handleAuthorize = () => {
@@ -40,6 +48,10 @@ export class Authorize extends Component<AuthorizeProps, {}> {
 
   handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
     this.setState({ password: event.target.value });
+  };
+
+  handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    this.setState({ email: event.target.value });
   };
 
   handleSignInClick = () => {
@@ -72,6 +84,10 @@ export class Authorize extends Component<AuthorizeProps, {}> {
 
               <div>
                 <Input type="password" placeholder="Password" onChange={this.handlePasswordChange} />
+              </div>
+
+              <div>
+                <Input type="email" placeholder="Email (if sign up)" onChange={this.handleEmailChange} />
               </div>
 
               <Typography>

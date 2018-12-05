@@ -1,0 +1,23 @@
+.log-time {
+  color: grey;
+}
+
+.log-username {
+  font-weight: bold;
+}
+
+.log-message {
+  font-style: italic;
+}
+
+.log-connect, .log-open, .log-join {
+  color: lightgreen;
+}
+
+.log-disconnect, .log-close, .log-leave {
+  color: lightcoral;
+}
+
+.log-create, .log-ready, .log-start, .log-move, .log-finish {
+  color: lightblue;
+}

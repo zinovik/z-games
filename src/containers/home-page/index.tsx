@@ -1,10 +1,10 @@
 import React, { Component, Props } from 'react';
 import { connect } from 'react-redux';
-import { Typography } from '@material-ui/core';
 
 import { Header } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
+import './index.css';
 
 interface HomePageProps extends Props<{}> {
   currentUser: types.User,
@@ -20,7 +20,7 @@ class HomePage extends Component<HomePageProps, {}> {
     const { isConnected, currentUser } = this.props;
 
     return (
-      <div>
+      <main className='home-page-container'>
         <Header
           isConnected={isConnected}
           currentUsername={currentUser && currentUser.username}
@@ -28,11 +28,7 @@ class HomePage extends Component<HomePageProps, {}> {
           signIn={this.zGamesApi.login}
           logOut={this.zGamesApi.logout}
         />
-
-        <Typography>
-          Home Page
-        </Typography>
-      </div>
+      </main>
     );
   }
 }

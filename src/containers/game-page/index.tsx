@@ -1,9 +1,9 @@
-import React, { Component, Props, Fragment } from 'react';
+import React, { Component, Props } from 'react';
 import { connect } from 'react-redux';
 import { Paper } from '@material-ui/core';
 
 import { GameTable, Chat } from '../../containers';
-import { Header, GameInfo } from '../../components';
+import { GameInfo } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 import './index.css';
@@ -20,22 +20,14 @@ class GamePage extends Component<GamePageProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
   render() {
-    const { isConnected, currentUser, game } = this.props;
+    const { currentUser, game } = this.props;
 
     if (!currentUser || !game) {
       return null;
     }
 
     return (
-      <Fragment>
-        <Header
-          isConnected={isConnected}
-          currentUsername={currentUser.username}
-          signUp={this.zGamesApi.register}
-          signIn={this.zGamesApi.login}
-          logOut={this.zGamesApi.logout}
-        />
-
+      <main>
         <div className='game-page-container'>
           <div className='game-page-table'>
             <Paper>
@@ -61,7 +53,7 @@ class GamePage extends Component<GamePageProps, {}> {
           </div>
         </div>
 
-      </Fragment>
+      </main>
     );
   }
 }

@@ -1,11 +1,10 @@
 import React, { Fragment } from 'react';
 import { array, string } from 'prop-types';
 
-import { GamePlayer } from '../../components';
+import { PerudoLastRoundResult } from '../../components';
 import * as types from '../../constants';
-import './index.css';
 
-GamePlayers.propTypes = {
+PerudoLastRoundResults.propTypes = {
   gameName: string.isRequired,
   currentUserId: string.isRequired,
   playersInGame: array.isRequired,
@@ -13,7 +12,7 @@ GamePlayers.propTypes = {
   nextPlayers: array.isRequired,
 }
 
-GamePlayers.defaultProps = {
+PerudoLastRoundResults.defaultProps = {
   gameName: '',
   currentUserId: 'user-id',
   playersInGame: [],
@@ -21,7 +20,7 @@ GamePlayers.defaultProps = {
   nextPlayers: [],
 }
 
-export function GamePlayers({ gameName, currentUserId, playersInGame, players, nextPlayers }: {
+export function PerudoLastRoundResults({ gameName, currentUserId, playersInGame, players, nextPlayers }: {
   gameName: string,
   currentUserId: string,
   playersInGame: types.PlayerInGame[],
@@ -29,17 +28,14 @@ export function GamePlayers({ gameName, currentUserId, playersInGame, players, n
   nextPlayers: types.User[],
 }) {
   return (
-    <div className='game-players-container'>
+    <div>
       {playersInGame.map((playerInGame: types.PlayerInGame, index: number) => (
         <Fragment key={index}>
           {playerInGame.id !== currentUserId && <Fragment key={index}>
 
-            <GamePlayer
-              gameName={gameName}
+            <PerudoLastRoundResult
               username={players.find(player => player.id === playerInGame.id)!.username}
-              cards={playerInGame.cards || []}
-              dicesCount={playerInGame.dicesCount || 0}
-              active={nextPlayers.some(nextPlayer => nextPlayer.id === playerInGame.id)}
+              dices={playerInGame.dices}
             />
 
           </Fragment>}

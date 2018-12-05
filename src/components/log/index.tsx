@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { string } from 'prop-types';
 import moment from 'moment';
 import { Typography } from '@material-ui/core';
+
+import './index.css';
 
 Log.propTypes = {
   type: string.isRequired,
@@ -20,27 +22,30 @@ Log.defaultProps = {
 export function Log({ type, createdAt, username, text }: { type: string, createdAt: Date, username: string, text?: string }) {
   return (
     <Typography>
-      <span>{moment(createdAt).calendar()}: </span>
+      <span className='log-time'>{moment(createdAt).calendar()}: </span>
 
-      {type === 'message' && <span>{username}: {text}</span>}
+      {type === 'message' && <Fragment><span className='log-username'>{username}:</span> <span className='log-message'>{text}</span></Fragment>}
 
-      {(type === 'connect' ||
-        type === 'disconnect') && <span>{username} {type}ed</span>}
+      <span className={`log-${type}`}>
+        {(type === 'connect' ||
+          type === 'disconnect') && <Fragment>{username} {type}ed</Fragment>}
 
-      {(type === 'join' ||
-        type === 'start' ||
-        type === 'open') && <span>{username} {type}ed the game</span>}
-      {(type === 'create' ||
-        type === 'close' ||
-        type === 'leave') && <span>{username} {type}d the game</span>}
+        {(type === 'join' ||
+          type === 'start' ||
+          type === 'open') && <Fragment>{username} {type}ed the game</Fragment>}
+        {(type === 'create' ||
+          type === 'close' ||
+          type === 'leave') && <Fragment>{username} {type}d the game</Fragment>}
 
-      {type === 'ready' && <span>{username} updated his ready status</span>}
+        {type === 'ready' && <Fragment>{username} updated his ready status</Fragment>}
 
-      {type === 'watch' && <span>{username} started to watch the game</span>}
+        {type === 'watch' && <Fragment>{username} started to watch the game</Fragment>}
 
-      {type === 'move' && <span>{username} made a move</span>}
+        {type === 'move' && <Fragment>{username} made a move</Fragment>}
 
-      {type === 'finish' && <span>The game has been finished</span>}
+        {type === 'finish' && <Fragment>The game has been finished</Fragment>}
+      </span>
+
     </Typography>
   );
 }

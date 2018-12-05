@@ -25,7 +25,8 @@ export function GameTable({ game, currentUser, move }: {
 }) {
   const { name, state, gameData, players, nextPlayers } = game;
   const playersInGame = JSON.parse(gameData).players;
-  const { cards, chips, points, dices } = playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id);
+  const { cards, chips, points, dices } = playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id) || { cards: [], chips: 0, points: 0, dices: [] };
+  const isMyTurn = nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id);
 
   return (
     <Fragment>
@@ -39,9 +40,9 @@ export function GameTable({ game, currentUser, move }: {
           nextPlayers={nextPlayers}
         />
 
-        <div className='game-table-center'>
-          {name === types.NO_THANKS && <NoThanks game={game} currentUser={currentUser} move={move} />}
-          {name === types.PERUDO && <Perudo game={game} currentUser={currentUser} move={move} />}
+        <div className={`game-table-center game-table-center-${name === types.NO_THANKS ? 'no-thanks' : ''}${name === types.PERUDO ? 'perudo' : ''}`}>
+          {name === types.NO_THANKS && <NoThanks game={game} currentUser={currentUser} isMyTurn={isMyTurn} move={move} />}
+          {name === types.PERUDO && <Perudo game={game} currentUser={currentUser} isMyTurn={isMyTurn} move={move} />}
         </div>
 
         <GamePlayer
