@@ -1,3 +1,7 @@
 .perudo-dices-dice {
   font-size: 300%;
 }
+
+.perudo-dices-highlight {
+  color: darkgray;
+}

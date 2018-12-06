@@ -86,7 +86,7 @@ export const countMaxFigure = ({ currentDiceNumber, currentDiceFigure, allDicesC
   currentDiceFigure: number,
   allDicesCount: number,
 }): number => {
-  if (currentDiceFigure === JOKER_FIGURE && currentDiceNumber * 2 + 1 >= allDicesCount) {
+  if ((currentDiceFigure === JOKER_FIGURE || currentDiceFigure === DICE_MAX_FIGURE) && currentDiceNumber * 2 + 1 >= allDicesCount) {
     return JOKER_FIGURE;
   }
 

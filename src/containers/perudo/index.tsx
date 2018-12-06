@@ -51,11 +51,17 @@ export class Perudo extends Component<PerudoProps, {}> {
 			isLastRoundMaputo,
 			players: playersInGame,
 		} = JSON.parse(gameData);
-		const isMaputoAble = (playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id) || {}).dices.length === 1
-			&& !currentDiceNumber
-			&& !currentDiceFigure; // TODO: Add conditions (players count, dices count)
 
-		console.log(lastRoundFigure, isLastRoundMaputo);
+		const currentPlayerInGame = playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id);
+		const isMaputoAble = currentPlayerInGame && currentPlayerInGame.dices.length === 1
+			&& !currentDiceNumber
+			&& !currentDiceFigure
+			&& playersInGame.filter((playerInGame: types.PlayerInGame) => {
+				return (playerInGame.dicesCount || 0) > 0;
+			}).length > 2
+			&& playersInGame.reduce((diceCount: number, playerInGame: types.PlayerInGame) => {
+				return diceCount + (playerInGame.dicesCount || 0);
+			}, 0) > 3;
 
 		return (
 			<Fragment>
@@ -65,11 +71,10 @@ export class Perudo extends Component<PerudoProps, {}> {
 					</Typography>
 
 					<PerudoLastRoundResults
-						gameName={types.PERUDO}
-						currentUserId={''}
 						playersInGame={lastRoundResults}
 						players={players}
-						nextPlayers={[]}
+						lastRoundFigure={lastRoundFigure}
+						isLastRoundMaputo={isLastRoundMaputo}
 					/>
 				</Fragment>}
 

@@ -26,11 +26,10 @@ export class NewMessage extends Component<NewMessageProps, {}> {
   };
 
   handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      const { newMessage } = this.props;
-      const { message } = this.state;
-  
-      newMessage(message);
+    const { message } = this.state;
+
+    if (event.key === 'Enter' && message) {
+      this.handleNewMessageClick();
     }
   }
 
@@ -39,13 +38,32 @@ export class NewMessage extends Component<NewMessageProps, {}> {
     const { message } = this.state;
 
     newMessage(message);
+
+    this.setState({ message: '' });
   };
 
   render() {
+    const { message } = this.state;
+
     return (
       <div className='new-message-container'>
-        <Input type="text" placeholder="Message" onChange={this.handleMessageChange} onKeyPress={this.handleKeyPress} className='new-message-input' />
-        <Button variant='contained' onClick={this.handleNewMessageClick} className='new-message-button'>Send</Button>
+        <Input
+          type="text"
+          placeholder="Message"
+          value={message}
+          onChange={this.handleMessageChange}
+          onKeyPress={this.handleKeyPress}
+          className='new-message-input'
+        />
+
+        <Button
+          variant='contained'
+          onClick={this.handleNewMessageClick}
+          className='new-message-button'
+          disabled={!message}
+        >
+          Send
+        </Button>
       </div>
     );
   }

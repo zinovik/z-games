@@ -54,6 +54,12 @@ export class Header extends Component<HeaderProps, {}> {
 							</Button>
 						</Link>
 
+						<Link to='/rating'>
+							<Button>
+								Rating
+							</Button>
+						</Link>
+
 						<Link to='/profile'>
 							<Button>
 								Profile

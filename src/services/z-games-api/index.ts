@@ -189,12 +189,12 @@ export class ZGamesApi {
     this.socket.emit('start-game', gameNumber);
   }
 
-  makeMove = (move: string): void => {
-    this.socket.emit('make-move', move);
+  makeMove = ({ gameNumber, move }: { gameNumber: number, move: string }): void => {
+    this.socket.emit('make-move', { gameNumber, move });
   }
 
-  message = (message: string): void => {
-    this.socket.emit('message', message);
+  message = ({ gameId, message }: { gameId: string, message: string }): void => {
+    this.socket.emit('message', { gameId, message });
   }
 
   newGame = (gameName: string): void => {

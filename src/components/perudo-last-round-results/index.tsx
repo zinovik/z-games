@@ -1,44 +1,41 @@
 import React, { Fragment } from 'react';
-import { array, string } from 'prop-types';
+import { array, number, bool } from 'prop-types';
 
 import { PerudoLastRoundResult } from '../../components';
 import * as types from '../../constants';
 
 PerudoLastRoundResults.propTypes = {
-  gameName: string.isRequired,
-  currentUserId: string.isRequired,
   playersInGame: array.isRequired,
   players: array.isRequired,
-  nextPlayers: array.isRequired,
+  lastRoundFigure: number.isRequired,
+  isLastRoundMaputo: bool.isRequired,
 }
 
 PerudoLastRoundResults.defaultProps = {
-  gameName: '',
-  currentUserId: 'user-id',
   playersInGame: [],
   players: [],
-  nextPlayers: [],
+  lastRoundFigure: 0,
+  isLastRoundMaputo: false,
 }
 
-export function PerudoLastRoundResults({ gameName, currentUserId, playersInGame, players, nextPlayers }: {
-  gameName: string,
-  currentUserId: string,
+export function PerudoLastRoundResults({ playersInGame, players, lastRoundFigure, isLastRoundMaputo }: {
   playersInGame: types.PlayerInGame[],
   players: types.User[],
-  nextPlayers: types.User[],
+  lastRoundFigure: number,
+  isLastRoundMaputo: boolean,
 }) {
   return (
     <div>
       {playersInGame.map((playerInGame: types.PlayerInGame, index: number) => (
         <Fragment key={index}>
-          {playerInGame.id !== currentUserId && <Fragment key={index}>
 
-            <PerudoLastRoundResult
-              username={players.find(player => player.id === playerInGame.id)!.username}
-              dices={playerInGame.dices}
-            />
+          <PerudoLastRoundResult
+            username={players.find(player => player.id === playerInGame.id)!.username}
+            dices={playerInGame.dices}
+            lastRoundFigure={lastRoundFigure}
+            isLastRoundMaputo={isLastRoundMaputo}
+          />
 
-          </Fragment>}
         </Fragment>
       ))}
     </div>
