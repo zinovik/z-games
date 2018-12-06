@@ -37,7 +37,7 @@ export function Log({ type, createdAt, username, text }: { type: string, created
           type === 'close' ||
           type === 'leave') && <Fragment>{username} {type}d the game</Fragment>}
 
-        {type === 'ready' && <Fragment>{username} updated his ready status</Fragment>}
+        {type === 'ready' && <Fragment>{username} updated ready status</Fragment>}
 
         {type === 'watch' && <Fragment>{username} started to watch the game</Fragment>}
 

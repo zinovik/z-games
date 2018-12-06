@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { arrayOf, number } from 'prop-types';
+import { arrayOf, number, bool } from 'prop-types';
 import { Typography } from '@material-ui/core';
 
 import { PerudoDices } from '../../components';
@@ -7,6 +7,8 @@ import { PerudoDices } from '../../components';
 PerudoPlayer.propTypes = {
   dices: arrayOf(number),
   dicesCount: number,
+  highlightNumber: number,
+  highlightJoker: bool,
 }
 
 PerudoPlayer.defaultProps = {
@@ -14,13 +16,19 @@ PerudoPlayer.defaultProps = {
   dicesCount: 0,
 }
 
-export function PerudoPlayer({ dices, dicesCount }: {
+export function PerudoPlayer({ dices, dicesCount, highlightNumber, highlightJoker }: {
   dices?: number[],
   dicesCount?: number,
+  highlightNumber?: number,
+  highlightJoker?: boolean,
 }) {
   return (
     <Fragment>
-      {dices && dices.length > 0 && <PerudoDices dices={dices} />}
+      {dices && dices.length > 0 && <PerudoDices
+        dices={dices}
+        highlightNumber={highlightNumber}
+        highlightJoker={highlightJoker}
+      />}
 
       {!dices || !dices.length && <Typography>
         {dicesCount} dices

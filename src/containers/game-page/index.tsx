@@ -19,6 +19,19 @@ interface GamePageProps extends Props<{}> {
 class GamePage extends Component<GamePageProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
+  move = (moveString: string) => {
+    const { game } = this.props;
+
+    this.zGamesApi.makeMove({ gameNumber: game.number, move: moveString });
+  };
+
+  newMessage = (message: string) => {
+    const { game } = this.props;
+
+    this.zGamesApi.message({ gameId: game.id, message });
+  };
+
+
   render() {
     const { currentUser, game } = this.props;
 
@@ -31,7 +44,7 @@ class GamePage extends Component<GamePageProps, {}> {
         <div className='game-page-container'>
           <div className='game-page-table'>
             <Paper>
-              <GameTable game={game} currentUser={currentUser} move={this.zGamesApi.makeMove} />
+              <GameTable game={game} currentUser={currentUser} move={this.move} />
             </Paper>
           </div>
 
@@ -48,7 +61,7 @@ class GamePage extends Component<GamePageProps, {}> {
             </Paper>
 
             <Paper>
-              <Chat logs={game.logs} newMessage={this.zGamesApi.message} />
+              <Chat logs={game.logs} newMessage={this.newMessage} />
             </Paper>
           </div>
         </div>

@@ -28,6 +28,7 @@ interface PerudoMoveState {
   diceFigure: number;
   isBetImpossible: boolean;
   isMaputo: boolean;
+  oldGameData: string;
 }
 
 export class PerudoMove extends Component<PerudoMoveProps, PerudoMoveState> {
@@ -44,20 +45,21 @@ export class PerudoMove extends Component<PerudoMoveProps, PerudoMoveState> {
   }
 
   static getDerivedStateFromProps = (props: PerudoMoveProps, state: PerudoMoveState) => {
-    const { diceNumber: diceNumberState, diceFigure: diceFigureState } = state;
-
-    if (diceNumberState && diceFigureState) {
-      return null;
-    }
-
+    const { oldGameData } = state;
     const { game } = props;
     const { gameData } = game;
     const { currentDiceNumber, currentDiceFigure, isMaputoRound, players: playersInGame } = JSON.parse(gameData);
+
+    if (gameData === oldGameData) {
+      return null;
+    }
+
     const allDicesCount = countDices(playersInGame);
 
-    const { diceNumber, diceFigure, isBetImpossible } = calculateStartBet({ currentDiceNumber, currentDiceFigure, allDicesCount, isMaputoRound });
-
-    return { diceNumber, diceFigure, isBetImpossible };
+    return {
+      ...calculateStartBet({ currentDiceNumber, currentDiceFigure, allDicesCount, isMaputoRound }),
+      oldGameData: gameData,
+    };
   }
 
   public state = {
@@ -65,6 +67,8 @@ export class PerudoMove extends Component<PerudoMoveProps, PerudoMoveState> {
     diceFigure: 0,
     isBetImpossible: false,
     isMaputo: false,
+    isStartBetCalculated: false,
+    oldGameData: '',
   };
 
   numberInc = (): void => {
@@ -103,18 +107,20 @@ export class PerudoMove extends Component<PerudoMoveProps, PerudoMoveState> {
   }
 
   moveBet = (): void => {
-    const { move } = this.props;
+    const { move, isMaputoAble } = this.props;
     const { diceNumber, diceFigure, isMaputo } = this.state;
 
-    move(JSON.stringify({ number: diceNumber, figure: diceFigure, isMaputo }));
-    this.setState({ diceNumber: 0, diceFigure: 0 });
+    if (isMaputoAble) {
+      return move(JSON.stringify({ number: diceNumber, figure: diceFigure, isMaputo }));
+    }
+
+    move(JSON.stringify({ number: diceNumber, figure: diceFigure }));
   }
 
   moveNotBelieve = (): void => {
     const { move } = this.props;
 
     move(JSON.stringify({ notBelieve: true }));
-    this.setState({ diceNumber: 0, diceFigure: 0 });
   }
 
   handleMaputoChange = (): void => {
