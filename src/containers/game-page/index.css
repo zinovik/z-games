@@ -2,39 +2,53 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  height: 100%;
-}
-
-.game-page-container > div {
-  flex: 1;
+  height: 100vh;
+  padding: 5px;
 }
 
 .game-page-table {
-  margin: 5px;
-  min-width: 500px;
+  flex: 1 1 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.game-page-table > div {
-  height: 100%;
-  padding: 5px;
-}
-
-.game-page-info-and-chat {
+.game-page-info-chat-container {
+  flex: 1 0 30%;
   min-width: 400px;
-  max-width: 500px;
-  width: 30%;
+  padding-left: 5px;
+  display: flex;
+  flex-direction: column;
 }
 
-.game-page-info-and-chat > div {
-  margin: 5px;
+.game-page-info-container {
+  flex: 1 1;
 }
 
-.game-page-info-and-chat > div > div {
+.game-page-info {
   padding: 5px;
 }
 
-@media screen and (max-width: 516px) {
-  .game-page-container > div {
-    width: 100%;
+.game-page-chat-container {
+  flex: 1 1 90%;
+  padding-top: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.game-page-chat {
+  flex: 0 0 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+}
+
+@media screen and (max-width: 974px) {
+  .game-page-info-chat-container {
+    padding-left: 0px;
+  }
+
+  .game-page-info-container {
+    padding-top: 5px;
   }
 }

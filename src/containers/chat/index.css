@@ -1,0 +1,15 @@
+.chat-container {
+  flex: 0 0 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-new-message {
+  flex: 0 1 5%;
+}
+
+.chat-logs {
+  flex: 0 0 95%;
+  display: flex;
+  flex-direction: column;
+}

@@ -28,9 +28,20 @@ export function GamePlayers({ gameName, currentUserId, playersInGame, players, n
   players: types.User[],
   nextPlayers: types.User[],
 }) {
+  let playerNumber;
+
+  playersInGame.forEach((player, index) => {
+    if (player.id === currentUserId) {
+      playerNumber = index;
+    }
+  });
+
+  const playersCopy = playersInGame.slice();
+  const playersBefore = playersCopy.splice(0, playerNumber);
+
   return (
     <div className='game-players-container'>
-      {playersInGame.map((playerInGame: types.PlayerInGame, index: number) => (
+      {[...playersCopy, ...playersBefore].map((playerInGame: types.PlayerInGame, index: number) => (
         <Fragment key={index}>
           {playerInGame.id !== currentUserId && <Fragment key={index}>
 

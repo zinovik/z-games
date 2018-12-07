@@ -1,17 +1,21 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { array, func } from 'prop-types';
 
 import { LogsList } from '../../containers';
 import { NewMessage } from '../../components';
 import * as types from '../../constants';
-
+import './index.css';
 
 export const Chat = ({ logs, newMessage }: { logs: types.Log[], newMessage: (message: string) => void }) => {
   return (
-    <Fragment>
-      <NewMessage newMessage={newMessage} />
-      <LogsList logs={logs} />
-    </Fragment>
+    <div className='chat-container'>
+      <div className='chat-new-message'>
+        <NewMessage newMessage={newMessage} />
+      </div>
+      <div className='chat-logs'>
+        <LogsList logs={logs} />
+      </div>
+    </div>
   );
 };
 

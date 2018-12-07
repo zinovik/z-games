@@ -41,7 +41,8 @@ export class NoThanks extends Component<NoThanksProps, {}> {
 
 		const { currentCard, currentCardCost, cardsLeft, players: playersInGame } = JSON.parse(gameData);
 
-		const myChips = playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id).chips;
+		const currentPlayerInGame = playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id);
+		const myChips = currentPlayerInGame && currentPlayerInGame.chips;
 
 		return (
 			<Fragment>
