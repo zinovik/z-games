@@ -43,26 +43,28 @@ class GamePage extends Component<GamePageProps, {}> {
       <main>
         <div className='game-page-container'>
           <div className='game-page-table'>
-            <Paper>
-              <GameTable game={game} currentUser={currentUser} move={this.move} />
-            </Paper>
+            <GameTable game={game} currentUser={currentUser} move={this.move} />
           </div>
 
-          <div className='game-page-info-and-chat'>
-            <Paper>
-              <GameInfo
-                game={game}
-                currentUserId={currentUser.id}
-                leave={() => { this.zGamesApi.leaveGame(game.number); }}
-                close={() => { this.zGamesApi.closeGame(game.number); }}
-                ready={() => { this.zGamesApi.readyToGame(game.number); }}
-                start={() => { this.zGamesApi.startGame(game.number); }}
-              />
-            </Paper>
+          <div className='game-page-info-chat-container'>
+            <div className='game-page-info-container'>
+              <Paper className='game-page-info'>
+                <GameInfo
+                  game={game}
+                  currentUserId={currentUser.id}
+                  leave={() => { this.zGamesApi.leaveGame(game.number); }}
+                  close={() => { this.zGamesApi.closeGame(game.number); }}
+                  ready={() => { this.zGamesApi.readyToGame(game.number); }}
+                  start={() => { this.zGamesApi.startGame(game.number); }}
+                />
+              </Paper>
+            </div>
 
-            <Paper>
-              <Chat logs={game.logs} newMessage={this.newMessage} />
-            </Paper>
+            <div className='game-page-chat-container'>
+              <Paper className='game-page-chat'>
+                <Chat logs={game.logs} newMessage={this.newMessage} />
+              </Paper>
+            </div>
           </div>
         </div>
 
