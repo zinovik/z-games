@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  docker-postgres:
+    image: postgres:latest
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=z-games
+
+  z-games-api:
+    build: ../z-games-api
+    volumes:
+      - ../z-games-api:/usr/src/app
+    ports:
+      - 4000:4000
+    depends_on:
+      - docker-postgres
+
+  z-games:
+    build: .
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - 3000:3000
+    depends_on:
+      - z-games-api

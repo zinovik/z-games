@@ -34,14 +34,14 @@ export function GamePlayer({ gameName, username, cards, chips, points, dices, di
   active?: boolean,
 }) {
   return (
-    <div className={`game-player${active ? ' game-player-active' : ''}`}>
+    <div className={`game-player-container${active ? ' game-player-container-active' : ''}`}>
 
       <div className='game-player-user'>
         <Avatar>
           {username[0]}
         </Avatar>
 
-        <Typography>
+        <Typography className='game-player-username'>
           {username}
         </Typography>
       </div>

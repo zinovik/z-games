@@ -3,32 +3,22 @@
   flex-direction: column;
 }
 
-.game-table-container > div {
-  align-self: center;
-}
-
 .game-table-center {
   border: 3px solid dimgray;
-  border-radius: 30%;
   padding: 10px;
   margin: 10px;
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .game-table-center-no-thanks {
   min-width: 40%;
-  min-height: 200px;
-  border-radius: 50%;
+  min-height: 180px;
+  justify-content: space-around;
 }
 
 .game-table-center-perudo {
   min-width: 80%;
   min-height: 550px;
-  border-radius: 10%;
-}
-
-.game-table-center > p, .game-table-center > div, .game-table-center > div > p, .game-table-center > div > p > button {
-  align-self: center;
-  margin: 4px;
 }
