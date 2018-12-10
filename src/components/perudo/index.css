@@ -1,0 +1,22 @@
+.perudo-bets {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.perudo-current-bet {
+  flex: 1 0 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.perudo-my-bet {
+  flex: 1 0 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

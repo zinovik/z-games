@@ -1,7 +1,7 @@
 import React, { Component, Props } from 'react';
 import { connect } from 'react-redux';
 
-import { Header } from '../../components';
+import Header from '../../components/header';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 import './index.css';

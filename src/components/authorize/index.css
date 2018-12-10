@@ -1,17 +1,6 @@
-
 .authorize-modal-window {
   display: flex;
-  height: 240px;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: darkgray;
-}
-
-.authorize-modal-window > div > div > div, .authorize-modal-window > div > p > button {
-  margin: 10px;
-  align-self: center;
-}
-
-.authorize-modal-window > div > div > div {
-  width: 300px;
 }

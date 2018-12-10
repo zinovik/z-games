@@ -1,0 +1,13 @@
+.header-toolbar {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-connected-icon {
+  display: block;
+  margin-top: auto;
+  margin-bottom: auto;
+}

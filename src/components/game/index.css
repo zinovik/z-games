@@ -4,7 +4,8 @@
 }
 
 .game-logo {
-  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .game-dot {

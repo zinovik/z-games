@@ -1,6 +1,6 @@
 import React, { Component, Props, Fragment } from 'react';
 import { func } from 'prop-types';
-import { Button, Modal, Fab } from '@material-ui/core';
+import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Fab } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 
 import * as types from '../../constants';
@@ -52,14 +52,18 @@ export class NewGame extends Component<NewGameProps, {}> {
           </Fab>
         </div>
 
-        <Modal open={this.state.isModalShow} onClose={this.handleClose}>
-          <div className='new-game-modal-window'>
-            <div>
-              <Button variant='contained' onClick={this.handleNewNoThanksGame}>{types.NO_THANKS}</Button>
-              <Button variant='contained' onClick={this.handleNewPerudoGame}>{types.PERUDO}</Button>
-            </div>
-          </div>
-        </Modal>
+        <Dialog open={this.state.isModalShow} onClose={this.handleClose}>
+          <DialogTitle>New game</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Choose game to create
+            </DialogContentText>
+            <DialogActions>
+              <Button onClick={this.handleNewNoThanksGame}>{types.NO_THANKS}</Button>
+              <Button onClick={this.handleNewPerudoGame}>{types.PERUDO}</Button>
+            </DialogActions>
+          </DialogContent>
+        </Dialog>
       </Fragment>
     );
   }

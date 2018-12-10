@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import { withRouter } from 'react-router';
+import React, { Component, ComponentType } from 'react';
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
 import HomePage from './containers/home-page';
 import GamesPage from './containers/games-page';
@@ -33,4 +32,4 @@ class App extends Component<AppProps, {}> {
 
 }
 
-export default withRouter(App as any);
+export default withRouter(App as ComponentType<any>);

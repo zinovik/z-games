@@ -28,7 +28,7 @@ export function PerudoLastRoundResult({ username, dices, lastRoundFigure, isLast
         {username[0]}
       </Avatar>
 
-      <Typography>
+      <Typography className='perudo-last-round-result-player-username'>
         {username}
       </Typography>
 

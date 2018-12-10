@@ -1,10 +1,11 @@
 import React, { Component, Props } from 'react';
 import { connect } from "react-redux";
 
-import { GamesList } from '../../containers';
-import { Header, UsersOnline, NewGame } from '../../components';
+import { UsersOnline, NewGame, GamesList } from '../../components';
+import Header from '../../components/header';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
+import './index.css';
 
 interface GamesPageProps extends Props<{}> {
   currentUser: types.User,
@@ -20,7 +21,7 @@ class GamesPage extends Component<GamesPageProps, {}> {
     const { isConnected, currentUser, allGames, usersOnline } = this.props;
 
     return (
-      <main>
+      <main className='games-page-container'>
         <Header
           isConnected={isConnected}
           currentUsername={currentUser && currentUser.username}

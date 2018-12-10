@@ -1,20 +1,27 @@
-.game-player {
-  min-width: 100px;
-  max-width: 400px;
+.game-player-container {
   border: 3px solid dimgray;
-  border-radius: 20%;
+  border-radius: 10%;
   padding: 10px;
   margin: 10px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.game-player > div, p {
-  margin: 4px;
-  align-self: center;
+.game-player-container-no-thanks {
+  min-height: 220px;
+  min-width: 100px;
+  max-width: 390px;
 }
 
-.game-player-active {
+.game-player-container-perudo {
+  min-height: 140px;
+  min-width: 220px;
+  max-width: 250px;
+}
+
+.game-player-container-active {
   border: 5px solid white;
 }
 
@@ -24,6 +31,6 @@
   align-items: center;
 }
 
-.game-player-user > p {
-  margin-left: 5px;
+.game-player-username {
+  padding-left: 5px;
 }

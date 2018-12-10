@@ -1,6 +1,6 @@
 import React, { Component, Props, MouseEvent } from 'react';
 import { string, func } from 'prop-types';
-import { Avatar, Menu, MenuItem } from '@material-ui/core';
+import { Avatar, Menu, MenuItem, Button } from '@material-ui/core';
 
 import './index.css';
 
@@ -10,7 +10,6 @@ interface CurrentUserProps extends Props<{}> {
 }
 
 interface CurrentUserState extends Props<{}> {
-  isMenuShow: boolean,
   anchorEl: HTMLElement | null,
 }
 
@@ -27,39 +26,49 @@ export class CurrentUser extends Component<CurrentUserProps, CurrentUserState> {
   }
 
   public state = {
-    isMenuShow: false,
     anchorEl: null,
   };
 
   handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
-    this.setState({ anchorEl: event.currentTarget, isMenuShow: true });
-
+    this.setState({ anchorEl: event.currentTarget });
   };
 
   handleMenuClose = () => {
-    this.setState({ anchorEl: null, isMenuShow: false });
+    this.setState({ anchorEl: null });
   };
 
   handleLogOutClick = () => {
     const { onLogOutClick } = this.props;
+
     onLogOutClick();
+
+    this.handleMenuClose();
   };
 
   render() {
     const { currentUsername } = this.props;
-    const { anchorEl, isMenuShow } = this.state;
+    const { anchorEl } = this.state;
 
     return (
-      <Avatar onClick={this.handleMenuOpen} className='current-user-avatar'>
-        {currentUsername[0]}
+      <Avatar>
+
+        <Button
+          onClick={this.handleMenuOpen}
+          aria-owns={anchorEl ? 'user-menu' : undefined}
+          className='current-user-avatar'
+        >
+          {currentUsername[0]}
+        </Button>
 
         <Menu
+          id='user-menu'
           anchorEl={anchorEl}
-          open={isMenuShow}
+          open={Boolean(anchorEl)}
           onClose={this.handleMenuClose}
         >
           <MenuItem onClick={this.handleLogOutClick}>Log out</MenuItem>
         </Menu>
+
       </Avatar>
     );
   }

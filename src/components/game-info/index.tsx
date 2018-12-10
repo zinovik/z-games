@@ -31,7 +31,7 @@ export function GameInfo({ game, currentUserId, leave, close, ready, start }: {
   ready: () => void,
   start: () => void,
 }) {
-  const { playersOnline } = game;
+  const { playersOnline, watchers } = game;
   const { players: playersInGame } = JSON.parse(game.gameData);
 
   const isAbleToStart = game.players.length >= game.playersMin
@@ -46,8 +46,12 @@ export function GameInfo({ game, currentUserId, leave, close, ready, start }: {
 
       <div className='game-info-players'>
         <Typography>
-          Players ({game.playersMin} min, {game.playersMax} max)
+          Players
         </Typography>
+
+        {game.state === types.GAME_NOT_STARTED && <Typography>
+          ({game.playersMin} min, {game.playersMax} max)
+        </Typography>}
 
         {playersInGame.map((playerInGame: types.PlayerInGame, index: number) => (
           <Typography key={index}>
@@ -62,18 +66,29 @@ export function GameInfo({ game, currentUserId, leave, close, ready, start }: {
             {game.players.find(player => player.id === playerInGame.id)!.username}
           </Typography>
         ))}
+
+        {!!watchers.length && <Typography>
+          Watchers
+        </Typography>}
+
+        {watchers.map((watcher: types.User, index: number) => (
+          <Typography key={index}>
+            <span className='player-dot game-green-dot' />
+            {watcher.username}
+          </Typography>
+        ))}
       </div>
 
       <div className='game-info-buttons'>
-        <Button variant='contained' onClick={close}>Close</Button>
+        <Button onClick={close}>Close</Button>
 
-        {game.state === types.GAME_NOT_STARTED && <Button variant='contained' onClick={leave}>Leave</Button>}
+        {game.state === types.GAME_NOT_STARTED && <Button onClick={leave}>Leave</Button>}
 
         {game.state === types.GAME_NOT_STARTED && <Fragment>
-          <Button variant='contained' onClick={ready}>
+          <Button onClick={ready}>
             {playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUserId).ready ? 'Not Ready' : 'Ready'}
           </Button>
-          <Button variant='contained' onClick={start} disabled={!isAbleToStart}>Start</Button>
+          <Button onClick={start} disabled={!isAbleToStart}>Start</Button>
         </Fragment>}
       </div>
 

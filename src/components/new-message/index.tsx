@@ -57,7 +57,6 @@ export class NewMessage extends Component<NewMessageProps, {}> {
         />
 
         <Button
-          variant='contained'
           onClick={this.handleNewMessageClick}
           className='new-message-button'
           disabled={!message}

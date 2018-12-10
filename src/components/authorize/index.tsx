@@ -1,6 +1,6 @@
-import React, { Component, ChangeEvent, Props } from 'react';
+import React, { Component, ChangeEvent, Props, Fragment } from 'react';
 import { func } from 'prop-types';
-import { Modal, Typography, Button, Input } from '@material-ui/core';
+import { Modal, Paper, Typography, Tabs, Tab, Button, Input } from '@material-ui/core';
 
 import './index.css';
 
@@ -14,6 +14,7 @@ interface AuthorizeState extends Props<{}> {
   username: string,
   password: string,
   email: string,
+  isTabSignUp: boolean,
 }
 
 export class Authorize extends Component<AuthorizeProps, AuthorizeState> {
@@ -32,6 +33,7 @@ export class Authorize extends Component<AuthorizeProps, AuthorizeState> {
     username: '',
     password: '',
     email: '',
+    isTabSignUp: false,
   };
 
   handleAuthorize = () => {
@@ -68,36 +70,50 @@ export class Authorize extends Component<AuthorizeProps, AuthorizeState> {
     onSignUpClick(username, password);
   };
 
+  handleTabChange = () => {
+    const { isTabSignUp } = this.state;
+
+    this.setState({ isTabSignUp: !isTabSignUp });
+  }
+
   render() {
     return (
-      <div>
+      <Fragment>
         <Button onClick={this.handleAuthorize}>
           Sign up/in
         </Button>
 
         <Modal open={this.state.isModalShow} onClose={this.handleClose}>
-          <div className='authorize-modal-window'>
+          <Paper className='authorize-modal-window'>
             <div>
-              <div>
-                <Input type="text" placeholder="Username" onChange={this.handleUsernameChange} />
-              </div>
-
-              <div>
-                <Input type="password" placeholder="Password" onChange={this.handlePasswordChange} />
-              </div>
-
-              <div>
-                <Input type="email" placeholder="Email (if sign up)" onChange={this.handleEmailChange} />
-              </div>
-
-              <Typography>
-                <Button variant='contained' onClick={this.handleSignInClick}>Sign in</Button>
-                <Button variant='contained' onClick={this.handleSignUpClick}>Sign up</Button>
-              </Typography>
+              <Input type="text" placeholder="Username" onChange={this.handleUsernameChange} />
             </div>
-          </div>
+
+            <div>
+              <Input type="password" placeholder="Password" onChange={this.handlePasswordChange} />
+            </div>
+
+            <Tabs
+              value={this.state.isTabSignUp}
+              onChange={this.handleTabChange}
+              indicatorColor='primary'
+              textColor='primary'
+            >
+              <Tab label='Sign in' />
+              <Tab label='Sign up' />
+            </Tabs>
+
+            <div>
+              <Input type='email' placeholder='Email' onChange={this.handleEmailChange} />
+            </div>
+
+            <Typography>
+              <Button onClick={this.handleSignInClick}>Sign in</Button>
+              <Button onClick={this.handleSignUpClick}>Sign up</Button>
+            </Typography>
+          </Paper>
         </Modal>
-      </div>
+      </Fragment>
     );
   }
 }
