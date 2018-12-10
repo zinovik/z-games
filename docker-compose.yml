@@ -1,28 +1,30 @@
 version: '3'
 
 services:
-  docker-postgres:
+  database:
     image: postgres:latest
     restart: always
     ports:
-      - 5432:5432
+      - 5433:5432
     environment:
       - POSTGRES_DB=z-games
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=dbpass123
 
-  z-games-api:
+  api:
     build: ../z-games-api
     volumes:
       - ../z-games-api:/usr/src/app
     ports:
       - 4000:4000
     depends_on:
-      - docker-postgres
+      - database
 
-  z-games:
+  web:
     build: .
     volumes:
       - .:/usr/src/app
     ports:
       - 3000:3000
     depends_on:
-      - z-games-api
+      - api

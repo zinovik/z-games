@@ -34,7 +34,11 @@ export function GamePlayer({ gameName, username, cards, chips, points, dices, di
   active?: boolean,
 }) {
   return (
-    <div className={`game-player-container${active ? ' game-player-container-active' : ''}`}>
+    <div className={`
+      game-player-container
+      game-player-container-${gameName === types.NO_THANKS ? 'no-thanks' : ''}${gameName === types.PERUDO ? 'perudo' : ''}
+      ${active ? 'game-player-container-active' : ''}
+    `}>
 
       <div className='game-player-user'>
         <Avatar>

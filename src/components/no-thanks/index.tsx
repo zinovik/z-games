@@ -4,6 +4,7 @@ import { Button, Typography } from '@material-ui/core';
 
 import { NoThanksCard, NoThanksChips } from '../../components';
 import * as types from '../../constants';
+import './index.css';
 
 interface NoThanksProps extends Props<{}> {
 	game: types.Game,
@@ -53,15 +54,13 @@ export class NoThanks extends Component<NoThanksProps, {}> {
 				<NoThanksCard card={currentCard} />
 				<NoThanksChips chips={currentCardCost} />
 
-				{isMyTurn && <div>
-					<Button
-						variant='contained'
-						onClick={() => { move(JSON.stringify({ takeCard: false })); }}
-						disabled={!myChips}
-					>
+				{isMyTurn && <div className='no-thanks-buttons'>
+					<Button variant='contained' color='primary' className='no-thanks-button' onClick={() => { move(JSON.stringify({ takeCard: false })); }} disabled={!myChips}>
 						Pay
 					</Button>
-					<Button variant='contained' onClick={() => { move(JSON.stringify({ takeCard: true })); }}>Take</Button>
+					<Button variant='contained' color='primary' className='no-thanks-button' onClick={() => { move(JSON.stringify({ takeCard: true })); }}>
+						Take
+					</Button>
 				</div>}
 			</Fragment>
 		);

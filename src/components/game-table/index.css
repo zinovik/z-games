@@ -1,6 +1,7 @@
 .game-table-container {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .game-table-center {
@@ -13,12 +14,12 @@
 }
 
 .game-table-center-no-thanks {
-  min-width: 40%;
-  min-height: 180px;
+  min-width: 240px;
+  min-height: 200px;
   justify-content: space-around;
 }
 
 .game-table-center-perudo {
-  min-width: 80%;
-  min-height: 550px;
+  min-width: 330px;
+  min-height: 450px;
 }

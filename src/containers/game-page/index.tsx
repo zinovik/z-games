@@ -2,8 +2,7 @@ import React, { Component, Props } from 'react';
 import { connect } from 'react-redux';
 import { Paper } from '@material-ui/core';
 
-import { GameTable, Chat } from '../../containers';
-import { GameInfo } from '../../components';
+import { GameInfo, GameTable, Chat } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 import './index.css';

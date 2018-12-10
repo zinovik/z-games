@@ -16,6 +16,7 @@ import {
   figureInc,
   figureDec,
 } from './perudo';
+import './index.css';
 
 interface PerudoMoveProps extends Props<{}> {
   game: types.Game,
@@ -155,9 +156,9 @@ export class PerudoMove extends Component<PerudoMoveProps, PerudoMoveState> {
           Dice number
 				</Typography>
         <Typography>
-          <Button variant='contained' onClick={this.numberDec} disabled={myBetNumberDecDisable}>-</Button>
+          <Button onClick={this.numberDec} disabled={myBetNumberDecDisable}>-</Button>
           {diceNumber}
-          <Button variant='contained' onClick={this.numberInc} disabled={myBetNumberIncDisable}>+</Button>
+          <Button onClick={this.numberInc} disabled={myBetNumberIncDisable}>+</Button>
         </Typography>
 
         {!isMaputoRound && <Fragment>
@@ -165,9 +166,9 @@ export class PerudoMove extends Component<PerudoMoveProps, PerudoMoveState> {
             Dice figure
 					</Typography>
           <Typography>
-            <Button variant='contained' onClick={this.figureDec} disabled={myBetFigureDecDisable}>-</Button>
+            <Button onClick={this.figureDec} disabled={myBetFigureDecDisable}>-</Button>
             {diceFigure}
-            <Button variant='contained' onClick={this.figureInc} disabled={myBetFigureIncDisable}>+</Button>
+            <Button onClick={this.figureInc} disabled={myBetFigureIncDisable}>+</Button>
           </Typography>
         </Fragment>}
 
@@ -176,9 +177,13 @@ export class PerudoMove extends Component<PerudoMoveProps, PerudoMoveState> {
           Maputo
 				</Typography>}
 
-        <Typography>
-          <Button variant='contained' onClick={this.moveBet} disabled={isBetImpossible}>Bet</Button>
-          <Button variant='contained' onClick={this.moveNotBelieve} disabled={!currentDiceNumber || !currentDiceFigure}>Not Believe</Button>
+        <Typography className='perudo-move-buttons'>
+          <Button variant='contained' color='primary' className='perudo-move-button' onClick={this.moveBet} disabled={isBetImpossible}>
+            Bet
+          </Button>
+          <Button variant='contained' color='primary' className='perudo-move-button' onClick={this.moveNotBelieve} disabled={!currentDiceNumber || !currentDiceFigure}>
+            Not Believe
+          </Button>
         </Typography>
 
       </Fragment>

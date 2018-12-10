@@ -4,6 +4,7 @@ import { Typography } from '@material-ui/core';
 
 import { PerudoDices, PerudoMove, PerudoLastRoundResults } from '../../components';
 import * as types from '../../constants';
+import './index.css';
 
 interface PerudoProps extends Props<{}> {
 	game: types.Game,
@@ -86,19 +87,26 @@ export class Perudo extends Component<PerudoProps, {}> {
 					Last player: {players[lastPlayerNumber].username}
 				</Typography>}
 
-				{(currentDiceNumber && currentDiceFigure) ? <Fragment>
-					<Typography>
-						Current bet
-					</Typography>
+				<div className='perudo-bets'>
 
-					<PerudoDices dices={Array(currentDiceNumber).fill(currentDiceFigure)} />
-				</Fragment> : ''}
+					{(currentDiceNumber && currentDiceFigure) ? <div className='perudo-current-bet'>
+						<Typography>
+							Current bet
+						</Typography>
 
-				{isMyTurn && <PerudoMove
-					game={game}
-					isMaputoAble={isMaputoAble}
-					move={move}
-				/>}
+						<PerudoDices dices={Array(currentDiceNumber).fill(currentDiceFigure)} />
+					</div> : ''}
+
+					{isMyTurn && <div className='perudo-my-bet'>
+						<PerudoMove
+							game={game}
+							isMaputoAble={isMaputoAble}
+							move={move}
+						/>
+					</div>}
+
+				</div>
+
 			</Fragment>
 		);
 	}

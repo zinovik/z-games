@@ -1,4 +1,11 @@
 .perudo-last-round-result-container {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.perudo-last-round-result-player-username {
+  padding-left: 5px;
+  padding-right: 5px;
 }

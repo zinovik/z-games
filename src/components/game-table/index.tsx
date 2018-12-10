@@ -1,8 +1,7 @@
 import React, { Fragment } from 'react';
 import { object, func } from 'prop-types';
 
-import { NoThanks, Perudo } from '../../containers';
-import { GamePlayers, GamePlayer, GameResults } from '../../components';
+import { GamePlayers, GamePlayer, GameResults, NoThanks, Perudo } from '../../components';
 import * as types from '../../constants';
 import './index.css';
 
@@ -27,6 +26,7 @@ export function GameTable({ game, currentUser, move }: {
   const playersInGame = JSON.parse(gameData).players;
   const { cards, chips, points, dices } = playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id) || { cards: [], chips: 0, points: 0, dices: [] };
   const isMyTurn = nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id);
+  const isPlayer = players.some(player => player.id === currentUser.id);
 
   return (
     <Fragment>
@@ -40,12 +40,15 @@ export function GameTable({ game, currentUser, move }: {
           nextPlayers={nextPlayers}
         />
 
-        <div className={`game-table-center game-table-center-${name === types.NO_THANKS ? 'no-thanks' : ''}${name === types.PERUDO ? 'perudo' : ''}`}>
+        <div className={`
+          game-table-center
+          game-table-center-${name === types.NO_THANKS ? 'no-thanks' : ''}${name === types.PERUDO ? 'perudo' : ''}
+        `}>
           {name === types.NO_THANKS && <NoThanks game={game} currentUser={currentUser} isMyTurn={isMyTurn} move={move} />}
           {name === types.PERUDO && <Perudo game={game} currentUser={currentUser} isMyTurn={isMyTurn} move={move} />}
         </div>
 
-        <GamePlayer
+        {isPlayer && <GamePlayer
           gameName={name}
           username={currentUser.username}
           cards={cards}
@@ -53,7 +56,7 @@ export function GameTable({ game, currentUser, move }: {
           points={points}
           dices={dices}
           active={nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id)}
-        />
+        />}
 
       </div>}
 
