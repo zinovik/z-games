@@ -1,6 +1,7 @@
 import React, { Component, ChangeEvent, Props, Fragment } from 'react';
 import { func } from 'prop-types';
-import { Modal, Paper, Typography, Tabs, Tab, Button, Input } from '@material-ui/core';
+// import { Modal, Paper, Typography, Tabs, Tab, Button, Input } from '@material-ui/core';
+import { Modal, Paper, Typography, Button, Input } from '@material-ui/core';
 
 import './index.css';
 
@@ -93,7 +94,7 @@ export class Authorize extends Component<AuthorizeProps, AuthorizeState> {
               <Input type="password" placeholder="Password" onChange={this.handlePasswordChange} />
             </div>
 
-            <Tabs
+            {/* <Tabs
               value={this.state.isTabSignUp}
               onChange={this.handleTabChange}
               indicatorColor='primary'
@@ -105,7 +106,7 @@ export class Authorize extends Component<AuthorizeProps, AuthorizeState> {
 
             <div>
               <Input type='email' placeholder='Email' onChange={this.handleEmailChange} />
-            </div>
+            </div> */}
 
             <Typography>
               <Button onClick={this.handleSignInClick}>Sign in</Button>

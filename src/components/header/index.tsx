@@ -88,7 +88,7 @@ class Header extends Component<HeaderProps & RouteProps, HeaderState> {
 							<Menu />
 						</IconButton>}
 
-						<Gamepad color={isConnected ? 'secondary' : 'default'} className='header-connected-icon' />
+						<Gamepad color={isConnected ? 'secondary' : 'error'} className='header-connected-icon' />
 
 						{width >= MENU_WIDTH_MIN && <nav>
 							{['Home', 'Games', 'Rating', 'Profile', 'About'].map(label =>
