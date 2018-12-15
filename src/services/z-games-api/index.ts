@@ -16,10 +16,10 @@ export interface History {
   push: (path: string) => void;
 }
 
-const SERVER_URL = ((window as any).envs && (window as any).envs.SERVER_URL) || 'http://localhost:4000';
-
 export class ZGamesApi {
   private static instance: ZGamesApi;
+
+  public SERVER_URL = ((window as any).envs && (window as any).envs.SERVER_URL) || 'http://localhost:4000';
 
   private socket: (typeof Socket) & { query: { token: string } };
   private store: Store;
@@ -33,7 +33,7 @@ export class ZGamesApi {
 
     const token = localStorage.getItem('token');
 
-    this.socket = io(SERVER_URL, {
+    this.socket = io(this.SERVER_URL, {
       query: { token },
     }) as (typeof Socket) & { query: { token: string } };
 
@@ -105,7 +105,7 @@ export class ZGamesApi {
 
   // Accounts
   register = async (username: string, password: string): Promise<any> => {
-    const fetchResult = await fetch(`${SERVER_URL}/api/users/register`, {
+    const fetchResult = await fetch(`${this.SERVER_URL}/api/users/register`, {
       method: 'post',
       body: JSON.stringify({
         username,
@@ -128,7 +128,7 @@ export class ZGamesApi {
   };
 
   login = async (username: string, password: string): Promise<any> => {
-    const fetchResult = await fetch(`${SERVER_URL}/api/users/authorize`, {
+    const fetchResult = await fetch(`${this.SERVER_URL}/api/users/authorize`, {
       method: 'post',
       body: JSON.stringify({
         username,
@@ -143,7 +143,6 @@ export class ZGamesApi {
     const currentUser = await fetchResult.json();
 
     if (token) {
-      localStorage.setItem('token', token);
       this.setToken(token);
 
       this.store.dispatch(updateCurrentUser(currentUser));
@@ -153,7 +152,6 @@ export class ZGamesApi {
   };
 
   logout = (): void => {
-    localStorage.setItem('token', '');
     this.setToken('');
 
     this.socket.emit('logout');
@@ -203,7 +201,11 @@ export class ZGamesApi {
 
 
   setToken = (token: string): void => {
+    localStorage.setItem('token', token);
     this.socket.query.token = token;
+
+    this.history.push('/home');
+
     this.socket.disconnect();
     this.socket.connect();
   }
