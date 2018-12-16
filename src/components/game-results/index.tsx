@@ -8,6 +8,7 @@ import './index.css';
 
 interface Result {
   username: string;
+  avatar: string;
   place: number,
 
   cards: number[],
@@ -37,6 +38,7 @@ export function GameResults({ gameName, players, playersInGame }: {
   const results: Result[] = playersInGame.map((playerInGame, index) => {
     return {
       username: players.find(player => player.id === playerInGame.id)!.username,
+      avatar: players.find(player => player.id === playerInGame.id)!.avatar,
       cards: playerInGame.cards || [],
       chips: playerInGame.chips || 0,
       points: playerInGame.points || 0,
@@ -58,6 +60,7 @@ export function GameResults({ gameName, players, playersInGame }: {
           <GamePlayer
             gameName={gameName}
             username={result.username}
+            avatar={result.avatar}
             cards={result.cards}
             chips={result.chips}
             points={result.points}

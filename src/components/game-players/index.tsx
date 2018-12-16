@@ -48,6 +48,7 @@ export function GamePlayers({ gameName, currentUserId, playersInGame, players, n
             <GamePlayer
               gameName={gameName}
               username={players.find(player => player.id === playerInGame.id)!.username}
+              avatar={players.find(player => player.id === playerInGame.id)!.avatar}
               cards={playerInGame.cards || []}
               dicesCount={playerInGame.dicesCount || 0}
               active={nextPlayers.some(nextPlayer => nextPlayer.id === playerInGame.id)}

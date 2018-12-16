@@ -51,6 +51,7 @@ export function GameTable({ game, currentUser, move }: {
         {isPlayer && <GamePlayer
           gameName={name}
           username={currentUser.username}
+          avatar={currentUser.avatar}
           cards={cards}
           chips={chips}
           points={points}

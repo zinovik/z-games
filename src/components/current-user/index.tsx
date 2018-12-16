@@ -6,6 +6,7 @@ import './index.css';
 
 interface CurrentUserProps extends Props<{}> {
   currentUsername: string,
+  avatar: string,
   onLogOutClick: () => void,
 }
 
@@ -17,6 +18,7 @@ export class CurrentUser extends Component<CurrentUserProps, CurrentUserState> {
 
   static propTypes = {
     currentUsername: string,
+    avatar: string,
     onLogOutClick: func.isRequired,
   }
 
@@ -46,19 +48,19 @@ export class CurrentUser extends Component<CurrentUserProps, CurrentUserState> {
   };
 
   render() {
-    const { currentUsername } = this.props;
+    const { currentUsername, avatar } = this.props;
     const { anchorEl } = this.state;
 
     return (
-      <Avatar>
+      <Button
+        onClick={this.handleMenuOpen}
+        aria-owns={anchorEl ? 'user-menu' : undefined}
+        className='current-user-avatar'
+      >
 
-        <Button
-          onClick={this.handleMenuOpen}
-          aria-owns={anchorEl ? 'user-menu' : undefined}
-          className='current-user-avatar'
-        >
+        <Avatar src={avatar}>
           {currentUsername[0]}
-        </Button>
+        </Avatar>
 
         <Menu
           id='user-menu'
@@ -69,7 +71,7 @@ export class CurrentUser extends Component<CurrentUserProps, CurrentUserState> {
           <MenuItem onClick={this.handleLogOutClick}>Log out</MenuItem>
         </Menu>
 
-      </Avatar>
+      </Button>
     );
   }
 }

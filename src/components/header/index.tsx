@@ -13,6 +13,7 @@ const MENU_WIDTH_MIN = 600;
 interface HeaderProps extends Props<{}> {
 	isConnected: boolean,
 	currentUsername: string,
+	avatar: string,
 	serverUrl: string,
 	signIn: (username: string, password: string) => void,
 	signUp: (username: string, password: string) => void,
@@ -29,6 +30,7 @@ class Header extends Component<HeaderProps & RouteProps, HeaderState> {
 	static propTypes = {
 		isConnected: bool,
 		currentUsername: string,
+		avatar: string,
 		serverUrl: string.isRequired,
 		signIn: func.isRequired,
 		signUp: func.isRequired,
@@ -75,7 +77,7 @@ class Header extends Component<HeaderProps & RouteProps, HeaderState> {
 	}
 
 	render() {
-		const { isConnected, currentUsername, serverUrl, signIn, signUp, logOut } = this.props;
+		const { isConnected, currentUsername, avatar, serverUrl, signIn, signUp, logOut } = this.props;
 		const { width, isDrawerShown } = this.state;
 
 		return (
@@ -101,7 +103,7 @@ class Header extends Component<HeaderProps & RouteProps, HeaderState> {
 						</nav>}
 
 						{!currentUsername && <Authorize serverUrl={serverUrl} onSignInClick={signIn} onSignUpClick={signUp} />}
-						{currentUsername && <CurrentUser currentUsername={currentUsername} onLogOutClick={logOut} />}
+						{currentUsername && <CurrentUser currentUsername={currentUsername} avatar={avatar} onLogOutClick={logOut} />}
 					</div>
 				</Toolbar>
 

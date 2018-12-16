@@ -46,28 +46,36 @@ export function Game({ game, currentUsername, join, open, watch }: {
       </div>
 
       <CardContent>
+
         <Typography>
           {game.players.length} {game.players.length === 1 ? 'player' : 'players'}
         </Typography>
+
         <Typography>
           {game.state === types.GAME_NOT_STARTED && <span className='game-dot game-green-dot' />}
           {game.state === types.GAME_STARTED && <span className='game-dot game-yellow-dot' />}
           {game.state === types.GAME_FINISHED && <span className='game-dot game-red-dot' />}
           {types.GAME_STATE_LABEL[game.state]}
         </Typography>
+
       </CardContent>
 
       {currentUsername && <CardActions>
+
         {isAbleToJoin && <IconButton onClick={join} >
           <Gamepad />
         </IconButton>}
+
         {isAbleToOpen && <IconButton onClick={open} >
           <OpenInBrowser />
         </IconButton>}
+
         {isAbleToWatch && <IconButton onClick={watch} >
           <RemoveRedEye />
         </IconButton>}
+
       </CardActions>}
+
     </Card>
   );
 }
