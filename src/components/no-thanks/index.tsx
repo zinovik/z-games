@@ -28,12 +28,23 @@ export class NoThanks extends Component<NoThanksProps, {}> {
 		move: () => console.log,
 	}
 
+	movePay = (): void => {
+		const { move } = this.props;
+
+		move(JSON.stringify({ takeCard: false }));
+	};
+
+	moveTake = (): void => {
+		const { move } = this.props;
+
+		move(JSON.stringify({ takeCard: true }));
+	};
+
 	render() {
 		const {
 			game: { gameData },
 			currentUser,
 			isMyTurn,
-			move,
 		} = this.props;
 
 		if (!currentUser) {
@@ -55,10 +66,10 @@ export class NoThanks extends Component<NoThanksProps, {}> {
 				<NoThanksChips chips={currentCardCost} />
 
 				{isMyTurn && <div className='no-thanks-buttons'>
-					<Button variant='contained' color='primary' className='no-thanks-button' onClick={() => { move(JSON.stringify({ takeCard: false })); }} disabled={!myChips}>
+					<Button variant='contained' color='primary' className='no-thanks-button' onClick={this.movePay} disabled={!myChips}>
 						Pay
 					</Button>
-					<Button variant='contained' color='primary' className='no-thanks-button' onClick={() => { move(JSON.stringify({ takeCard: true })); }}>
+					<Button variant='contained' color='primary' className='no-thanks-button' onClick={this.moveTake}>
 						Take
 					</Button>
 				</div>}

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { string, array } from 'prop-types';
 import { Typography } from '@material-ui/core';
 
@@ -48,7 +48,7 @@ export function GameResults({ gameName, players, playersInGame }: {
   results.sort((a, b) => (a.place === b.place ? a.points - b.points : a.place - b.place));
 
   return (
-    <Fragment>
+    <div className='game-results-container'>
       {results.map((result, index) => (
         <div key={index} className='game-results-player'>
           <Typography>
@@ -66,6 +66,6 @@ export function GameResults({ gameName, players, playersInGame }: {
 
         </div>
       ))}
-    </Fragment>
+    </div>
   );
 }

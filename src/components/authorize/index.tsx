@@ -1,11 +1,12 @@
 import React, { Component, ChangeEvent, Props, Fragment } from 'react';
-import { func } from 'prop-types';
+import { func, string } from 'prop-types';
 // import { Modal, Paper, Typography, Tabs, Tab, Button, Input } from '@material-ui/core';
-import { Modal, Paper, Typography, Button, Input } from '@material-ui/core';
+import { Modal, Paper, Typography, Button } from '@material-ui/core';
 
 import './index.css';
 
 interface AuthorizeProps extends Props<{}> {
+  serverUrl: string,
   onSignInClick: (username: string, password: string) => void,
   onSignUpClick: (username: string, password: string) => void,
 }
@@ -20,6 +21,7 @@ interface AuthorizeState extends Props<{}> {
 
 export class Authorize extends Component<AuthorizeProps, AuthorizeState> {
   static propTypes = {
+    serverUrl: string.isRequired,
     onSignInClick: func.isRequired,
     onSignUpClick: func.isRequired,
   }
@@ -77,6 +79,12 @@ export class Authorize extends Component<AuthorizeProps, AuthorizeState> {
     this.setState({ isTabSignUp: !isTabSignUp });
   }
 
+  handleSignInGoogle = () => {
+    const { serverUrl } = this.props;
+
+    window.location.href = `${serverUrl}/api/users/authorize/google`;
+  }
+
   render() {
     return (
       <Fragment>
@@ -86,13 +94,13 @@ export class Authorize extends Component<AuthorizeProps, AuthorizeState> {
 
         <Modal open={this.state.isModalShow} onClose={this.handleClose}>
           <Paper className='authorize-modal-window'>
-            <div>
+            {/* <div>
               <Input type="text" placeholder="Username" onChange={this.handleUsernameChange} />
             </div>
 
             <div>
               <Input type="password" placeholder="Password" onChange={this.handlePasswordChange} />
-            </div>
+            </div> */}
 
             {/* <Tabs
               value={this.state.isTabSignUp}
@@ -108,10 +116,17 @@ export class Authorize extends Component<AuthorizeProps, AuthorizeState> {
               <Input type='email' placeholder='Email' onChange={this.handleEmailChange} />
             </div> */}
 
-            <Typography>
+            {/* <Typography>
               <Button onClick={this.handleSignInClick}>Sign in</Button>
               <Button onClick={this.handleSignUpClick}>Sign up</Button>
+            </Typography> */}
+
+            <Typography>
+              <Button onClick={this.handleSignInGoogle}>
+                <img src='https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png' />
+              </Button>
             </Typography>
+
           </Paper>
         </Modal>
       </Fragment>

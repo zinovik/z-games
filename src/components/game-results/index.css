@@ -1,9 +1,10 @@
-.game-results-player {
-  margin: 20px;
+.game-results-container {
   display: flex;
   flex-direction: column;
 }
 
-.game-results-player > p, .game-results-player > div {
-  align-self: center;
+.game-results-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
