@@ -24,3 +24,4 @@ export * from './logs-list';
 export * from './no-thanks';
 export * from './perudo';
 export * from './game-table';
+export * from './game-rules';

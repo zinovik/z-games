@@ -56,7 +56,7 @@ export class NewGame extends Component<NewGameProps, {}> {
           <DialogTitle>New game</DialogTitle>
           <DialogContent>
             <DialogContentText>
-              Choose game to create
+              Choose a game to create
             </DialogContentText>
             <DialogActions>
               <Button onClick={this.handleNewNoThanksGame}>{types.NO_THANKS}</Button>

@@ -25,6 +25,7 @@ class GamesPage extends Component<GamesPageProps, {}> {
         <Header
           isConnected={isConnected}
           currentUsername={currentUser && currentUser.username}
+          avatar={currentUser && currentUser.avatar}
           serverUrl={this.zGamesApi.SERVER_URL}
           signUp={this.zGamesApi.register}
           signIn={this.zGamesApi.login}

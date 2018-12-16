@@ -9,6 +9,7 @@ import './index.css';
 GamePlayer.propTypes = {
   gameName: string.isRequired,
   username: string.isRequired,
+  avatar: string,
   cards: arrayOf(number),
   chips: number,
   points: number,
@@ -23,9 +24,10 @@ GamePlayer.defaultProps = {
   active: false,
 }
 
-export function GamePlayer({ gameName, username, cards, chips, points, dices, dicesCount, active }: {
+export function GamePlayer({ gameName, username, avatar, cards, chips, points, dices, dicesCount, active }: {
   gameName: string,
   username: string,
+  avatar?: string,
   cards?: number[],
   chips?: number,
   points?: number,
@@ -41,7 +43,7 @@ export function GamePlayer({ gameName, username, cards, chips, points, dices, di
     `}>
 
       <div className='game-player-user'>
-        <Avatar>
+        <Avatar src={avatar}>
           {username[0]}
         </Avatar>
 
