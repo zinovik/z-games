@@ -3,9 +3,13 @@
   margin: 10px;
 }
 
-.game-logo {
+.game-img-container {
   display: flex;
   justify-content: center;
+}
+
+.game-img {
+  cursor: pointer;
 }
 
 .game-dot {
