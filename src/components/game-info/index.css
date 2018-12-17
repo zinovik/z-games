@@ -5,12 +5,16 @@
   flex-direction: row;
 }
 
+.game-info-img {
+  cursor: pointer;
+}
+
 .game-info-buttons {
   display: flex;
   flex-direction: column;
 }
 
-.game-info-buttons > button {
+.game-info-buttons>button {
   width: 120px;
   margin: 2px;
 }
