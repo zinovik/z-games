@@ -9,7 +9,7 @@
 }
 
 .chat-logs {
-  flex: 0 0 95%;
+  flex: 0 1 95%;
   display: flex;
   flex-direction: column;
 }

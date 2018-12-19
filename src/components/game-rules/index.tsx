@@ -31,7 +31,7 @@ export class GameRules extends Component<GameRulesProps, {}> {
     const { gameName } = this.props;
 
     return (
-      <Dialog open={true} onClose={this.handleClose}>
+      <Dialog open={true} onClose={this.handleClose} fullScreen={true}>
 
         <DialogTitle>Game rules - {gameName}</DialogTitle>
 
