@@ -4,6 +4,7 @@
   flex-wrap: wrap;
   height: 100vh;
   padding: 5px;
+  justify-content: center;
   background: linear-gradient(
     rgba(0, 0, 0, 0.8), 
     rgba(0, 0, 0, 0.8)
@@ -20,7 +21,7 @@
 
 .game-page-info-chat-container {
   flex: 1 0 30%;
-  min-width: 350px;
+  min-width: 340px;
   padding-left: 5px;
   display: flex;
   flex-direction: column;
@@ -51,5 +52,9 @@
 @media screen and (max-width: 1190px) {
   .game-page-info-chat-container {
     padding-left: 0px;
+  }
+
+  .game-page-table {
+    flex: 0 1 auto;
   }
 }
