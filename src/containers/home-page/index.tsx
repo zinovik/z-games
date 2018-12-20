@@ -44,12 +44,12 @@ class HomePage extends Component<HomePageProps, {}> {
         />
 
         <div className='home-page-content'>
-          <Typography variant='h2' color='primary' gutterBottom={true}>
+          <Typography variant='h3' color='primary' gutterBottom={true}>
             Welcome to Z-Games!
           </Typography>
 
-          <Typography variant='h3' color='primary'>
-            Tiny simple board games portal
+          <Typography variant='h4' color='primary'>
+            tiny board games portal
           </Typography>
         </div>
       </main>
