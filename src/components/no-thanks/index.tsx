@@ -13,7 +13,12 @@ interface NoThanksProps extends Props<{}> {
 	move: (move: string) => void,
 }
 
-export class NoThanks extends Component<NoThanksProps, {}> {
+interface NoThanksState extends Props<{}> {
+	isButtonsDisabled: boolean,
+}
+
+
+export class NoThanks extends Component<NoThanksProps, NoThanksState> {
 	static propTypes = {
 		game: object.isRequired,
 		currentUser: object.isRequired,
@@ -28,16 +33,24 @@ export class NoThanks extends Component<NoThanksProps, {}> {
 		move: () => console.log,
 	}
 
+	state = {
+		isButtonsDisabled: false,
+	};
+
 	movePay = (): void => {
 		const { move } = this.props;
 
 		move(JSON.stringify({ takeCard: false }));
+
+		// this.setState({ isButtonsDisabled: true });
 	};
 
 	moveTake = (): void => {
 		const { move } = this.props;
 
 		move(JSON.stringify({ takeCard: true }));
+
+		// this.setState({ isButtonsDisabled: true });
 	};
 
 	render() {
@@ -46,6 +59,8 @@ export class NoThanks extends Component<NoThanksProps, {}> {
 			currentUser,
 			isMyTurn,
 		} = this.props;
+
+		const { isButtonsDisabled } = this.state;
 
 		if (!currentUser) {
 			return null;
@@ -66,10 +81,10 @@ export class NoThanks extends Component<NoThanksProps, {}> {
 				<NoThanksChips chips={currentCardCost} />
 
 				{isMyTurn && <div className='no-thanks-buttons'>
-					<Button variant='contained' color='primary' className='no-thanks-button' onClick={this.movePay} disabled={!myChips}>
+					<Button variant='contained' color='primary' className='no-thanks-button' onClick={this.movePay} disabled={!myChips || isButtonsDisabled}>
 						Pay
 					</Button>
-					<Button variant='contained' color='primary' className='no-thanks-button' onClick={this.moveTake}>
+					<Button variant='contained' color='primary' className='no-thanks-button' onClick={this.moveTake} disabled={isButtonsDisabled}>
 						Take
 					</Button>
 				</div>}

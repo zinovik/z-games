@@ -49,7 +49,7 @@
   padding: 5px;
 }
 
-@media screen and (max-width: 1190px) {
+@media screen and (max-width: 700px) {
   .game-page-info-chat-container {
     padding-left: 0px;
   }
