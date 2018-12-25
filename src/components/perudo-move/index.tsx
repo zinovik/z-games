@@ -30,6 +30,7 @@ interface PerudoMoveState {
   isBetImpossible: boolean;
   isMaputo: boolean;
   oldGameData: string;
+  isButtonsDisabled: boolean,
 }
 
 export class PerudoMove extends Component<PerudoMoveProps, PerudoMoveState> {
@@ -45,9 +46,9 @@ export class PerudoMove extends Component<PerudoMoveProps, PerudoMoveState> {
     move: () => console.log,
   }
 
-  static getDerivedStateFromProps = (props: PerudoMoveProps, state: PerudoMoveState) => {
-    const { oldGameData } = state;
-    const { game } = props;
+  static getDerivedStateFromProps = (nextProps: PerudoMoveProps, prevState: PerudoMoveState) => {
+    const { oldGameData } = prevState;
+    const { game } = nextProps;
     const { gameData } = game;
     const { currentDiceNumber, currentDiceFigure, isMaputoRound, players: playersInGame } = JSON.parse(gameData);
 
@@ -60,6 +61,7 @@ export class PerudoMove extends Component<PerudoMoveProps, PerudoMoveState> {
     return {
       ...calculateStartBet({ currentDiceNumber, currentDiceFigure, allDicesCount, isMaputoRound }),
       oldGameData: gameData,
+      isButtonsDisabled: false,
     };
   }
 
@@ -70,6 +72,7 @@ export class PerudoMove extends Component<PerudoMoveProps, PerudoMoveState> {
     isMaputo: false,
     isStartBetCalculated: false,
     oldGameData: '',
+    isButtonsDisabled: false,
   };
 
   numberInc = (): void => {
@@ -112,16 +115,20 @@ export class PerudoMove extends Component<PerudoMoveProps, PerudoMoveState> {
     const { diceNumber, diceFigure, isMaputo } = this.state;
 
     if (isMaputoAble) {
-      return move(JSON.stringify({ number: diceNumber, figure: diceFigure, isMaputo }));
+      move(JSON.stringify({ number: diceNumber, figure: diceFigure, isMaputo }));
+    } else {
+      move(JSON.stringify({ number: diceNumber, figure: diceFigure }));
     }
 
-    move(JSON.stringify({ number: diceNumber, figure: diceFigure }));
+    this.setState({ isButtonsDisabled: true });
   }
 
   moveNotBelieve = (): void => {
     const { move } = this.props;
 
     move(JSON.stringify({ notBelieve: true }));
+
+    this.setState({ isButtonsDisabled: true });
   }
 
   handleMaputoChange = (): void => {
@@ -137,7 +144,7 @@ export class PerudoMove extends Component<PerudoMoveProps, PerudoMoveState> {
     const { currentDiceNumber, currentDiceFigure, isMaputoRound, players: playersInGame } = JSON.parse(gameData);
     const allDicesCount = countDices(playersInGame);
 
-    const { diceNumber, diceFigure, isBetImpossible } = this.state;
+    const { diceNumber, diceFigure, isBetImpossible, isButtonsDisabled } = this.state;
 
     const myBetNumberDecDisable = diceNumber <= countMinNumber({ currentDiceNumber, currentDiceFigure, isMaputoRound });
     const myBetNumberIncDisable = diceNumber >= countMaxNumber({ allDicesCount });
@@ -178,10 +185,10 @@ export class PerudoMove extends Component<PerudoMoveProps, PerudoMoveState> {
 				</Typography>}
 
         <Typography className='perudo-move-buttons'>
-          <Button variant='contained' color='primary' className='perudo-move-button' onClick={this.moveBet} disabled={isBetImpossible}>
+          <Button variant='contained' color='primary' className='perudo-move-button' onClick={this.moveBet} disabled={isBetImpossible || isButtonsDisabled}>
             Bet
           </Button>
-          <Button variant='contained' color='primary' className='perudo-move-button' onClick={this.moveNotBelieve} disabled={!currentDiceNumber || !currentDiceFigure}>
+          <Button variant='contained' color='primary' className='perudo-move-button' onClick={this.moveNotBelieve} disabled={!currentDiceNumber || !currentDiceFigure || isButtonsDisabled}>
             Not Believe
           </Button>
         </Typography>

@@ -15,6 +15,7 @@ interface NoThanksProps extends Props<{}> {
 
 interface NoThanksState extends Props<{}> {
 	isButtonsDisabled: boolean,
+	oldGameData: string,
 }
 
 
@@ -33,8 +34,21 @@ export class NoThanks extends Component<NoThanksProps, NoThanksState> {
 		move: () => console.log,
 	}
 
+	static getDerivedStateFromProps = (nextProps: NoThanksProps, prevState: NoThanksState) => {
+		const { oldGameData } = prevState;
+		const { game } = nextProps;
+		const { gameData } = game;
+
+		if (gameData === oldGameData) {
+			return null;
+		}
+
+		return { isButtonsDisabled: false, oldGameData: nextProps.game.gameData };
+	};
+
 	state = {
 		isButtonsDisabled: false,
+		oldGameData: '',
 	};
 
 	movePay = (): void => {
@@ -42,7 +56,7 @@ export class NoThanks extends Component<NoThanksProps, NoThanksState> {
 
 		move(JSON.stringify({ takeCard: false }));
 
-		// this.setState({ isButtonsDisabled: true });
+		this.setState({ isButtonsDisabled: true });
 	};
 
 	moveTake = (): void => {
@@ -50,7 +64,7 @@ export class NoThanks extends Component<NoThanksProps, NoThanksState> {
 
 		move(JSON.stringify({ takeCard: true }));
 
-		// this.setState({ isButtonsDisabled: true });
+		this.setState({ isButtonsDisabled: true });
 	};
 
 	render() {

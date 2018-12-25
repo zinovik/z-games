@@ -18,6 +18,8 @@ interface GameProps extends Props<{}> {
 
 interface GameState extends Props<{}> {
   isRulesShown: boolean,
+  isButtonsDisabled: boolean,
+  oldGameData: string,
 }
 
 export class Game extends Component<GameProps, GameState> {
@@ -38,8 +40,22 @@ export class Game extends Component<GameProps, GameState> {
     watch: () => console.log,
   }
 
+  static getDerivedStateFromProps = (nextProps: GameProps, prevState: GameState) => {
+    const { oldGameData } = prevState;
+    const { game } = nextProps;
+    const { gameData } = game;
+
+    if (gameData === oldGameData) {
+      return null;
+    }
+
+    return { isButtonsDisabled: false, oldGameData: nextProps.game.gameData };
+  };
+
   state = {
     isRulesShown: false,
+    isButtonsDisabled: false,
+    oldGameData: '',
   };
 
   handleLogoClick = () => {
@@ -50,9 +66,33 @@ export class Game extends Component<GameProps, GameState> {
     this.setState({ isRulesShown: false });
   };
 
+  handleJoinClick = () => {
+    const { join } = this.props;
+
+    this.setState({ isButtonsDisabled: true });
+
+    join();
+  };
+
+  handleOpenClick = () => {
+    const { open } = this.props;
+
+    this.setState({ isButtonsDisabled: true });
+
+    open();
+  };
+
+  handleWatchClick = () => {
+    const { watch } = this.props;
+
+    this.setState({ isButtonsDisabled: true });
+
+    watch();
+  };
+
   render() {
-    const { game, currentUsername, join, open, watch } = this.props;
-    const { isRulesShown } = this.state;
+    const { game, currentUsername } = this.props;
+    const { isRulesShown, isButtonsDisabled } = this.state;
 
     const isAbleToJoin = !game.state && game.players.length < game.playersMax && !game.players.some(player => player.username === currentUsername);
     const isAbleToOpen = game.players.some(player => player.username === currentUsername);
@@ -87,15 +127,15 @@ export class Game extends Component<GameProps, GameState> {
 
           {currentUsername && <CardActions>
 
-            {isAbleToJoin && <IconButton onClick={join} >
+            {isAbleToJoin && <IconButton onClick={this.handleJoinClick} disabled={isButtonsDisabled} >
               <Gamepad />
             </IconButton>}
 
-            {isAbleToOpen && <IconButton onClick={open} >
+            {isAbleToOpen && <IconButton onClick={this.handleOpenClick} disabled={isButtonsDisabled} >
               <OpenInBrowser />
             </IconButton>}
 
-            {isAbleToWatch && <IconButton onClick={watch} >
+            {isAbleToWatch && <IconButton onClick={this.handleWatchClick} disabled={isButtonsDisabled} >
               <RemoveRedEye />
             </IconButton>}
 
