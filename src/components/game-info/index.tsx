@@ -17,6 +17,8 @@ interface GameInfoProps extends Props<{}> {
 
 interface GameInfoState extends Props<{}> {
   isRulesShown: boolean,
+  isButtonsDisabled: boolean,
+  oldGameData: string,
 }
 
 export class GameInfo extends Component<GameInfoProps, GameInfoState> {
@@ -39,8 +41,22 @@ export class GameInfo extends Component<GameInfoProps, GameInfoState> {
     start: () => console.log,
   }
 
+  static getDerivedStateFromProps = (nextProps: GameInfoProps, prevState: GameInfoState) => {
+    const { oldGameData } = prevState;
+    const { game } = nextProps;
+    const { gameData } = game;
+
+    if (gameData === oldGameData) {
+      return null;
+    }
+
+    return { isButtonsDisabled: false, oldGameData: nextProps.game.gameData };
+  };
+
   state = {
     isRulesShown: false,
+    isButtonsDisabled: false,
+    oldGameData: '',
   };
 
   handleLogoClick = () => {
@@ -51,9 +67,41 @@ export class GameInfo extends Component<GameInfoProps, GameInfoState> {
     this.setState({ isRulesShown: false });
   };
 
+  handleCloseClick = () => {
+    const { close } = this.props;
+
+    this.setState({ isRulesShown: false, isButtonsDisabled: true });
+
+    close();
+  };
+
+  handleLeaveClick = () => {
+    const { leave } = this.props;
+
+    this.setState({ isRulesShown: false, isButtonsDisabled: true });
+
+    leave();
+  };
+
+  handleReadyClick = () => {
+    const { ready } = this.props;
+
+    this.setState({ isRulesShown: false, isButtonsDisabled: true });
+
+    ready();
+  };
+
+  handleStartClick = () => {
+    const { start } = this.props;
+
+    this.setState({ isRulesShown: false, isButtonsDisabled: true });
+
+    start();
+  };
+
   render() {
-    const { game, currentUserId, leave, close, ready, start } = this.props;
-    const { isRulesShown } = this.state;
+    const { game, currentUserId } = this.props;
+    const { isRulesShown, isButtonsDisabled } = this.state;
 
     const { playersOnline, watchers } = game;
     const { players: playersInGame } = JSON.parse(game.gameData);
@@ -104,15 +152,16 @@ export class GameInfo extends Component<GameInfoProps, GameInfoState> {
         </div>
 
         <div className='game-info-buttons'>
-          <Button onClick={close}>Close</Button>
+          <Button onClick={this.handleCloseClick} disabled={isButtonsDisabled}>Close</Button>
 
-          {game.state === types.GAME_NOT_STARTED && <Button onClick={leave}>Leave</Button>}
+          {game.state === types.GAME_NOT_STARTED && <Button onClick={this.handleLeaveClick} disabled={isButtonsDisabled}>Leave</Button>}
 
           {game.state === types.GAME_NOT_STARTED && <Fragment>
-            <Button onClick={ready}>
+            <Button onClick={this.handleReadyClick} disabled={isButtonsDisabled}>
               {playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUserId).ready ? 'Not Ready' : 'Ready'}
             </Button>
-            <Button onClick={start} disabled={!isAbleToStart}>Start</Button>
+
+            <Button onClick={this.handleStartClick} disabled={!isAbleToStart || isButtonsDisabled}>Start</Button>
           </Fragment>}
         </div>
 

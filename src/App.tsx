@@ -26,6 +26,7 @@ class App extends Component<AppProps, {}> {
         <Route path='/games' component={GamesPage} />
         <Route path='/game/:number' component={GamePage} />
         <Route path='/rating' component={HomePage} />
+        <Route path='/rules' component={HomePage} />
         <Route path='/profile' component={HomePage} />
         <Route path='/about' component={HomePage} />
         <Route path='/:token' component={HomePage} />

@@ -80,6 +80,8 @@ class Header extends Component<HeaderProps & RouteProps, HeaderState> {
 		const { isConnected, currentUsername, avatar, serverUrl, signIn, signUp, logOut } = this.props;
 		const { width, isDrawerShown } = this.state;
 
+		const LINKS = ['Home', 'Games', 'Rating', 'Rules', 'Profile', 'About'];
+
 		return (
 			<AppBar position='static'>
 				<Toolbar>
@@ -95,7 +97,7 @@ class Header extends Component<HeaderProps & RouteProps, HeaderState> {
 						<Gamepad color={isConnected ? 'secondary' : 'error'} className='header-connected-icon' />
 
 						{width >= MENU_WIDTH_MIN && <nav>
-							{['Home', 'Games', 'Rating', 'Profile', 'About'].map(label =>
+							{LINKS.map(label =>
 								<Button key={`${label}1`} onClick={() => { this.nextPath(`/${label.toLowerCase()}`); }}>
 									{label}
 								</Button>
@@ -117,7 +119,7 @@ class Header extends Component<HeaderProps & RouteProps, HeaderState> {
 						>
 
 							<List>
-								{['Home', 'Games', 'Rating', 'Profile', 'About'].map(label =>
+								{LINKS.map(label =>
 									<ListItem button={true} key={`${label}2`}>
 										<ListItemText primary={label} onClick={() => { this.nextPath(`/${label.toLowerCase()}`); }} />
 									</ListItem>
