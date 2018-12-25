@@ -1,9 +1,6 @@
 import React, { Component, Props, Fragment } from 'react';
 import { object, bool, func } from 'prop-types';
 import { Button, Typography, Checkbox } from '@material-ui/core';
-
-import { PerudoDices } from '../../components';
-import * as types from '../../constants';
 import {
   countDices,
   calculateStartBet,
@@ -15,7 +12,10 @@ import {
   numberDec,
   figureInc,
   figureDec,
-} from './perudo';
+} from 'z-games-perudo';
+
+import { PerudoDices } from '../../components';
+import * as types from '../../constants';
 import './index.css';
 
 interface PerudoMoveProps extends Props<{}> {
