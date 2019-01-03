@@ -18,7 +18,7 @@
     "board games"
   ],
   "dependencies": {
-    "@material-ui/core": "^3.7.1",
+    "@material-ui/core": "^3.8.1",
     "@material-ui/icons": "^3.0.1",
     "moment": "^2.23.0",
     "react": "^16.7.0",
@@ -29,6 +29,7 @@
     "redux": "^4.0.1",
     "serve": "^10.1.1",
     "socket.io-client": "^2.2.0",
+    "jss": "~10.0.0-alpha.5",
     "z-games-base-game": "0.0.4",
     "z-games-lost-cities": "0.0.3",
     "z-games-no-thanks": "0.0.4",
@@ -44,11 +45,11 @@
     "postinstall": "react-scripts-ts build && node env.js"
   },
   "devDependencies": {
-    "@types/jest": "^23.3.10",
+    "@types/jest": "^23.3.11",
     "@types/node": "^10.12.18",
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
-    "@types/react-redux": "^6.0.11",
+    "@types/react-redux": "^6.0.12",
     "@types/react-router-dom": "^4.3.1",
     "@types/socket.io-client": "^1.4.32",
     "typescript": "^3.2.2"
