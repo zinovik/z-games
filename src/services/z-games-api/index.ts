@@ -211,7 +211,7 @@ export class ZGamesApi {
   }
 
   updateRoute(gameNumber?: number) {
-    if (gameNumber === undefined) {
+    if (gameNumber === undefined || gameNumber === null) {
       return this.history.push('/games');
     }
 
