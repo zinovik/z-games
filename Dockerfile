@@ -3,6 +3,8 @@ FROM node:latest
 # Create work directory
 WORKDIR /usr/src/app
 
+RUN npm install yarn --global
+
 # Copy app source to work directory
 RUN mkdir /usr/src/app/public
 ADD public /usr/src/app/public/
@@ -20,7 +22,7 @@ COPY tsconfig.test.json /usr/src/app/
 COPY tslint.json /usr/src/app/
 
 # Install app dependencies
-RUN npm install
+RUN yarn install
 
 # Build and run the app
-CMD npm run dev
+CMD yarn start dev
