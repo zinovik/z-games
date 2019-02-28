@@ -1,7 +1,6 @@
 .game-page-container {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
   height: 100vh;
   padding: 5px;
   justify-content: center;
@@ -50,6 +49,10 @@
 }
 
 @media screen and (max-width: 700px) {
+  .game-page-container {
+    flex-wrap: wrap;
+  }
+
   .game-page-info-chat-container {
     padding-left: 0px;
   }
