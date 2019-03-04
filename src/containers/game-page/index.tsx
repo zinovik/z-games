@@ -2,7 +2,7 @@ import React, { Component, Props } from 'react';
 import { connect } from 'react-redux';
 import { Paper } from '@material-ui/core';
 
-import { GameInfo, GameTable, Chat } from '../../components';
+import { GameInfo, GameTable, Chat, Loading } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 import './index.css';
@@ -32,7 +32,7 @@ class GamePage extends Component<GamePageProps, {}> {
 
 
   render() {
-    const { currentUser, game } = this.props;
+    const { currentUser, game, isConnected } = this.props;
 
     if (!currentUser || !game) {
       return null;
@@ -67,6 +67,7 @@ class GamePage extends Component<GamePageProps, {}> {
           </div>
         </div>
 
+        <Loading isConnected={isConnected} />
       </main>
     );
   }

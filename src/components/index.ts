@@ -25,3 +25,4 @@ export * from './no-thanks';
 export * from './perudo';
 export * from './game-table';
 export * from './game-rules';
+export * from './loading';

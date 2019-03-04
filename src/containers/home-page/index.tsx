@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Typography } from '@material-ui/core';
 
 import Header from '../../components/header';
+import { Loading } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 import './index.css';
@@ -34,7 +35,6 @@ class HomePage extends Component<HomePageProps, {}> {
     return (
       <main className='home-page-container'>
         <Header
-          isConnected={isConnected}
           currentUsername={currentUser && currentUser.username}
           avatar={currentUser && currentUser.avatar}
           serverUrl={this.zGamesApi.SERVER_URL}
@@ -44,14 +44,19 @@ class HomePage extends Component<HomePageProps, {}> {
         />
 
         <div className='home-page-content'>
-          <Typography variant='h3' color='primary' gutterBottom={true}>
-            Welcome to Z-Games!
-          </Typography>
+          <div className='home-page-logo-container'>
+            <Typography>
+              <img className='logo' src='/images/logo.png' />
+            </Typography>
 
-          <Typography variant='h4' color='primary'>
-            tiny board games portal
-          </Typography>
+            <Typography variant='h5' color='primary'>
+              tiny board games portal
+            </Typography>
+
+          </div>
         </div>
+
+        <Loading isConnected={isConnected} />
       </main>
     );
   }
@@ -60,7 +65,7 @@ class HomePage extends Component<HomePageProps, {}> {
 const mapStateToProps = (state: { users: types.UsersState, games: types.GamesState }) => {
   return {
     usersOnline: state.users.usersOnline,
-    connected: state.users.isConnected,
+    isConnected: state.users.isConnected,
     currentUser: state.users.currentUser,
     allGames: state.games.allGames,
   };

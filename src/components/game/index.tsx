@@ -1,5 +1,5 @@
 import React, { Component, Props, Fragment } from 'react';
-import { object, string, func } from 'prop-types';
+import { object, string, func, bool } from 'prop-types';
 import moment from 'moment';
 import { Card, CardHeader, CardContent, Typography, IconButton, CardActions } from '@material-ui/core';
 import { Gamepad, OpenInBrowser, RemoveRedEye } from '@material-ui/icons';
@@ -11,9 +11,11 @@ import './index.css';
 interface GameProps extends Props<{}> {
   game: types.Game,
   currentUsername: string | undefined,
+  isDisableButtons: boolean,
   join: () => void,
   open: () => void,
-  watch: () => void
+  watch: () => void,
+  disableButtons: () => void,
 }
 
 interface GameState extends Props<{}> {
@@ -27,17 +29,21 @@ export class Game extends Component<GameProps, GameState> {
   static propTypes = {
     game: object.isRequired,
     currentUsername: string,
+    isDisableButtons: bool.isRequired,
     join: func.isRequired,
     open: func.isRequired,
     watch: func.isRequired,
+    disableButtons: func.isRequired,
   }
 
   static defaultProps = {
     game: {},
     currentUsername: undefined,
+    isDisableButtons: false,
     join: () => console.log,
     open: () => console.log,
     watch: () => console.log,
+    disableButtons: () => console.log,
   }
 
   static getDerivedStateFromProps = (nextProps: GameProps, prevState: GameState) => {
@@ -67,31 +73,34 @@ export class Game extends Component<GameProps, GameState> {
   };
 
   handleJoinClick = () => {
-    const { join } = this.props;
+    const { join, disableButtons } = this.props;
 
+    disableButtons();
     this.setState({ isButtonsDisabled: true });
 
     join();
   };
 
   handleOpenClick = () => {
-    const { open } = this.props;
+    const { open, disableButtons } = this.props;
 
+    disableButtons();
     this.setState({ isButtonsDisabled: true });
 
     open();
   };
 
   handleWatchClick = () => {
-    const { watch } = this.props;
+    const { watch, disableButtons } = this.props;
 
+    disableButtons();
     this.setState({ isButtonsDisabled: true });
 
     watch();
   };
 
   render() {
-    const { game, currentUsername } = this.props;
+    const { game, currentUsername, isDisableButtons } = this.props;
     const { isRulesShown, isButtonsDisabled } = this.state;
 
     const isAbleToJoin = !game.state && game.players.length < game.playersMax && !game.players.some(player => player.username === currentUsername);
@@ -127,15 +136,15 @@ export class Game extends Component<GameProps, GameState> {
 
           {currentUsername && <CardActions>
 
-            {isAbleToJoin && <IconButton onClick={this.handleJoinClick} disabled={isButtonsDisabled} >
+            {isAbleToJoin && <IconButton onClick={this.handleJoinClick} disabled={isButtonsDisabled || isDisableButtons} >
               <Gamepad />
             </IconButton>}
 
-            {isAbleToOpen && <IconButton onClick={this.handleOpenClick} disabled={isButtonsDisabled} >
+            {isAbleToOpen && <IconButton onClick={this.handleOpenClick} disabled={isButtonsDisabled || isDisableButtons} >
               <OpenInBrowser />
             </IconButton>}
 
-            {isAbleToWatch && <IconButton onClick={this.handleWatchClick} disabled={isButtonsDisabled} >
+            {isAbleToWatch && <IconButton onClick={this.handleWatchClick} disabled={isButtonsDisabled || isDisableButtons} >
               <RemoveRedEye />
             </IconButton>}
 
