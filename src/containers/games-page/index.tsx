@@ -1,7 +1,7 @@
 import React, { Component, Props } from 'react';
 import { connect } from "react-redux";
 
-import { UsersOnline, NewGame, GamesList } from '../../components';
+import { UsersOnline, NewGame, GamesList, Loading } from '../../components';
 import Header from '../../components/header';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
@@ -23,7 +23,6 @@ class GamesPage extends Component<GamesPageProps, {}> {
     return (
       <main className='games-page-container'>
         <Header
-          isConnected={isConnected}
           currentUsername={currentUser && currentUser.username}
           avatar={currentUser && currentUser.avatar}
           serverUrl={this.zGamesApi.SERVER_URL}
@@ -43,6 +42,8 @@ class GamesPage extends Component<GamesPageProps, {}> {
         />
 
         <UsersOnline usersOnline={usersOnline} />
+
+        <Loading isConnected={isConnected} />
       </main>
     );
   }
@@ -51,7 +52,7 @@ class GamesPage extends Component<GamesPageProps, {}> {
 const mapStateToProps = (state: { users: types.UsersState, games: types.GamesState }) => {
   return {
     usersOnline: state.users.usersOnline,
-    connected: state.users.isConnected,
+    isConnected: state.users.isConnected,
     currentUser: state.users.currentUser,
     allGames: state.games.allGames,
   };

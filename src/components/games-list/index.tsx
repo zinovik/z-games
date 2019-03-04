@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { string, array, func } from 'prop-types';
 
 import { Game } from '../../components';
@@ -12,15 +12,19 @@ export const GamesList = ({ allGames, currentUsername, joinGame, openGame, watch
 	openGame: (gameNumber: number) => void,
 	watchGame: (gameNumber: number) => void,
 }) => {
+	const [disableButtons, setDisableButtons] = useState(false);
+
 	return (
 		<div className='games-list'>
 			{allGames.map((game, index) => (
 				<Game
 					game={game}
 					currentUsername={currentUsername}
+					isDisableButtons={disableButtons}
 					join={() => { joinGame(game.number); }}
 					open={() => { openGame(game.number); }}
 					watch={() => { watchGame(game.number); }}
+					disableButtons={() => { setDisableButtons(true); }}
 					key={index}
 				/>)
 			)}

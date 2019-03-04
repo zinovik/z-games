@@ -93,6 +93,11 @@ export class ZGamesApi {
       store.dispatch(addNewLog(newLog));
     });
 
+    this.socket.on('new-token', (newToken: string): void => {
+      console.log(`socket.on('new-token'): `, newToken);
+      localStorage.setItem('token', newToken);
+    });
+
     this.socket.on('error-message', (message: string): void => {
       console.log(`socket.on('error-message'): `, message);
       alert(message);

@@ -1,8 +1,8 @@
 import React, { Component, Props, ComponentType } from 'react';
-import { bool, string, func, object } from 'prop-types';
+import { string, func, object } from 'prop-types';
 import { withRouter, RouteProps } from 'react-router-dom';
 import { AppBar, Toolbar, Button, IconButton, Drawer, List, ListItem, ListItemText } from '@material-ui/core';
-import { Gamepad, Menu } from '@material-ui/icons';
+import { Menu } from '@material-ui/icons';
 import { History } from 'history';
 
 import { Authorize, CurrentUser } from '../../components';
@@ -11,7 +11,6 @@ import './index.css';
 const MENU_WIDTH_MIN = 600;
 
 interface HeaderProps extends Props<{}> {
-	isConnected: boolean,
 	currentUsername: string,
 	avatar: string,
 	serverUrl: string,
@@ -28,7 +27,6 @@ interface HeaderState {
 
 class Header extends Component<HeaderProps & RouteProps, HeaderState> {
 	static propTypes = {
-		isConnected: bool,
 		currentUsername: string,
 		avatar: string,
 		serverUrl: string.isRequired,
@@ -39,7 +37,6 @@ class Header extends Component<HeaderProps & RouteProps, HeaderState> {
 	}
 
 	static defaultProps = {
-		isConnected: true,
 		currentUsername: '',
 		signIn: () => console.log,
 		signUp: () => console.log,
@@ -77,7 +74,7 @@ class Header extends Component<HeaderProps & RouteProps, HeaderState> {
 	}
 
 	render() {
-		const { isConnected, currentUsername, avatar, serverUrl, signIn, signUp, logOut } = this.props;
+		const { currentUsername, avatar, serverUrl, signIn, signUp, logOut } = this.props;
 		const { width, isDrawerShown } = this.state;
 
 		const LINKS = ['Home', 'Games', 'Rating', 'Rules', 'Profile', 'About'];
@@ -93,8 +90,6 @@ class Header extends Component<HeaderProps & RouteProps, HeaderState> {
 						>
 							<Menu />
 						</IconButton>}
-
-						<Gamepad color={isConnected ? 'secondary' : 'error'} className='header-connected-icon' />
 
 						{width >= MENU_WIDTH_MIN && <nav>
 							{LINKS.map(label =>
