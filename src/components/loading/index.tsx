@@ -1,40 +1,32 @@
-import React, { Component, Props } from 'react';
+import React from 'react';
 import { bool } from 'prop-types';
 import { Dialog, DialogTitle, DialogContent, Typography, CircularProgress } from '@material-ui/core';
 
-interface LoadingProps extends Props<{}> {
+export function Loading({ isConnected }: {
   isConnected: boolean,
-}
+}) {
+  return (
+    <Dialog open={!isConnected} fullScreen={false}>
 
-export class Loading extends Component<LoadingProps, {}> {
+      <DialogTitle>
+        Loading...&nbsp;
+        <CircularProgress size={18} />
+      </DialogTitle>
 
-  static propTypes = {
-    isConnected: bool.isRequired,
-  };
+      <DialogContent>
+        <Typography>
+          Connecting to the server...
+        </Typography>
+      </DialogContent>
 
-  static defaultProps = {
-    isConnected: false,
-  };
+    </Dialog>
+  );
+};
 
-  render() {
-    const { isConnected } = this.props;
+Loading.propTypes = {
+  isConnected: bool.isRequired,
+};
 
-    return (
-      <Dialog open={!isConnected} fullScreen={false}>
-
-        <DialogTitle>
-          Loading...&nbsp;
-          <CircularProgress size={18} />
-        </DialogTitle>
-
-        <DialogContent>
-          <Typography>
-            Connecting to the server...
-          </Typography>
-        </DialogContent>
-
-      </Dialog>
-    );
-  }
-
-}
+Loading.defaultProps = {
+  isConnected: false,
+};

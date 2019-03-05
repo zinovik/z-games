@@ -5,7 +5,10 @@ import { NewMessage, LogsList } from '../../components';
 import * as types from '../../constants';
 import './index.css';
 
-export const Chat = ({ logs, newMessage }: { logs: types.Log[], newMessage: (message: string) => void }) => {
+export function Chat({ logs, newMessage }: {
+  logs: types.Log[],
+  newMessage: (message: string) => void,
+}) {
   return (
     <div className='chat-container'>
       <div className='chat-new-message'>

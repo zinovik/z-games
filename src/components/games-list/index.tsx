@@ -5,13 +5,13 @@ import { Game } from '../../components';
 import * as types from '../../constants';
 import './index.css';
 
-export const GamesList = ({ allGames, currentUsername, joinGame, openGame, watchGame }: {
+export function GamesList({ allGames, currentUsername, joinGame, openGame, watchGame }: {
 	allGames: types.Game[],
 	currentUsername: string | undefined,
 	joinGame: (gameNumber: number) => void,
 	openGame: (gameNumber: number) => void,
 	watchGame: (gameNumber: number) => void,
-}) => {
+}) {
 	const [disableButtons, setDisableButtons] = useState(false);
 
 	return (

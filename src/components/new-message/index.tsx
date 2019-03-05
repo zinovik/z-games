@@ -1,69 +1,56 @@
-import React, { Component, Props, ChangeEvent, KeyboardEvent } from 'react';
+import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { func } from 'prop-types';
 import { Button, Input } from '@material-ui/core';
 
 import './index.css';
 
-interface NewMessageProps extends Props<{}> {
+export function NewMessage({ newMessage }: {
   newMessage: (message: string) => void,
-}
+}) {
+  const [message, setMessage] = useState('');
 
-export class NewMessage extends Component<NewMessageProps, {}> {
-  static propTypes = {
-    newMessage: func.isRequired,
-  }
-
-  static defaultProps = {
-    newMessage: () => console.log,
-  }
-
-  public state = {
-    message: '',
+  const handleMessageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setMessage(event.target.value);
   };
 
-  handleMessageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({ message: event.target.value });
-  };
-
-  handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
-    const { message } = this.state;
-
+  const handleKeyPress = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && message) {
-      this.handleNewMessageClick();
+      handleNewMessageClick();
     }
   }
 
-  handleNewMessageClick = () => {
-    const { newMessage } = this.props;
-    const { message } = this.state;
-
+  const handleNewMessageClick = () => {
     newMessage(message);
 
-    this.setState({ message: '' });
+    setMessage('');
   };
 
-  render() {
-    const { message } = this.state;
+  return (
+    <div className='new-message-container'>
+      <Input
+        type="text"
+        placeholder="Message"
+        value={message}
+        onChange={handleMessageChange}
+        onKeyPress={handleKeyPress}
+        className='new-message-input'
+      />
 
-    return (
-      <div className='new-message-container'>
-        <Input
-          type="text"
-          placeholder="Message"
-          value={message}
-          onChange={this.handleMessageChange}
-          onKeyPress={this.handleKeyPress}
-          className='new-message-input'
-        />
+      <Button
+        onClick={handleNewMessageClick}
+        className='new-message-button'
+        disabled={!message}
+      >
+        Send
+      </Button>
+    </div>
+  );
+};
 
-        <Button
-          onClick={this.handleNewMessageClick}
-          className='new-message-button'
-          disabled={!message}
-        >
-          Send
-        </Button>
-      </div>
-    );
-  }
-}
+NewMessage.propTypes = {
+  newMessage: func.isRequired,
+};
+
+NewMessage.defaultProps = {
+  newMessage: () => console.log,
+};

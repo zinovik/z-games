@@ -1,4 +1,4 @@
-import React, { Component, Props, Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { object, bool, func } from 'prop-types';
 import { Button, Typography, Checkbox } from '@material-ui/core';
 import {
@@ -18,182 +18,143 @@ import { PerudoDices } from '../../components';
 import * as types from '../../constants';
 import './index.css';
 
-interface PerudoMoveProps extends Props<{}> {
+export function PerudoMove({ game, isMaputoAble, move }: {
   game: types.Game,
   isMaputoAble: boolean,
   move: (move: string) => void,
-}
+}) {
+  const [diceNumber, setDiceNumber] = useState(0);
+  const [diceFigure, setDiceFigure] = useState(0);
+  const [isBetImpossible, setIsBetImpossible] = useState(false);
+  const [isMaputo, setIsMaputo] = useState(false);
+  const [oldGameData, setOldGameData] = useState('');
+  const [isButtonsDisabled, setIsButtonsDisabled] = useState(false);
 
-interface PerudoMoveState {
-  diceNumber: number;
-  diceFigure: number;
-  isBetImpossible: boolean;
-  isMaputo: boolean;
-  oldGameData: string;
-  isButtonsDisabled: boolean,
-}
+  const { gameData } = game;
+  const { currentDiceNumber, currentDiceFigure, isMaputoRound, players: playersInGame } = JSON.parse(gameData);
+  const allDicesCount = countDices(playersInGame);
 
-export class PerudoMove extends Component<PerudoMoveProps, PerudoMoveState> {
-  static propTypes = {
-    game: object.isRequired,
-    isMaputoAble: bool.isRequired,
-    move: func.isRequired,
+  if (gameData !== oldGameData) {
+    const {
+      diceNumber: newDiceNumber,
+      diceFigure: newDiceFigure,
+      isBetImpossible: newIsBetImpossible,
+    } = calculateStartBet({ currentDiceNumber, currentDiceFigure, allDicesCount, isMaputoRound });
+
+    setDiceNumber(newDiceNumber);
+    setDiceFigure(newDiceFigure);
+    setIsBetImpossible(newIsBetImpossible || false);
+
+    setIsButtonsDisabled(false);
+    setOldGameData(gameData);
   }
 
-  static defaultProps = {
-    game: {},
-    isMaputoAble: false,
-    move: () => console.log,
+  const handleNumberInc = (): void => {
+    const { diceNumber: newDiceNumber } = numberInc(diceNumber);
+
+    setDiceNumber(newDiceNumber);
   }
 
-  static getDerivedStateFromProps = (nextProps: PerudoMoveProps, prevState: PerudoMoveState) => {
-    const { oldGameData } = prevState;
-    const { game } = nextProps;
-    const { gameData } = game;
-    const { currentDiceNumber, currentDiceFigure, isMaputoRound, players: playersInGame } = JSON.parse(gameData);
+  const handleNumberDec = (): void => {
+    const { diceNumber: newDiceNumber, diceFigure: newDiceFigure } = numberDec({ diceNumber, diceFigure, currentDiceNumber, currentDiceFigure });
 
-    if (gameData === oldGameData) {
-      return null;
-    }
-
-    const allDicesCount = countDices(playersInGame);
-
-    return {
-      ...calculateStartBet({ currentDiceNumber, currentDiceFigure, allDicesCount, isMaputoRound }),
-      oldGameData: gameData,
-      isButtonsDisabled: false,
-    };
+    setDiceNumber(newDiceNumber);
+    setDiceFigure(newDiceFigure);
   }
 
-  public state = {
-    diceNumber: 0,
-    diceFigure: 0,
-    isBetImpossible: false,
-    isMaputo: false,
-    isStartBetCalculated: false,
-    oldGameData: '',
-    isButtonsDisabled: false,
-  };
+  const handleFigureInc = (): void => {
+    const { diceNumber: newDiceNumber, diceFigure: newDiceFigure } = figureInc({ diceNumber, diceFigure, currentDiceNumber, currentDiceFigure, allDicesCount });
 
-  numberInc = (): void => {
-    const { diceNumber } = this.state;
-
-    this.setState(numberInc(diceNumber));
+    setDiceNumber(newDiceNumber);
+    setDiceFigure(newDiceFigure);
   }
 
-  numberDec = (): void => {
-    const { diceNumber, diceFigure } = this.state;
+  const handleFigureDec = (): void => {
+    const { diceNumber: newDiceNumber, diceFigure: newDiceFigure } = figureDec({ diceNumber, diceFigure, currentDiceNumber, currentDiceFigure, allDicesCount });
 
-    const { game: { gameData } } = this.props;
-    const { currentDiceNumber, currentDiceFigure } = JSON.parse(gameData);
-
-    this.setState(numberDec({ diceNumber, diceFigure, currentDiceNumber, currentDiceFigure }));
+    setDiceNumber(newDiceNumber);
+    setDiceFigure(newDiceFigure);
   }
 
-  figureInc = (): void => {
-    const { diceNumber, diceFigure } = this.state;
-
-    const { game: { gameData } } = this.props;
-    const { currentDiceNumber, currentDiceFigure, players: playersInGame } = JSON.parse(gameData);
-    const allDicesCount = countDices(playersInGame);
-
-    this.setState(figureInc({ diceNumber, diceFigure, currentDiceNumber, currentDiceFigure, allDicesCount }));
-  }
-
-  figureDec = (): void => {
-    const { diceNumber, diceFigure } = this.state;
-
-    const { game: { gameData } } = this.props;
-    const { currentDiceNumber, currentDiceFigure, players: playersInGame } = JSON.parse(gameData);
-    const allDicesCount = countDices(playersInGame);
-
-    this.setState(figureDec({ diceNumber, diceFigure, currentDiceNumber, currentDiceFigure, allDicesCount }));
-  }
-
-  moveBet = (): void => {
-    const { move, isMaputoAble } = this.props;
-    const { diceNumber, diceFigure, isMaputo } = this.state;
-
+  const moveBet = (): void => {
     if (isMaputoAble) {
       move(JSON.stringify({ number: diceNumber, figure: diceFigure, isMaputo }));
     } else {
       move(JSON.stringify({ number: diceNumber, figure: diceFigure }));
     }
 
-    this.setState({ isButtonsDisabled: true });
+    setIsButtonsDisabled(true);
   }
 
-  moveNotBelieve = (): void => {
-    const { move } = this.props;
-
+  const moveNotBelieve = (): void => {
     move(JSON.stringify({ notBelieve: true }));
 
-    this.setState({ isButtonsDisabled: true });
+    setIsButtonsDisabled(true);
   }
 
-  handleMaputoChange = (): void => {
-    this.setState({ isMaputo: !this.state.isMaputo });
+  const handleMaputoChange = (): void => {
+    setIsMaputo(!isMaputo);
   }
 
-  render() {
-    const {
-      game: { gameData },
-      isMaputoAble,
-    } = this.props;
+  const myBetNumberDecDisable = diceNumber <= countMinNumber({ currentDiceNumber, currentDiceFigure, isMaputoRound });
+  const myBetNumberIncDisable = diceNumber >= countMaxNumber({ allDicesCount });
+  const myBetFigureDecDisable = diceFigure <= countMinFigure({ currentDiceNumber, currentDiceFigure, allDicesCount });
+  const myBetFigureIncDisable = diceFigure >= countMaxFigure({ currentDiceNumber, currentDiceFigure, allDicesCount });
 
-    const { currentDiceNumber, currentDiceFigure, isMaputoRound, players: playersInGame } = JSON.parse(gameData);
-    const allDicesCount = countDices(playersInGame);
+  return (
+    <Fragment>
+      <Typography>
+        My bet
+      </Typography>
 
-    const { diceNumber, diceFigure, isBetImpossible, isButtonsDisabled } = this.state;
+      <PerudoDices dices={Array(diceNumber).fill(diceFigure)} />
 
-    const myBetNumberDecDisable = diceNumber <= countMinNumber({ currentDiceNumber, currentDiceFigure, isMaputoRound });
-    const myBetNumberIncDisable = diceNumber >= countMaxNumber({ allDicesCount });
-    const myBetFigureDecDisable = diceFigure <= countMinFigure({ currentDiceNumber, currentDiceFigure, allDicesCount });
-    const myBetFigureIncDisable = diceFigure >= countMaxFigure({ currentDiceNumber, currentDiceFigure, allDicesCount });
+      <Typography>
+        Dice number
+      </Typography>
+      <Typography>
+        <Button onClick={handleNumberDec} disabled={myBetNumberDecDisable}>-</Button>
+        {diceNumber}
+        <Button onClick={handleNumberInc} disabled={myBetNumberIncDisable}>+</Button>
+      </Typography>
 
-    return (
-      <Fragment>
+      {!isMaputoRound && <Fragment>
         <Typography>
-          My bet
-				</Typography>
-
-        <PerudoDices dices={Array(diceNumber).fill(diceFigure)} />
-
-        <Typography>
-          Dice number
-				</Typography>
-        <Typography>
-          <Button onClick={this.numberDec} disabled={myBetNumberDecDisable}>-</Button>
-          {diceNumber}
-          <Button onClick={this.numberInc} disabled={myBetNumberIncDisable}>+</Button>
+          Dice figure
         </Typography>
-
-        {!isMaputoRound && <Fragment>
-          <Typography>
-            Dice figure
-					</Typography>
-          <Typography>
-            <Button onClick={this.figureDec} disabled={myBetFigureDecDisable}>-</Button>
-            {diceFigure}
-            <Button onClick={this.figureInc} disabled={myBetFigureIncDisable}>+</Button>
-          </Typography>
-        </Fragment>}
-
-        {isMaputoAble && <Typography>
-          <Checkbox onChange={this.handleMaputoChange} />
-          Maputo
-				</Typography>}
-
-        <Typography className='perudo-move-buttons'>
-          <Button variant='contained' color='primary' className='perudo-move-button' onClick={this.moveBet} disabled={isBetImpossible || isButtonsDisabled}>
-            Bet
-          </Button>
-          <Button variant='contained' color='primary' className='perudo-move-button' onClick={this.moveNotBelieve} disabled={!currentDiceNumber || !currentDiceFigure || isButtonsDisabled}>
-            Not Believe
-          </Button>
+        <Typography>
+          <Button onClick={handleFigureDec} disabled={myBetFigureDecDisable}>-</Button>
+          {diceFigure}
+          <Button onClick={handleFigureInc} disabled={myBetFigureIncDisable}>+</Button>
         </Typography>
+      </Fragment>}
 
-      </Fragment>
-    );
-  }
+      {isMaputoAble && <Typography>
+        <Checkbox onChange={handleMaputoChange} />
+        Maputo
+      </Typography>}
+
+      <Typography className='perudo-move-buttons'>
+        <Button variant='contained' color='primary' className='perudo-move-button' onClick={moveBet} disabled={isBetImpossible || isButtonsDisabled}>
+          Bet
+        </Button>
+        <Button variant='contained' color='primary' className='perudo-move-button' onClick={moveNotBelieve} disabled={!currentDiceNumber || !currentDiceFigure || isButtonsDisabled}>
+          Not Believe
+        </Button>
+      </Typography>
+
+    </Fragment>
+  );
+};
+
+PerudoMove.propTypes = {
+  game: object.isRequired,
+  isMaputoAble: bool.isRequired,
+  move: func.isRequired,
+};
+
+PerudoMove.defaultProps = {
+  game: {},
+  isMaputoAble: false,
+  move: () => console.log,
 };

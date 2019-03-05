@@ -1,4 +1,4 @@
-import React, { Component, Props, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { object, bool, func } from 'prop-types';
 import { Typography } from '@material-ui/core';
 
@@ -6,108 +6,98 @@ import { PerudoDices, PerudoMove, PerudoLastRoundResults } from '../../component
 import * as types from '../../constants';
 import './index.css';
 
-interface PerudoProps extends Props<{}> {
+export function Perudo({ game, currentUser, isMyTurn, move }: {
 	game: types.Game,
 	currentUser: types.User,
 	isMyTurn: boolean,
 	move: (move: string) => void,
-}
+}) {
+	const { gameData, players } = game;
 
-export class Perudo extends Component<PerudoProps, {}> {
-	static propTypes = {
-		game: object.isRequired,
-		currentUser: object.isRequired,
-		isMyTurn: bool.isRequired,
-		move: func.isRequired,
+	if (!currentUser) {
+		return null;
 	}
 
-	static defaultProps = {
-		game: {},
-		currentUser: {},
-		isMyTurn: false,
-		move: () => console.log,
-	}
+	const {
+		currentDiceNumber,
+		currentDiceFigure,
+		currentRound,
+		lastPlayerNumber,
+		isMaputoRound,
+		lastRoundResults,
+		lastRoundFigure,
+		isLastRoundMaputo,
+		players: playersInGame,
+	} = JSON.parse(gameData);
 
-	render() {
-		const {
-			game,
-			isMyTurn,
-			move,
-			currentUser,
-		} = this.props;
-		const { gameData, players } = game;
+	const currentPlayerInGame = playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id);
+	const isMaputoAble = currentPlayerInGame && currentPlayerInGame.dices.length === 1
+		&& !currentDiceNumber
+		&& !currentDiceFigure
+		&& playersInGame.filter((playerInGame: types.PlayerInGame) => {
+			return (playerInGame.dicesCount || 0) > 0;
+		}).length > 2
+		&& playersInGame.reduce((diceCount: number, playerInGame: types.PlayerInGame) => {
+			return diceCount + (playerInGame.dicesCount || 0);
+		}, 0) > 3;
 
-		if (!currentUser) {
-			return null;
-		}
-
-		const {
-			currentDiceNumber,
-			currentDiceFigure,
-			currentRound,
-			lastPlayerNumber,
-			isMaputoRound,
-			lastRoundResults,
-			lastRoundFigure,
-			isLastRoundMaputo,
-			players: playersInGame,
-		} = JSON.parse(gameData);
-
-		const currentPlayerInGame = playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id);
-		const isMaputoAble = currentPlayerInGame && currentPlayerInGame.dices.length === 1
-			&& !currentDiceNumber
-			&& !currentDiceFigure
-			&& playersInGame.filter((playerInGame: types.PlayerInGame) => {
-				return (playerInGame.dicesCount || 0) > 0;
-			}).length > 2
-			&& playersInGame.reduce((diceCount: number, playerInGame: types.PlayerInGame) => {
-				return diceCount + (playerInGame.dicesCount || 0);
-			}, 0) > 3;
-
-		return (
-			<Fragment>
-				{lastRoundResults.length > 0 && currentDiceNumber === 0 && currentDiceFigure === 0 && <Fragment>
-					<Typography>
-						Last round results
-					</Typography>
-
-					<PerudoLastRoundResults
-						playersInGame={lastRoundResults}
-						players={players}
-						lastRoundFigure={lastRoundFigure}
-						isLastRoundMaputo={isLastRoundMaputo}
-					/>
-				</Fragment>}
-
+	return (
+		<Fragment>
+			{lastRoundResults.length > 0 && currentDiceNumber === 0 && currentDiceFigure === 0 && <Fragment>
 				<Typography>
-					Round: {currentRound} {isMaputoRound && <span>(maputo)</span>}
+					Last round results
 				</Typography>
 
-				{(lastPlayerNumber || lastPlayerNumber === 0) && <Typography>
-					Last player: {players[lastPlayerNumber].username}
-				</Typography>}
+				<PerudoLastRoundResults
+					playersInGame={lastRoundResults}
+					players={players}
+					lastRoundFigure={lastRoundFigure}
+					isLastRoundMaputo={isLastRoundMaputo}
+				/>
+			</Fragment>}
 
-				<div className='perudo-bets'>
+			<Typography>
+				Round: {currentRound} {isMaputoRound && <span>(maputo)</span>}
+			</Typography>
 
-					{(currentDiceNumber && currentDiceFigure) ? <div className='perudo-current-bet'>
-						<Typography>
-							Current bet
-						</Typography>
+			{(lastPlayerNumber || lastPlayerNumber === 0) && <Typography>
+				Last player: {players[lastPlayerNumber].username}
+			</Typography>}
 
-						<PerudoDices dices={Array(currentDiceNumber).fill(currentDiceFigure)} />
-					</div> : ''}
+			<div className='perudo-bets'>
 
-					{isMyTurn && <div className='perudo-my-bet'>
-						<PerudoMove
-							game={game}
-							isMaputoAble={isMaputoAble}
-							move={move}
-						/>
-					</div>}
+				{(currentDiceNumber && currentDiceFigure) ? <div className='perudo-current-bet'>
+					<Typography>
+						Current bet
+					</Typography>
 
-				</div>
+					<PerudoDices dices={Array(currentDiceNumber).fill(currentDiceFigure)} />
+				</div> : ''}
 
-			</Fragment>
-		);
-	}
+				{isMyTurn && <div className='perudo-my-bet'>
+					<PerudoMove
+						game={game}
+						isMaputoAble={isMaputoAble}
+						move={move}
+					/>
+				</div>}
+
+			</div>
+
+		</Fragment>
+	);
+};
+
+Perudo.propTypes = {
+	game: object.isRequired,
+	currentUser: object.isRequired,
+	isMyTurn: bool.isRequired,
+	move: func.isRequired,
+};
+
+Perudo.defaultProps = {
+	game: {},
+	currentUser: {},
+	isMyTurn: false,
+	move: () => console.log,
 };
