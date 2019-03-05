@@ -19,7 +19,12 @@ Log.defaultProps = {
   text: 'default',
 }
 
-export function Log({ type, createdAt, username, text }: { type: string, createdAt: Date, username: string, text?: string }) {
+export function Log({ type, createdAt, username, text }: {
+  type: string,
+  createdAt: Date,
+  username: string,
+  text?: string,
+}) {
   return (
     <Typography>
       <span className='log-time'>{moment(createdAt).calendar()}: </span>

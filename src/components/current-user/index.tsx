@@ -1,77 +1,61 @@
-import React, { Component, Props, MouseEvent } from 'react';
+import React, { MouseEvent, useState } from 'react';
 import { string, func } from 'prop-types';
 import { Avatar, Menu, MenuItem, Button } from '@material-ui/core';
 
 import './index.css';
 
-interface CurrentUserProps extends Props<{}> {
+export function CurrentUser({ currentUsername, avatar, onLogOutClick }: {
   currentUsername: string,
   avatar: string,
   onLogOutClick: () => void,
-}
+}) {
+  const [anchorEl, setAnchorEl] = useState(null as HTMLElement | null);
 
-interface CurrentUserState extends Props<{}> {
-  anchorEl: HTMLElement | null,
-}
-
-export class CurrentUser extends Component<CurrentUserProps, CurrentUserState> {
-
-  static propTypes = {
-    currentUsername: string,
-    avatar: string,
-    onLogOutClick: func.isRequired,
-  }
-
-  static defaultProps = {
-    currentUsername: 'username',
-    onLogOutClick: () => console.log,
-  }
-
-  public state = {
-    anchorEl: null,
+  const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
-  handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
-    this.setState({ anchorEl: event.currentTarget });
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
-  handleMenuClose = () => {
-    this.setState({ anchorEl: null });
-  };
-
-  handleLogOutClick = () => {
-    const { onLogOutClick } = this.props;
-
+  const handleLogOutClick = () => {
     onLogOutClick();
 
-    this.handleMenuClose();
+    handleMenuClose();
   };
 
-  render() {
-    const { currentUsername, avatar } = this.props;
-    const { anchorEl } = this.state;
+  return (
+    <Button
+      onClick={handleMenuOpen}
+      aria-owns={anchorEl ? 'user-menu' : undefined}
+      className='current-user-avatar'
+    >
 
-    return (
-      <Button
-        onClick={this.handleMenuOpen}
-        aria-owns={anchorEl ? 'user-menu' : undefined}
-        className='current-user-avatar'
+      <Avatar src={avatar}>
+        {currentUsername[0]}
+      </Avatar>
+
+      <Menu
+        id='user-menu'
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
       >
+        <MenuItem onClick={handleLogOutClick}>Log out</MenuItem>
+      </Menu>
 
-        <Avatar src={avatar}>
-          {currentUsername[0]}
-        </Avatar>
+    </Button>
+  );
+};
 
-        <Menu
-          id='user-menu'
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={this.handleMenuClose}
-        >
-          <MenuItem onClick={this.handleLogOutClick}>Log out</MenuItem>
-        </Menu>
+CurrentUser.propTypes = {
+  currentUsername: string,
+  avatar: string,
+  onLogOutClick: func.isRequired,
+};
 
-      </Button>
-    );
-  }
-}
+CurrentUser.defaultProps = {
+  currentUsername: 'username',
+  onLogOutClick: () => console.log,
+};
