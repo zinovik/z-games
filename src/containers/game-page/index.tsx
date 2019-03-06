@@ -35,6 +35,7 @@ class GamePage extends Component<GamePageProps, {}> {
     const { currentUser, game, isConnected } = this.props;
 
     if (!currentUser || !game) {
+      this.zGamesApi.updateRoute();
       return null;
     }
 

@@ -7,6 +7,7 @@ import './index.css';
 
 PerudoLastRoundResult.propTypes = {
   username: string.isRequired,
+  avatar: string.isRequired,
   dices: arrayOf(number),
   lastRoundFigure: number,
   isLastRoundMaputo: bool,
@@ -16,15 +17,16 @@ PerudoLastRoundResult.defaultProps = {
   username: 'username',
 }
 
-export function PerudoLastRoundResult({ username, dices, lastRoundFigure, isLastRoundMaputo }: {
+export function PerudoLastRoundResult({ username, avatar, dices, lastRoundFigure, isLastRoundMaputo }: {
   username: string,
+  avatar: string,
   dices?: number[],
   lastRoundFigure: number,
   isLastRoundMaputo: boolean,
 }) {
   return (
     <div className='perudo-last-round-result-container'>
-      <Avatar>
+      <Avatar src={avatar}>
         {username[0]}
       </Avatar>
 

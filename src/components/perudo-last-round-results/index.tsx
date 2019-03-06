@@ -31,6 +31,7 @@ export function PerudoLastRoundResults({ playersInGame, players, lastRoundFigure
 
           <PerudoLastRoundResult
             username={players.find(player => player.id === playerInGame.id)!.username}
+            avatar={players.find(player => player.id === playerInGame.id)!.avatar}
             dices={playerInGame.dices}
             lastRoundFigure={lastRoundFigure}
             isLastRoundMaputo={isLastRoundMaputo}
