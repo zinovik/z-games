@@ -42,8 +42,7 @@
     "build": "react-scripts-ts build && node env.js",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "react-scripts-ts test --env=jsdom",
-    "eject": "react-scripts-ts eject",
-    "postinstall": "react-scripts-ts build"
+    "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
     "@types/hoist-non-react-statics": "^3.3.0",
@@ -55,5 +54,6 @@
     "@types/react-router-dom": "^4.3.1",
     "@types/socket.io-client": "^1.4.32",
     "typescript": "^3.3.3333"
-  }
+  },
+  "heroku-run-build-script": true
 }
