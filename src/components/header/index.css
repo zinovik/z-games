@@ -11,3 +11,13 @@
   margin-top: auto;
   margin-bottom: auto;
 }
+
+.header-logo-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.header-logo-small {
+  max-width: 40px;
+  max-height: 40px;
+}

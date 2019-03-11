@@ -26,3 +26,4 @@ export * from './perudo';
 export * from './game-table';
 export * from './game-rules';
 export * from './loading';
+export * from './users-rating';

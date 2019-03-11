@@ -30,7 +30,7 @@ class HomePage extends Component<HomePageProps, {}> {
   }
 
   render() {
-    const { isConnected, currentUser } = this.props;
+    const { isConnected, currentUser, usersOnline } = this.props;
 
     return (
       <main className='home-page-container'>
@@ -41,6 +41,7 @@ class HomePage extends Component<HomePageProps, {}> {
           signUp={this.zGamesApi.register}
           signIn={this.zGamesApi.login}
           logOut={this.zGamesApi.logout}
+          usersOnline={usersOnline}
         />
 
         <div className='home-page-content'>
@@ -50,7 +51,7 @@ class HomePage extends Component<HomePageProps, {}> {
             </Typography>
 
             <Typography variant='h5' color='primary'>
-              tiny board games portal
+              a tiny board games portal
             </Typography>
 
           </div>

@@ -1,0 +1,23 @@
+.about-page-container {
+  min-height: 100vh;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.8), 
+    rgba(0, 0, 0, 0.8)
+  ),
+  url(/images/home.jpg) transparent no-repeat top center/cover ;
+}
+
+.about-page-content {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-page-data {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+  border-radius: 40px;
+}

@@ -4,6 +4,10 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import HomePage from './containers/home-page';
 import GamesPage from './containers/games-page';
 import GamePage from './containers/game-page';
+import RatingPage from './containers/rating-page';
+import RulesPage from './containers/rules-page';
+import ProfilePage from './containers/profile-page';
+import AboutPage from './containers/about-page';
 import { ZGamesApi, History } from './services';
 import './App.css';
 
@@ -25,10 +29,10 @@ class App extends Component<AppProps, {}> {
         <Route path='/home' component={HomePage} />
         <Route path='/games' component={GamesPage} />
         <Route path='/game/:number' component={GamePage} />
-        <Route path='/rating' component={HomePage} />
-        <Route path='/rules' component={HomePage} />
-        <Route path='/profile' component={HomePage} />
-        <Route path='/about' component={HomePage} />
+        <Route path='/rating' component={RatingPage} />
+        <Route path='/rules' component={RulesPage} />
+        <Route path='/profile' component={ProfilePage} />
+        <Route path='/about' component={AboutPage} />
         <Route path='/:token' component={HomePage} />
         <Redirect from='*' to='/home' />
       </Switch>

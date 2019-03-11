@@ -109,30 +109,31 @@ export class ZGamesApi {
   }
 
   // Accounts
-  register = async (username: string, password: string): Promise<any> => {
+  register = async (username: string, password: string, email: string): Promise<types.User> => {
     const fetchResult = await fetch(`${this.SERVER_URL}/api/users/register`, {
       method: 'post',
       body: JSON.stringify({
         username,
         password,
+        email,
       }),
       headers: {
         'Content-Type': 'application/json',
       },
     });
 
-    const parseResult = await fetchResult.json();
+    const parsedResult = await fetchResult.json();
 
-    if (parseResult !== 'error') { // TODO: Error
-      alert(parseResult);
+    if (parsedResult !== 'error') { // TODO: Error
+      alert(parsedResult);
     } else {
       alert('Error, try another username');
     }
 
-    return parseResult;
+    return parsedResult;
   };
 
-  login = async (username: string, password: string): Promise<any> => {
+  login = async (username: string, password: string): Promise<types.User> => {
     const fetchResult = await fetch(`${this.SERVER_URL}/api/users/authorize`, {
       method: 'post',
       body: JSON.stringify({
@@ -162,6 +163,13 @@ export class ZGamesApi {
     this.socket.emit('logout');
   };
 
+  getUsers = async (): Promise<types.User[]> => {
+    const fetchResult = await fetch(`${this.SERVER_URL}/api/users`);
+
+    const parsedResult = await fetchResult.json();
+
+    return parsedResult;
+  };
 
   joinGame = (gameNumber: number): void => {
     this.socket.emit('join-game', gameNumber);
