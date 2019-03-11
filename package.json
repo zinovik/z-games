@@ -39,11 +39,11 @@
   "scripts": {
     "start": "serve -s build",
     "dev": "react-scripts-ts start",
-    "build": "react-scripts-ts build",
+    "build": "react-scripts-ts build && node env.js",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
-    "postinstall": "react-scripts-ts build && node env.js"
+    "postinstall": "react-scripts-ts build"
   },
   "devDependencies": {
     "@types/hoist-non-react-statics": "^3.3.0",
