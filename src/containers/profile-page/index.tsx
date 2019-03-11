@@ -1,27 +1,34 @@
 import React, { Component, Props } from 'react';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
+import { Typography } from '@material-ui/core';
 
-import { NewGame, GamesList, Loading } from '../../components';
 import Header from '../../components/header';
+import { Loading } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 import './index.css';
 
-interface GamesPageProps extends Props<{}> {
+interface ProfilePageProps extends Props<{}> {
   currentUser: types.User,
   isConnected: boolean,
   allGames: types.Game[],
   usersOnline: types.User[],
 }
 
-class GamesPage extends Component<GamesPageProps, {}> {
+class ProfilePage extends Component<ProfilePageProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
   render() {
-    const { isConnected, currentUser, allGames, usersOnline } = this.props;
+    const { isConnected, currentUser, usersOnline } = this.props;
+
+    if (!currentUser) {
+      return null;
+    }
+
+    const { username, email, firstName, lastName } = currentUser;
 
     return (
-      <main className='games-page-container'>
+      <main className='profile-page-container'>
         <Header
           currentUsername={currentUser && currentUser.username}
           avatar={currentUser && currentUser.avatar}
@@ -32,15 +39,21 @@ class GamesPage extends Component<GamesPageProps, {}> {
           usersOnline={usersOnline}
         />
 
-        {currentUser && <NewGame newGame={this.zGamesApi.newGame} />}
+        <div className='profile-page-content'>
+          <div className='profile-page-data'>
+            <Typography variant='h5'>
+              {username}
+            </Typography>
 
-        <GamesList
-          allGames={allGames}
-          currentUsername={currentUser && currentUser.username}
-          joinGame={this.zGamesApi.joinGame}
-          openGame={this.zGamesApi.openGame}
-          watchGame={this.zGamesApi.watchGame}
-        />
+            <Typography>
+              {email}
+            </Typography>
+
+            <Typography>
+              {`${firstName} ${lastName}`}
+            </Typography>
+          </div>
+        </div>
 
         <Loading isConnected={isConnected} />
       </main>
@@ -63,4 +76,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(GamesPage);
+)(ProfilePage);

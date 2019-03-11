@@ -1,27 +1,28 @@
 import React, { Component, Props } from 'react';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
+import { Typography } from '@material-ui/core';
 
-import { NewGame, GamesList, Loading } from '../../components';
 import Header from '../../components/header';
+import { Loading } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 import './index.css';
 
-interface GamesPageProps extends Props<{}> {
+interface AboutPageProps extends Props<{}> {
   currentUser: types.User,
   isConnected: boolean,
   allGames: types.Game[],
   usersOnline: types.User[],
 }
 
-class GamesPage extends Component<GamesPageProps, {}> {
+class AboutPage extends Component<AboutPageProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
   render() {
-    const { isConnected, currentUser, allGames, usersOnline } = this.props;
+    const { isConnected, currentUser, usersOnline } = this.props;
 
     return (
-      <main className='games-page-container'>
+      <main className='about-page-container'>
         <Header
           currentUsername={currentUser && currentUser.username}
           avatar={currentUser && currentUser.avatar}
@@ -32,15 +33,21 @@ class GamesPage extends Component<GamesPageProps, {}> {
           usersOnline={usersOnline}
         />
 
-        {currentUser && <NewGame newGame={this.zGamesApi.newGame} />}
+        <div className='about-page-content'>
+          <div className='about-page-data'>
+            <Typography variant='h5'>
+              Z-Games
+            </Typography>
 
-        <GamesList
-          allGames={allGames}
-          currentUsername={currentUser && currentUser.username}
-          joinGame={this.zGamesApi.joinGame}
-          openGame={this.zGamesApi.openGame}
-          watchGame={this.zGamesApi.watchGame}
-        />
+            <Typography>
+              Z-Games is a tiny board games portal that is slowly being developed since the warm autumn of 2017
+            </Typography>
+
+            <Typography>
+              Currently, there is only two games: No, Thanks and Perudo. But we are working on it, you can help ;)
+            </Typography>
+          </div>
+        </div>
 
         <Loading isConnected={isConnected} />
       </main>
@@ -63,4 +70,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(GamesPage);
+)(AboutPage);

@@ -1,27 +1,43 @@
 import React, { Component, Props } from 'react';
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import { NewGame, GamesList, Loading } from '../../components';
 import Header from '../../components/header';
+import { Loading, UsersRating } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 import './index.css';
 
-interface GamesPageProps extends Props<{}> {
+interface RatingPageProps extends Props<{}> {
   currentUser: types.User,
   isConnected: boolean,
   allGames: types.Game[],
   usersOnline: types.User[],
 }
 
-class GamesPage extends Component<GamesPageProps, {}> {
+interface RatingPageState extends Props<{}> {
+  users: types.User[],
+}
+
+class RatingPage extends Component<RatingPageProps, RatingPageState> {
+  public state = {
+    users: [],
+  };
+
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
+  constructor(props: RatingPageProps) {
+    super(props);
+
+    this.zGamesApi.getUsers()
+      .then(users => this.setState({ users }));
+  }
+
   render() {
-    const { isConnected, currentUser, allGames, usersOnline } = this.props;
+    const { isConnected, currentUser, usersOnline } = this.props;
+    const { users } = this.state;
 
     return (
-      <main className='games-page-container'>
+      <main className='rating-page-container'>
         <Header
           currentUsername={currentUser && currentUser.username}
           avatar={currentUser && currentUser.avatar}
@@ -32,15 +48,13 @@ class GamesPage extends Component<GamesPageProps, {}> {
           usersOnline={usersOnline}
         />
 
-        {currentUser && <NewGame newGame={this.zGamesApi.newGame} />}
+        <div className='rating-page-content'>
+          <div className='rating-page-logo-container'>
 
-        <GamesList
-          allGames={allGames}
-          currentUsername={currentUser && currentUser.username}
-          joinGame={this.zGamesApi.joinGame}
-          openGame={this.zGamesApi.openGame}
-          watchGame={this.zGamesApi.watchGame}
-        />
+            <UsersRating users={users} />
+
+          </div>
+        </div>
 
         <Loading isConnected={isConnected} />
       </main>
@@ -63,4 +77,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
-)(GamesPage);
+)(RatingPage);

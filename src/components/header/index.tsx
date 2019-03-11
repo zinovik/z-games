@@ -1,12 +1,14 @@
 import React, { Component, Props, ComponentType } from 'react';
-import { string, func, object } from 'prop-types';
+import { string, func, object, array } from 'prop-types';
 import { withRouter, RouteProps } from 'react-router-dom';
-import { AppBar, Toolbar, Button, IconButton, Drawer, List, ListItem, ListItemText } from '@material-ui/core';
+import { AppBar, Toolbar, Button, IconButton, Drawer, List, ListItem, ListItemText, Typography } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
 import { History } from 'history';
 
 import { Authorize, CurrentUser } from '../../components';
+import * as types from '../../constants';
 import './index.css';
+import { UsersOnline } from '../users-online';
 
 const MENU_WIDTH_MIN = 600;
 
@@ -18,6 +20,7 @@ interface HeaderProps extends Props<{}> {
 	signUp: (username: string, password: string) => void,
 	logOut: () => void,
 	history: History,
+	usersOnline: types.User[],
 }
 
 interface HeaderState {
@@ -34,6 +37,7 @@ class Header extends Component<HeaderProps & RouteProps, HeaderState> {
 		signUp: func.isRequired,
 		logOut: func.isRequired,
 		history: object,
+		usersOnline: array.isRequired,
 	}
 
 	static defaultProps = {
@@ -74,7 +78,7 @@ class Header extends Component<HeaderProps & RouteProps, HeaderState> {
 	}
 
 	render() {
-		const { currentUsername, avatar, serverUrl, signIn, signUp, logOut } = this.props;
+		const { currentUsername, avatar, serverUrl, signIn, signUp, logOut, usersOnline } = this.props;
 		const { width, isDrawerShown } = this.state;
 
 		const LINKS = ['Home', 'Games', 'Rating', 'Rules', 'Profile', 'About'];
@@ -91,6 +95,18 @@ class Header extends Component<HeaderProps & RouteProps, HeaderState> {
 							<Menu />
 						</IconButton>}
 
+						<div className='header-logo-container'>
+							<Typography>
+								<Button key={`${LINKS[0]}1`} onClick={() => { this.nextPath(`/${LINKS[0].toLowerCase()}`); }}>
+									<img className='header-logo-small' src='/images/logo-small.png' />
+								</Button>
+							</Typography>
+
+							{false && <Typography>
+								<UsersOnline usersOnline={usersOnline} />
+							</Typography>}
+						</div>
+
 						{width >= MENU_WIDTH_MIN && <nav>
 							{LINKS.map(label =>
 								<Button key={`${label}1`} onClick={() => { this.nextPath(`/${label.toLowerCase()}`); }}>
@@ -100,6 +116,7 @@ class Header extends Component<HeaderProps & RouteProps, HeaderState> {
 						</nav>}
 
 						{!currentUsername && <Authorize serverUrl={serverUrl} onSignInClick={signIn} onSignUpClick={signUp} />}
+
 						{currentUsername && <CurrentUser currentUsername={currentUsername} avatar={avatar} onLogOutClick={logOut} />}
 					</div>
 				</Toolbar>
