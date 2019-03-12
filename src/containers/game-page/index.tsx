@@ -30,6 +30,12 @@ class GamePage extends Component<GamePageProps, {}> {
     this.zGamesApi.message({ gameId: game.id, message });
   };
 
+  componentDidMount() {
+    window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener('popstate', (event) => {
+      window.history.pushState(null, document.title, window.location.href);
+    });
+  }
 
   render() {
     const { currentUser, game, isConnected } = this.props;

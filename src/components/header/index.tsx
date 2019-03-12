@@ -5,10 +5,9 @@ import { AppBar, Toolbar, Button, IconButton, Drawer, List, ListItem, ListItemTe
 import { Menu } from '@material-ui/icons';
 import { History } from 'history';
 
-import { Authorize, CurrentUser } from '../../components';
+import { Authorize, CurrentUser, UsersOnline } from '../../components';
 import * as types from '../../constants';
 import './index.css';
-import { UsersOnline } from '../users-online';
 
 const MENU_WIDTH_MIN = 600;
 
@@ -102,9 +101,7 @@ class Header extends Component<HeaderProps & RouteProps, HeaderState> {
 								</Button>
 							</Typography>
 
-							{false && <Typography>
-								<UsersOnline usersOnline={usersOnline} />
-							</Typography>}
+							<UsersOnline usersOnline={usersOnline} />
 						</div>
 
 						{width >= MENU_WIDTH_MIN && <nav>

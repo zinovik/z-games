@@ -15,6 +15,7 @@
 .header-logo-container {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .header-logo-small {

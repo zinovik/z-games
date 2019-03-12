@@ -66,3 +66,7 @@ export interface PlayerInGame {
   dicesCount?: number;
   dices?: number[];
 }
+
+export interface ServerState {
+  serverUrl: string;
+}
