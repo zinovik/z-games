@@ -12,20 +12,21 @@ interface GamesPageProps extends Props<{}> {
   isConnected: boolean,
   allGames: types.Game[],
   usersOnline: types.User[],
+  serverUrl: string,
 }
 
 class GamesPage extends Component<GamesPageProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
   render() {
-    const { isConnected, currentUser, allGames, usersOnline } = this.props;
+    const { isConnected, currentUser, allGames, usersOnline, serverUrl } = this.props;
 
     return (
       <main className='games-page-container'>
         <Header
           currentUsername={currentUser && currentUser.username}
           avatar={currentUser && currentUser.avatar}
-          serverUrl={this.zGamesApi.SERVER_URL}
+          serverUrl={serverUrl}
           signUp={this.zGamesApi.register}
           signIn={this.zGamesApi.login}
           logOut={this.zGamesApi.logout}
@@ -48,12 +49,13 @@ class GamesPage extends Component<GamesPageProps, {}> {
   }
 }
 
-const mapStateToProps = (state: { users: types.UsersState, games: types.GamesState }) => {
+const mapStateToProps = (state: { users: types.UsersState, games: types.GamesState, server: types.ServerState }) => {
   return {
     usersOnline: state.users.usersOnline,
     isConnected: state.users.isConnected,
     currentUser: state.users.currentUser,
     allGames: state.games.allGames,
+    serverUrl: state.server.serverUrl,
   };
 };
 

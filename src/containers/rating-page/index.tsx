@@ -12,6 +12,7 @@ interface RatingPageProps extends Props<{}> {
   isConnected: boolean,
   allGames: types.Game[],
   usersOnline: types.User[],
+  serverUrl: string,
 }
 
 interface RatingPageState extends Props<{}> {
@@ -33,7 +34,7 @@ class RatingPage extends Component<RatingPageProps, RatingPageState> {
   }
 
   render() {
-    const { isConnected, currentUser, usersOnline } = this.props;
+    const { isConnected, currentUser, usersOnline, serverUrl } = this.props;
     const { users } = this.state;
 
     return (
@@ -41,7 +42,7 @@ class RatingPage extends Component<RatingPageProps, RatingPageState> {
         <Header
           currentUsername={currentUser && currentUser.username}
           avatar={currentUser && currentUser.avatar}
-          serverUrl={this.zGamesApi.SERVER_URL}
+          serverUrl={serverUrl}
           signUp={this.zGamesApi.register}
           signIn={this.zGamesApi.login}
           logOut={this.zGamesApi.logout}
@@ -62,12 +63,13 @@ class RatingPage extends Component<RatingPageProps, RatingPageState> {
   }
 }
 
-const mapStateToProps = (state: { users: types.UsersState, games: types.GamesState }) => {
+const mapStateToProps = (state: { users: types.UsersState, games: types.GamesState, server: types.ServerState }) => {
   return {
     usersOnline: state.users.usersOnline,
     isConnected: state.users.isConnected,
     currentUser: state.users.currentUser,
     allGames: state.games.allGames,
+    serverUrl: state.server.serverUrl,
   };
 };
 

@@ -4,11 +4,13 @@ import { Store } from 'redux';
 import {
   updateStatus,
   updateCurrentUser,
+  updateUsersOnline,
   updateAllGames,
   updateOpenGame,
   addNewGame,
   updateGame,
   addNewLog,
+  addServerUrl,
 } from '../../actions';
 import * as types from '../../constants';
 
@@ -18,8 +20,6 @@ export interface History {
 
 export class ZGamesApi {
   private static instance: ZGamesApi;
-
-  public SERVER_URL = ((window as any).envs && (window as any).envs.SERVER_URL) || 'http://localhost:4000';
 
   private socket: (typeof Socket) & { query: { token: string } };
   private store: Store;
@@ -33,7 +33,15 @@ export class ZGamesApi {
 
     const token = localStorage.getItem('token');
 
-    this.socket = io(this.SERVER_URL, {
+    const SERVER_URL = ((window as any).envs && (window as any).envs.SERVER_URL);
+
+    if (SERVER_URL) {
+      store.dispatch(addServerUrl(SERVER_URL));
+    }
+
+    const serverUrl = store.getState().server.serverUrl;
+
+    this.socket = io(serverUrl, {
       query: { token },
     }) as (typeof Socket) & { query: { token: string } };
 
@@ -51,6 +59,7 @@ export class ZGamesApi {
 
       this.socket.emit('get-all-games', { ignoreNotStarted: false, ignoreStarted: false, ignoreFinished: false });
       this.socket.emit('get-current-user');
+      this.socket.emit('get-users-online');
       this.socket.emit('get-opened-game');
     });
 
@@ -58,6 +67,11 @@ export class ZGamesApi {
     this.socket.on('update-current-user', (currentUser: types.User): void => {
       console.log(`socket.on('update-current-user'): `, currentUser);
       store.dispatch(updateCurrentUser(currentUser));
+    });
+
+    this.socket.on('update-users-online', (usersOnline: types.User[]): void => {
+      console.log(`socket.on('update-users-online'): `, usersOnline);
+      store.dispatch(updateUsersOnline(usersOnline));
     });
 
 
@@ -98,7 +112,7 @@ export class ZGamesApi {
       localStorage.setItem('token', newToken);
     });
 
-    this.socket.on('error-message', (message: string): void => {
+    this.socket.on('error-message', ({ message }: { message: string }): void => {
       console.log(`socket.on('error-message'): `, message);
       alert(message);
     });
@@ -110,7 +124,9 @@ export class ZGamesApi {
 
   // Accounts
   register = async (username: string, password: string, email: string): Promise<types.User> => {
-    const fetchResult = await fetch(`${this.SERVER_URL}/api/users/register`, {
+    const serverUrl = this.store.getState().server.serverUrl;
+
+    const fetchResult = await fetch(`${serverUrl}/api/users/register`, {
       method: 'post',
       body: JSON.stringify({
         username,
@@ -134,7 +150,9 @@ export class ZGamesApi {
   };
 
   login = async (username: string, password: string): Promise<types.User> => {
-    const fetchResult = await fetch(`${this.SERVER_URL}/api/users/authorize`, {
+    const serverUrl = this.store.getState().server.serverUrl;
+
+    const fetchResult = await fetch(`${serverUrl}/api/users/authorize`, {
       method: 'post',
       body: JSON.stringify({
         username,
@@ -158,13 +176,13 @@ export class ZGamesApi {
   };
 
   logout = (): void => {
-    this.setToken('');
-
     this.socket.emit('logout');
   };
 
   getUsers = async (): Promise<types.User[]> => {
-    const fetchResult = await fetch(`${this.SERVER_URL}/api/users`);
+    const serverUrl = this.store.getState().server.serverUrl;
+
+    const fetchResult = await fetch(`${serverUrl}/api/users`);
 
     const parsedResult = await fetchResult.json();
 
