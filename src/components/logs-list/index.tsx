@@ -6,7 +6,7 @@ import * as types from '../../constants';
 import './index.css';
 
 export function LogsList({ logs }: {
-  logs: types.Log[],
+  logs: types.ILog[],
 }) {
   return (
     <div className='logs-list-container'>

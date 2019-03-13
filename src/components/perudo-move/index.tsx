@@ -12,6 +12,7 @@ import {
   numberDec,
   figureInc,
   figureDec,
+  PerudoData
 } from 'z-games-perudo';
 
 import { PerudoDices } from '../../components';
@@ -19,7 +20,7 @@ import * as types from '../../constants';
 import './index.css';
 
 export function PerudoMove({ game, isMaputoAble, move }: {
-  game: types.Game,
+  game: types.IGame,
   isMaputoAble: boolean,
   move: (move: string) => void,
 }) {
@@ -31,7 +32,7 @@ export function PerudoMove({ game, isMaputoAble, move }: {
   const [isButtonsDisabled, setIsButtonsDisabled] = useState(false);
 
   const { gameData } = game;
-  const { currentDiceNumber, currentDiceFigure, isMaputoRound, players: playersInGame } = JSON.parse(gameData);
+  const { currentDiceNumber, currentDiceFigure, isMaputoRound, players: playersInGame }: PerudoData = JSON.parse(gameData);
   const allDicesCount = countDices(playersInGame);
 
   if (gameData !== oldGameData) {

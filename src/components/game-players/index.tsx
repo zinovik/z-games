@@ -24,9 +24,9 @@ GamePlayers.defaultProps = {
 export function GamePlayers({ gameName, currentUserId, playersInGame, players, nextPlayers }: {
   gameName: string,
   currentUserId: string,
-  playersInGame: types.PlayerInGame[],
-  players: types.User[],
-  nextPlayers: types.User[],
+  playersInGame: types.IPlayerInGame[],
+  players: types.IUser[],
+  nextPlayers: types.IUser[],
 }) {
   let playerNumber;
 
@@ -41,7 +41,7 @@ export function GamePlayers({ gameName, currentUserId, playersInGame, players, n
 
   return (
     <div className='game-players-container'>
-      {[...playersCopy, ...playersBefore].map((playerInGame: types.PlayerInGame, index: number) => (
+      {[...playersCopy, ...playersBefore].map((playerInGame: types.IPlayerInGame, index: number) => (
         <Fragment key={index}>
           {playerInGame.id !== currentUserId && <Fragment key={index}>
 

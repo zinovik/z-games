@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import { object, func } from 'prop-types';
+import { PerudoPlayer } from 'z-games-perudo';
+import { NoThanksPlayer } from 'z-games-no-thanks';
 
 import { GamePlayers, GamePlayer, GameResults, NoThanks, Perudo } from '../../components';
 import * as types from '../../constants';
@@ -18,13 +20,16 @@ GameTable.defaultProps = {
 }
 
 export function GameTable({ game, currentUser, move }: {
-  game: types.Game,
-  currentUser: types.User,
+  game: types.IGame,
+  currentUser: types.IUser,
   move: (move: string) => void,
 }) {
   const { name, state, gameData, players, nextPlayers } = game;
-  const playersInGame = JSON.parse(gameData).players;
-  const { cards, chips, points, dices } = playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id) || { cards: [], chips: 0, points: 0, dices: [] };
+  const gameDataParsed: types.GameData = JSON.parse(gameData);
+  const playersInGame: types.GamePlayer[] = gameDataParsed.players;
+  const { cards, chips, points, dices } = (playersInGame.find(
+    (playerInGame: types.GamePlayer) => playerInGame.id === currentUser.id,
+  ) || { cards: [], chips: 0, points: 0, dices: [] } ) as PerudoPlayer & NoThanksPlayer;
   const isMyTurn = nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id);
   const isPlayer = players.some(player => player.id === currentUser.id);
 

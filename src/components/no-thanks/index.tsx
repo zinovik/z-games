@@ -1,14 +1,15 @@
 import React, { Fragment, useState } from 'react';
 import { object, bool, func } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
+import { NoThanksData } from 'z-games-no-thanks';
 
 import { NoThanksCard, NoThanksChips } from '../../components';
 import * as types from '../../constants';
 import './index.css';
 
 export function NoThanks({ game, currentUser, isMyTurn, move }: {
-	game: types.Game,
-	currentUser: types.User,
+	game: types.IGame,
+	currentUser: types.IUser,
 	isMyTurn: boolean,
 	move: (move: string) => void,
 }) {
@@ -38,9 +39,9 @@ export function NoThanks({ game, currentUser, isMyTurn, move }: {
 		return null;
 	}
 
-	const { currentCard, currentCardCost, cardsLeft, players: playersInGame } = JSON.parse(gameData);
+	const { currentCard, currentCardCost, cardsLeft, players: playersInGame }: NoThanksData = JSON.parse(gameData);
 
-	const currentPlayerInGame = playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id);
+	const currentPlayerInGame = playersInGame.find((playerInGame: types.IPlayerInGame) => playerInGame.id === currentUser.id);
 	const myChips = currentPlayerInGame && currentPlayerInGame.chips;
 
 	return (

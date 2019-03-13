@@ -6,7 +6,7 @@ import { GamePlayer } from '../../components'
 import * as types from '../../constants';
 import './index.css';
 
-interface Result {
+interface IResult {
   username: string;
   avatar: string;
   place: number,
@@ -32,10 +32,10 @@ GameResults.defaultProps = {
 
 export function GameResults({ gameName, players, playersInGame }: {
   gameName: string,
-  players: types.User[],
-  playersInGame: types.PlayerInGame[],
+  players: types.IUser[],
+  playersInGame: types.IPlayerInGame[],
 }) {
-  const results: Result[] = playersInGame.map((playerInGame, index) => {
+  const results: IResult[] = playersInGame.map((playerInGame, index) => {
     return {
       username: players.find(player => player.id === playerInGame.id)!.username,
       avatar: players.find(player => player.id === playerInGame.id)!.avatar,

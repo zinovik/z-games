@@ -8,19 +8,19 @@ import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 import './index.css';
 
-interface HomePageProps extends Props<{}> {
-  currentUser: types.User,
+interface IHomePageProps extends Props<{}> {
+  currentUser: types.IUser,
   isConnected: boolean,
-  allGames: types.Game[],
-  usersOnline: types.User[],
+  allGames: types.IGame[],
+  usersOnline: types.IUser[],
   match: { params: { token: string } },
   serverUrl: string,
 }
 
-class HomePage extends Component<HomePageProps, {}> {
+class HomePage extends Component<IHomePageProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
-  constructor(props: HomePageProps) {
+  constructor(props: IHomePageProps) {
     super(props);
 
     const { match: { params: { token } } } = props;
@@ -64,7 +64,7 @@ class HomePage extends Component<HomePageProps, {}> {
   }
 }
 
-const mapStateToProps = (state: { users: types.UsersState, games: types.GamesState, server: types.ServerState }) => {
+const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState, server: types.IServerState }) => {
   return {
     usersOnline: state.users.usersOnline,
     isConnected: state.users.isConnected,

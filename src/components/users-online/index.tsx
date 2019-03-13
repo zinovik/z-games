@@ -5,7 +5,7 @@ import { Popover, Typography } from '@material-ui/core';
 import * as types from '../../constants';
 import './index.css';
 
-export function UsersOnline({ usersOnline }: { usersOnline: types.User[] }) {
+export function UsersOnline({ usersOnline }: { usersOnline: types.IUser[] }) {
   const [anchorEl, setAnchorEl] = useState(null as HTMLElement | null);
 
   const handleShow = (event: MouseEvent<HTMLElement>) => {

@@ -5,7 +5,7 @@ const initialState = {
   serverUrl: 'http://localhost:4000',
 };
 
-const server = (state: types.ServerState = initialState, action: Action): types.ServerState => {
+const server = (state: types.IServerState = initialState, action: Action): types.IServerState => {
 
   switch (action.type) {
 

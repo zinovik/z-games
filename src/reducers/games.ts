@@ -7,7 +7,7 @@ const initialState = {
   openGameNumber: null,
 };
 
-const games = (state: types.GamesState = initialState, action: Action): types.GamesState => {
+const games = (state: types.IGamesState = initialState, action: Action): types.IGamesState => {
 
   switch (action.type) {
 

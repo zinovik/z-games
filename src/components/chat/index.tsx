@@ -6,7 +6,7 @@ import * as types from '../../constants';
 import './index.css';
 
 export function Chat({ logs, newMessage }: {
-  logs: types.Log[],
+  logs: types.ILog[],
   newMessage: (message: string) => void,
 }) {
   return (

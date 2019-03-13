@@ -11,7 +11,7 @@ import './index.css';
 
 const MENU_WIDTH_MIN = 600;
 
-interface HeaderProps extends Props<{}> {
+interface IHeaderProps extends Props<{}> {
 	currentUsername: string,
 	avatar: string,
 	serverUrl: string,
@@ -19,15 +19,15 @@ interface HeaderProps extends Props<{}> {
 	signUp: (username: string, password: string) => void,
 	logOut: () => void,
 	history: History,
-	usersOnline: types.User[],
+	usersOnline: types.IUser[],
 }
 
-interface HeaderState {
+interface IHeaderState {
 	width: number,
 	isDrawerShown: boolean,
 }
 
-class Header extends Component<HeaderProps & RouteProps, HeaderState> {
+class Header extends Component<IHeaderProps & RouteProps, IHeaderState> {
 	static propTypes = {
 		currentUsername: string,
 		avatar: string,
