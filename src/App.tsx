@@ -8,17 +8,17 @@ import RatingPage from './containers/rating-page';
 import RulesPage from './containers/rules-page';
 import ProfilePage from './containers/profile-page';
 import AboutPage from './containers/about-page';
-import { ZGamesApi, History } from './services';
+import { ZGamesApi, IHistory } from './services';
 import './App.css';
 
-interface AppProps {
-  history: History,
+interface IAppProps {
+  history: IHistory,
 };
 
-class App extends Component<AppProps, {}> {
+class App extends Component<IAppProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
-  constructor(props: AppProps) {
+  constructor(props: IAppProps) {
     super(props);
     this.zGamesApi.setHistory(props.history);
   }

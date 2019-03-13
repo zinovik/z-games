@@ -1,3 +1,8 @@
+import { NoThanksData } from 'z-games-no-thanks';
+import { PerudoData } from 'z-games-perudo';
+
+export type GameData = NoThanksData | PerudoData;
+
 export const NO_THANKS = 'No, Thanks!';
 export const PERUDO = 'Perudo';
 

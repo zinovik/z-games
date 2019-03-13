@@ -7,7 +7,7 @@ const initialState = {
   usersOnline: [],
 };
 
-const users = (state: types.UsersState = initialState, action: Action): types.UsersState => {
+const users = (state: types.IUsersState = initialState, action: Action): types.IUsersState => {
 
   switch (action.type) {
 

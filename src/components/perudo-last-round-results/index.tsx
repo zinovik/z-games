@@ -19,14 +19,14 @@ PerudoLastRoundResults.defaultProps = {
 }
 
 export function PerudoLastRoundResults({ playersInGame, players, lastRoundFigure, isLastRoundMaputo }: {
-  playersInGame: types.PlayerInGame[],
-  players: types.User[],
+  playersInGame: types.IPlayerInGame[],
+  players: types.IUser[],
   lastRoundFigure: number,
   isLastRoundMaputo: boolean,
 }) {
   return (
     <div>
-      {playersInGame.map((playerInGame: types.PlayerInGame, index: number) => (
+      {playersInGame.map((playerInGame: types.IPlayerInGame, index: number) => (
         <Fragment key={index}>
 
           <PerudoLastRoundResult

@@ -7,26 +7,26 @@ import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 import './index.css';
 
-interface RatingPageProps extends Props<{}> {
-  currentUser: types.User,
+interface IRatingPageProps extends Props<{}> {
+  currentUser: types.IUser,
   isConnected: boolean,
-  allGames: types.Game[],
-  usersOnline: types.User[],
+  allGames: types.IGame[],
+  usersOnline: types.IUser[],
   serverUrl: string,
 }
 
-interface RatingPageState extends Props<{}> {
-  users: types.User[],
+interface IRatingPageState extends Props<{}> {
+  users: types.IUser[],
 }
 
-class RatingPage extends Component<RatingPageProps, RatingPageState> {
+class RatingPage extends Component<IRatingPageProps, IRatingPageState> {
   public state = {
     users: [],
   };
 
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
-  constructor(props: RatingPageProps) {
+  constructor(props: IRatingPageProps) {
     super(props);
 
     this.zGamesApi.getUsers()
@@ -63,7 +63,7 @@ class RatingPage extends Component<RatingPageProps, RatingPageState> {
   }
 }
 
-const mapStateToProps = (state: { users: types.UsersState, games: types.GamesState, server: types.ServerState }) => {
+const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState, server: types.IServerState }) => {
   return {
     usersOnline: state.users.usersOnline,
     isConnected: state.users.isConnected,

@@ -1,10 +1,15 @@
-export interface UsersState {
+import { NoThanksPlayer } from 'z-games-no-thanks';
+import { PerudoPlayer } from 'z-games-perudo';
+
+export type GamePlayer = NoThanksPlayer | PerudoPlayer;
+
+export interface IUsersState {
   isConnected: boolean;
-  currentUser: User | null;
-  usersOnline: User[];
+  currentUser: IUser | null;
+  usersOnline: IUser[];
 }
 
-export interface User {
+export interface IUser {
   avatar: string;
   createdAt: Date;
   email: string;
@@ -17,16 +22,15 @@ export interface User {
   provider: string;
   updatedAt: Date;
   username: string;
-
-  currentGames: Game[]; // ?
+  currentGames: IGame[];
 }
 
-export interface GamesState {
-  allGames: Game[];
-  openGame: Game | null;
+export interface IGamesState {
+  allGames: IGame[];
+  openGame: IGame | null;
 }
 
-export interface Game {
+export interface IGame {
   id: string;
   number: number;
   name: string;
@@ -35,26 +39,26 @@ export interface Game {
   playersMin: number;
   createdAt: Date;
   gameData: string;
-  players: User[];
+  players: IUser[];
 
-  watchers: User[];
-  logs: Log[];
+  watchers: IUser[];
+  logs: ILog[];
 
-  nextPlayers: User[];
-  playersOnline: User[];
+  nextPlayers: IUser[];
+  playersOnline: IUser[];
 }
 
-export interface Log {
+export interface ILog {
   createdAt: Date;
   gameId: string;
   id: string;
   type: string;
-  user: User;
+  user: IUser;
 
   text?: string;
 }
 
-export interface PlayerInGame {
+export interface IPlayerInGame {
   id: string;
   ready: boolean;
   place: number;
@@ -67,6 +71,6 @@ export interface PlayerInGame {
   dices?: number[];
 }
 
-export interface ServerState {
+export interface IServerState {
   serverUrl: string;
 }

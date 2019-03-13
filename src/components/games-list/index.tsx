@@ -7,7 +7,7 @@ import * as types from '../../constants';
 import './index.css';
 
 export function GamesList({ allGames, currentUsername, joinGame, openGame, watchGame }: {
-	allGames: types.Game[],
+	allGames: types.IGame[],
 	currentUsername: string | undefined,
 	joinGame: (gameNumber: number) => void,
 	openGame: (gameNumber: number) => void,

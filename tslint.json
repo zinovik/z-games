@@ -11,7 +11,6 @@
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "member-access": false,
-    "interface-name": false,
     "jsx-no-lambda": false,
     "no-console": false
   }

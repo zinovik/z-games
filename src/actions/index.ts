@@ -1,58 +1,66 @@
 import * as types from '../constants';
 
-export interface UpdateStatus { type: typeof types.UPDATE_STATUS, isConnected: boolean };
-export interface UpdateCurrentUser { type: typeof types.UPDATE_CURRENT_USER, currentUser: types.User };
-export interface UpdateUsersOnline { type: typeof types.UPDATE_USERS_ONLINE, usersOnline: types.User[] };
-export interface UpdateAllGames { type: typeof types.UPDATE_ALL_GAMES, allGames: types.Game[] };
-export interface UpdateOpenGame { type: typeof types.UPDATE_OPEN_GAME, openGame: types.Game };
-export interface AddNewGame { type: typeof types.ADD_NEW_GAME, newGame: types.Game };
-export interface UpdateGame { type: typeof types.UPDATE_GAME, game: types.Game };
-export interface AddNewLog { type: typeof types.ADD_NEW_LOG, newLog: types.Log };
-export interface AddServerUrl { type: typeof types.ADD_SERVER_URL, serverUrl: string };
+export interface IUpdateStatus { type: typeof types.UPDATE_STATUS, isConnected: boolean };
+export interface IUpdateCurrentUser { type: typeof types.UPDATE_CURRENT_USER, currentUser: types.IUser };
+export interface IUpdateUsersOnline { type: typeof types.UPDATE_USERS_ONLINE, usersOnline: types.IUser[] };
+export interface IUpdateAllGames { type: typeof types.UPDATE_ALL_GAMES, allGames: types.IGame[] };
+export interface IUpdateOpenGame { type: typeof types.UPDATE_OPEN_GAME, openGame: types.IGame };
+export interface IAddNewGame { type: typeof types.ADD_NEW_GAME, newGame: types.IGame };
+export interface IUpdateGame { type: typeof types.UPDATE_GAME, game: types.IGame };
+export interface IAddNewLog { type: typeof types.ADD_NEW_LOG, newLog: types.ILog };
+export interface IAddServerUrl { type: typeof types.ADD_SERVER_URL, serverUrl: string };
 
-export type Action = UpdateStatus | UpdateCurrentUser | UpdateUsersOnline | UpdateAllGames | UpdateOpenGame | AddNewGame | UpdateGame | AddNewLog | AddServerUrl;
+export type Action = IUpdateStatus
+  | IUpdateCurrentUser
+  | IUpdateUsersOnline
+  | IUpdateAllGames
+  | IUpdateOpenGame
+  | IAddNewGame
+  | IUpdateGame
+  | IAddNewLog
+  | IAddServerUrl;
 
-export const updateStatus = (isConnected: boolean): UpdateStatus => ({
+export const updateStatus = (isConnected: boolean): IUpdateStatus => ({
   type: types.UPDATE_STATUS,
   isConnected,
 });
 
-export const updateCurrentUser = (currentUser: types.User): UpdateCurrentUser => ({
+export const updateCurrentUser = (currentUser: types.IUser): IUpdateCurrentUser => ({
   type: types.UPDATE_CURRENT_USER,
   currentUser,
 });
 
-export const updateUsersOnline = (usersOnline: types.User[]): UpdateUsersOnline => ({
+export const updateUsersOnline = (usersOnline: types.IUser[]): IUpdateUsersOnline => ({
   type: types.UPDATE_USERS_ONLINE,
   usersOnline,
 });
 
-export const updateAllGames = (allGames: types.Game[]): UpdateAllGames => ({
+export const updateAllGames = (allGames: types.IGame[]): IUpdateAllGames => ({
   type: types.UPDATE_ALL_GAMES,
   allGames,
 });
 
-export const updateOpenGame = (openGame: types.Game): UpdateOpenGame => ({
+export const updateOpenGame = (openGame: types.IGame): IUpdateOpenGame => ({
   type: types.UPDATE_OPEN_GAME,
   openGame,
 });
 
-export const addNewGame = (newGame: types.Game): AddNewGame => ({
+export const addNewGame = (newGame: types.IGame): IAddNewGame => ({
   type: types.ADD_NEW_GAME,
   newGame,
 });
 
-export const updateGame = (game: types.Game): UpdateGame => ({
+export const updateGame = (game: types.IGame): IUpdateGame => ({
   type: types.UPDATE_GAME,
   game,
 });
 
-export const addNewLog = (newLog: types.Log): AddNewLog => ({
+export const addNewLog = (newLog: types.ILog): IAddNewLog => ({
   type: types.ADD_NEW_LOG,
   newLog,
 });
 
-export const addServerUrl = (serverUrl: string): AddServerUrl => ({
+export const addServerUrl = (serverUrl: string): IAddServerUrl => ({
   type: types.ADD_SERVER_URL,
   serverUrl,
 });

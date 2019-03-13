@@ -9,7 +9,7 @@ import * as types from '../../constants';
 import './index.css';
 
 export function Game({ game, currentUsername, isDisableButtons, join, open, watch, disableButtons }: {
-  game: types.Game,
+  game: types.IGame,
   currentUsername: string | undefined,
   isDisableButtons: boolean,
   join: () => void,

@@ -1,14 +1,15 @@
 import React, { Fragment } from 'react';
 import { object, bool, func } from 'prop-types';
 import { Typography } from '@material-ui/core';
+import { PerudoData } from 'z-games-perudo';
 
 import { PerudoDices, PerudoMove, PerudoLastRoundResults } from '../../components';
 import * as types from '../../constants';
 import './index.css';
 
 export function Perudo({ game, currentUser, isMyTurn, move }: {
-	game: types.Game,
-	currentUser: types.User,
+	game: types.IGame,
+	currentUser: types.IUser,
 	isMyTurn: boolean,
 	move: (move: string) => void,
 }) {
@@ -28,16 +29,16 @@ export function Perudo({ game, currentUser, isMyTurn, move }: {
 		lastRoundFigure,
 		isLastRoundMaputo,
 		players: playersInGame,
-	} = JSON.parse(gameData);
+	}: PerudoData & { lastPlayerNumber: number } = JSON.parse(gameData); // TODO Check lastPlayerNumber in PerudoData
 
-	const currentPlayerInGame = playersInGame.find((playerInGame: types.PlayerInGame) => playerInGame.id === currentUser.id);
+	const currentPlayerInGame = playersInGame.find((playerInGame: types.IPlayerInGame) => playerInGame.id === currentUser.id);
 	const isMaputoAble = currentPlayerInGame && currentPlayerInGame.dices.length === 1
 		&& !currentDiceNumber
 		&& !currentDiceFigure
-		&& playersInGame.filter((playerInGame: types.PlayerInGame) => {
+		&& playersInGame.filter((playerInGame: types.IPlayerInGame) => {
 			return (playerInGame.dicesCount || 0) > 0;
 		}).length > 2
-		&& playersInGame.reduce((diceCount: number, playerInGame: types.PlayerInGame) => {
+		&& playersInGame.reduce((diceCount: number, playerInGame: types.IPlayerInGame) => {
 			return diceCount + (playerInGame.dicesCount || 0);
 		}, 0) > 3;
 

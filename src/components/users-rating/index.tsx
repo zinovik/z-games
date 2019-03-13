@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/c
 
 import * as types from '../../constants';
 
-export function UsersRating({ users }: { users: types.User[] }) {
+export function UsersRating({ users }: { users: types.IUser[] }) {
   return <Table>
     <TableHead>
       <TableRow>

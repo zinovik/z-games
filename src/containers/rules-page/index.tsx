@@ -8,15 +8,15 @@ import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
 import './index.css';
 
-interface RulesPageProps extends Props<{}> {
-  currentUser: types.User,
+interface IRulesPageProps extends Props<{}> {
+  currentUser: types.IUser,
   isConnected: boolean,
-  allGames: types.Game[],
-  usersOnline: types.User[],
+  allGames: types.IGame[],
+  usersOnline: types.IUser[],
   serverUrl: string,
 }
 
-class RulesPage extends Component<RulesPageProps, {}> {
+class RulesPage extends Component<IRulesPageProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
   render() {
@@ -52,7 +52,7 @@ class RulesPage extends Component<RulesPageProps, {}> {
   }
 }
 
-const mapStateToProps = (state: { users: types.UsersState, games: types.GamesState, server: types.ServerState }) => {
+const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState, server: types.IServerState }) => {
   return {
     usersOnline: state.users.usersOnline,
     isConnected: state.users.isConnected,
