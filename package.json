@@ -3,10 +3,6 @@
   "version": "0.1.0",
   "private": false,
   "description": "Front-end part of tiny board games portal",
-  "engines": {
-    "node": ">=10.0.0",
-    "npm": "6.4.1"
-  },
   "license": "Apache-2.0",
   "repository": "git+ssh://git@github.com:zinovik/z-games.git",
   "keywords": [
@@ -31,10 +27,10 @@
     "serve": "^10.1.2",
     "socket.io-client": "^2.2.0",
     "z-games-base-game": "0.0.16",
-    "z-games-lost-cities": "0.0.10",
-    "z-games-no-thanks": "0.0.12",
-    "z-games-perudo": "0.0.10",
-    "z-games-six-nimmt": "0.0.10"
+    "z-games-lost-cities": "^0.0.11",
+    "z-games-no-thanks": "^0.0.12",
+    "z-games-perudo": "^0.0.10",
+    "z-games-six-nimmt": "^0.0.10"
   },
   "scripts": {
     "start": "serve -s build",
@@ -43,6 +39,10 @@
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject"
+  },
+  "engines": {
+    "node": ">=10",
+    "npm": "6.4.1"
   },
   "devDependencies": {
     "@types/hoist-non-react-statics": "^3.3.0",

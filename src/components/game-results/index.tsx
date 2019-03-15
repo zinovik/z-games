@@ -1,10 +1,13 @@
 import React from 'react';
 import { string, array } from 'prop-types';
 import { Typography } from '@material-ui/core';
+import { NoThanksPlayer } from 'z-games-no-thanks';
+import { PerudoPlayer } from 'z-games-perudo';
 
 import { GamePlayer } from '../../components'
 import * as types from '../../constants';
 import './index.css';
+import { NO_THANKS } from 'z-games-no-thanks';
 
 interface IResult {
   username: string;
@@ -33,17 +36,29 @@ GameResults.defaultProps = {
 export function GameResults({ gameName, players, playersInGame }: {
   gameName: string,
   players: types.IUser[],
-  playersInGame: types.IPlayerInGame[],
+  playersInGame: types.GamePlayer[],
 }) {
-  const results: IResult[] = playersInGame.map((playerInGame, index) => {
+  const results: IResult[] = playersInGame.map((playerInGame) => {
+    if (gameName === NO_THANKS) {
+      return {
+        username: players.find(player => player.id === playerInGame.id)!.username,
+        avatar: players.find(player => player.id === playerInGame.id)!.avatar,
+        cards: (playerInGame as NoThanksPlayer).cards || [],
+        chips: (playerInGame as NoThanksPlayer).chips || 0,
+        points: (playerInGame as NoThanksPlayer).points || 0,
+        place: playerInGame.place,
+        dicesCount: 0,
+      };
+    }
+
     return {
       username: players.find(player => player.id === playerInGame.id)!.username,
       avatar: players.find(player => player.id === playerInGame.id)!.avatar,
-      cards: playerInGame.cards || [],
-      chips: playerInGame.chips || 0,
-      points: playerInGame.points || 0,
+      cards: [],
+      chips: 0,
+      points: 0,
       place: playerInGame.place,
-      dicesCount: playerInGame.dicesCount || 0,
+      dicesCount: (playerInGame as PerudoPlayer).dicesCount || 0,
     };
   });
 

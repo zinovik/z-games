@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { string, array, func } from 'prop-types';
 import { Typography, Checkbox } from '@material-ui/core';
+import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED } from 'z-games-base-game';
 
 import { Game } from '../../components';
 import * as types from '../../constants';
@@ -42,9 +43,9 @@ export function GamesList({ allGames, currentUsername, joinGame, openGame, watch
 
 		<div className='games-list'>
 			{allGames.map((game, index) => (
-				((isNotStarted && game.state === types.GAME_NOT_STARTED)
-					|| (isStarted && game.state === types.GAME_STARTED)
-					|| (isFinished && game.state === types.GAME_FINISHED)) && <Game
+				((isNotStarted && game.state === GAME_NOT_STARTED)
+					|| (isStarted && game.state === GAME_STARTED)
+					|| (isFinished && game.state === GAME_FINISHED)) && <Game
 					game={game}
 					currentUsername={currentUsername}
 					isDisableButtons={disableButtons}

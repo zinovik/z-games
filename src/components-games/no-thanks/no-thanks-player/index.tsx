@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { arrayOf, number } from 'prop-types';
 import { Typography } from '@material-ui/core';
 
-import { NoThanksCardsList, NoThanksChips } from '../../components';
+import { NoThanksCardsList, NoThanksChips } from '../';
 
 NoThanksPlayer.propTypes = {
   cards: arrayOf(number).isRequired,

@@ -3,6 +3,7 @@ import { object, string, func, bool } from 'prop-types';
 import moment from 'moment';
 import { Card, CardHeader, CardContent, Typography, IconButton, CardActions } from '@material-ui/core';
 import { Gamepad, OpenInBrowser, RemoveRedEye } from '@material-ui/icons';
+import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED, GAME_STATE_LABEL } from 'z-games-base-game';
 
 import { GameRules } from '../../components';
 import * as types from '../../constants';
@@ -62,7 +63,7 @@ export function Game({ game, currentUsername, isDisableButtons, join, open, watc
 
   const isAbleToJoin = !game.state && game.players.length < game.playersMax && !game.players.some(player => player.username === currentUsername);
   const isAbleToOpen = game.players.some(player => player.username === currentUsername);
-  const isAbleToWatch = game.state > types.GAME_NOT_STARTED && !game.players.some(player => player.username === currentUsername);
+  const isAbleToWatch = game.state > GAME_NOT_STARTED && !game.players.some(player => player.username === currentUsername);
 
   return (
     <Fragment>
@@ -83,10 +84,10 @@ export function Game({ game, currentUsername, isDisableButtons, join, open, watc
           </Typography>
 
           <Typography>
-            {game.state === types.GAME_NOT_STARTED && <span className='game-dot game-green-dot' />}
-            {game.state === types.GAME_STARTED && <span className='game-dot game-yellow-dot' />}
-            {game.state === types.GAME_FINISHED && <span className='game-dot game-red-dot' />}
-            {types.GAME_STATE_LABEL[game.state]}
+            {game.state === GAME_NOT_STARTED && <span className='game-dot game-green-dot' />}
+            {game.state === GAME_STARTED && <span className='game-dot game-yellow-dot' />}
+            {game.state === GAME_FINISHED && <span className='game-dot game-red-dot' />}
+            {GAME_STATE_LABEL[game.state]}
           </Typography>
 
         </CardContent>

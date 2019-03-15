@@ -1,7 +1,7 @@
 import React from 'react';
 import { arrayOf, number } from 'prop-types';
 
-import { NoThanksCard } from '../../components';
+import { NoThanksCard } from '../';
 import './index.css';
 
 NoThanksCardsList.propTypes = {

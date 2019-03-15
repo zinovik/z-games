@@ -3,8 +3,8 @@ import { object, bool, func } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
 import { NoThanksData } from 'z-games-no-thanks';
 
-import { NoThanksCard, NoThanksChips } from '../../components';
-import * as types from '../../constants';
+import { NoThanksCard, NoThanksChips } from '../';
+import * as types from '../../../constants';
 import './index.css';
 
 export function NoThanks({ game, currentUser, isMyTurn, move }: {
@@ -41,7 +41,7 @@ export function NoThanks({ game, currentUser, isMyTurn, move }: {
 
 	const { currentCard, currentCardCost, cardsLeft, players: playersInGame }: NoThanksData = JSON.parse(gameData);
 
-	const currentPlayerInGame = playersInGame.find((playerInGame: types.IPlayerInGame) => playerInGame.id === currentUser.id);
+	const currentPlayerInGame = playersInGame.find(playerInGame => playerInGame.id === currentUser.id);
 	const myChips = currentPlayerInGame && currentPlayerInGame.chips;
 
 	return (

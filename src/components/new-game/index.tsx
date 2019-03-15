@@ -2,8 +2,10 @@ import React, { Fragment, useState } from 'react';
 import { func } from 'prop-types';
 import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Fab } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
+import { NO_THANKS } from 'z-games-no-thanks';
+import { PERUDO } from 'z-games-perudo';
+import { LOST_CITIES } from 'z-games-lost-cities';
 
-import * as types from '../../constants';
 import './index.css';
 
 export function NewGame({ newGame }: {
@@ -19,13 +21,8 @@ export function NewGame({ newGame }: {
     setIsModalShow(false);
   };
 
-  const handleNewNoThanksGame = () => {
-    newGame(types.NO_THANKS);
-    setIsModalShow(false);
-  };
-
-  const handleNewPerudoGame = () => {
-    newGame(types.PERUDO);
+  const handleCreateGame = (game: string) => {
+    newGame(game);
     setIsModalShow(false);
   };
 
@@ -44,8 +41,9 @@ export function NewGame({ newGame }: {
             Choose a game to create
           </DialogContentText>
           <DialogActions>
-            <Button onClick={handleNewNoThanksGame}>{types.NO_THANKS}</Button>
-            <Button onClick={handleNewPerudoGame}>{types.PERUDO}</Button>
+            <Button onClick={() => handleCreateGame(NO_THANKS)}>{NO_THANKS}</Button>
+            <Button onClick={() => handleCreateGame(PERUDO)}>{PERUDO}</Button>
+            <Button onClick={() => handleCreateGame(LOST_CITIES)}>{LOST_CITIES}</Button>
           </DialogActions>
         </DialogContent>
       </Dialog>

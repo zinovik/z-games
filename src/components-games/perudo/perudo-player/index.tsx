@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { arrayOf, number, bool } from 'prop-types';
 import { Typography } from '@material-ui/core';
 
-import { PerudoDices } from '../../components';
+import { PerudoDices } from '../';
 
 PerudoPlayer.propTypes = {
   dices: arrayOf(number),

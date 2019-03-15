@@ -1,9 +1,16 @@
 import React from 'react';
 import { string, arrayOf, number, bool } from 'prop-types';
 import { Typography, Avatar } from '@material-ui/core';
+import { NO_THANKS } from 'z-games-no-thanks';
+import { PERUDO } from 'z-games-perudo';
+import { LOST_CITIES, LostCitiesCard } from 'z-games-lost-cities';
 
-import { NoThanksPlayer, PerudoPlayer } from '../../components';
-import * as types from '../../constants';
+import {
+  NoThanksPlayer,
+  PerudoPlayer,
+  LostCitiesPlayer,
+} from '../../components';
+
 import './index.css';
 
 GamePlayer.propTypes = {
@@ -24,7 +31,20 @@ GamePlayer.defaultProps = {
   active: false,
 }
 
-export function GamePlayer({ gameName, username, avatar, cards, chips, points, dices, dicesCount, active }: {
+export function GamePlayer({
+  gameName,
+  username,
+  avatar,
+  cards,
+  chips,
+  points,
+  dices,
+  dicesCount,
+  active,
+  cardsHand,
+  cardsHandCount,
+  cardsExpeditions,
+}: {
   gameName: string,
   username: string,
   avatar?: string,
@@ -34,11 +54,14 @@ export function GamePlayer({ gameName, username, avatar, cards, chips, points, d
   dices?: number[],
   dicesCount?: number,
   active?: boolean,
+  cardsHand?: LostCitiesCard[],
+  cardsHandCount?: number,
+  cardsExpeditions?: LostCitiesCard[],
 }) {
   return (
     <div className={`
       game-player-container
-      game-player-container-${gameName === types.NO_THANKS ? 'no-thanks' : ''}${gameName === types.PERUDO ? 'perudo' : ''}
+      game-player-container-${gameName === NO_THANKS ? 'no-thanks' : ''}${gameName === PERUDO ? 'perudo' : ''}${gameName === LOST_CITIES ? 'lost-cities' : ''}
       ${active ? 'game-player-container-active' : ''}
     `}>
 
@@ -52,15 +75,22 @@ export function GamePlayer({ gameName, username, avatar, cards, chips, points, d
         </Typography>
       </div>
 
-      {gameName === types.NO_THANKS && <NoThanksPlayer
+      {gameName === NO_THANKS && <NoThanksPlayer
         cards={cards || []}
         chips={chips}
         points={points}
       />}
 
-      {gameName === types.PERUDO && <PerudoPlayer
+      {gameName === PERUDO && <PerudoPlayer
         dices={dices}
         dicesCount={dicesCount}
+      />}
+
+      {gameName === LOST_CITIES && <LostCitiesPlayer
+        cardsHand={cardsHand || []}
+        cardsHandCount={cardsHandCount || 0}
+        cardsExpeditions={cardsExpeditions || []}
+        points={points || 0}
       />}
 
     </div>

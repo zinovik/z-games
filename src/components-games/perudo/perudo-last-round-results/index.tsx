@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import { array, number, bool } from 'prop-types';
+import { PerudoPlayer } from 'z-games-perudo';
 
-import { PerudoLastRoundResult } from '../../components';
-import * as types from '../../constants';
+import { PerudoLastRoundResult } from '../';
+import * as types from '../../../constants';
 
 PerudoLastRoundResults.propTypes = {
   playersInGame: array.isRequired,
@@ -19,14 +20,14 @@ PerudoLastRoundResults.defaultProps = {
 }
 
 export function PerudoLastRoundResults({ playersInGame, players, lastRoundFigure, isLastRoundMaputo }: {
-  playersInGame: types.IPlayerInGame[],
+  playersInGame: PerudoPlayer[],
   players: types.IUser[],
   lastRoundFigure: number,
   isLastRoundMaputo: boolean,
 }) {
   return (
     <div>
-      {playersInGame.map((playerInGame: types.IPlayerInGame, index: number) => (
+      {playersInGame.map((playerInGame, index) => (
         <Fragment key={index}>
 
           <PerudoLastRoundResult

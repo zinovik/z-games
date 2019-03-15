@@ -1,7 +1,8 @@
 import { NoThanksPlayer } from 'z-games-no-thanks';
 import { PerudoPlayer } from 'z-games-perudo';
+import { LostCitiesPlayer } from 'z-games-lost-cities';
 
-export type GamePlayer = NoThanksPlayer | PerudoPlayer;
+export type GamePlayer = NoThanksPlayer | PerudoPlayer | LostCitiesPlayer;
 
 export interface IUsersState {
   isConnected: boolean;
@@ -56,19 +57,6 @@ export interface ILog {
   user: IUser;
 
   text?: string;
-}
-
-export interface IPlayerInGame {
-  id: string;
-  ready: boolean;
-  place: number;
-
-  cards?: number[];
-  chips?: number;
-  points?: number;
-
-  dicesCount?: number;
-  dices?: number[];
 }
 
 export interface IServerState {
