@@ -3,8 +3,8 @@ import { object, bool, func } from 'prop-types';
 import { Typography } from '@material-ui/core';
 import { PerudoData } from 'z-games-perudo';
 
-import { PerudoDices, PerudoMove, PerudoLastRoundResults } from '../../components';
-import * as types from '../../constants';
+import { PerudoDices, PerudoMove, PerudoLastRoundResults } from '../';
+import * as types from '../../../constants';
 import './index.css';
 
 export function Perudo({ game, currentUser, isMyTurn, move }: {
@@ -31,14 +31,14 @@ export function Perudo({ game, currentUser, isMyTurn, move }: {
 		players: playersInGame,
 	}: PerudoData & { lastPlayerNumber: number } = JSON.parse(gameData); // TODO Check lastPlayerNumber in PerudoData
 
-	const currentPlayerInGame = playersInGame.find((playerInGame: types.IPlayerInGame) => playerInGame.id === currentUser.id);
+	const currentPlayerInGame = playersInGame.find(playerInGame => playerInGame.id === currentUser.id);
 	const isMaputoAble = currentPlayerInGame && currentPlayerInGame.dices.length === 1
 		&& !currentDiceNumber
 		&& !currentDiceFigure
-		&& playersInGame.filter((playerInGame: types.IPlayerInGame) => {
+		&& playersInGame.filter(playerInGame => {
 			return (playerInGame.dicesCount || 0) > 0;
 		}).length > 2
-		&& playersInGame.reduce((diceCount: number, playerInGame: types.IPlayerInGame) => {
+		&& playersInGame.reduce((diceCount: number, playerInGame) => {
 			return diceCount + (playerInGame.dicesCount || 0);
 		}, 0) > 3;
 

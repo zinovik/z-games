@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
 import { object, func } from 'prop-types';
-import { PerudoPlayer } from 'z-games-perudo';
-import { NoThanksPlayer } from 'z-games-no-thanks';
+import { GAME_STARTED, GAME_FINISHED } from 'z-games-base-game';
+import { NoThanksPlayer, NO_THANKS } from 'z-games-no-thanks';
+import { PerudoPlayer, PERUDO } from 'z-games-perudo';
+import { LOST_CITIES } from 'z-games-lost-cities';
 
-import { GamePlayers, GamePlayer, GameResults, NoThanks, Perudo } from '../../components';
+import { GamePlayers, GamePlayer, GameResults, NoThanks, Perudo, LostCities } from '../../components';
 import * as types from '../../constants';
 import './index.css';
 
@@ -35,7 +37,7 @@ export function GameTable({ game, currentUser, move }: {
 
   return (
     <Fragment>
-      {game.state === types.GAME_STARTED && <div className='game-table-container'>
+      {game.state === GAME_STARTED && <div className='game-table-container'>
 
         <GamePlayers
           gameName={name}
@@ -47,10 +49,11 @@ export function GameTable({ game, currentUser, move }: {
 
         <div className={`
           game-table-center
-          game-table-center-${name === types.NO_THANKS ? 'no-thanks' : ''}${name === types.PERUDO ? 'perudo' : ''}
+          game-table-center-${name === NO_THANKS ? 'no-thanks' : ''}${name === PERUDO ? 'perudo' : ''}
         `}>
-          {name === types.NO_THANKS && <NoThanks game={game} currentUser={currentUser} isMyTurn={isMyTurn} move={move} />}
-          {name === types.PERUDO && <Perudo game={game} currentUser={currentUser} isMyTurn={isMyTurn} move={move} />}
+          {name === NO_THANKS && <NoThanks game={game} currentUser={currentUser} isMyTurn={isMyTurn} move={move} />}
+          {name === PERUDO && <Perudo game={game} currentUser={currentUser} isMyTurn={isMyTurn} move={move} />}
+          {name === LOST_CITIES && <LostCities game={game} currentUser={currentUser} isMyTurn={isMyTurn} move={move} />}
         </div>
 
         {isPlayer && <GamePlayer
@@ -66,7 +69,7 @@ export function GameTable({ game, currentUser, move }: {
 
       </div>}
 
-      {state === types.GAME_FINISHED && <GameResults gameName={name} players={players} playersInGame={playersInGame || []} />}
+      {state === GAME_FINISHED && <GameResults gameName={name} players={players} playersInGame={playersInGame || []} />}
     </Fragment>
   );
 }

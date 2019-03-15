@@ -2,14 +2,14 @@ import React from 'react';
 import { string, func } from 'prop-types';
 import { Button, Dialog, DialogTitle, DialogContent, Typography, DialogActions } from '@material-ui/core';
 import { BaseGame } from 'z-games-base-game';
-import { NoThanks } from 'z-games-no-thanks';
-import { Perudo } from 'z-games-perudo';
-
-import * as types from '../../constants';
+import { NoThanks, NO_THANKS } from 'z-games-no-thanks';
+import { Perudo, PERUDO } from 'z-games-perudo';
+import { LostCities, LOST_CITIES } from 'z-games-lost-cities';
 
 const gamesServices: { [key: string]: BaseGame } = {
-  [types.NO_THANKS]: NoThanks.Instance,
-  [types.PERUDO]: Perudo.Instance,
+  [NO_THANKS]: NoThanks.Instance,
+  [PERUDO]: Perudo.Instance,
+  [LOST_CITIES]: LostCities.Instance,
 };
 
 export function GameRules({ gameName, close }: {

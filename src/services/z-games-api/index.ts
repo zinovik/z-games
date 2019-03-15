@@ -139,10 +139,10 @@ export class ZGamesApi {
 
     const parsedResult = await fetchResult.json();
 
-    if (parsedResult !== 'error') { // TODO: Error
-      alert(parsedResult);
-    } else {
+    if (parsedResult.error) { // TODO: Error
       alert('Error, try another username');
+    } else {
+      this.store.dispatch(updateCurrentUser(parsedResult));
     }
 
     return parsedResult;

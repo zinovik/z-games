@@ -1,22 +1,11 @@
-import { NoThanksData } from 'z-games-no-thanks';
-import { PerudoData } from 'z-games-perudo';
+import { NoThanksData, NO_THANKS } from 'z-games-no-thanks';
+import { PerudoData, PERUDO } from 'z-games-perudo';
+import { LostCitiesData, LOST_CITIES } from 'z-games-lost-cities';
 
-export type GameData = NoThanksData | PerudoData;
-
-export const NO_THANKS = 'No, Thanks!';
-export const PERUDO = 'Perudo';
-
-export const GAME_NOT_STARTED = 0;
-export const GAME_STARTED = 1;
-export const GAME_FINISHED = 2;
-
-export const GAME_STATE_LABEL: { [key: number]: string } = {
-  [GAME_NOT_STARTED]: 'not started',
-  [GAME_STARTED]: 'started',
-  [GAME_FINISHED]: 'finished',
-};
+export type GameData = NoThanksData | PerudoData | LostCitiesData;
 
 export const GAMES_LOGOS: { [key: string]: string } = {
   [NO_THANKS]: '/images/no-thanks.png',
   [PERUDO]: '/images/perudo.png',
+  [LOST_CITIES]: '/images/lost-cities.png',
 };

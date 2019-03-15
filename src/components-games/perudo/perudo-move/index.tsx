@@ -15,8 +15,8 @@ import {
   PerudoData
 } from 'z-games-perudo';
 
-import { PerudoDices } from '../../components';
-import * as types from '../../constants';
+import { PerudoDices } from '../';
+import * as types from '../../../constants';
 import './index.css';
 
 export function PerudoMove({ game, isMaputoAble, move }: {

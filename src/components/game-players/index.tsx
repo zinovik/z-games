@@ -1,5 +1,7 @@
 import React, { Fragment } from 'react';
 import { array, string } from 'prop-types';
+import { NO_THANKS, NoThanksPlayer } from 'z-games-no-thanks';
+import { PERUDO, PerudoPlayer } from 'z-games-perudo';
 
 import { GamePlayer } from '../../components';
 import * as types from '../../constants';
@@ -24,7 +26,7 @@ GamePlayers.defaultProps = {
 export function GamePlayers({ gameName, currentUserId, playersInGame, players, nextPlayers }: {
   gameName: string,
   currentUserId: string,
-  playersInGame: types.IPlayerInGame[],
+  playersInGame: types.GamePlayer[],
   players: types.IUser[],
   nextPlayers: types.IUser[],
 }) {
@@ -41,18 +43,27 @@ export function GamePlayers({ gameName, currentUserId, playersInGame, players, n
 
   return (
     <div className='game-players-container'>
-      {[...playersCopy, ...playersBefore].map((playerInGame: types.IPlayerInGame, index: number) => (
+      {[...playersCopy, ...playersBefore].map((playerInGame: types.GamePlayer, index) => (
         <Fragment key={index}>
           {playerInGame.id !== currentUserId && <Fragment key={index}>
 
-            <GamePlayer
+            {gameName === NO_THANKS && <GamePlayer
               gameName={gameName}
               username={players.find(player => player.id === playerInGame.id)!.username}
               avatar={players.find(player => player.id === playerInGame.id)!.avatar}
-              cards={playerInGame.cards || []}
-              dicesCount={playerInGame.dicesCount || 0}
+              cards={(playerInGame as NoThanksPlayer).cards || []}
+              dicesCount={0}
               active={nextPlayers.some(nextPlayer => nextPlayer.id === playerInGame.id)}
-            />
+            />}
+
+            {gameName === PERUDO && <GamePlayer
+              gameName={gameName}
+              username={players.find(player => player.id === playerInGame.id)!.username}
+              avatar={players.find(player => player.id === playerInGame.id)!.avatar}
+              cards={[]}
+              dicesCount={(playerInGame as PerudoPlayer).dicesCount || 0}
+              active={nextPlayers.some(nextPlayer => nextPlayer.id === playerInGame.id)}
+            />}
 
           </Fragment>}
         </Fragment>
