@@ -14,7 +14,7 @@ export function Authorize({ serverUrl, onSignInClick, onSignUpClick }: {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const [isTabSignUp, setIsTabSignUp] = useState(false);
+  const [currentTab, setCurrentTab] = useState(0);
 
   const handleAuthorize = () => {
     setIsModalShow(true);
@@ -45,7 +45,7 @@ export function Authorize({ serverUrl, onSignInClick, onSignUpClick }: {
   };
 
   const handleTabChange = () => {
-    setIsTabSignUp(!isTabSignUp);
+    setCurrentTab(currentTab ? 0 : 1);
   }
 
   const handleSignInGoogle = () => {
@@ -60,16 +60,9 @@ export function Authorize({ serverUrl, onSignInClick, onSignUpClick }: {
 
       <Modal open={isModalShow} onClose={handleClose}>
         <Paper className='authorize-modal-window'>
-          <div>
-            <Input type='text' placeholder='Username' onChange={handleUsernameChange} />
-          </div>
-
-          <div>
-            <Input type='password' placeholder='Password' onChange={handlePasswordChange} />
-          </div>
 
           <Tabs
-            value={isTabSignUp}
+            value={currentTab}
             onChange={handleTabChange}
             indicatorColor='primary'
             textColor='primary'
@@ -79,13 +72,21 @@ export function Authorize({ serverUrl, onSignInClick, onSignUpClick }: {
           </Tabs>
 
           <div>
-            <Input type='email' placeholder='Email' onChange={handleEmailChange} />
+            <Input type='text' placeholder='Username' onChange={handleUsernameChange} />
           </div>
 
-          <Typography>
+          <div>
+            <Input type='password' placeholder='Password' onChange={handlePasswordChange} />
+          </div>
+
+          {currentTab === 0 && <Fragment>
             <Button onClick={handleSignInClick}>Sign in</Button>
+          </Fragment>}
+
+          {currentTab === 1 && <Fragment>
+            <Input type='email' placeholder='Email' onChange={handleEmailChange} />
             <Button onClick={handleSignUpClick}>Sign up</Button>
-          </Typography>
+          </Fragment>}
 
           <Typography>
             <Button onClick={handleSignInGoogle}>

@@ -1,17 +1,17 @@
 import React from 'react';
-import { number, bool } from 'prop-types';
+import { number } from 'prop-types';
 
 import './index.css';
 
 LostCitiesCard.propTypes = {
-  card: number.isRequired,
-  dim: bool,
+  cost: number.isRequired,
+  expedition: number.isRequired,
 }
 
-export function LostCitiesCard({ card, dim }: { card: number, dim?: boolean }) {
+export function LostCitiesCard({ cost, expedition }: { cost: number, expedition: number }) {
   return (
-    <div className={`lost-cities-card${dim ? ' lost-cities-card-dim' : ''}`}>
-      {card}
+    <div className={`lost-cities-card${expedition ? ' lost-cities-card-dim' : ''}`}>
+      {cost}
     </div>
   );
 };

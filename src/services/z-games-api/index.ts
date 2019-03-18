@@ -142,7 +142,7 @@ export class ZGamesApi {
     if (parsedResult.error) { // TODO: Error
       alert('Error, try another username');
     } else {
-      this.store.dispatch(updateCurrentUser(parsedResult));
+      alert('Check email to activate your account');
     }
 
     return parsedResult;
