@@ -3,16 +3,17 @@ import { arrayOf, shape, number } from 'prop-types';
 import { Typography } from '@material-ui/core';
 import { LostCitiesCard } from 'z-games-lost-cities';
 
+import { LostCitiesCardsList } from '../';
+
+const lostCitiesCardShape = {
+  cost: number,
+  expedition: number,
+};
+
 LostCitiesPlayer.propTypes = {
-  cardsHand: arrayOf(shape({
-    cost: number,
-    expedition: number,
-  })).isRequired,
+  cardsHand: arrayOf(shape(lostCitiesCardShape)).isRequired,
   cardsHandCount: number,
-  cardsExpeditions: arrayOf(shape({
-    cost: number,
-    expedition: number,
-  })).isRequired,
+  cardsExpeditions: arrayOf(shape(lostCitiesCardShape)).isRequired,
   points: number,
 }
 
@@ -28,6 +29,13 @@ export function LostCitiesPlayer({ cardsHand, cardsHandCount, cardsExpeditions, 
 }) {
   return (
     <Fragment>
+      <LostCitiesCardsList cards={cardsHand} />
+
+      {cardsHandCount !== undefined && <Typography>
+        {cardsHandCount} cards
+      </Typography>}
+
+      <LostCitiesCardsList cards={cardsExpeditions} />
 
       {points !== undefined && <Typography>
         {points} points
