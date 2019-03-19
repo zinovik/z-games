@@ -1,4 +1,5 @@
 export * from './authorize';
+export * from './activate';
 export * from './current-user';
 export * from './game';
 export * from './game-info';

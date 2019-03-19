@@ -41,7 +41,7 @@ class AboutPage extends Component<IAboutPageProps, {}> {
             </Typography>
 
             <Typography>
-              Z-Games is a tiny board games portal that is slowly being developed since the warm autumn of 2017
+              Z-Games is a tiny board games portal that is slowly being developed since the warm fall of 2017
             </Typography>
 
             <Typography>
