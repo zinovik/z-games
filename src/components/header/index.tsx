@@ -7,7 +7,7 @@ import { History } from 'history';
 
 import { Authorize, CurrentUser, UsersOnline } from '../../components';
 import * as types from '../../constants';
-import './index.css';
+import './index.scss';
 
 const MENU_WIDTH_MIN = 600;
 

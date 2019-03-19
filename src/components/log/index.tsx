@@ -3,7 +3,7 @@ import { string } from 'prop-types';
 import moment from 'moment';
 import { Typography } from '@material-ui/core';
 
-import './index.css';
+import './index.scss';
 
 Log.propTypes = {
   type: string.isRequired,

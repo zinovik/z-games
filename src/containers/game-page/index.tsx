@@ -5,7 +5,7 @@ import { Paper } from '@material-ui/core';
 import { GameInfo, GameTable, Chat, Loading } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
-import './index.css';
+import './index.scss';
 
 interface IGamePageProps extends Props<{}> {
   currentUser: types.IUser,

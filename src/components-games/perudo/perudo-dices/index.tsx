@@ -2,7 +2,7 @@ import React from 'react';
 import { arrayOf, number, bool } from 'prop-types';
 import { Typography } from '@material-ui/core';
 
-import './index.css';
+import './index.scss';
 
 const DICES: string[] = [
   '\u2680',

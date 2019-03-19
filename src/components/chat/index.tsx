@@ -3,7 +3,7 @@ import { array, func } from 'prop-types';
 
 import { NewMessage, LogsList } from '../../components';
 import * as types from '../../constants';
-import './index.css';
+import './index.scss';
 
 export function Chat({ logs, newMessage }: {
   logs: types.ILog[],

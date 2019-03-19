@@ -5,7 +5,7 @@ import { NoThanksData } from 'z-games-no-thanks';
 
 import { NoThanksCard, NoThanksChips } from '../';
 import * as types from '../../../constants';
-import './index.css';
+import './index.scss';
 
 export function NoThanks({ game, currentUser, isMyTurn, move }: {
 	game: types.IGame,

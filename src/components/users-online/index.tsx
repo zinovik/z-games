@@ -3,7 +3,7 @@ import { array } from 'prop-types';
 import { Popover, Typography } from '@material-ui/core';
 
 import * as types from '../../constants';
-import './index.css';
+import './index.scss';
 
 export function UsersOnline({ usersOnline }: { usersOnline: types.IUser[] }) {
   const [anchorEl, setAnchorEl] = useState(null as HTMLElement | null);

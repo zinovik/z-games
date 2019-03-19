@@ -5,7 +5,7 @@ import { GAME_NOT_STARTED } from 'z-games-base-game';
 
 import { GameRules } from '../../components';
 import * as types from '../../constants';
-import './index.css';
+import './index.scss';
 
 export function GameInfo({ game, currentUserId, leave, close, ready, start }: {
   game: types.IGame,

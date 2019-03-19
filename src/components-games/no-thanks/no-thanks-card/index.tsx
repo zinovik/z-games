@@ -1,7 +1,7 @@
 import React from 'react';
 import { number, bool } from 'prop-types';
 
-import './index.css';
+import './index.scss';
 
 NoThanksCard.propTypes = {
   card: number.isRequired,

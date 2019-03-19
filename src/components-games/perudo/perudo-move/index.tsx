@@ -17,7 +17,7 @@ import {
 
 import { PerudoDices } from '../';
 import * as types from '../../../constants';
-import './index.css';
+import './index.scss';
 
 export function PerudoMove({ game, isMaputoAble, move }: {
   game: types.IGame,

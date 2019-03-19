@@ -9,7 +9,7 @@ import RulesPage from './containers/rules-page';
 import ProfilePage from './containers/profile-page';
 import AboutPage from './containers/about-page';
 import { ZGamesApi, IHistory } from './services';
-import './App.css';
+import './App.scss';
 
 interface IAppProps {
   history: IHistory,

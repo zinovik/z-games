@@ -2,7 +2,7 @@ import React from 'react';
 import { arrayOf, shape, number } from 'prop-types';
 
 import { LostCitiesCard } from '../';
-import './index.css';
+import './index.scss';
 
 const lostCitiesCardShape = {
   cost: number,

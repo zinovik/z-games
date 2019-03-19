@@ -3,7 +3,7 @@ import { string, arrayOf, number, bool } from 'prop-types';
 import { Typography, Avatar } from '@material-ui/core';
 
 import { PerudoPlayer } from '../';
-import './index.css';
+import './index.scss';
 
 PerudoLastRoundResult.propTypes = {
   username: string.isRequired,

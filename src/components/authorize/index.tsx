@@ -2,7 +2,7 @@ import React, { ChangeEvent, Fragment, useState } from 'react';
 import { func, string } from 'prop-types';
 import { Modal, Paper, Typography, Tabs, Tab, Button, Input } from '@material-ui/core';
 
-import './index.css';
+import './index.scss';
 
 export function Authorize({ serverUrl, onSignInClick, onSignUpClick }: {
   serverUrl: string,
