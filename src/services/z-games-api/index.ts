@@ -32,10 +32,8 @@ export class ZGamesApi {
   setStore = async (store: Store) => {
     const token = localStorage.getItem('token');
 
-    const SERVER_URL = ((window as any).envs && (window as any).envs.SERVER_URL);
-
-    if (SERVER_URL) {
-      store.dispatch(addServerUrl(SERVER_URL));
+    if (process.env.REACT_APP_SERVER_URL) {
+      store.dispatch(addServerUrl(process.env.REACT_APP_SERVER_URL));
     }
 
     const serverUrl = store.getState().server.serverUrl;
