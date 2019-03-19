@@ -5,7 +5,7 @@ import Header from '../../components/header';
 import { Loading, UsersRating } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
-import './index.css';
+import './index.scss';
 
 interface IRatingPageProps extends Props<{}> {
   currentUser: types.IUser,

@@ -11,7 +11,7 @@ import {
   LostCitiesPlayer,
 } from '../../components';
 
-import './index.css';
+import './index.scss';
 
 GamePlayer.propTypes = {
   gameName: string.isRequired,

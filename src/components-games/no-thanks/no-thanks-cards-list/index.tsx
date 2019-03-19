@@ -2,7 +2,7 @@ import React from 'react';
 import { arrayOf, number } from 'prop-types';
 
 import { NoThanksCard } from '../';
-import './index.css';
+import './index.scss';
 
 NoThanksCardsList.propTypes = {
   cards: arrayOf(number).isRequired,

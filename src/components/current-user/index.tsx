@@ -2,7 +2,7 @@ import React, { Fragment, MouseEvent, useState } from 'react';
 import { string, func } from 'prop-types';
 import { Avatar, Menu, MenuItem, Button } from '@material-ui/core';
 
-import './index.css';
+import './index.scss';
 
 export function CurrentUser({ currentUsername, avatar, onLogOutClick }: {
   currentUsername: string,

@@ -6,7 +6,7 @@ import Header from '../../components/header';
 import { Loading } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
-import './index.css';
+import './index.scss';
 
 interface IHomePageProps extends Props<{}> {
   currentUser: types.IUser,

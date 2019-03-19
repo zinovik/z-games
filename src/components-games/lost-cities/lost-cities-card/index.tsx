@@ -1,7 +1,7 @@
 import React from 'react';
 import { number } from 'prop-types';
 
-import './index.css';
+import './index.scss';
 
 LostCitiesCard.propTypes = {
   cost: number.isRequired,

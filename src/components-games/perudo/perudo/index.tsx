@@ -5,7 +5,7 @@ import { PerudoData } from 'z-games-perudo';
 
 import { PerudoDices, PerudoMove, PerudoLastRoundResults } from '../';
 import * as types from '../../../constants';
-import './index.css';
+import './index.scss';
 
 export function Perudo({ game, currentUser, isMyTurn, move }: {
 	game: types.IGame,

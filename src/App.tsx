@@ -8,8 +8,9 @@ import RatingPage from './containers/rating-page';
 import RulesPage from './containers/rules-page';
 import ProfilePage from './containers/profile-page';
 import AboutPage from './containers/about-page';
+import { Activate } from './components';
 import { ZGamesApi, IHistory } from './services';
-import './App.css';
+import './App.scss';
 
 interface IAppProps {
   history: IHistory,
@@ -33,6 +34,7 @@ class App extends Component<IAppProps, {}> {
         <Route path='/rules' component={RulesPage} />
         <Route path='/profile' component={ProfilePage} />
         <Route path='/about' component={AboutPage} />
+        <Route path='/activate/:token' component={Activate} />
         <Route path='/:token' component={HomePage} />
         <Redirect from='*' to='/home' />
       </Switch>

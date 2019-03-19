@@ -32,10 +32,8 @@ export class ZGamesApi {
   setStore = async (store: Store) => {
     const token = localStorage.getItem('token');
 
-    const SERVER_URL = ((window as any).envs && (window as any).envs.SERVER_URL);
-
-    if (SERVER_URL) {
-      store.dispatch(addServerUrl(SERVER_URL));
+    if (process.env.REACT_APP_SERVER_URL) {
+      store.dispatch(addServerUrl(process.env.REACT_APP_SERVER_URL));
     }
 
     const serverUrl = store.getState().server.serverUrl;
@@ -148,7 +146,32 @@ export class ZGamesApi {
     return parsedResult;
   };
 
-  login = async (username: string, password: string): Promise<types.IUser> => {
+  activate = async (token: string): Promise<void> => {
+    const serverUrl = this.store.getState().server.serverUrl;
+
+    const fetchResult = await fetch(`${serverUrl}/api/users/activate`, {
+      method: 'post',
+      body: JSON.stringify({
+        token,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const parsedResult = await fetchResult.json();
+
+    if (parsedResult.error) { // TODO: Error
+      return alert('Error while activation');
+    } else {
+      alert('Activation succeed');
+    }
+
+    this.setToken(parsedResult.token);
+    this.updateRoute();
+  };
+
+  login = async (username: string, password: string): Promise<void> => {
     const serverUrl = this.store.getState().server.serverUrl;
 
     const fetchResult = await fetch(`${serverUrl}/api/users/authorize`, {
@@ -162,16 +185,16 @@ export class ZGamesApi {
       },
     });
 
-    const token = fetchResult.headers.get('Authorization');
-    const currentUser = await fetchResult.json();
+    const parsedResult = await fetchResult.json();
 
-    if (token) {
-      this.setToken(token);
+    // const token = fetchResult.headers.get('Authorization');
 
-      this.store.dispatch(updateCurrentUser(currentUser));
+    if (parsedResult.error) { // TODO: Error
+      return alert('Error while authorization');
     }
 
-    return currentUser;
+    this.setToken(parsedResult.token);
+    this.updateRoute();
   };
 
   logout = (): void => {

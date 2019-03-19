@@ -5,7 +5,7 @@ import { LostCitiesData } from 'z-games-lost-cities';
 
 import * as types from '../../../constants';
 
-import './index.css';
+import './index.scss';
 
 export function LostCities({ game, currentUser, isMyTurn, move }: {
 	game: types.IGame,

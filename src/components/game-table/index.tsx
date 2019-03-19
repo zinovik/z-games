@@ -7,7 +7,7 @@ import { LOST_CITIES } from 'z-games-lost-cities';
 
 import { GamePlayers, GamePlayer, GameResults, NoThanks, Perudo, LostCities } from '../../components';
 import * as types from '../../constants';
-import './index.css';
+import './index.scss';
 
 GameTable.propTypes = {
   game: object.isRequired,

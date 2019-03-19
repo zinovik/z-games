@@ -7,7 +7,7 @@ import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED, GAME_STATE_LABEL } from 
 
 import { GameRules } from '../../components';
 import * as types from '../../constants';
-import './index.css';
+import './index.scss';
 
 export function Game({ game, currentUsername, isDisableButtons, join, open, watch, disableButtons }: {
   game: types.IGame,

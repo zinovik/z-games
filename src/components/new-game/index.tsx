@@ -6,7 +6,7 @@ import { NO_THANKS } from 'z-games-no-thanks';
 import { PERUDO } from 'z-games-perudo';
 import { LOST_CITIES } from 'z-games-lost-cities';
 
-import './index.css';
+import './index.scss';
 
 export function NewGame({ newGame }: {
   newGame: (name: string) => void,

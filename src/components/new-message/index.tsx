@@ -2,7 +2,7 @@ import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
 import { func } from 'prop-types';
 import { Button, Input } from '@material-ui/core';
 
-import './index.css';
+import './index.scss';
 
 export function NewMessage({ newMessage }: {
   newMessage: (message: string) => void,

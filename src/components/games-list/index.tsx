@@ -5,7 +5,7 @@ import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED } from 'z-games-base-game
 
 import { Game } from '../../components';
 import * as types from '../../constants';
-import './index.css';
+import './index.scss';
 
 export function GamesList({ allGames, currentUsername, joinGame, openGame, watchGame }: {
 	allGames: types.IGame[],

@@ -6,7 +6,7 @@ import Header from '../../components/header';
 import { Loading } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
-import './index.css';
+import './index.scss';
 
 interface IAboutPageProps extends Props<{}> {
   currentUser: types.IUser,
@@ -41,7 +41,7 @@ class AboutPage extends Component<IAboutPageProps, {}> {
             </Typography>
 
             <Typography>
-              Z-Games is a tiny board games portal that is slowly being developed since the warm autumn of 2017
+              Z-Games is a tiny board games portal that is slowly being developed since the warm fall of 2017
             </Typography>
 
             <Typography>

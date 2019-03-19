@@ -5,7 +5,7 @@ import { NewGame, GamesList, Loading } from '../../components';
 import Header from '../../components/header';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
-import './index.css';
+import './index.scss';
 
 interface IGamesPageProps extends Props<{}> {
   currentUser: types.IUser,
