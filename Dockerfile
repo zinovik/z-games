@@ -12,7 +12,6 @@ ADD public /usr/src/app/public/
 RUN mkdir /usr/src/app/src
 ADD src /usr/src/app/src/
 
-COPY env.js /usr/src/app/
 COPY images.d.ts /usr/src/app/
 COPY package.json /usr/src/app/
 COPY tsconfig.json /usr/src/app/
