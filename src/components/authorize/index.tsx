@@ -1,20 +1,21 @@
 import React, { ChangeEvent, Fragment, useState } from 'react';
-import { func, string } from 'prop-types';
-import { Modal, Paper, Typography, Tabs, Tab, Button, Input } from '@material-ui/core';
+import { Modal, Paper, Typography, Tabs, Tab, Button, TextField } from '@material-ui/core';
+
+import { Loading } from '../';
+// import { Loading, Notification } from '../';
+import { ZGamesApi, SERVER_URL, register, login } from '../../services';
 
 import './index.scss';
 
-export function Authorize({ serverUrl, onSignInClick, onSignUpClick }: {
-  serverUrl: string,
-  onSignInClick: (username: string, password: string) => void,
-  onSignUpClick: (username: string, password: string, email: string) => void,
-}) {
+const zGamesApi = ZGamesApi.Instance;
 
+export function Authorize() {
   const [isModalShow, setIsModalShow] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [currentTab, setCurrentTab] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAuthorize = () => {
     setIsModalShow(true);
@@ -36,12 +37,31 @@ export function Authorize({ serverUrl, onSignInClick, onSignUpClick }: {
     setEmail(event.target.value);
   };
 
-  const handleSignInClick = () => {
-    onSignInClick(username, password);
+  const handleSignInClick = async () => {
+    setIsLoading(true);
+
+    try {
+      const { token }: { token: string } = await login(username, password);
+      zGamesApi.setToken(token);
+      zGamesApi.updateRoute();
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const handleSignUpClick = () => {
-    onSignUpClick(username, password, email);
+  const handleSignUpClick = async () => {
+    setIsLoading(true);
+
+    try {
+      await register(username, password, email);
+      alert('Check email to activate your account');
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleTabChange = () => {
@@ -49,7 +69,7 @@ export function Authorize({ serverUrl, onSignInClick, onSignUpClick }: {
   }
 
   const handleSignInGoogle = () => {
-    window.location.href = `${serverUrl}/api/users/authorize/google`;
+    window.location.href = `${SERVER_URL}/api/users/authorize/google`;
   }
 
   return (
@@ -58,55 +78,70 @@ export function Authorize({ serverUrl, onSignInClick, onSignUpClick }: {
         Sign up/in
       </Button>
 
-      <Modal open={isModalShow} onClose={handleClose}>
-        <Paper className='authorize-modal-window'>
+      <Modal open={isModalShow} onClose={handleClose} className='authorize-modal'>
+        <Paper className='authorize-modal-paper'>
 
-          <Tabs
-            value={currentTab}
-            onChange={handleTabChange}
-            indicatorColor='primary'
-            textColor='primary'
-          >
-            <Tab label='Sign in' />
-            <Tab label='Sign up' />
-          </Tabs>
-
-          <div>
-            <Input type='text' placeholder='Username' onChange={handleUsernameChange} />
+          <div className='authorize-modal-tabs'>
+            <Tabs
+              value={currentTab}
+              onChange={handleTabChange}
+              indicatorColor='primary'
+              textColor='primary'
+            >
+              <Tab label='Sign in' />
+              <Tab label='Sign up' />
+            </Tabs>
           </div>
 
-          <div>
-            <Input type='password' placeholder='Password' onChange={handlePasswordChange} />
-          </div>
+          <form className='authorize-modal-form'>
+            <div>
+              <TextField
+                type='text'
+                placeholder='Username'
+                onChange={handleUsernameChange}
+              />
+            </div>
 
-          {currentTab === 0 && <Fragment>
-            <Button onClick={handleSignInClick}>Sign in</Button>
-          </Fragment>}
+            <div>
+              <TextField
+                type='password'
+                placeholder='Password'
+                onChange={handlePasswordChange}
+              />
+            </div>
 
-          {currentTab === 1 && <Fragment>
-            <Input type='email' placeholder='Email' onChange={handleEmailChange} />
-            <Button onClick={handleSignUpClick}>Sign up</Button>
-          </Fragment>}
+            {currentTab === 0 && <Fragment>
+              <Button onClick={handleSignInClick}>Sign in</Button>
+            </Fragment>}
 
-          <Typography>
-            <Button onClick={handleSignInGoogle}>
-              <img src='https://developers.google.com/identity/images/btn_google_signin_dark_normal_web.png' />
-            </Button>
-          </Typography>
+            {currentTab === 1 && <Fragment>
+              <TextField
+                type='email'
+                placeholder='Email'
+                onChange={handleEmailChange}
+              />
+              <Button onClick={handleSignUpClick}>Sign up</Button>
+            </Fragment>}
+
+            <Typography>
+              <Button onClick={handleSignInGoogle}>
+                <img src='/images/btn_google_signin_dark_normal_web.png' />
+              </Button>
+            </Typography>
+          </form>
 
         </Paper>
       </Modal>
+
+      {isLoading && <Loading />}
+
+      {/* <Notification /> */}
     </Fragment>
   );
 };
 
 Authorize.propTypes = {
-  serverUrl: string.isRequired,
-  onSignInClick: func.isRequired,
-  onSignUpClick: func.isRequired,
 };
 
 Authorize.defaultProps = {
-  onSignInClick: () => console.log,
-  onSignUpClick: () => console.log,
 };

@@ -74,7 +74,7 @@ class GamePage extends Component<IGamePageProps, {}> {
           </div>
         </div>
 
-        <Loading isConnected={isConnected} />
+        <Loading isConnected={isConnected} text='Connecting to the server...' />
       </main>
     );
   }

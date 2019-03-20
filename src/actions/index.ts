@@ -8,7 +8,6 @@ export interface IUpdateOpenGame { type: typeof types.UPDATE_OPEN_GAME, openGame
 export interface IAddNewGame { type: typeof types.ADD_NEW_GAME, newGame: types.IGame };
 export interface IUpdateGame { type: typeof types.UPDATE_GAME, game: types.IGame };
 export interface IAddNewLog { type: typeof types.ADD_NEW_LOG, newLog: types.ILog };
-export interface IAddServerUrl { type: typeof types.ADD_SERVER_URL, serverUrl: string };
 
 export type Action = IUpdateStatus
   | IUpdateCurrentUser
@@ -17,8 +16,7 @@ export type Action = IUpdateStatus
   | IUpdateOpenGame
   | IAddNewGame
   | IUpdateGame
-  | IAddNewLog
-  | IAddServerUrl;
+  | IAddNewLog;
 
 export const updateStatus = (isConnected: boolean): IUpdateStatus => ({
   type: types.UPDATE_STATUS,
@@ -58,9 +56,4 @@ export const updateGame = (game: types.IGame): IUpdateGame => ({
 export const addNewLog = (newLog: types.ILog): IAddNewLog => ({
   type: types.ADD_NEW_LOG,
   newLog,
-});
-
-export const addServerUrl = (serverUrl: string): IAddServerUrl => ({
-  type: types.ADD_SERVER_URL,
-  serverUrl,
 });

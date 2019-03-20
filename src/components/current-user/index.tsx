@@ -1,13 +1,16 @@
 import React, { Fragment, MouseEvent, useState } from 'react';
-import { string, func } from 'prop-types';
+import { string } from 'prop-types';
 import { Avatar, Menu, MenuItem, Button } from '@material-ui/core';
+
+import { ZGamesApi } from '../../services';
+
+const zGamesApi = ZGamesApi.Instance;
 
 import './index.scss';
 
-export function CurrentUser({ currentUsername, avatar, onLogOutClick }: {
+export function CurrentUser({ currentUsername, avatar }: {
   currentUsername: string,
   avatar: string,
-  onLogOutClick: () => void,
 }) {
   const [anchorEl, setAnchorEl] = useState(null as HTMLElement | null);
 
@@ -20,7 +23,7 @@ export function CurrentUser({ currentUsername, avatar, onLogOutClick }: {
   };
 
   const handleLogOutClick = () => {
-    onLogOutClick();
+    zGamesApi.logout();
 
     handleMenuClose();
   };
@@ -53,10 +56,8 @@ export function CurrentUser({ currentUsername, avatar, onLogOutClick }: {
 CurrentUser.propTypes = {
   currentUsername: string,
   avatar: string,
-  onLogOutClick: func.isRequired,
 };
 
 CurrentUser.defaultProps = {
   currentUsername: 'username',
-  onLogOutClick: () => console.log,
 };

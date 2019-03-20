@@ -10,13 +10,14 @@ import {
   addNewGame,
   updateGame,
   addNewLog,
-  addServerUrl,
 } from '../../actions';
 import * as types from '../../constants';
 
 export interface IHistory {
   push: (path: string) => void;
 }
+
+export const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:4000';
 
 export class ZGamesApi {
   private static instance: ZGamesApi;
@@ -25,6 +26,7 @@ export class ZGamesApi {
   private store: Store;
   private history: IHistory;
 
+
   public static get Instance() {
     return this.instance || (this.instance = new this());
   }
@@ -32,13 +34,7 @@ export class ZGamesApi {
   setStore = async (store: Store) => {
     const token = localStorage.getItem('token');
 
-    if (process.env.REACT_APP_SERVER_URL) {
-      store.dispatch(addServerUrl(process.env.REACT_APP_SERVER_URL));
-    }
-
-    const serverUrl = store.getState().server.serverUrl;
-
-    this.socket = io(serverUrl, {
+    this.socket = io(SERVER_URL, {
       query: { token },
     }) as (typeof Socket) & { query: { token: string } };
 
@@ -46,12 +42,10 @@ export class ZGamesApi {
 
     // updates from the server
     this.socket.on('connect_error', (): void => {
-      console.log(`socket.on('connect_error')`);
       store.dispatch(updateStatus(false));
     });
 
     this.socket.on('connect', (): void => {
-      console.log(`socket.on('connect')`);
       store.dispatch(updateStatus(true));
 
       this.socket.emit('get-all-games', { ignoreNotStarted: false, ignoreStarted: false, ignoreFinished: false });
@@ -62,34 +56,27 @@ export class ZGamesApi {
 
 
     this.socket.on('update-current-user', (currentUser: types.IUser): void => {
-      console.log(`socket.on('update-current-user'): `, currentUser);
       store.dispatch(updateCurrentUser(currentUser));
     });
 
     this.socket.on('update-users-online', (usersOnline: types.IUser[]): void => {
-      console.log(`socket.on('update-users-online'): `, usersOnline);
       store.dispatch(updateUsersOnline(usersOnline));
     });
 
 
     this.socket.on('all-games', (allGames: types.IGame[]): void => {
-      console.log(`socket.on('all-games'): `, allGames);
       store.dispatch(updateAllGames(allGames));
     });
 
     this.socket.on('new-game', (newGame: types.IGame): void => {
-      console.log(`socket.on('new-game'): `, newGame);
       store.dispatch(addNewGame(newGame));
     });
 
     this.socket.on('update-game', (game: types.IGame): void => {
-      console.log(`socket.on('update-game'): `, game);
       store.dispatch(updateGame(game));
     });
 
     this.socket.on('update-opened-game', (openGame: types.IGame): void => {
-      console.log(`socket.on('update-opened-game'): `, openGame);
-
       const oldOpenGame = this.store.getState().games.openGame;
 
       store.dispatch(updateOpenGame(openGame));
@@ -100,17 +87,14 @@ export class ZGamesApi {
     });
 
     this.socket.on('new-log', (newLog: types.ILog): void => {
-      console.log(`socket.on('new-log'): `, newLog);
       store.dispatch(addNewLog(newLog));
     });
 
     this.socket.on('new-token', (newToken: string): void => {
-      console.log(`socket.on('new-token'): `, newToken);
       localStorage.setItem('token', newToken);
     });
 
     this.socket.on('error-message', ({ message }: { message: string }): void => {
-      console.log(`socket.on('error-message'): `, message);
       alert(message);
     });
   }
@@ -119,92 +103,12 @@ export class ZGamesApi {
     this.history = history;
   };
 
-  // Accounts
-  register = async (username: string, password: string, email: string): Promise<types.IUser> => {
-    const serverUrl = this.store.getState().server.serverUrl;
-
-    const fetchResult = await fetch(`${serverUrl}/api/users/register`, {
-      method: 'post',
-      body: JSON.stringify({
-        username,
-        password,
-        email,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const parsedResult = await fetchResult.json();
-
-    if (parsedResult.error) { // TODO: Error
-      alert('Error, try another username');
-    } else {
-      alert('Check email to activate your account');
-    }
-
-    return parsedResult;
-  };
-
-  activate = async (token: string): Promise<void> => {
-    const serverUrl = this.store.getState().server.serverUrl;
-
-    const fetchResult = await fetch(`${serverUrl}/api/users/activate`, {
-      method: 'post',
-      body: JSON.stringify({
-        token,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const parsedResult = await fetchResult.json();
-
-    if (parsedResult.error) { // TODO: Error
-      return alert('Error while activation');
-    } else {
-      alert('Activation succeed');
-    }
-
-    this.setToken(parsedResult.token);
-    this.updateRoute();
-  };
-
-  login = async (username: string, password: string): Promise<void> => {
-    const serverUrl = this.store.getState().server.serverUrl;
-
-    const fetchResult = await fetch(`${serverUrl}/api/users/authorize`, {
-      method: 'post',
-      body: JSON.stringify({
-        username,
-        password,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const parsedResult = await fetchResult.json();
-
-    // const token = fetchResult.headers.get('Authorization');
-
-    if (parsedResult.error) { // TODO: Error
-      return alert('Error while authorization');
-    }
-
-    this.setToken(parsedResult.token);
-    this.updateRoute();
-  };
-
   logout = (): void => {
     this.socket.emit('logout');
   };
 
   getUsers = async (): Promise<types.IUser[]> => {
-    const serverUrl = this.store.getState().server.serverUrl;
-
-    const fetchResult = await fetch(`${serverUrl}/api/users`);
+    const fetchResult = await fetch(`${SERVER_URL}/api/users`);
 
     const parsedResult = await fetchResult.json();
 
