@@ -17,5 +17,6 @@ export * from './game-table';
 export * from './game-rules';
 export * from './loading';
 export * from './users-rating';
+export * from './notification';
 
 export * from '../components-games';

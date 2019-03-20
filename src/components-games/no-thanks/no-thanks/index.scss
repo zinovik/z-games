@@ -4,10 +4,10 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-}
 
-.no-thanks-buttons > .no-thanks-button {
-  width: 100px;
-  height: 60px;
-  margin: 2px;
+  .no-thanks-button {
+    width: 100px;
+    height: 60px;
+    margin: 2px;
+  }
 }

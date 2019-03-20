@@ -1,6 +1,16 @@
-.authorize-modal-window {
+.authorize-modal {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  .authorize-modal-paper {
+    padding: 10px;
+
+    .authorize-modal-form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 }

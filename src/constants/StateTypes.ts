@@ -58,7 +58,3 @@ export interface ILog {
 
   text?: string;
 }
-
-export interface IServerState {
-  serverUrl: string;
-}

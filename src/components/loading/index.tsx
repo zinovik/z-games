@@ -1,9 +1,10 @@
 import React from 'react';
-import { bool } from 'prop-types';
+import { bool, string } from 'prop-types';
 import { Dialog, DialogTitle, DialogContent, Typography, CircularProgress } from '@material-ui/core';
 
-export function Loading({ isConnected }: {
+export function Loading({ isConnected, text }: {
   isConnected: boolean,
+  text?: string,
 }) {
   return (
     <Dialog open={!isConnected} fullScreen={false}>
@@ -13,11 +14,11 @@ export function Loading({ isConnected }: {
         <CircularProgress size={18} />
       </DialogTitle>
 
-      <DialogContent>
+      {text && <DialogContent>
         <Typography>
-          Connecting to the server...
+          {text}
         </Typography>
-      </DialogContent>
+      </DialogContent>}
 
     </Dialog>
   );
@@ -25,8 +26,10 @@ export function Loading({ isConnected }: {
 
 Loading.propTypes = {
   isConnected: bool.isRequired,
+  text: string,
 };
 
 Loading.defaultProps = {
   isConnected: false,
+  text: '',
 };

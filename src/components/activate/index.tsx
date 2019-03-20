@@ -1,17 +1,24 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
 
-import { ZGamesApi } from '../../services';
+import { Loading } from '../';
+import { ZGamesApi, activate } from '../../services';
 
-const zGamesApi: ZGamesApi = ZGamesApi.Instance;
+const zGamesApi = ZGamesApi.Instance;
 
 export function Activate({ match: { params: { token: activationToken } } }: { match: { params: { token: string } } }) {
 
-  zGamesApi.activate(activationToken);
+  const activation = async () => {
+    try {
+      const { token }: { token: string } = await activate(activationToken);
+      zGamesApi.setToken(token);
+      alert('User has been successfully activated!');
+    } catch (error) {
+      alert(error.message);
+    } finally {
+      zGamesApi.updateRoute();
+    }
+  };
+  activation();
 
-  return (
-    <Typography>
-      Activation...
-    </Typography>
-  );
+  return <Loading />;
 }

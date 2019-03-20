@@ -1,5 +1,5 @@
 import React, { Component, Props, ComponentType } from 'react';
-import { string, func, object, array } from 'prop-types';
+import { string, object, array } from 'prop-types';
 import { withRouter, RouteProps } from 'react-router-dom';
 import { AppBar, Toolbar, Button, IconButton, Drawer, List, ListItem, ListItemText, Typography } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
@@ -14,10 +14,6 @@ const MENU_WIDTH_MIN = 600;
 interface IHeaderProps extends Props<{}> {
 	currentUsername: string,
 	avatar: string,
-	serverUrl: string,
-	signIn: (username: string, password: string) => void,
-	signUp: (username: string, password: string) => void,
-	logOut: () => void,
 	history: History,
 	usersOnline: types.IUser[],
 }
@@ -31,18 +27,12 @@ class Header extends Component<IHeaderProps & RouteProps, IHeaderState> {
 	static propTypes = {
 		currentUsername: string,
 		avatar: string,
-		serverUrl: string.isRequired,
-		signIn: func.isRequired,
-		signUp: func.isRequired,
-		logOut: func.isRequired,
 		history: object,
 		usersOnline: array.isRequired,
 	}
 
 	static defaultProps = {
 		currentUsername: '',
-		signIn: () => console.log,
-		signUp: () => console.log,
 		logOut: () => console.log,
 	}
 
@@ -77,7 +67,7 @@ class Header extends Component<IHeaderProps & RouteProps, IHeaderState> {
 	}
 
 	render() {
-		const { currentUsername, avatar, serverUrl, signIn, signUp, logOut, usersOnline } = this.props;
+		const { currentUsername, avatar, usersOnline } = this.props;
 		const { width, isDrawerShown } = this.state;
 
 		const LINKS = ['Home', 'Games', 'Rating', 'Rules', 'Profile', 'About'];
@@ -112,9 +102,9 @@ class Header extends Component<IHeaderProps & RouteProps, IHeaderState> {
 							)}
 						</nav>}
 
-						{!currentUsername && <Authorize serverUrl={serverUrl} onSignInClick={signIn} onSignUpClick={signUp} />}
+						{!currentUsername && <Authorize />}
 
-						{currentUsername && <CurrentUser currentUsername={currentUsername} avatar={avatar} onLogOutClick={logOut} />}
+						{currentUsername && <CurrentUser currentUsername={currentUsername} avatar={avatar} />}
 					</div>
 				</Toolbar>
 

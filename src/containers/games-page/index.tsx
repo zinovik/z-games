@@ -12,24 +12,19 @@ interface IGamesPageProps extends Props<{}> {
   isConnected: boolean,
   allGames: types.IGame[],
   usersOnline: types.IUser[],
-  serverUrl: string,
 }
 
 class GamesPage extends Component<IGamesPageProps, {}> {
   zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
   render() {
-    const { isConnected, currentUser, allGames, usersOnline, serverUrl } = this.props;
+    const { isConnected, currentUser, allGames, usersOnline } = this.props;
 
     return (
       <main className='games-page-container'>
         <Header
           currentUsername={currentUser && currentUser.username}
           avatar={currentUser && currentUser.avatar}
-          serverUrl={serverUrl}
-          signUp={this.zGamesApi.register}
-          signIn={this.zGamesApi.login}
-          logOut={this.zGamesApi.logout}
           usersOnline={usersOnline}
         />
 
@@ -43,19 +38,18 @@ class GamesPage extends Component<IGamesPageProps, {}> {
           watchGame={this.zGamesApi.watchGame}
         />
 
-        <Loading isConnected={isConnected} />
+        <Loading isConnected={isConnected} text='Connecting to the server...' />
       </main>
     );
   }
 }
 
-const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState, server: types.IServerState }) => {
+const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => {
   return {
     usersOnline: state.users.usersOnline,
     isConnected: state.users.isConnected,
     currentUser: state.users.currentUser,
     allGames: state.games.allGames,
-    serverUrl: state.server.serverUrl,
   };
 };
 
