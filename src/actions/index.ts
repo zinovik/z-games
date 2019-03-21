@@ -1,8 +1,8 @@
 import * as types from '../constants';
 
 export interface IUpdateStatus { type: typeof types.UPDATE_STATUS, isConnected: boolean };
-export interface IUpdateCurrentUser { type: typeof types.UPDATE_CURRENT_USER, currentUser: types.IUser };
-export interface IUpdateUsersOnline { type: typeof types.UPDATE_USERS_ONLINE, usersOnline: types.IUser[] };
+export interface IUpdateCurrentUser { type: typeof types.UPDATE_CURRENT_USER, currentUser: types.IUser | null };
+export interface IUpdateUsersOnline { type: typeof types.UPDATE_USERS_ONLINE, usersOnline: types.IUsersOnline };
 export interface IUpdateAllGames { type: typeof types.UPDATE_ALL_GAMES, allGames: types.IGame[] };
 export interface IUpdateOpenGame { type: typeof types.UPDATE_OPEN_GAME, openGame: types.IGame };
 export interface IAddNewGame { type: typeof types.ADD_NEW_GAME, newGame: types.IGame };
@@ -23,12 +23,12 @@ export const updateStatus = (isConnected: boolean): IUpdateStatus => ({
   isConnected,
 });
 
-export const updateCurrentUser = (currentUser: types.IUser): IUpdateCurrentUser => ({
+export const updateCurrentUser = (currentUser: types.IUser | null): IUpdateCurrentUser => ({
   type: types.UPDATE_CURRENT_USER,
   currentUser,
 });
 
-export const updateUsersOnline = (usersOnline: types.IUser[]): IUpdateUsersOnline => ({
+export const updateUsersOnline = (usersOnline: types.IUsersOnline): IUpdateUsersOnline => ({
   type: types.UPDATE_USERS_ONLINE,
   usersOnline,
 });

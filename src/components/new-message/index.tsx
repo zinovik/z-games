@@ -1,11 +1,13 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
-import { func } from 'prop-types';
+import { string } from 'prop-types';
 import { Button, Input } from '@material-ui/core';
+
+import { sendMessage } from '../../services';
 
 import './index.scss';
 
-export function NewMessage({ newMessage }: {
-  newMessage: (message: string) => void,
+export function NewMessage({ gameId }: {
+  gameId: string,
 }) {
   const [message, setMessage] = useState('');
 
@@ -20,7 +22,7 @@ export function NewMessage({ newMessage }: {
   }
 
   const handleNewMessageClick = () => {
-    newMessage(message);
+    sendMessage({ gameId, message });
 
     setMessage('');
   };
@@ -48,9 +50,9 @@ export function NewMessage({ newMessage }: {
 };
 
 NewMessage.propTypes = {
-  newMessage: func.isRequired,
+  gameId: string.isRequired,
 };
 
 NewMessage.defaultProps = {
-  newMessage: () => console.log,
+  gameId: '',
 };

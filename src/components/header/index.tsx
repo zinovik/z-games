@@ -1,5 +1,5 @@
 import React, { Component, Props, ComponentType } from 'react';
-import { string, object, array } from 'prop-types';
+import { string, object } from 'prop-types';
 import { withRouter, RouteProps } from 'react-router-dom';
 import { AppBar, Toolbar, Button, IconButton, Drawer, List, ListItem, ListItemText, Typography } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
@@ -7,6 +7,7 @@ import { History } from 'history';
 
 import { Authorize, CurrentUser, UsersOnline } from '../../components';
 import * as types from '../../constants';
+
 import './index.scss';
 
 const MENU_WIDTH_MIN = 600;
@@ -15,7 +16,7 @@ interface IHeaderProps extends Props<{}> {
 	currentUsername: string,
 	avatar: string,
 	history: History,
-	usersOnline: types.IUser[],
+	usersOnline: types.IUsersOnline,
 }
 
 interface IHeaderState {
@@ -28,12 +29,11 @@ class Header extends Component<IHeaderProps & RouteProps, IHeaderState> {
 		currentUsername: string,
 		avatar: string,
 		history: object,
-		usersOnline: array.isRequired,
+		usersOnline: object.isRequired,
 	}
 
 	static defaultProps = {
 		currentUsername: '',
-		logOut: () => console.log,
 	}
 
 	state = {

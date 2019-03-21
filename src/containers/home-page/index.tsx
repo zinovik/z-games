@@ -12,7 +12,7 @@ interface IHomePageProps extends Props<{}> {
   currentUser: types.IUser,
   isConnected: boolean,
   allGames: types.IGame[],
-  usersOnline: types.IUser[],
+  usersOnline: types.IUsersOnline,
   match: { params: { token: string } },
 }
 

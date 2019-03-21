@@ -41,7 +41,7 @@ export function Authorize() {
     setIsLoading(true);
 
     try {
-      const { token }: { token: string } = await login(username, password);
+      const { token } = await login(username, password);
       zGamesApi.setToken(token);
       zGamesApi.updateRoute();
     } catch (error) {
@@ -110,9 +110,9 @@ export function Authorize() {
               />
             </div>
 
-            {currentTab === 0 && <Fragment>
-              <Button onClick={handleSignInClick}>Sign in</Button>
-            </Fragment>}
+            {currentTab === 0 && <div className='authorize-modal-form-button'>
+              <Button variant='contained' color='primary' onClick={handleSignInClick}>Sign in</Button>
+            </div>}
 
             {currentTab === 1 && <Fragment>
               <TextField
@@ -120,7 +120,9 @@ export function Authorize() {
                 placeholder='Email'
                 onChange={handleEmailChange}
               />
-              <Button onClick={handleSignUpClick}>Sign up</Button>
+              <div className='authorize-modal-form-button'>
+                <Button variant='contained' color='primary' onClick={handleSignUpClick}>Sign up</Button>
+              </div>
             </Fragment>}
 
             <Typography>

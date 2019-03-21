@@ -11,7 +11,7 @@ interface IRulesPageProps extends Props<{}> {
   currentUser: types.IUser,
   isConnected: boolean,
   allGames: types.IGame[],
-  usersOnline: types.IUser[],
+  usersOnline: types.IUsersOnline,
 }
 
 class RulesPage extends Component<IRulesPageProps, {}> {

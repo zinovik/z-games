@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import Header from '../../components/header';
 import { Loading, UsersRating } from '../../components';
-import { ZGamesApi } from '../../services';
+import { getUsers } from '../../services';
 import * as types from '../../constants';
 import './index.scss';
 
@@ -11,7 +11,7 @@ interface IRatingPageProps extends Props<{}> {
   currentUser: types.IUser,
   isConnected: boolean,
   allGames: types.IGame[],
-  usersOnline: types.IUser[],
+  usersOnline: types.IUsersOnline,
 }
 
 interface IRatingPageState extends Props<{}> {
@@ -23,12 +23,10 @@ class RatingPage extends Component<IRatingPageProps, IRatingPageState> {
     users: [],
   };
 
-  zGamesApi: ZGamesApi = ZGamesApi.Instance;
-
   constructor(props: IRatingPageProps) {
     super(props);
 
-    this.zGamesApi.getUsers()
+    getUsers()
       .then(users => this.setState({ users }));
   }
 

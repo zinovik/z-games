@@ -11,7 +11,7 @@ interface IAboutPageProps extends Props<{}> {
   currentUser: types.IUser,
   isConnected: boolean,
   allGames: types.IGame[],
-  usersOnline: types.IUser[],
+  usersOnline: types.IUsersOnline,
 }
 
 class AboutPage extends Component<IAboutPageProps, {}> {

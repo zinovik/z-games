@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { object, func } from 'prop-types';
+import { object } from 'prop-types';
 import { GAME_STARTED, GAME_FINISHED } from 'z-games-base-game';
 import { NoThanksPlayer, NO_THANKS } from 'z-games-no-thanks';
 import { PerudoPlayer, PERUDO } from 'z-games-perudo';
@@ -7,24 +7,22 @@ import { LOST_CITIES } from 'z-games-lost-cities';
 
 import { GamePlayers, GamePlayer, GameResults, NoThanks, Perudo, LostCities } from '../../components';
 import * as types from '../../constants';
+
 import './index.scss';
 
 GameTable.propTypes = {
   game: object.isRequired,
   currentUser: object.isRequired,
-  move: func.isRequired,
 }
 
 GameTable.defaultProps = {
   game: {},
   currentUser: {},
-  move: () => console.log,
 }
 
-export function GameTable({ game, currentUser, move }: {
+export function GameTable({ game, currentUser }: {
   game: types.IGame,
   currentUser: types.IUser,
-  move: (move: string) => void,
 }) {
   const { name, state, gameData, players, nextPlayers } = game;
   const gameDataParsed: types.GameData = JSON.parse(gameData);
@@ -51,9 +49,9 @@ export function GameTable({ game, currentUser, move }: {
           game-table-center
           game-table-center-${name === NO_THANKS ? 'no-thanks' : ''}${name === PERUDO ? 'perudo' : ''}
         `}>
-          {name === NO_THANKS && <NoThanks game={game} currentUser={currentUser} isMyTurn={isMyTurn} move={move} />}
-          {name === PERUDO && <Perudo game={game} currentUser={currentUser} isMyTurn={isMyTurn} move={move} />}
-          {name === LOST_CITIES && <LostCities game={game} currentUser={currentUser} isMyTurn={isMyTurn} move={move} />}
+          {name === NO_THANKS && <NoThanks game={game} currentUser={currentUser} isMyTurn={isMyTurn} />}
+          {name === PERUDO && <Perudo game={game} currentUser={currentUser} isMyTurn={isMyTurn} />}
+          {name === LOST_CITIES && <LostCities game={game} currentUser={currentUser} isMyTurn={isMyTurn} />}
         </div>
 
         {isPlayer && <GamePlayer
