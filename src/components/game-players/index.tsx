@@ -5,6 +5,7 @@ import { PERUDO, PerudoPlayer } from 'z-games-perudo';
 
 import { GamePlayer } from '../../components';
 import * as types from '../../constants';
+
 import './index.scss';
 
 GamePlayers.propTypes = {

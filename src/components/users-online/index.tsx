@@ -1,11 +1,12 @@
 import React, { Fragment, MouseEvent, useState } from 'react';
-import { array } from 'prop-types';
+import { object } from 'prop-types';
 import { Popover, Typography } from '@material-ui/core';
 
 import * as types from '../../constants';
+
 import './index.scss';
 
-export function UsersOnline({ usersOnline }: { usersOnline: types.IUser[] }) {
+export function UsersOnline({ usersOnline }: { usersOnline: types.IUsersOnline }) {
   const [anchorEl, setAnchorEl] = useState(null as HTMLElement | null);
 
   const handleShow = (event: MouseEvent<HTMLElement>) => {
@@ -25,7 +26,7 @@ export function UsersOnline({ usersOnline }: { usersOnline: types.IUser[] }) {
         onMouseEnter={handleShow}
         onMouseLeave={handleHide}
       >
-        {usersOnline ? usersOnline.length : 0}
+        {usersOnline.users ? usersOnline.users.length : 0} / {usersOnline.usersCount ? usersOnline.usersCount : 0}
       </Typography>
 
       <Popover
@@ -44,7 +45,7 @@ export function UsersOnline({ usersOnline }: { usersOnline: types.IUser[] }) {
         }}
         disableRestoreFocus={true}
       >
-        {usersOnline.map((user, index) => (
+        {usersOnline.users.map((user, index) => (
           <Typography key={index}>
             {user.username}
           </Typography>)
@@ -56,7 +57,7 @@ export function UsersOnline({ usersOnline }: { usersOnline: types.IUser[] }) {
 }
 
 UsersOnline.propTypes = {
-  usersOnline: array.isRequired,
+  usersOnline: object.isRequired,
 }
 
 UsersOnline.defaultProps = {

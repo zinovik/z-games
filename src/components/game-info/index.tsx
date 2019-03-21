@@ -1,19 +1,17 @@
 import React, { Fragment, useState } from 'react';
-import { object, string, func } from 'prop-types';
+import { object, string } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
 import { GAME_NOT_STARTED } from 'z-games-base-game';
 
 import { GameRules } from '../../components';
+import { closeGame, leaveGame, readyToGame, startGame } from '../../services';
 import * as types from '../../constants';
+
 import './index.scss';
 
-export function GameInfo({ game, currentUserId, leave, close, ready, start }: {
+export function GameInfo({ game, currentUserId }: {
   game: types.IGame,
   currentUserId: string,
-  leave: () => void,
-  close: () => void,
-  ready: () => void,
-  start: () => void,
 }) {
   const [isRulesShown, setIsRulesShown] = useState(false);
   const [isButtonsDisabled, setIsButtonsDisabled] = useState(false);
@@ -38,28 +36,28 @@ export function GameInfo({ game, currentUserId, leave, close, ready, start }: {
     setIsRulesShown(false);
     setIsButtonsDisabled(true);
 
-    close();
+    closeGame(game.number);
   };
 
   const handleLeaveClick = () => {
     setIsRulesShown(false);
     setIsButtonsDisabled(true);
 
-    leave();
+    leaveGame(game.number);
   };
 
   const handleReadyClick = () => {
     setIsRulesShown(false);
     setIsButtonsDisabled(true);
 
-    ready();
+    readyToGame(game.number);
   };
 
   const handleStartClick = () => {
     setIsRulesShown(false);
     setIsButtonsDisabled(true);
 
-    start();
+    startGame(game.number);
   };
 
   const { playersOnline, watchers } = game;
@@ -134,17 +132,9 @@ export function GameInfo({ game, currentUserId, leave, close, ready, start }: {
 GameInfo.propTypes = {
   game: object.isRequired,
   currentUserId: string.isRequired,
-  leave: func.isRequired,
-  close: func.isRequired,
-  ready: func.isRequired,
-  start: func.isRequired,
 };
 
 GameInfo.defaultProps = {
   game: {},
   currentUserId: 'user-id',
-  leave: () => console.log,
-  close: () => console.log,
-  ready: () => console.log,
-  start: () => console.log,
 };

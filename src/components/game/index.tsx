@@ -6,16 +6,15 @@ import { Gamepad, OpenInBrowser, RemoveRedEye } from '@material-ui/icons';
 import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED, GAME_STATE_LABEL } from 'z-games-base-game';
 
 import { GameRules } from '../../components';
+import { joinGame, openGame, watchGame } from '../../services';
 import * as types from '../../constants';
+
 import './index.scss';
 
-export function Game({ game, currentUsername, isDisableButtons, join, open, watch, disableButtons }: {
+export function Game({ game, currentUsername, isDisableButtons, disableButtons }: {
   game: types.IGame,
   currentUsername: string | undefined,
   isDisableButtons: boolean,
-  join: () => void,
-  open: () => void,
-  watch: () => void,
   disableButtons: () => void,
 }) {
   const [isRulesShown, setIsRulesShown] = useState(false);
@@ -42,7 +41,7 @@ export function Game({ game, currentUsername, isDisableButtons, join, open, watc
 
     setIsButtonsDisabled(true);
 
-    join();
+    joinGame(game.number);
   };
 
   const handleOpenClick = () => {
@@ -50,7 +49,7 @@ export function Game({ game, currentUsername, isDisableButtons, join, open, watc
 
     setIsButtonsDisabled(true);
 
-    open();
+    openGame(game.number);
   };
 
   const handleWatchClick = () => {
@@ -58,7 +57,7 @@ export function Game({ game, currentUsername, isDisableButtons, join, open, watc
 
     setIsButtonsDisabled(true);
 
-    watch();
+    watchGame(game.number);
   };
 
   const isAbleToJoin = !game.state && game.players.length < game.playersMax && !game.players.some(player => player.username === currentUsername);
@@ -119,9 +118,6 @@ Game.propTypes = {
   game: object.isRequired,
   currentUsername: string,
   isDisableButtons: bool.isRequired,
-  join: func.isRequired,
-  open: func.isRequired,
-  watch: func.isRequired,
   disableButtons: func.isRequired,
 };
 
@@ -129,8 +125,5 @@ Game.defaultProps = {
   game: {},
   currentUsername: undefined,
   isDisableButtons: false,
-  join: () => console.log,
-  open: () => console.log,
-  watch: () => console.log,
   disableButtons: () => console.log,
 };

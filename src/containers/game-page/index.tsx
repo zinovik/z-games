@@ -11,24 +11,12 @@ interface IGamePageProps extends Props<{}> {
   currentUser: types.IUser,
   isConnected: boolean,
   game: types.IGame,
-  usersOnline: types.IUser[],
+  usersOnline: types.IUsersOnline,
   match: { params: { number: string } },
 }
 
 class GamePage extends Component<IGamePageProps, {}> {
-  zGamesApi: ZGamesApi = ZGamesApi.Instance;
-
-  move = (moveString: string) => {
-    const { game } = this.props;
-
-    this.zGamesApi.makeMove({ gameNumber: game.number, move: moveString });
-  };
-
-  newMessage = (message: string) => {
-    const { game } = this.props;
-
-    this.zGamesApi.message({ gameId: game.id, message });
-  };
+  zGamesApi = ZGamesApi.Instance;
 
   componentDidMount() {
     window.history.pushState(null, document.title, window.location.href);
@@ -49,7 +37,7 @@ class GamePage extends Component<IGamePageProps, {}> {
       <main>
         <div className='game-page-container'>
           <div className='game-page-table'>
-            <GameTable game={game} currentUser={currentUser} move={this.move} />
+            <GameTable game={game} currentUser={currentUser} />
           </div>
 
           <div className='game-page-info-chat-container'>
@@ -58,17 +46,13 @@ class GamePage extends Component<IGamePageProps, {}> {
                 <GameInfo
                   game={game}
                   currentUserId={currentUser.id}
-                  leave={() => { this.zGamesApi.leaveGame(game.number); }}
-                  close={() => { this.zGamesApi.closeGame(game.number); }}
-                  ready={() => { this.zGamesApi.readyToGame(game.number); }}
-                  start={() => { this.zGamesApi.startGame(game.number); }}
                 />
               </Paper>
             </div>
 
             <div className='game-page-chat-container'>
               <Paper className='game-page-chat'>
-                <Chat logs={game.logs} newMessage={this.newMessage} />
+                <Chat logs={game.logs} gameId={game.id} />
               </Paper>
             </div>
           </div>

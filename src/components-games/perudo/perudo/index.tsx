@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { object, bool, func } from 'prop-types';
+import { object, bool } from 'prop-types';
 import { Typography } from '@material-ui/core';
 import { PerudoData } from 'z-games-perudo';
 
@@ -7,11 +7,10 @@ import { PerudoDices, PerudoMove, PerudoLastRoundResults } from '../';
 import * as types from '../../../constants';
 import './index.scss';
 
-export function Perudo({ game, currentUser, isMyTurn, move }: {
+export function Perudo({ game, currentUser, isMyTurn }: {
 	game: types.IGame,
 	currentUser: types.IUser,
 	isMyTurn: boolean,
-	move: (move: string) => void,
 }) {
 	const { gameData, players } = game;
 
@@ -79,7 +78,6 @@ export function Perudo({ game, currentUser, isMyTurn, move }: {
 					<PerudoMove
 						game={game}
 						isMaputoAble={isMaputoAble}
-						move={move}
 					/>
 				</div>}
 
@@ -93,12 +91,10 @@ Perudo.propTypes = {
 	game: object.isRequired,
 	currentUser: object.isRequired,
 	isMyTurn: bool.isRequired,
-	move: func.isRequired,
 };
 
 Perudo.defaultProps = {
 	game: {},
 	currentUser: {},
 	isMyTurn: false,
-	move: () => console.log,
 };

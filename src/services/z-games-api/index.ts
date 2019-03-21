@@ -22,7 +22,7 @@ export const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:
 export class ZGamesApi {
   private static instance: ZGamesApi;
 
-  private socket: (typeof Socket) & { query: { token: string } };
+  public socket: (typeof Socket) & { query: { token: string } };
   private store: Store;
   private history: IHistory;
 
@@ -59,7 +59,7 @@ export class ZGamesApi {
       store.dispatch(updateCurrentUser(currentUser));
     });
 
-    this.socket.on('update-users-online', (usersOnline: types.IUser[]): void => {
+    this.socket.on('update-users-online', (usersOnline: types.IUsersOnline): void => {
       store.dispatch(updateUsersOnline(usersOnline));
     });
 
@@ -103,69 +103,22 @@ export class ZGamesApi {
     this.history = history;
   };
 
-  logout = (): void => {
-    this.socket.emit('logout');
-  };
-
-  getUsers = async (): Promise<types.IUser[]> => {
-    const fetchResult = await fetch(`${SERVER_URL}/api/users`);
-
-    const parsedResult = await fetchResult.json();
-
-    return parsedResult;
-  };
-
-  joinGame = (gameNumber: number): void => {
-    this.socket.emit('join-game', gameNumber);
-  };
-
-  openGame = (gameNumber: number): void => {
-    this.socket.emit('open-game', gameNumber);
-  };
-
-  watchGame = (gameNumber: number): void => {
-    this.socket.emit('watch-game', gameNumber);
-  };
-
-  leaveGame = (gameNumber: number): void => {
-    this.socket.emit('leave-game', gameNumber);
-  };
-
-  closeGame = (gameNumber: number): void => {
-    this.socket.emit('close-game', gameNumber);
-  };
-
-
-  readyToGame = (gameNumber: number): void => {
-    this.socket.emit('toggle-ready', gameNumber);
-  };
-
-  startGame = (gameNumber: number): void => {
-    this.socket.emit('start-game', gameNumber);
-  };
-
-  makeMove = ({ gameNumber, move }: { gameNumber: number, move: string }): void => {
-    this.socket.emit('make-move', { gameNumber, move });
-  };
-
-  message = ({ gameId, message }: { gameId: string, message: string }): void => {
-    this.socket.emit('message', { gameId, message });
-  };
-
-  newGame = (gameName: string): void => {
-    this.socket.emit('new-game', gameName);
-  };
-
 
   setToken = (token: string): void => {
     localStorage.setItem('token', token);
+
     this.socket.query.token = token;
+    this.reconnect();
+  };
 
-    this.history.push('/home');
+  clearUser = (): void => {
+    this.store.dispatch(updateCurrentUser(null));
+  };
 
+  reconnect = (): void => {
     this.socket.disconnect();
     this.socket.connect();
-  }
+  };
 
   updateRoute = (gameNumber?: number): void => {
     if (gameNumber === undefined || gameNumber === null) {

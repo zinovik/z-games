@@ -11,6 +11,10 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
+
+      .authorize-modal-form-button {
+        padding: 10px;
+      }
     }
   }
 }

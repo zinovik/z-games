@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { object, bool, func } from 'prop-types';
+import { object, bool } from 'prop-types';
 import { Button, Typography, Checkbox } from '@material-ui/core';
 import {
   countDices,
@@ -16,13 +16,14 @@ import {
 } from 'z-games-perudo';
 
 import { PerudoDices } from '../';
+import { makeMove } from '../../../services';
 import * as types from '../../../constants';
+
 import './index.scss';
 
-export function PerudoMove({ game, isMaputoAble, move }: {
+export function PerudoMove({ game, isMaputoAble }: {
   game: types.IGame,
   isMaputoAble: boolean,
-  move: (move: string) => void,
 }) {
   const [diceNumber, setDiceNumber] = useState(0);
   const [diceFigure, setDiceFigure] = useState(0);
@@ -79,16 +80,16 @@ export function PerudoMove({ game, isMaputoAble, move }: {
 
   const moveBet = (): void => {
     if (isMaputoAble) {
-      move(JSON.stringify({ number: diceNumber, figure: diceFigure, isMaputo }));
+      makeMove({ gameNumber: game.number, move: JSON.stringify({ number: diceNumber, figure: diceFigure, isMaputo }) });
     } else {
-      move(JSON.stringify({ number: diceNumber, figure: diceFigure }));
+      makeMove({ gameNumber: game.number, move: JSON.stringify({ number: diceNumber, figure: diceFigure }) });
     }
 
     setIsButtonsDisabled(true);
   }
 
   const moveNotBelieve = (): void => {
-    move(JSON.stringify({ notBelieve: true }));
+    makeMove({ gameNumber: game.number, move: JSON.stringify({ notBelieve: true }) });
 
     setIsButtonsDisabled(true);
   }
@@ -151,11 +152,9 @@ export function PerudoMove({ game, isMaputoAble, move }: {
 PerudoMove.propTypes = {
   game: object.isRequired,
   isMaputoAble: bool.isRequired,
-  move: func.isRequired,
 };
 
 PerudoMove.defaultProps = {
   game: {},
   isMaputoAble: false,
-  move: () => console.log,
 };

@@ -9,7 +9,7 @@ export function Activate({ match: { params: { token: activationToken } } }: { ma
 
   const activation = async () => {
     try {
-      const { token }: { token: string } = await activate(activationToken);
+      const { token } = await activate(activationToken);
       zGamesApi.setToken(token);
       alert('User has been successfully activated!');
     } catch (error) {

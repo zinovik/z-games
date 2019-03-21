@@ -1,13 +1,13 @@
 import React from 'react';
 import { string, array } from 'prop-types';
 import { Typography } from '@material-ui/core';
-import { NoThanksPlayer } from 'z-games-no-thanks';
+import { NO_THANKS, NoThanksPlayer } from 'z-games-no-thanks';
 import { PerudoPlayer } from 'z-games-perudo';
 
 import { GamePlayer } from '../../components'
 import * as types from '../../constants';
+
 import './index.scss';
-import { NO_THANKS } from 'z-games-no-thanks';
 
 interface IResult {
   username: string;

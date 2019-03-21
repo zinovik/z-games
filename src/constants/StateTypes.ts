@@ -7,8 +7,13 @@ export type GamePlayer = NoThanksPlayer | PerudoPlayer | LostCitiesPlayer;
 export interface IUsersState {
   isConnected: boolean;
   currentUser: IUser | null;
-  usersOnline: IUser[];
+  usersOnline: IUsersOnline;
 }
+
+export interface IUsersOnline {
+  users: IUser[];
+  usersCount: number;
+};
 
 export interface IUser {
   avatar: string;

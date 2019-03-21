@@ -1,17 +1,18 @@
 import React, { Fragment, useState } from 'react';
-import { object, bool, func } from 'prop-types';
+import { object, bool } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
 import { NoThanksData } from 'z-games-no-thanks';
 
 import { NoThanksCard, NoThanksChips } from '../';
+import { makeMove } from '../../../services';
 import * as types from '../../../constants';
+
 import './index.scss';
 
-export function NoThanks({ game, currentUser, isMyTurn, move }: {
+export function NoThanks({ game, currentUser, isMyTurn }: {
 	game: types.IGame,
 	currentUser: types.IUser,
 	isMyTurn: boolean,
-	move: (move: string) => void,
 }) {
 	const [isButtonsDisabled, setIsButtonsDisabled] = useState(false);
 	const [oldGameData, setOldGameData] = useState('');
@@ -24,13 +25,13 @@ export function NoThanks({ game, currentUser, isMyTurn, move }: {
 	}
 
 	const movePay = (): void => {
-		move(JSON.stringify({ takeCard: false }));
+		makeMove({ gameNumber: game.number, move: JSON.stringify({ takeCard: false }) });
 
 		setIsButtonsDisabled(true);
 	};
 
 	const moveTake = (): void => {
-		move(JSON.stringify({ takeCard: true }));
+		makeMove({ gameNumber: game.number, move: JSON.stringify({ takeCard: true }) });
 
 		setIsButtonsDisabled(true);
 	};
@@ -69,12 +70,10 @@ NoThanks.propTypes = {
 	game: object.isRequired,
 	currentUser: object.isRequired,
 	isMyTurn: bool.isRequired,
-	move: func.isRequired,
 };
 
 NoThanks.defaultProps = {
 	game: {},
 	currentUser: {},
 	isMyTurn: false,
-	move: () => console.log,
 };

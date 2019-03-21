@@ -1,18 +1,16 @@
 import React, { Fragment, useState } from 'react';
-import { string, array, func } from 'prop-types';
+import { string, array } from 'prop-types';
 import { Typography, Checkbox } from '@material-ui/core';
 import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED } from 'z-games-base-game';
 
 import { Game } from '../../components';
 import * as types from '../../constants';
+
 import './index.scss';
 
-export function GamesList({ allGames, currentUsername, joinGame, openGame, watchGame }: {
+export function GamesList({ allGames, currentUsername }: {
 	allGames: types.IGame[],
 	currentUsername: string | undefined,
-	joinGame: (gameNumber: number) => void,
-	openGame: (gameNumber: number) => void,
-	watchGame: (gameNumber: number) => void,
 }) {
 	const [isNotStarted, setIsNotStarted] = useState(true);
 	const [isStarted, setIsStarted] = useState(true);
@@ -49,9 +47,6 @@ export function GamesList({ allGames, currentUsername, joinGame, openGame, watch
 					game={game}
 					currentUsername={currentUsername}
 					isDisableButtons={disableButtons}
-					join={() => { joinGame(game.number); }}
-					open={() => { openGame(game.number); }}
-					watch={() => { watchGame(game.number); }}
 					disableButtons={() => { setDisableButtons(true); }}
 					key={index}
 				/>)
@@ -64,16 +59,10 @@ GamesList.propTypes = {
 	newMessage: string.isRequired,
 	allGames: array.isRequired,
 	currentUsername: string,
-	joinGame: func.isRequired,
-	openGame: func.isRequired,
-	watchGame: func.isRequired,
 };
 
 GamesList.defaultProps = {
 	newMessage: '',
 	allGames: [],
 	currentUsername: undefined,
-	joinGame: () => console.log,
-	openGame: () => console.log,
-	watchGame: () => console.log,
 };

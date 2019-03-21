@@ -3,6 +3,7 @@ import { array } from 'prop-types';
 
 import { Log } from '../../components';
 import * as types from '../../constants';
+
 import './index.scss';
 
 export function LogsList({ logs }: {

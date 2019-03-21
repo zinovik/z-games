@@ -4,7 +4,10 @@ import { Action } from '../actions';
 const initialState = {
   isConnected: false,
   currentUser: null,
-  usersOnline: [],
+  usersOnline: {
+    users: [],
+    usersCount: 0,
+  },
 };
 
 const users = (state: types.IUsersState = initialState, action: Action): types.IUsersState => {
@@ -26,9 +29,12 @@ const users = (state: types.IUsersState = initialState, action: Action): types.I
     case types.UPDATE_USERS_ONLINE:
       return {
         ...state,
-        usersOnline: [
-          ...action.usersOnline
-        ],
+        usersOnline: {
+          users: [
+            ...action.usersOnline.users,
+          ],
+          usersCount:action.usersOnline.usersCount,
+        },
       };
 
     default:

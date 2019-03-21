@@ -4,9 +4,9 @@ import { Avatar, Menu, MenuItem, Button } from '@material-ui/core';
 
 import { ZGamesApi } from '../../services';
 
-const zGamesApi = ZGamesApi.Instance;
-
 import './index.scss';
+
+const zGamesApi = ZGamesApi.Instance;
 
 export function CurrentUser({ currentUsername, avatar }: {
   currentUsername: string,
@@ -22,8 +22,9 @@ export function CurrentUser({ currentUsername, avatar }: {
     setAnchorEl(null);
   };
 
-  const handleLogOutClick = () => {
-    zGamesApi.logout();
+  const handleLogOutClick = async () => {
+    zGamesApi.setToken('');
+    zGamesApi.clearUser();
 
     handleMenuClose();
   };

@@ -17,7 +17,7 @@ interface ILogin {
   password: string;
 }
 
-const makeRequest = async (route: string, body: IRegister | IActivate | ILogin) => {
+const makePostRequest = async (route: string, body: IRegister | IActivate | ILogin) => {
   const fetchResult = await fetch(`${SERVER_URL}/api/users/${route}`, {
     method: 'post',
     body: JSON.stringify(body),
@@ -36,7 +36,7 @@ const makeRequest = async (route: string, body: IRegister | IActivate | ILogin) 
 };
 
 export const register = async (username: string, password: string, email: string): Promise<types.IUser> => {
-  return await makeRequest('register', {
+  return await makePostRequest('register', {
     username,
     password,
     email,
@@ -44,14 +44,20 @@ export const register = async (username: string, password: string, email: string
 };
 
 export const activate = async (token: string): Promise<{ token: string }> => {
-  return await makeRequest('activate', {
+  return await makePostRequest('activate', {
     token,
   });
 };
 
 export const login = async (username: string, password: string): Promise<{ token: string }> => {
-  return await makeRequest('authorize', {
+  return await makePostRequest('authorize', {
     username,
     password,
   });
+};
+
+export const getUsers = async (): Promise<types.IUser[]> => {
+  const fetchResult = await fetch(`${SERVER_URL}/api/users`);
+
+  return await fetchResult.json();
 };
