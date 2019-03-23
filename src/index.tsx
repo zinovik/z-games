@@ -1,15 +1,17 @@
 import React from 'react';
+import thunk from 'redux-thunk';
 import { render } from 'react-dom';
-import App from './App';
-import './index.scss';
 import registerServiceWorker, { unregister } from './registerServiceWorker';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme, CssBaseline, colors } from '@material-ui/core';
 
+import App from './App';
 import reducers from './reducers';
 import { ZGamesApi } from './services';
+
+import './index.scss';
 
 const theme = createMuiTheme({
   palette: {
@@ -28,7 +30,10 @@ const theme = createMuiTheme({
 
 const zGamesApi: ZGamesApi = ZGamesApi.Instance;
 
-const store = createStore(reducers, {}, (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__());
+const store = createStore(reducers, compose(
+  applyMiddleware(thunk),
+  (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
+));
 zGamesApi.setStore(store);
 
 unregister();

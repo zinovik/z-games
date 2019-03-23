@@ -24,7 +24,7 @@ interface IHeaderState {
 	isDrawerShown: boolean,
 }
 
-class Header extends Component<IHeaderProps & RouteProps, IHeaderState> {
+class HeaderWithoutRouter extends Component<IHeaderProps & RouteProps, IHeaderState> {
 	static propTypes = {
 		currentUsername: string,
 		avatar: string,
@@ -133,4 +133,4 @@ class Header extends Component<IHeaderProps & RouteProps, IHeaderState> {
 	}
 };
 
-export default withRouter(Header as ComponentType<any>);
+export const Header = withRouter(HeaderWithoutRouter as ComponentType<any>)

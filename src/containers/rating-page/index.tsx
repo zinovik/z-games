@@ -1,59 +1,42 @@
-import React, { Component, Props } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import Header from '../../components/header';
-import { Loading, UsersRating } from '../../components';
+import { Header, Loading, UsersRating } from '../../components';
 import { getUsers } from '../../services';
 import * as types from '../../constants';
+
 import './index.scss';
 
-interface IRatingPageProps extends Props<{}> {
+function RatingPageWithoutState({ currentUser, isConnected, usersOnline }: {
   currentUser: types.IUser,
   isConnected: boolean,
-  allGames: types.IGame[],
   usersOnline: types.IUsersOnline,
-}
+}) {
+  const [users, setUsers] = useState([] as types.IUser[]);
 
-interface IRatingPageState extends Props<{}> {
-  users: types.IUser[],
-}
-
-class RatingPage extends Component<IRatingPageProps, IRatingPageState> {
-  public state = {
-    users: [],
-  };
-
-  constructor(props: IRatingPageProps) {
-    super(props);
-
-    getUsers()
-      .then(users => this.setState({ users }));
+  if (!users.length) {
+    getUsers().then(usersFetched => setUsers(usersFetched));
   }
 
-  render() {
-    const { isConnected, currentUser, usersOnline } = this.props;
-    const { users } = this.state;
+  return (
+    <main className='rating-page-container'>
+      <Header
+        currentUsername={currentUser && currentUser.username}
+        avatar={currentUser && currentUser.avatar}
+        usersOnline={usersOnline}
+      />
 
-    return (
-      <main className='rating-page-container'>
-        <Header
-          currentUsername={currentUser && currentUser.username}
-          avatar={currentUser && currentUser.avatar}
-          usersOnline={usersOnline}
-        />
+      <div className='rating-page-content'>
+        <div className='rating-page-logo-container'>
 
-        <div className='rating-page-content'>
-          <div className='rating-page-logo-container'>
+          <UsersRating users={users} />
 
-            <UsersRating users={users} />
-
-          </div>
         </div>
+      </div>
 
-        <Loading isConnected={isConnected} text='Connecting to the server...' />
-      </main>
-    );
-  }
+      <Loading isConnected={isConnected} text='Connecting to the server...' />
+    </main>
+  );
 }
 
 const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => {
@@ -68,7 +51,7 @@ const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesS
 const mapDispatchToProps = {
 };
 
-export default connect(
+export const RatingPage = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(RatingPage);
+)(RatingPageWithoutState);

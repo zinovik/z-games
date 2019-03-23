@@ -18,5 +18,6 @@ export * from './game-rules';
 export * from './loading';
 export * from './users-rating';
 export * from './notification';
+export * from './header';
 
 export * from '../components-games';

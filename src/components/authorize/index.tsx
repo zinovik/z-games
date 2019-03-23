@@ -1,15 +1,23 @@
-import React, { ChangeEvent, Fragment, useState } from 'react';
+import React, { ChangeEvent, Fragment, useState, ComponentType } from 'react';
+import { withRouter } from 'react-router-dom';
+import { History } from 'history';
+import { connect } from 'react-redux';
+import { Dispatch, bindActionCreators } from 'redux';
 import { Modal, Paper, Typography, Tabs, Tab, Button, TextField } from '@material-ui/core';
 
 import { Loading } from '../';
 // import { Loading, Notification } from '../';
-import { ZGamesApi, SERVER_URL, register, login } from '../../services';
+import { registerUser } from '../../actions';
+import { ZGamesApi, SERVER_URL, login } from '../../services';
 
 import './index.scss';
 
 const zGamesApi = ZGamesApi.Instance;
 
-export function Authorize() {
+export function AuthorizePure({ register, history }: {
+  register: (username: string, password: string, email: string) => Promise<void>,
+  history: History,
+}) {
   const [isModalShow, setIsModalShow] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -43,7 +51,7 @@ export function Authorize() {
     try {
       const { token } = await login(username, password);
       zGamesApi.setToken(token);
-      zGamesApi.updateRoute();
+      history.push('/games');
     } catch (error) {
       alert(error.message);
     } finally {
@@ -142,8 +150,11 @@ export function Authorize() {
   );
 };
 
-Authorize.propTypes = {
-};
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  register: bindActionCreators(registerUser, dispatch),
+});
 
-Authorize.defaultProps = {
-};
+export const Authorize = withRouter(connect(
+  null,
+  mapDispatchToProps,
+)(AuthorizePure as ComponentType<any>) as ComponentType<any>);

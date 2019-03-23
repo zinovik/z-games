@@ -5,20 +5,6 @@ import { Typography } from '@material-ui/core';
 
 import './index.scss';
 
-Log.propTypes = {
-  type: string.isRequired,
-  createdAt: string.isRequired,
-  username: string.isRequired,
-  text: string,
-}
-
-Log.defaultProps = {
-  type: 'default',
-  createdAt: Date().toString(),
-  username: Date().toString(),
-  text: 'default',
-}
-
 export function Log({ type, createdAt, username, text }: {
   type: string,
   createdAt: Date,
@@ -53,4 +39,18 @@ export function Log({ type, createdAt, username, text }: {
 
     </Typography>
   );
+}
+
+Log.propTypes = {
+  type: string.isRequired,
+  createdAt: string.isRequired,
+  username: string.isRequired,
+  text: string,
+}
+
+Log.defaultProps = {
+  type: 'default',
+  createdAt: Date().toString(),
+  username: Date().toString(),
+  text: 'default',
 }

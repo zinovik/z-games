@@ -42,6 +42,7 @@ export class ZGamesApi {
 
     // updates from the server
     this.socket.on('connect_error', (): void => {
+
       store.dispatch(updateStatus(false));
     });
 
@@ -82,7 +83,13 @@ export class ZGamesApi {
       store.dispatch(updateOpenGame(openGame));
 
       if (openGame !== oldOpenGame) {
-        this.updateRoute(openGame && openGame.number);
+        const gameNumber = openGame && openGame.number;
+
+        if (gameNumber === undefined || gameNumber === null) {
+          return this.history.push('/games');
+        }
+    
+        return this.history.push(`/game/${gameNumber}`);
       }
     });
 
@@ -118,13 +125,5 @@ export class ZGamesApi {
   reconnect = (): void => {
     this.socket.disconnect();
     this.socket.connect();
-  };
-
-  updateRoute = (gameNumber?: number): void => {
-    if (gameNumber === undefined || gameNumber === null) {
-      return this.history.push('/games');
-    }
-
-    return this.history.push(`/game/${gameNumber}`);
   };
 }

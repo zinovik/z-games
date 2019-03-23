@@ -1,13 +1,15 @@
 import React, { Component, ComponentType } from 'react';
 import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 
-import HomePage from './containers/home-page';
-import GamesPage from './containers/games-page';
-import GamePage from './containers/game-page';
-import RatingPage from './containers/rating-page';
-import RulesPage from './containers/rules-page';
-import ProfilePage from './containers/profile-page';
-import AboutPage from './containers/about-page';
+import {
+  HomePage,
+  GamesPage,
+  GamePage,
+  RatingPage,
+  RulesPage,
+  ProfilePage,
+  AboutPage,
+} from './containers';
 import { Activate } from './components';
 import { ZGamesApi, IHistory } from './services';
 import './App.scss';
