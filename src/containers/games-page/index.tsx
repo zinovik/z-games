@@ -6,7 +6,7 @@ import { newGame } from '../../services';
 import * as types from '../../constants';
 import './index.scss';
 
-function GamesPageWithoutState({ currentUser, isConnected, usersOnline, allGames }: {
+function GamesPagePure({ currentUser, isConnected, usersOnline, allGames }: {
   currentUser: types.IUser,
   isConnected: boolean,
   usersOnline: types.IUsersOnline,
@@ -47,4 +47,4 @@ const mapDispatchToProps = {
 export const GamesPage = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(GamesPageWithoutState);
+)(GamesPagePure);

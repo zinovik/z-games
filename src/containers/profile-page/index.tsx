@@ -7,7 +7,7 @@ import * as types from '../../constants';
 
 import './index.scss';
 
-function ProfilePageWithoutState({ currentUser, isConnected, usersOnline }: {
+function ProfilePagePure({ currentUser, isConnected, usersOnline }: {
   currentUser: types.IUser,
   isConnected: boolean,
   usersOnline: types.IUsersOnline,
@@ -62,4 +62,4 @@ const mapDispatchToProps = {
 export const ProfilePage = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ProfilePageWithoutState);
+)(ProfilePagePure);

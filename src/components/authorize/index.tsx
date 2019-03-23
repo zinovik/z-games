@@ -1,22 +1,18 @@
 import React, { ChangeEvent, Fragment, useState, ComponentType } from 'react';
-import { withRouter } from 'react-router-dom';
-import { History } from 'history';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { Modal, Paper, Typography, Tabs, Tab, Button, TextField } from '@material-ui/core';
 
 import { Loading } from '../';
 // import { Loading, Notification } from '../';
-import { registerUser } from '../../actions';
-import { ZGamesApi, SERVER_URL, login } from '../../services';
+import { register, authorize } from '../../actions';
+import { SERVER_URL } from '../../services';
 
 import './index.scss';
 
-const zGamesApi = ZGamesApi.Instance;
-
-export function AuthorizePure({ register, history }: {
-  register: (username: string, password: string, email: string) => Promise<void>,
-  history: History,
+export function AuthorizePure({ registerUser, authorizeUser }: {
+  registerUser: (username: string, password: string, email: string) => Promise<void>,
+  authorizeUser: (username: string, password: string) => Promise<void>,
 }) {
   const [isModalShow, setIsModalShow] = useState(false);
   const [username, setUsername] = useState('');
@@ -49,9 +45,7 @@ export function AuthorizePure({ register, history }: {
     setIsLoading(true);
 
     try {
-      const { token } = await login(username, password);
-      zGamesApi.setToken(token);
-      history.push('/games');
+      await authorizeUser(username, password);
     } catch (error) {
       alert(error.message);
     } finally {
@@ -63,7 +57,7 @@ export function AuthorizePure({ register, history }: {
     setIsLoading(true);
 
     try {
-      await register(username, password, email);
+      await registerUser(username, password, email);
       alert('Check email to activate your account');
     } catch (error) {
       alert(error.message);
@@ -151,10 +145,11 @@ export function AuthorizePure({ register, history }: {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  register: bindActionCreators(registerUser, dispatch),
+  registerUser: bindActionCreators(register, dispatch),
+  authorizeUser: bindActionCreators(authorize, dispatch),
 });
 
-export const Authorize = withRouter(connect(
+export const Authorize = connect(
   null,
   mapDispatchToProps,
-)(AuthorizePure as ComponentType<any>) as ComponentType<any>);
+)(AuthorizePure as ComponentType<any>);

@@ -35,7 +35,7 @@ const makePostRequest = async (route: string, body: IRegister | IActivate | ILog
   return fetchResultParsed;
 };
 
-export const register = async (username: string, password: string, email: string): Promise<types.IUser> => {
+export const registerUser = async (username: string, password: string, email: string): Promise<types.IUser> => {
   return await makePostRequest('register', {
     username,
     password,
@@ -49,7 +49,7 @@ export const activate = async (token: string): Promise<{ token: string }> => {
   });
 };
 
-export const login = async (username: string, password: string): Promise<{ token: string }> => {
+export const authorizeUser = async (username: string, password: string): Promise<{ token: string }> => {
   return await makePostRequest('authorize', {
     username,
     password,
