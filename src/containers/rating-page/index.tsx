@@ -7,7 +7,7 @@ import * as types from '../../constants';
 
 import './index.scss';
 
-function RatingPageWithoutState({ currentUser, isConnected, usersOnline }: {
+function RatingPagePure({ currentUser, isConnected, usersOnline }: {
   currentUser: types.IUser,
   isConnected: boolean,
   usersOnline: types.IUsersOnline,
@@ -54,4 +54,4 @@ const mapDispatchToProps = {
 export const RatingPage = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(RatingPageWithoutState);
+)(RatingPagePure);
