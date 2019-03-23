@@ -9,3 +9,6 @@ export const UPDATE_GAME = 'UPDATE_GAME';
 export const ADD_NEW_LOG = 'ADD_NEW_LOG';
 
 export const ADD_SERVER_URL = 'ADD_SERVER_URL';
+
+export const REGISTER = 'REGISTER';
+export const LOGIN = 'LOGIN';

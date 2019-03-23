@@ -1,51 +1,44 @@
-import React, { Component, Props } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Typography } from '@material-ui/core';
 
-import Header from '../../components/header';
-import { Loading } from '../../components';
+import { Header, Loading } from '../../components';
 import * as types from '../../constants';
+
 import './index.scss';
 
-interface IAboutPageProps extends Props<{}> {
+function AboutPageWithoutState({ currentUser, isConnected, usersOnline }: {
   currentUser: types.IUser,
   isConnected: boolean,
-  allGames: types.IGame[],
   usersOnline: types.IUsersOnline,
-}
+}) {
+  return (
+    <main className='about-page-container'>
+      <Header
+        currentUsername={currentUser && currentUser.username}
+        avatar={currentUser && currentUser.avatar}
+        usersOnline={usersOnline}
+      />
 
-class AboutPage extends Component<IAboutPageProps, {}> {
-  render() {
-    const { isConnected, currentUser, usersOnline } = this.props;
+      <div className='about-page-content'>
+        <div className='about-page-data'>
+          <Typography variant='h5'>
+            Z-Games
+          </Typography>
 
-    return (
-      <main className='about-page-container'>
-        <Header
-          currentUsername={currentUser && currentUser.username}
-          avatar={currentUser && currentUser.avatar}
-          usersOnline={usersOnline}
-        />
+          <Typography>
+            Z-Games is a tiny board games portal that is slowly being developed since the warm fall of 2017
+          </Typography>
 
-        <div className='about-page-content'>
-          <div className='about-page-data'>
-            <Typography variant='h5'>
-              Z-Games
-            </Typography>
-
-            <Typography>
-              Z-Games is a tiny board games portal that is slowly being developed since the warm fall of 2017
-            </Typography>
-
-            <Typography>
-              Currently, there is only two games: No, Thanks and Perudo. But we are working on it, you can help ;)
-            </Typography>
-          </div>
+          <Typography>
+            Currently, there is only two games: No, Thanks and Perudo. But we are working on it, you can help ;)
+          </Typography>
         </div>
+      </div>
 
-        <Loading isConnected={isConnected} text='Connecting to the server...' />
-      </main>
-    );
-  }
+      <Loading isConnected={isConnected} text='Connecting to the server...' />
+    </main>
+  );
 }
 
 const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => {
@@ -53,14 +46,13 @@ const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesS
     usersOnline: state.users.usersOnline,
     isConnected: state.users.isConnected,
     currentUser: state.users.currentUser,
-    allGames: state.games.allGames,
   };
 };
 
 const mapDispatchToProps = {
 };
 
-export default connect(
+export const AboutPage = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(AboutPage);
+)(AboutPageWithoutState);

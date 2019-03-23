@@ -1,3 +1,6 @@
+import { Dispatch } from 'redux';
+
+import { register } from '../services';
 import * as types from '../constants';
 
 export interface IUpdateStatus { type: typeof types.UPDATE_STATUS, isConnected: boolean };
@@ -8,6 +11,7 @@ export interface IUpdateOpenGame { type: typeof types.UPDATE_OPEN_GAME, openGame
 export interface IAddNewGame { type: typeof types.ADD_NEW_GAME, newGame: types.IGame };
 export interface IUpdateGame { type: typeof types.UPDATE_GAME, game: types.IGame };
 export interface IAddNewLog { type: typeof types.ADD_NEW_LOG, newLog: types.ILog };
+export interface IRegister { type: string, user: types.IUser };
 
 export type Action = IUpdateStatus
   | IUpdateCurrentUser
@@ -57,3 +61,12 @@ export const addNewLog = (newLog: types.ILog): IAddNewLog => ({
   type: types.ADD_NEW_LOG,
   newLog,
 });
+
+export const registerUser = (username: string, password: string, email: string) => async (dispatch: Dispatch): Promise<IRegister> => {
+  const user = await register(username, password, email);
+
+  return dispatch({
+    type: types.REGISTER,
+    user,
+  });
+};
