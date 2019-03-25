@@ -16,7 +16,7 @@ import {
 } from 'z-games-perudo';
 
 import { PerudoDices } from '../';
-import { makeMove } from '../../../services';
+import { makeMove } from '../../../actions';
 import * as types from '../../../constants';
 
 import './index.scss';

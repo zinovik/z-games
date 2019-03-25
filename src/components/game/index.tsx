@@ -6,7 +6,7 @@ import { Gamepad, OpenInBrowser, RemoveRedEye } from '@material-ui/icons';
 import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED, GAME_STATE_LABEL } from 'z-games-base-game';
 
 import { GameRules } from '../../components';
-import { joinGame, openGame, watchGame } from '../../services';
+import { joinGame, openGame, watchGame } from '../../actions';
 import * as types from '../../constants';
 
 import './index.scss';

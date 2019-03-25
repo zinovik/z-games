@@ -4,7 +4,7 @@ import { Button, Typography } from '@material-ui/core';
 import { NoThanksData } from 'z-games-no-thanks';
 
 import { NoThanksCard, NoThanksChips } from '../';
-import { makeMove } from '../../../services';
+import { makeMove } from '../../../actions';
 import * as types from '../../../constants';
 
 import './index.scss';

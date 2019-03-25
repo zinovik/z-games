@@ -1,5 +1,5 @@
 
-import { SERVER_URL } from '../';
+import { SERVER_URL } from '../../config';
 import * as types from '../../constants';
 
 interface IRegister {
@@ -43,7 +43,7 @@ export const registerUser = async (username: string, password: string, email: st
   });
 };
 
-export const activate = async (token: string): Promise<{ token: string }> => {
+export const activateUser = async (token: string): Promise<{ token: string }> => {
   return await makePostRequest('activate', {
     token,
   });
@@ -56,7 +56,7 @@ export const authorizeUser = async (username: string, password: string): Promise
   });
 };
 
-export const getUsers = async (): Promise<types.IUser[]> => {
+export const fetchUsersRating = async (): Promise<types.IUser[]> => {
   const fetchResult = await fetch(`${SERVER_URL}/api/users`);
 
   return await fetchResult.json();

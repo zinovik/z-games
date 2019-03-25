@@ -2,23 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { Header, NewGame, GamesList, Loading } from '../../components';
-import { newGame } from '../../services';
+import { newGame } from '../../actions';
 import * as types from '../../constants';
+
 import './index.scss';
 
-function GamesPagePure({ currentUser, isConnected, usersOnline, allGames }: {
+function GamesPagePure({ currentUser, isConnected, allGames }: {
   currentUser: types.IUser,
   isConnected: boolean,
-  usersOnline: types.IUsersOnline,
   allGames: types.IGame[],
 }) {
   return (
     <main className='games-page-container'>
-      <Header
-        currentUsername={currentUser && currentUser.username}
-        avatar={currentUser && currentUser.avatar}
-        usersOnline={usersOnline}
-      />
+      <Header />
 
       {currentUser && <NewGame newGame={newGame} />}
 
@@ -32,17 +28,14 @@ function GamesPagePure({ currentUser, isConnected, usersOnline, allGames }: {
   );
 }
 
-const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => {
-  return {
-    usersOnline: state.users.usersOnline,
-    isConnected: state.users.isConnected,
-    currentUser: state.users.currentUser,
-    allGames: state.games.allGames,
-  };
-};
+const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => ({
+  isConnected: state.users.isConnected,
+  currentUser: state.users.currentUser,
+  allGames: state.games.allGames,
+});
 
-const mapDispatchToProps = {
-};
+const mapDispatchToProps = () => ({
+});
 
 export const GamesPage = connect(
   mapStateToProps,

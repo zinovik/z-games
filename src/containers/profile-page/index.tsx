@@ -7,10 +7,9 @@ import * as types from '../../constants';
 
 import './index.scss';
 
-function ProfilePagePure({ currentUser, isConnected, usersOnline }: {
+function ProfilePagePure({ currentUser, isConnected }: {
   currentUser: types.IUser,
   isConnected: boolean,
-  usersOnline: types.IUsersOnline,
 }) {
   if (!currentUser) {
     // TODO: Redirect
@@ -21,11 +20,7 @@ function ProfilePagePure({ currentUser, isConnected, usersOnline }: {
 
   return (
     <main className='profile-page-container'>
-      <Header
-        currentUsername={currentUser && currentUser.username}
-        avatar={currentUser && currentUser.avatar}
-        usersOnline={usersOnline}
-      />
+      <Header />
 
       <div className='profile-page-content'>
         <div className='profile-page-data'>
@@ -48,16 +43,13 @@ function ProfilePagePure({ currentUser, isConnected, usersOnline }: {
   );
 }
 
-const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => {
-  return {
-    usersOnline: state.users.usersOnline,
-    isConnected: state.users.isConnected,
-    currentUser: state.users.currentUser,
-  };
-};
+const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => ({
+  isConnected: state.users.isConnected,
+  currentUser: state.users.currentUser,
+});
 
-const mapDispatchToProps = {
-};
+const mapDispatchToProps = () => ({
+});
 
 export const ProfilePage = connect(
   mapStateToProps,

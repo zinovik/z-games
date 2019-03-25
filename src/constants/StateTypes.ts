@@ -8,6 +8,7 @@ export interface IUsersState {
   isConnected: boolean;
   currentUser: IUser | null;
   usersOnline: IUsersOnline;
+  usersRating: IUser[];
 }
 
 export interface IUsersOnline {

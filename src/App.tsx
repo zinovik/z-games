@@ -1,5 +1,5 @@
-import React, { Component, ComponentType } from 'react';
-import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 import {
   HomePage,
@@ -11,21 +11,9 @@ import {
   AboutPage,
 } from './containers';
 import { Activate } from './components';
-import { ZGamesApi, IHistory } from './services';
 import './App.scss';
 
-interface IAppProps {
-  history: IHistory,
-};
-
-class App extends Component<IAppProps, {}> {
-  zGamesApi: ZGamesApi = ZGamesApi.Instance;
-
-  constructor(props: IAppProps) {
-    super(props);
-    this.zGamesApi.setHistory(props.history);
-  }
-
+export default class App extends Component<{}, {}> {
   public render() {
     return (
       <Switch>
@@ -42,7 +30,4 @@ class App extends Component<IAppProps, {}> {
       </Switch>
     );
   }
-
 }
-
-export default withRouter(App as ComponentType<any>);

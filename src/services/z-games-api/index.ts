@@ -1,5 +1,7 @@
 import io, { Socket } from 'socket.io-client';
 import { Store } from 'redux';
+import { SERVER_URL } from '../../config';
+import { push } from 'connected-react-router';
 
 import {
   updateStatus,
@@ -13,19 +15,10 @@ import {
 } from '../../actions';
 import * as types from '../../constants';
 
-export interface IHistory {
-  push: (path: string) => void;
-}
-
-export const SERVER_URL = process.env.REACT_APP_SERVER_URL || 'http://localhost:4000';
-
 export class ZGamesApi {
   private static instance: ZGamesApi;
 
   public socket: (typeof Socket) & { query: { token: string } };
-  private store: Store;
-  private history: IHistory;
-
 
   public static get Instance() {
     return this.instance || (this.instance = new this());
@@ -37,8 +30,6 @@ export class ZGamesApi {
     this.socket = io(SERVER_URL, {
       query: { token },
     }) as (typeof Socket) & { query: { token: string } };
-
-    this.store = store;
 
     // updates from the server
     this.socket.on('connect_error', (): void => {
@@ -78,7 +69,7 @@ export class ZGamesApi {
     });
 
     this.socket.on('update-opened-game', (openGame: types.IGame): void => {
-      const oldOpenGame = this.store.getState().games.openGame;
+      const oldOpenGame = store.getState().games.openGame;
 
       store.dispatch(updateOpenGame(openGame));
 
@@ -86,10 +77,11 @@ export class ZGamesApi {
         const gameNumber = openGame && openGame.number;
 
         if (gameNumber === undefined || gameNumber === null) {
-          return this.history.push('/games');
+          store.dispatch(push('/games'));
+          return;
         }
     
-        return this.history.push(`/game/${gameNumber}`);
+        store.dispatch(push(`/game/${gameNumber}`));
       }
     });
 
@@ -106,24 +98,12 @@ export class ZGamesApi {
     });
   }
 
-  setHistory = (history: IHistory) => {
-    this.history = history;
-  };
-
-
-  setToken = (token: string): void => {
-    localStorage.setItem('token', token);
+  updateToken = (): void => {
+    const token = localStorage.getItem('token') || '';
 
     this.socket.query.token = token;
-    this.reconnect();
-  };
-
-  clearUser = (): void => {
-    this.store.dispatch(updateCurrentUser(null));
-  };
-
-  reconnect = (): void => {
     this.socket.disconnect();
     this.socket.connect();
   };
+
 }

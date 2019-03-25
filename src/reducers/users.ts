@@ -8,6 +8,7 @@ const initialState = {
     users: [],
     usersCount: 0,
   },
+  usersRating: [],
 };
 
 const users = (state: types.IUsersState = initialState, action: Action): types.IUsersState => {
@@ -33,8 +34,14 @@ const users = (state: types.IUsersState = initialState, action: Action): types.I
           users: [
             ...action.usersOnline.users,
           ],
-          usersCount:action.usersOnline.usersCount,
+          usersCount: action.usersOnline.usersCount,
         },
+      };
+
+    case types.FETCH_RATING:
+      return {
+        ...state,
+        usersRating: [...action.users],
       };
 
     default:
