@@ -4,12 +4,14 @@ import App from './App';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
+import { createBrowserHistory } from 'history';
 
-import reducers from './reducers';
+import createRootReducer from './reducers';
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  const store = createStore(reducers, {}, (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__());
+  const history = createBrowserHistory();
+  const store = createStore(createRootReducer(history), {}, (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__());
 
   render(
     <Router>

@@ -6,11 +6,11 @@ import { Modal, Paper, Typography, Tabs, Tab, Button, TextField } from '@materia
 import { Loading } from '../';
 // import { Loading, Notification } from '../';
 import { register, authorize } from '../../actions';
-import { SERVER_URL } from '../../services';
+import { SERVER_URL } from '../../config';
 
 import './index.scss';
 
-export function AuthorizePure({ registerUser, authorizeUser }: {
+function AuthorizePure({ registerUser, authorizeUser }: {
   registerUser: (username: string, password: string, email: string) => Promise<void>,
   authorizeUser: (username: string, password: string) => Promise<void>,
 }) {
@@ -144,12 +144,15 @@ export function AuthorizePure({ registerUser, authorizeUser }: {
   );
 };
 
+const mapStateToProps = () => ({
+});
+
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   registerUser: bindActionCreators(register, dispatch),
   authorizeUser: bindActionCreators(authorize, dispatch),
 });
 
 export const Authorize = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(AuthorizePure as ComponentType<any>);

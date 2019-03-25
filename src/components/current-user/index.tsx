@@ -1,16 +1,21 @@
-import React, { Fragment, MouseEvent, useState } from 'react';
+import React, { Fragment, MouseEvent, useState, ComponentType } from 'react';
 import { string } from 'prop-types';
+import { connect } from 'react-redux';
+import { Dispatch, bindActionCreators } from 'redux';
 import { Avatar, Menu, MenuItem, Button } from '@material-ui/core';
 
 import { ZGamesApi } from '../../services';
+import { updateCurrentUser } from '../../actions';
+import * as types from '../../constants';
 
 import './index.scss';
 
 const zGamesApi = ZGamesApi.Instance;
 
-export function CurrentUser({ currentUsername, avatar }: {
+function CurrentUserPure({ currentUsername, avatar, updateUser }: {
   currentUsername: string,
   avatar: string,
+  updateUser: (currentUser: types.IUser | null) => void
 }) {
   const [anchorEl, setAnchorEl] = useState(null as HTMLElement | null);
 
@@ -23,8 +28,9 @@ export function CurrentUser({ currentUsername, avatar }: {
   };
 
   const handleLogOutClick = async () => {
-    zGamesApi.setToken('');
-    zGamesApi.clearUser();
+    localStorage.setItem('token', '');
+    zGamesApi.updateToken();
+    updateUser(null);
 
     handleMenuClose();
   };
@@ -54,11 +60,23 @@ export function CurrentUser({ currentUsername, avatar }: {
   </Fragment>;
 };
 
-CurrentUser.propTypes = {
+CurrentUserPure.propTypes = {
   currentUsername: string,
   avatar: string,
 };
 
-CurrentUser.defaultProps = {
+CurrentUserPure.defaultProps = {
   currentUsername: 'username',
 };
+
+const mapStateToProps = () => ({
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  updateUser: bindActionCreators(updateCurrentUser, dispatch),
+});
+
+export const CurrentUser = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(CurrentUserPure as ComponentType<any>);

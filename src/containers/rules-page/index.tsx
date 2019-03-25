@@ -7,18 +7,12 @@ import * as types from '../../constants';
 
 import './index.scss';
 
-function RulesPagePure({ currentUser, isConnected, usersOnline }: {
-  currentUser: types.IUser,
+function RulesPagePure({ isConnected }: {
   isConnected: boolean,
-  usersOnline: types.IUsersOnline,
 }) {
   return (
     <main className='rules-page-container'>
-      <Header
-        currentUsername={currentUser && currentUser.username}
-        avatar={currentUser && currentUser.avatar}
-        usersOnline={usersOnline}
-      />
+      <Header />
 
       <div className='rules-page-content'>
         <div className='rules-page-data'>
@@ -37,16 +31,12 @@ function RulesPagePure({ currentUser, isConnected, usersOnline }: {
   );
 }
 
-const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => {
-  return {
-    usersOnline: state.users.usersOnline,
-    isConnected: state.users.isConnected,
-    currentUser: state.users.currentUser,
-  };
-};
+const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => ({
+  isConnected: state.users.isConnected,
+});
 
-const mapDispatchToProps = {
-};
+const mapDispatchToProps = () => ({
+});
 
 export const RulesPage = connect(
   mapStateToProps,

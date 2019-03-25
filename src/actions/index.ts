@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 
-import { ZGamesApi, registerUser, authorizeUser } from '../services';
+import { ZGamesApi, registerUser, authorizeUser, activateUser, fetchUsersRating } from '../services';
 import * as types from '../constants';
 
 const zGamesApi = ZGamesApi.Instance;
@@ -13,8 +13,11 @@ export interface IUpdateOpenGame { type: typeof types.UPDATE_OPEN_GAME, openGame
 export interface IAddNewGame { type: typeof types.ADD_NEW_GAME, newGame: types.IGame };
 export interface IUpdateGame { type: typeof types.UPDATE_GAME, game: types.IGame };
 export interface IAddNewLog { type: typeof types.ADD_NEW_LOG, newLog: types.ILog };
-export interface IRegister { type: string, user: types.IUser };
-export interface IAuthorize { type: string, token: string };
+
+export interface IRegister { type: typeof types.REGISTER, user: types.IUser };
+export interface IAuthorize { type: typeof types.LOGIN, token: string };
+export interface IActivate { type: typeof types.ACTIVATE, token: string };
+export interface IUsersRating { type: typeof types.FETCH_RATING, users: types.IUser[] };
 
 export type Action = IUpdateStatus
   | IUpdateCurrentUser
@@ -23,7 +26,11 @@ export type Action = IUpdateStatus
   | IUpdateOpenGame
   | IAddNewGame
   | IUpdateGame
-  | IAddNewLog;
+  | IAddNewLog
+  | IRegister
+  | IAuthorize
+  | IActivate
+  | IUsersRating;
 
 export const updateStatus = (isConnected: boolean): IUpdateStatus => ({
   type: types.UPDATE_STATUS,
@@ -45,14 +52,14 @@ export const updateAllGames = (allGames: types.IGame[]): IUpdateAllGames => ({
   allGames,
 });
 
-export const updateOpenGame = (openGame: types.IGame): IUpdateOpenGame => ({
+export const updateOpenGame = (openGameToUpdate: types.IGame): IUpdateOpenGame => ({
   type: types.UPDATE_OPEN_GAME,
-  openGame,
+  openGame: openGameToUpdate,
 });
 
-export const addNewGame = (newGame: types.IGame): IAddNewGame => ({
+export const addNewGame = (newGameToAdd: types.IGame): IAddNewGame => ({
   type: types.ADD_NEW_GAME,
-  newGame,
+  newGame: newGameToAdd,
 });
 
 export const updateGame = (game: types.IGame): IUpdateGame => ({
@@ -65,8 +72,10 @@ export const addNewLog = (newLog: types.ILog): IAddNewLog => ({
   newLog,
 });
 
+// Users
+
 export const register = (username: string, password: string, email: string) =>
-  async (dispatch: Dispatch): Promise<IRegister> => {
+  async (dispatch: Dispatch): Promise<any> => {
     const user = await registerUser(username, password, email);
 
     return dispatch({
@@ -76,13 +85,79 @@ export const register = (username: string, password: string, email: string) =>
   };
 
 export const authorize = (username: string, password: string) =>
-  async (dispatch: Dispatch): Promise<IAuthorize> => {
+  async (dispatch: Dispatch): Promise<any> => {
     const { token } = await authorizeUser(username, password);
 
-    zGamesApi.setToken(token);
+    localStorage.setItem('token', token);
+    zGamesApi.updateToken();
 
     return dispatch({
-      type: types.REGISTER,
+      type: types.LOGIN,
       token,
     });
   };
+
+export const activate = (activationToken: string) =>
+  async (dispatch: Dispatch): Promise<any> => {
+    const { token } = await activateUser(activationToken);
+
+    localStorage.setItem('token', token);
+    zGamesApi.updateToken();
+
+    return dispatch({
+      type: types.ACTIVATE,
+      token,
+    });
+  };
+
+export const fetchRating = () =>
+  async (dispatch: Dispatch): Promise<any> => {
+    const users = await fetchUsersRating();
+
+    return dispatch({
+      type: types.FETCH_RATING,
+      users,
+    });
+  };
+
+// Games
+
+export const joinGame = (gameNumber: number): void => {
+  zGamesApi.socket.emit('join-game', gameNumber);
+};
+
+export const openGame = (gameNumber: number): void => {
+  zGamesApi.socket.emit('open-game', gameNumber);
+};
+
+export const watchGame = (gameNumber: number): void => {
+  zGamesApi.socket.emit('watch-game', gameNumber);
+};
+
+export const leaveGame = (gameNumber: number): void => {
+  zGamesApi.socket.emit('leave-game', gameNumber);
+};
+
+export const closeGame = (gameNumber: number): void => {
+  zGamesApi.socket.emit('close-game', gameNumber);
+};
+
+export const readyToGame = (gameNumber: number): void => {
+  zGamesApi.socket.emit('toggle-ready', gameNumber);
+};
+
+export const startGame = (gameNumber: number): void => {
+  zGamesApi.socket.emit('start-game', gameNumber);
+};
+
+export const makeMove = ({ gameNumber, move }: { gameNumber: number, move: string }): void => {
+  zGamesApi.socket.emit('make-move', { gameNumber, move });
+};
+
+export const sendMessage = ({ gameId, message }: { gameId: string, message: string }): void => {
+  zGamesApi.socket.emit('message', { gameId, message });
+};
+
+export const newGame = (gameName: string): void => {
+  zGamesApi.socket.emit('new-game', gameName);
+};

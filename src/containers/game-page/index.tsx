@@ -50,16 +50,14 @@ function GamePagePure({ currentUser, isConnected, game, history }: {
   );
 }
 
-const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => {
-  return {
-    isConnected: state.users.isConnected,
-    currentUser: state.users.currentUser,
-    game: state.games.openGame,
-  };
-};
+const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => ({
+  isConnected: state.users.isConnected,
+  currentUser: state.users.currentUser,
+  game: state.games.openGame,
+});
 
-const mapDispatchToProps = {
-};
+const mapDispatchToProps = () => ({
+});
 
 export const GamePage = withRouter(connect(
   mapStateToProps,

@@ -3,7 +3,7 @@ import { object, bool } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
 import { LostCitiesData } from 'z-games-lost-cities';
 
-import { makeMove } from '../../../services';
+import { makeMove } from '../../../actions';
 import * as types from '../../../constants';
 
 import './index.scss';

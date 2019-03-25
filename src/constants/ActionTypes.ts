@@ -12,3 +12,5 @@ export const ADD_SERVER_URL = 'ADD_SERVER_URL';
 
 export const REGISTER = 'REGISTER';
 export const LOGIN = 'LOGIN';
+export const ACTIVATE = 'ACTIVATE';
+export const FETCH_RATING = 'FETCH_RATING';

@@ -3,22 +3,15 @@ import { connect } from 'react-redux';
 import { Typography } from '@material-ui/core';
 
 import { Header, Loading } from '../../components';
-import * as types from '../../constants';
 
 import './index.scss';
 
-function AboutPagePure({ currentUser, isConnected, usersOnline }: {
-  currentUser: types.IUser,
+function AboutPagePure({ isConnected }: {
   isConnected: boolean,
-  usersOnline: types.IUsersOnline,
 }) {
   return (
     <main className='about-page-container'>
-      <Header
-        currentUsername={currentUser && currentUser.username}
-        avatar={currentUser && currentUser.avatar}
-        usersOnline={usersOnline}
-      />
+      <Header />
 
       <div className='about-page-content'>
         <div className='about-page-data'>
@@ -41,16 +34,11 @@ function AboutPagePure({ currentUser, isConnected, usersOnline }: {
   );
 }
 
-const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => {
-  return {
-    usersOnline: state.users.usersOnline,
-    isConnected: state.users.isConnected,
-    currentUser: state.users.currentUser,
-  };
-};
+const mapStateToProps = () => ({
+});
 
-const mapDispatchToProps = {
-};
+const mapDispatchToProps = () => ({
+});
 
 export const AboutPage = connect(
   mapStateToProps,

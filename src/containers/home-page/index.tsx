@@ -7,11 +7,12 @@ import { Typography } from '@material-ui/core';
 import { Header, Loading } from '../../components';
 import { ZGamesApi } from '../../services';
 import * as types from '../../constants';
+
 import './index.scss';
 
 const zGamesApi = ZGamesApi.Instance;
 
-function HomePagePure({ currentUser, isConnected, usersOnline, match: { params: { token } }, history }: {
+function HomePagePure({ isConnected, match: { params: { token } }, history }: {
   currentUser: types.IUser,
   isConnected: boolean,
   usersOnline: types.IUsersOnline,
@@ -19,17 +20,14 @@ function HomePagePure({ currentUser, isConnected, usersOnline, match: { params: 
   history: History,
 }) {
   if (token && token.length >= 50) {
-    zGamesApi.setToken(token);
+    localStorage.setItem('token', token);
+    zGamesApi.updateToken();
     history.push('/games');
   }
 
   return (
     <main className='home-page-container'>
-      <Header
-        currentUsername={currentUser && currentUser.username}
-        avatar={currentUser && currentUser.avatar}
-        usersOnline={usersOnline}
-      />
+      <Header />
 
       <div className='home-page-content'>
         <div className='home-page-logo-container'>
@@ -49,16 +47,12 @@ function HomePagePure({ currentUser, isConnected, usersOnline, match: { params: 
   );
 }
 
-const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => {
-  return {
-    usersOnline: state.users.usersOnline,
-    isConnected: state.users.isConnected,
-    currentUser: state.users.currentUser,
-  };
-};
+const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => ({
+  isConnected: state.users.isConnected,
+});
 
-const mapDispatchToProps = {
-};
+const mapDispatchToProps = () => ({
+});
 
 export const HomePage = withRouter(connect(
   mapStateToProps,

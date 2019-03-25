@@ -1,5 +1,6 @@
 import React, { Component, Props, ComponentType } from 'react';
-import { string, object } from 'prop-types';
+import { connect } from 'react-redux';
+import { object } from 'prop-types';
 import { withRouter, RouteProps } from 'react-router-dom';
 import { AppBar, Toolbar, Button, IconButton, Drawer, List, ListItem, ListItemText, Typography } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
@@ -13,8 +14,7 @@ import './index.scss';
 const MENU_WIDTH_MIN = 600;
 
 interface IHeaderProps extends Props<{}> {
-	currentUsername: string,
-	avatar: string,
+	currentUser: types.IUser,
 	history: History,
 	usersOnline: types.IUsersOnline,
 }
@@ -24,16 +24,15 @@ interface IHeaderState {
 	isDrawerShown: boolean,
 }
 
-class HeaderWithoutRouter extends Component<IHeaderProps & RouteProps, IHeaderState> {
+class HeaderPure extends Component<IHeaderProps & RouteProps, IHeaderState> {
 	static propTypes = {
-		currentUsername: string,
-		avatar: string,
+		currentUser: object,
 		history: object,
 		usersOnline: object.isRequired,
 	}
 
 	static defaultProps = {
-		currentUsername: '',
+		currentUser: {},
 	}
 
 	state = {
@@ -67,8 +66,11 @@ class HeaderWithoutRouter extends Component<IHeaderProps & RouteProps, IHeaderSt
 	}
 
 	render() {
-		const { currentUsername, avatar, usersOnline } = this.props;
+		const { currentUser, usersOnline } = this.props;
 		const { width, isDrawerShown } = this.state;
+
+		const currentUsername = currentUser && currentUser.username;
+		const avatar = currentUser && currentUser.avatar;
 
 		const LINKS = ['Home', 'Games', 'Rating', 'Rules', 'Profile', 'About'];
 
@@ -133,4 +135,16 @@ class HeaderWithoutRouter extends Component<IHeaderProps & RouteProps, IHeaderSt
 	}
 };
 
-export const Header = withRouter(HeaderWithoutRouter as ComponentType<any>)
+const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => ({
+	usersOnline: state.users.usersOnline,
+	isConnected: state.users.isConnected,
+	currentUser: state.users.currentUser,
+});
+
+const mapDispatchToProps = () => ({
+});
+
+export const Header = withRouter(connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)(HeaderPure as ComponentType<any>) as ComponentType<any>);

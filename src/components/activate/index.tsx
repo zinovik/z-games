@@ -1,21 +1,21 @@
 import React, { ComponentType } from 'react';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Dispatch, bindActionCreators } from 'redux';
 import { History } from 'history';
 
 import { Loading } from '../';
-import { ZGamesApi, activate } from '../../services';
+import { activate } from '../../actions';
 
-const zGamesApi = ZGamesApi.Instance;
-
-export function ActivateWithoutRouter({ match: { params: { token: activationToken } }, history }: {
+function ActivatePure({ match: { params: { token } }, history, activateUser }: {
   match: { params: { token: string } },
+  activateUser: (token: string) => Promise<void>,
   history: History,
 }) {
 
   const activation = async () => {
     try {
-      const { token } = await activate(activationToken);
-      zGamesApi.setToken(token);
+      await activateUser(token);
 
       alert('User has been successfully activated!');
     } catch (error) {
@@ -29,4 +29,14 @@ export function ActivateWithoutRouter({ match: { params: { token: activationToke
   return <Loading />;
 }
 
-export const Activate = withRouter(ActivateWithoutRouter as ComponentType<any>)
+const mapStateToProps = () => ({
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  activateUser: bindActionCreators(activate, dispatch),
+});
+
+export const Activate = withRouter(connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ActivatePure as ComponentType<any>) as ComponentType<any>)

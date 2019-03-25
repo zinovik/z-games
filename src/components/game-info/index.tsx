@@ -4,12 +4,12 @@ import { Button, Typography } from '@material-ui/core';
 import { GAME_NOT_STARTED } from 'z-games-base-game';
 
 import { GameRules } from '../../components';
-import { closeGame, leaveGame, readyToGame, startGame } from '../../services';
+import { closeGame, leaveGame, readyToGame, startGame } from '../../actions';
 import * as types from '../../constants';
 
 import './index.scss';
 
-export function GameInfo({ game, currentUserId }: {
+function GameInfoPure({ game, currentUserId }: {
   game: types.IGame,
   currentUserId: string,
 }) {
@@ -33,28 +33,24 @@ export function GameInfo({ game, currentUserId }: {
   };
 
   const handleCloseClick = () => {
-    setIsRulesShown(false);
     setIsButtonsDisabled(true);
 
     closeGame(game.number);
   };
 
   const handleLeaveClick = () => {
-    setIsRulesShown(false);
     setIsButtonsDisabled(true);
 
     leaveGame(game.number);
   };
 
   const handleReadyClick = () => {
-    setIsRulesShown(false);
     setIsButtonsDisabled(true);
 
     readyToGame(game.number);
   };
 
   const handleStartClick = () => {
-    setIsRulesShown(false);
     setIsButtonsDisabled(true);
 
     startGame(game.number);
@@ -129,12 +125,14 @@ export function GameInfo({ game, currentUserId }: {
   );
 };
 
-GameInfo.propTypes = {
+GameInfoPure.propTypes = {
   game: object.isRequired,
   currentUserId: string.isRequired,
 };
 
-GameInfo.defaultProps = {
+GameInfoPure.defaultProps = {
   game: {},
   currentUserId: 'user-id',
 };
+
+export const GameInfo = GameInfoPure;
