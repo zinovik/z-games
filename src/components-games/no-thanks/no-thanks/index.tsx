@@ -1,18 +1,21 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, ComponentType } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch, bindActionCreators } from 'redux';
 import { object, bool } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
 import { NoThanksData } from 'z-games-no-thanks';
 
 import { NoThanksCard, NoThanksChips } from '../';
 import { makeMove } from '../../../actions';
-import * as types from '../../../constants';
+import { IGame, IUser } from '../../../interfaces';
 
 import './index.scss';
 
-export function NoThanks({ game, currentUser, isMyTurn }: {
-	game: types.IGame,
-	currentUser: types.IUser,
+export function NoThanksPure({ game, currentUser, isMyTurn, move }: {
+	game: IGame,
+	currentUser: IUser,
 	isMyTurn: boolean,
+	move: ({ gameNumber, move }: { gameNumber: number, move: string }) => void, 
 }) {
 	const [isButtonsDisabled, setIsButtonsDisabled] = useState(false);
 	const [oldGameData, setOldGameData] = useState('');
@@ -25,13 +28,13 @@ export function NoThanks({ game, currentUser, isMyTurn }: {
 	}
 
 	const movePay = (): void => {
-		makeMove({ gameNumber: game.number, move: JSON.stringify({ takeCard: false }) });
+		move({ gameNumber: game.number, move: JSON.stringify({ takeCard: false }) });
 
 		setIsButtonsDisabled(true);
 	};
 
 	const moveTake = (): void => {
-		makeMove({ gameNumber: game.number, move: JSON.stringify({ takeCard: true }) });
+		move({ gameNumber: game.number, move: JSON.stringify({ takeCard: true }) });
 
 		setIsButtonsDisabled(true);
 	};
@@ -66,14 +69,26 @@ export function NoThanks({ game, currentUser, isMyTurn }: {
 	);
 };
 
-NoThanks.propTypes = {
+NoThanksPure.propTypes = {
 	game: object.isRequired,
 	currentUser: object.isRequired,
 	isMyTurn: bool.isRequired,
 };
 
-NoThanks.defaultProps = {
+NoThanksPure.defaultProps = {
 	game: {},
 	currentUser: {},
 	isMyTurn: false,
 };
+
+const mapStateToProps = () => ({
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  move: bindActionCreators(makeMove, dispatch),
+});
+
+export const NoThanks = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NoThanksPure as ComponentType<any>);

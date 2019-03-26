@@ -1,4 +1,6 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
+import React, { ChangeEvent, KeyboardEvent, useState, ComponentType } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch, bindActionCreators } from 'redux';
 import { string } from 'prop-types';
 import { Button, Input } from '@material-ui/core';
 
@@ -6,8 +8,9 @@ import { sendMessage } from '../../actions';
 
 import './index.scss';
 
-export function NewMessage({ gameId }: {
+function NewMessagePure({ gameId, sendMessageToChat }: {
   gameId: string,
+  sendMessageToChat: ({ gameId, message }: { gameId: string, message: string }) => void,
 }) {
   const [message, setMessage] = useState('');
 
@@ -22,7 +25,7 @@ export function NewMessage({ gameId }: {
   }
 
   const handleNewMessageClick = () => {
-    sendMessage({ gameId, message });
+    sendMessageToChat({ gameId, message });
 
     setMessage('');
   };
@@ -49,10 +52,22 @@ export function NewMessage({ gameId }: {
   );
 };
 
-NewMessage.propTypes = {
+NewMessagePure.propTypes = {
   gameId: string.isRequired,
 };
 
-NewMessage.defaultProps = {
+NewMessagePure.defaultProps = {
   gameId: '',
 };
+
+const mapStateToProps = () => ({
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  sendMessageToChat: bindActionCreators(sendMessage, dispatch),
+});
+
+export const NewMessage = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NewMessagePure as ComponentType<any>);

@@ -1,17 +1,20 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, ComponentType } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch, bindActionCreators } from 'redux';
 import { object, bool } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
 import { LostCitiesData } from 'z-games-lost-cities';
 
 import { makeMove } from '../../../actions';
-import * as types from '../../../constants';
+import { IGame, IUser } from '../../../interfaces';
 
 import './index.scss';
 
-export function LostCities({ game, currentUser, isMyTurn }: {
-	game: types.IGame,
-	currentUser: types.IUser,
+export function LostCitiesPure({ game, currentUser, isMyTurn, move }: {
+	game: IGame,
+	currentUser: IUser,
 	isMyTurn: boolean,
+	move: ({ gameNumber, move }: { gameNumber: number, move: string }) => void, 
 }) {
 	const [isButtonsDisabled, setIsButtonsDisabled] = useState(false);
 	const [oldGameData, setOldGameData] = useState('');
@@ -24,13 +27,13 @@ export function LostCities({ game, currentUser, isMyTurn }: {
 	}
 
 	const movePay = (): void => {
-		makeMove({ gameNumber: game.number, move: JSON.stringify({ takeCard: false }) });
+		move({ gameNumber: game.number, move: JSON.stringify({ takeCard: false }) });
 
 		setIsButtonsDisabled(true);
 	};
 
 	const moveTake = (): void => {
-		makeMove({ gameNumber: game.number, move: JSON.stringify({ takeCard: true }) });
+		move({ gameNumber: game.number, move: JSON.stringify({ takeCard: true }) });
 
 		setIsButtonsDisabled(true);
 	};
@@ -71,14 +74,26 @@ export function LostCities({ game, currentUser, isMyTurn }: {
 	);
 };
 
-LostCities.propTypes = {
+LostCitiesPure.propTypes = {
 	game: object.isRequired,
 	currentUser: object.isRequired,
 	isMyTurn: bool.isRequired,
 };
 
-LostCities.defaultProps = {
+LostCitiesPure.defaultProps = {
 	game: {},
 	currentUser: {},
 	isMyTurn: false,
 };
+
+const mapStateToProps = () => ({
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  move: bindActionCreators(makeMove, dispatch),
+});
+
+export const LostCities = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(LostCitiesPure as ComponentType<any>);

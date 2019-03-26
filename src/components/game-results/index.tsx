@@ -5,7 +5,7 @@ import { NO_THANKS, NoThanksPlayer } from 'z-games-no-thanks';
 import { PerudoPlayer } from 'z-games-perudo';
 
 import { GamePlayer } from '../../components'
-import * as types from '../../constants';
+import { IUser, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
 
@@ -35,8 +35,8 @@ GameResults.defaultProps = {
 
 export function GameResults({ gameName, players, playersInGame }: {
   gameName: string,
-  players: types.IUser[],
-  playersInGame: types.GamePlayer[],
+  players: IUser[],
+  playersInGame: GamePlayerType[],
 }) {
   const results: IResult[] = playersInGame.map((playerInGame) => {
     if (gameName === NO_THANKS) {

@@ -1,4 +1,6 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, ComponentType } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch, bindActionCreators } from 'redux';
 import { object, bool } from 'prop-types';
 import { Button, Typography, Checkbox } from '@material-ui/core';
 import {
@@ -17,13 +19,14 @@ import {
 
 import { PerudoDices } from '../';
 import { makeMove } from '../../../actions';
-import * as types from '../../../constants';
+import { IGame } from '../../../interfaces';
 
 import './index.scss';
 
-export function PerudoMove({ game, isMaputoAble }: {
-  game: types.IGame,
+export function PerudoMovePure({ game, isMaputoAble, move }: {
+  game: IGame,
   isMaputoAble: boolean,
+  move: ({ gameNumber, move }: { gameNumber: number, move: string }) => void, 
 }) {
   const [diceNumber, setDiceNumber] = useState(0);
   const [diceFigure, setDiceFigure] = useState(0);
@@ -80,16 +83,16 @@ export function PerudoMove({ game, isMaputoAble }: {
 
   const moveBet = (): void => {
     if (isMaputoAble) {
-      makeMove({ gameNumber: game.number, move: JSON.stringify({ number: diceNumber, figure: diceFigure, isMaputo }) });
+      move({ gameNumber: game.number, move: JSON.stringify({ number: diceNumber, figure: diceFigure, isMaputo }) });
     } else {
-      makeMove({ gameNumber: game.number, move: JSON.stringify({ number: diceNumber, figure: diceFigure }) });
+      move({ gameNumber: game.number, move: JSON.stringify({ number: diceNumber, figure: diceFigure }) });
     }
 
     setIsButtonsDisabled(true);
   }
 
   const moveNotBelieve = (): void => {
-    makeMove({ gameNumber: game.number, move: JSON.stringify({ notBelieve: true }) });
+    move({ gameNumber: game.number, move: JSON.stringify({ notBelieve: true }) });
 
     setIsButtonsDisabled(true);
   }
@@ -149,12 +152,24 @@ export function PerudoMove({ game, isMaputoAble }: {
   );
 };
 
-PerudoMove.propTypes = {
+PerudoMovePure.propTypes = {
   game: object.isRequired,
   isMaputoAble: bool.isRequired,
 };
 
-PerudoMove.defaultProps = {
+PerudoMovePure.defaultProps = {
   game: {},
   isMaputoAble: false,
 };
+
+const mapStateToProps = () => ({
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  move: bindActionCreators(makeMove, dispatch),
+});
+
+export const PerudoMove = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PerudoMovePure as ComponentType<any>);

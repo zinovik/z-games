@@ -2,11 +2,11 @@ import React, { Fragment, MouseEvent, useState } from 'react';
 import { object } from 'prop-types';
 import { Popover, Typography } from '@material-ui/core';
 
-import * as types from '../../constants';
+import { IUsersOnline } from '../../interfaces';
 
 import './index.scss';
 
-export function UsersOnline({ usersOnline }: { usersOnline: types.IUsersOnline }) {
+export function UsersOnline({ usersOnline }: { usersOnline: IUsersOnline }) {
   const [anchorEl, setAnchorEl] = useState(null as HTMLElement | null);
 
   const handleShow = (event: MouseEvent<HTMLElement>) => {

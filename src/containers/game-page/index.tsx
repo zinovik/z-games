@@ -4,15 +4,14 @@ import { History } from 'history';
 import { connect } from 'react-redux';
 import { Paper } from '@material-ui/core';
 
-import { GameInfo, GameTable, Chat, Loading } from '../../components';
-import * as types from '../../constants';
+import { GameInfo, GameTable, Chat } from '../../components';
+import { IUser, IGame, IUsersState, IGamesState } from '../../interfaces';
 
 import './index.scss';
 
-function GamePagePure({ currentUser, isConnected, game, history }: {
-  currentUser: types.IUser,
-  isConnected: boolean,
-  game: types.IGame,
+function GamePagePure({ currentUser, game, history }: {
+  currentUser: IUser,
+  game: IGame,
   history: History,
 }) {
   if (!currentUser || !game) {
@@ -44,14 +43,11 @@ function GamePagePure({ currentUser, isConnected, game, history }: {
           </div>
         </div>
       </div>
-
-      <Loading isConnected={isConnected} text='Connecting to the server...' />
     </main>
   );
 }
 
-const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => ({
-  isConnected: state.users.isConnected,
+const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
   currentUser: state.users.currentUser,
   game: state.games.openGame,
 });

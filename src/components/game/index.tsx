@@ -1,30 +1,34 @@
-import React, { Fragment, useState } from 'react';
-import { object, string, func, bool } from 'prop-types';
 import moment from 'moment';
+import React, { Fragment, useState, ComponentType } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch, bindActionCreators } from 'redux';
+import { object, string, func, bool } from 'prop-types';
 import { Card, CardHeader, CardContent, Typography, IconButton, CardActions } from '@material-ui/core';
 import { Gamepad, OpenInBrowser, RemoveRedEye } from '@material-ui/icons';
 import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED, GAME_STATE_LABEL } from 'z-games-base-game';
 
 import { GameRules } from '../../components';
-import { joinGame, openGame, watchGame } from '../../actions';
-import * as types from '../../constants';
+import { joinGame, openGame, watchGame, updateIsButtonsDisabled } from '../../actions';
+import { IGame, GAMES_LOGOS, IUsersState, IGamesState } from '../../interfaces';
 
 import './index.scss';
 
-export function Game({ game, currentUsername, isDisableButtons, disableButtons }: {
-  game: types.IGame,
+export function GamePure({ game, currentUsername, disableButtons, join, open, watch, isButtonsDisabled }: {
+  game: IGame,
   currentUsername: string | undefined,
-  isDisableButtons: boolean,
-  disableButtons: () => void,
+  isButtonsDisabled: boolean,
+  join: (gameNumber: number) => void,
+  open: (gameNumber: number) => void,
+  watch: (gameNumber: number) => void,
+  disableButtons: (isDisabled: boolean) => void,
 }) {
   const [isRulesShown, setIsRulesShown] = useState(false);
-  const [isButtonsDisabled, setIsButtonsDisabled] = useState(false);
   const [oldGameData, setOldGameData] = useState('');
 
   const { gameData } = game;
 
   if (gameData !== oldGameData) {
-    setIsButtonsDisabled(false);
+    disableButtons(false);
     setOldGameData(gameData);
   }
 
@@ -37,27 +41,15 @@ export function Game({ game, currentUsername, isDisableButtons, disableButtons }
   };
 
   const handleJoinClick = () => {
-    disableButtons();
-
-    setIsButtonsDisabled(true);
-
-    joinGame(game.number);
+    join(game.number);
   };
 
   const handleOpenClick = () => {
-    disableButtons();
-
-    setIsButtonsDisabled(true);
-
-    openGame(game.number);
+    open(game.number);
   };
 
   const handleWatchClick = () => {
-    disableButtons();
-
-    setIsButtonsDisabled(true);
-
-    watchGame(game.number);
+    watch(game.number);
   };
 
   const isAbleToJoin = !game.state && game.players.length < game.playersMax && !game.players.some(player => player.username === currentUsername);
@@ -73,7 +65,7 @@ export function Game({ game, currentUsername, isDisableButtons, disableButtons }
         />
 
         <div className='game-img-container'>
-          <img src={types.GAMES_LOGOS[game.name]} className='game-img' onClick={handleLogoClick} />
+          <img src={GAMES_LOGOS[game.name]} className='game-img' onClick={handleLogoClick} />
         </div>
 
         <CardContent>
@@ -93,15 +85,15 @@ export function Game({ game, currentUsername, isDisableButtons, disableButtons }
 
         {currentUsername && <CardActions>
 
-          {isAbleToJoin && <IconButton onClick={handleJoinClick} disabled={isButtonsDisabled || isDisableButtons} >
+          {isAbleToJoin && <IconButton onClick={handleJoinClick} disabled={isButtonsDisabled || isButtonsDisabled} >
             <Gamepad />
           </IconButton>}
 
-          {isAbleToOpen && <IconButton onClick={handleOpenClick} disabled={isButtonsDisabled || isDisableButtons} >
+          {isAbleToOpen && <IconButton onClick={handleOpenClick} disabled={isButtonsDisabled || isButtonsDisabled} >
             <OpenInBrowser />
           </IconButton>}
 
-          {isAbleToWatch && <IconButton onClick={handleWatchClick} disabled={isButtonsDisabled || isDisableButtons} >
+          {isAbleToWatch && <IconButton onClick={handleWatchClick} disabled={isButtonsDisabled || isButtonsDisabled} >
             <RemoveRedEye />
           </IconButton>}
 
@@ -114,16 +106,32 @@ export function Game({ game, currentUsername, isDisableButtons, disableButtons }
   );
 };
 
-Game.propTypes = {
+GamePure.propTypes = {
   game: object.isRequired,
   currentUsername: string,
   isDisableButtons: bool.isRequired,
   disableButtons: func.isRequired,
 };
 
-Game.defaultProps = {
+GamePure.defaultProps = {
   game: {},
   currentUsername: undefined,
   isDisableButtons: false,
   disableButtons: () => console.log,
 };
+
+const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
+  isButtonsDisabled: state.users.isButtonsDisabled,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  disableButtons: bindActionCreators(updateIsButtonsDisabled, dispatch),
+  join: bindActionCreators(joinGame, dispatch),
+  open: bindActionCreators(openGame, dispatch),
+  watch: bindActionCreators(watchGame, dispatch),
+});
+
+export const Game = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(GamePure as ComponentType<any>);

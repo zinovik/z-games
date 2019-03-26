@@ -4,12 +4,13 @@ import { render } from 'react-dom';
 import registerServiceWorker, { unregister } from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { MuiThemeProvider, createMuiTheme, CssBaseline, colors } from '@material-ui/core';
 import { createBrowserHistory } from 'history';
 import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
 
 import App from './App';
+import { SocketActions } from './components/socket-actions';
 import createRootReducer from './reducers';
 import { ZGamesApi } from './services';
 
@@ -42,16 +43,18 @@ zGamesApi.setStore(store);
 
 unregister();
 render(
-  <Router>
+  <BrowserRouter>
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <MuiThemeProvider theme={theme}>
-          <CssBaseline />
-          <App />
+          <SocketActions>
+            <CssBaseline />
+            <App />
+          </SocketActions>
         </MuiThemeProvider>
       </ConnectedRouter>
     </Provider>
-  </Router>,
+  </BrowserRouter>,
   document.getElementById('root') as HTMLElement,
 );
 registerServiceWorker();

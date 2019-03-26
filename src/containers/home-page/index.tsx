@@ -4,18 +4,14 @@ import { History } from 'history';
 import { connect } from 'react-redux';
 import { Typography } from '@material-ui/core';
 
-import { Header, Loading } from '../../components';
+import { Header } from '../../components';
 import { ZGamesApi } from '../../services';
-import * as types from '../../constants';
 
 import './index.scss';
 
 const zGamesApi = ZGamesApi.Instance;
 
-function HomePagePure({ isConnected, match: { params: { token } }, history }: {
-  currentUser: types.IUser,
-  isConnected: boolean,
-  usersOnline: types.IUsersOnline,
+function HomePagePure({ match: { params: { token } }, history }: {
   match: { params: { token: string } },
   history: History,
 }) {
@@ -41,14 +37,11 @@ function HomePagePure({ isConnected, match: { params: { token } }, history }: {
 
         </div>
       </div>
-
-      <Loading isConnected={isConnected} text='Connecting to the server...' />
     </main>
   );
 }
 
-const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => ({
-  isConnected: state.users.isConnected,
+const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = () => ({

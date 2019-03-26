@@ -13,7 +13,7 @@ import {
   updateGame,
   addNewLog,
 } from '../../actions';
-import * as types from '../../constants';
+import { IGame, IUser, IUsersOnline, ILog } from '../../interfaces';
 
 export class ZGamesApi {
   private static instance: ZGamesApi;
@@ -47,28 +47,28 @@ export class ZGamesApi {
     });
 
 
-    this.socket.on('update-current-user', (currentUser: types.IUser): void => {
+    this.socket.on('update-current-user', (currentUser: IUser): void => {
       store.dispatch(updateCurrentUser(currentUser));
     });
 
-    this.socket.on('update-users-online', (usersOnline: types.IUsersOnline): void => {
+    this.socket.on('update-users-online', (usersOnline: IUsersOnline): void => {
       store.dispatch(updateUsersOnline(usersOnline));
     });
 
 
-    this.socket.on('all-games', (allGames: types.IGame[]): void => {
+    this.socket.on('all-games', (allGames: IGame[]): void => {
       store.dispatch(updateAllGames(allGames));
     });
 
-    this.socket.on('new-game', (newGame: types.IGame): void => {
+    this.socket.on('new-game', (newGame: IGame): void => {
       store.dispatch(addNewGame(newGame));
     });
 
-    this.socket.on('update-game', (game: types.IGame): void => {
+    this.socket.on('update-game', (game: IGame): void => {
       store.dispatch(updateGame(game));
     });
 
-    this.socket.on('update-opened-game', (openGame: types.IGame): void => {
+    this.socket.on('update-opened-game', (openGame: IGame): void => {
       const oldOpenGame = store.getState().games.openGame;
 
       store.dispatch(updateOpenGame(openGame));
@@ -80,12 +80,12 @@ export class ZGamesApi {
           store.dispatch(push('/games'));
           return;
         }
-    
+
         store.dispatch(push(`/game/${gameNumber}`));
       }
     });
 
-    this.socket.on('new-log', (newLog: types.ILog): void => {
+    this.socket.on('new-log', (newLog: ILog): void => {
       store.dispatch(addNewLog(newLog));
     });
 

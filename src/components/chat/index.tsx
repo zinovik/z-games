@@ -2,12 +2,12 @@ import React from 'react';
 import { array, string } from 'prop-types';
 
 import { NewMessage, LogsList } from '../../components';
-import * as types from '../../constants';
+import { ILog } from '../../interfaces';
 
 import './index.scss';
 
 export function Chat({ logs, gameId }: {
-  logs: types.ILog[],
+  logs: ILog[],
   gameId: string,
 }) {
   return (

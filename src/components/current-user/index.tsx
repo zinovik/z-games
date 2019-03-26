@@ -6,7 +6,7 @@ import { Avatar, Menu, MenuItem, Button } from '@material-ui/core';
 
 import { ZGamesApi } from '../../services';
 import { updateCurrentUser } from '../../actions';
-import * as types from '../../constants';
+import { IUser } from '../../interfaces';
 
 import './index.scss';
 
@@ -15,7 +15,7 @@ const zGamesApi = ZGamesApi.Instance;
 function CurrentUserPure({ currentUsername, avatar, updateUser }: {
   currentUsername: string,
   avatar: string,
-  updateUser: (currentUser: types.IUser | null) => void
+  updateUser: (currentUser: IUser | null) => void
 }) {
   const [anchorEl, setAnchorEl] = useState(null as HTMLElement | null);
 

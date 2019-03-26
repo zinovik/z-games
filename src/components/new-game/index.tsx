@@ -1,4 +1,6 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, ComponentType } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch, bindActionCreators } from 'redux';
 import { func } from 'prop-types';
 import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Fab } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
@@ -6,10 +8,12 @@ import { NO_THANKS } from 'z-games-no-thanks';
 import { PERUDO } from 'z-games-perudo';
 import { LOST_CITIES } from 'z-games-lost-cities';
 
+import { newGame } from '../../actions';
+
 import './index.scss';
 
-export function NewGame({ newGame }: {
-  newGame: (name: string) => void,
+function NewGamePure({ createNewGame }: {
+  createNewGame: (gameName: string) => void,
 }) {
   const [isModalShow, setIsModalShow] = useState(false);
 
@@ -22,7 +26,7 @@ export function NewGame({ newGame }: {
   };
 
   const handleCreateGame = (game: string) => {
-    newGame(game);
+    createNewGame(game);
     setIsModalShow(false);
   };
 
@@ -51,10 +55,22 @@ export function NewGame({ newGame }: {
   );
 };
 
-NewGame.propTypes = {
+NewGamePure.propTypes = {
   newGame: func.isRequired,
 };
 
-NewGame.defaultProps = {
+NewGamePure.defaultProps = {
   newGame: () => console.log,
 };
+
+const mapStateToProps = () => ({
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  createNewGame: bindActionCreators(newGame, dispatch),
+});
+
+export const NewGame = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NewGamePure as ComponentType<any>);

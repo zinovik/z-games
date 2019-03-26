@@ -2,12 +2,12 @@ import React from 'react';
 import { array } from 'prop-types';
 
 import { Log } from '../../components';
-import * as types from '../../constants';
+import { ILog } from '../../interfaces';
 
 import './index.scss';
 
 export function LogsList({ logs }: {
-  logs: types.ILog[],
+  logs: ILog[],
 }) {
   return (
     <div className='logs-list-container'>
