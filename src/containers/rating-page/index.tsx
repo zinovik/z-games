@@ -2,17 +2,16 @@ import React, { ComponentType } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 
-import { Header, Loading, UsersRating } from '../../components';
+import { Header, UsersRating } from '../../components';
 import { fetchRating } from '../../actions';
-import * as types from '../../constants';
+import { IUser, IUsersOnline, IUsersState, IGamesState } from '../../interfaces';
 
 import './index.scss';
 
-function RatingPagePure({ usersRating, isConnected, fetchUsersRating }: {
-  usersRating: types.IUser[],
-  currentUser: types.IUser,
-  isConnected: boolean,
-  usersOnline: types.IUsersOnline,
+function RatingPagePure({ usersRating, fetchUsersRating }: {
+  usersRating: IUser[],
+  currentUser: IUser,
+  usersOnline: IUsersOnline,
   fetchUsersRating: () => Promise<void>,
 }) {
   if (!usersRating.length) {
@@ -30,15 +29,12 @@ function RatingPagePure({ usersRating, isConnected, fetchUsersRating }: {
 
         </div>
       </div>
-
-      <Loading isConnected={isConnected} text='Connecting to the server...' />
     </main>
   );
 }
 
-const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => ({
+const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
   usersRating: state.users.usersRating,
-  isConnected: state.users.isConnected,
   allGames: state.games.allGames,
 });
 

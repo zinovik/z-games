@@ -1,4 +1,5 @@
-import * as types from '../constants';
+import * as ActionTypes from '../actions/action-types';
+import { IGamesState } from '../interfaces';
 import { Action } from '../actions';
 
 const initialState = {
@@ -7,17 +8,17 @@ const initialState = {
   openGameNumber: null,
 };
 
-const games = (state: types.IGamesState = initialState, action: Action): types.IGamesState => {
+const games = (state: IGamesState = initialState, action: Action): IGamesState => {
 
   switch (action.type) {
 
-    case types.UPDATE_ALL_GAMES:
+    case ActionTypes.UPDATE_ALL_GAMES:
       return {
         ...state,
         allGames: [...action.allGames],
       };
 
-    case types.UPDATE_OPEN_GAME:
+    case ActionTypes.UPDATE_OPEN_GAME:
       if (action.openGame) {
         return {
           ...state,
@@ -29,7 +30,7 @@ const games = (state: types.IGamesState = initialState, action: Action): types.I
         openGame: null,
       };
 
-    case types.ADD_NEW_LOG:
+    case ActionTypes.ADD_NEW_LOG:
       if (state.openGame) {
         return {
           ...state,
@@ -44,7 +45,7 @@ const games = (state: types.IGamesState = initialState, action: Action): types.I
       }
       return state;
 
-    case types.ADD_NEW_GAME:
+    case ActionTypes.ADD_NEW_GAME:
       return {
         ...state,
         allGames: [
@@ -53,7 +54,7 @@ const games = (state: types.IGamesState = initialState, action: Action): types.I
         ],
       };
 
-    case types.UPDATE_GAME:
+    case ActionTypes.UPDATE_GAME:
       const allGames = state.allGames.map(game => game.number === action.game.number ? action.game : { ...game });
       return {
         ...state,

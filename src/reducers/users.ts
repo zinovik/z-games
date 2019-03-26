@@ -1,8 +1,10 @@
-import * as types from '../constants';
+import * as ActionTypes from '../actions/action-types';
+import { IUsersState } from '../interfaces';
 import { Action } from '../actions';
 
 const initialState = {
   isConnected: false,
+  isButtonsDisabled: false,
   currentUser: null,
   usersOnline: {
     users: [],
@@ -11,23 +13,29 @@ const initialState = {
   usersRating: [],
 };
 
-const users = (state: types.IUsersState = initialState, action: Action): types.IUsersState => {
+const users = (state: IUsersState = initialState, action: Action): IUsersState => {
 
   switch (action.type) {
 
-    case types.UPDATE_STATUS:
+    case ActionTypes.UPDATE_STATUS:
       return {
         ...state,
         isConnected: action.isConnected,
       };
 
-    case types.UPDATE_CURRENT_USER:
+    case ActionTypes.UPDATE_IS_BUTTONS_DISABLED:
+      return {
+        ...state,
+        isButtonsDisabled: action.isButtonsDisabled,
+      };
+
+    case ActionTypes.UPDATE_CURRENT_USER:
       return {
         ...state,
         currentUser: action.currentUser,
       };
 
-    case types.UPDATE_USERS_ONLINE:
+    case ActionTypes.UPDATE_USERS_ONLINE:
       return {
         ...state,
         usersOnline: {
@@ -38,7 +46,7 @@ const users = (state: types.IUsersState = initialState, action: Action): types.I
         },
       };
 
-    case types.FETCH_RATING:
+    case ActionTypes.FETCH_RATING:
       return {
         ...state,
         usersRating: [...action.users],

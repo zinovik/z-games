@@ -4,18 +4,17 @@ import { Typography, Checkbox } from '@material-ui/core';
 import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED } from 'z-games-base-game';
 
 import { Game } from '../../components';
-import * as types from '../../constants';
+import { IGame } from '../../interfaces';
 
 import './index.scss';
 
 export function GamesList({ allGames, currentUsername }: {
-	allGames: types.IGame[],
+	allGames: IGame[],
 	currentUsername: string | undefined,
 }) {
 	const [isNotStarted, setIsNotStarted] = useState(true);
 	const [isStarted, setIsStarted] = useState(true);
 	const [isFinished, setIsFinished] = useState(false);
-	const [disableButtons, setDisableButtons] = useState(false);
 
 	const handleNotStarted = (): void => {
 		setIsNotStarted(!isNotStarted);
@@ -46,8 +45,6 @@ export function GamesList({ allGames, currentUsername }: {
 					|| (isFinished && game.state === GAME_FINISHED)) && <Game
 					game={game}
 					currentUsername={currentUsername}
-					isDisableButtons={disableButtons}
-					disableButtons={() => { setDisableButtons(true); }}
 					key={index}
 				/>)
 			)}

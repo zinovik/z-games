@@ -1,26 +1,33 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, ComponentType } from 'react';
+import { connect } from 'react-redux';
+import { Dispatch, bindActionCreators } from 'redux';
 import { object, string } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
 import { GAME_NOT_STARTED } from 'z-games-base-game';
 
 import { GameRules } from '../../components';
-import { closeGame, leaveGame, readyToGame, startGame } from '../../actions';
-import * as types from '../../constants';
+import { closeGame, leaveGame, readyToGame, startGame, updateIsButtonsDisabled } from '../../actions';
+import { IGame, GamePlayerType, GameData, GAMES_LOGOS, IUsersState, IGamesState } from '../../interfaces';
 
 import './index.scss';
 
-function GameInfoPure({ game, currentUserId }: {
-  game: types.IGame,
+function GameInfoPure({ game, currentUserId, disableButtons, close, leave, ready, start, isButtonsDisabled }: {
+  game: IGame,
   currentUserId: string,
+  isButtonsDisabled: boolean,
+  close: (gameNumber: number) => void,
+  leave: (gameNumber: number) => void,
+  ready: (gameNumber: number) => void,
+  start: (gameNumber: number) => void,
+  disableButtons: (isDisabled: boolean) => void,
 }) {
   const [isRulesShown, setIsRulesShown] = useState(false);
-  const [isButtonsDisabled, setIsButtonsDisabled] = useState(false);
   const [oldGameData, setOldGameData] = useState('');
 
   const { gameData } = game;
 
   if (gameData !== oldGameData) {
-    setIsButtonsDisabled(false);
+    disableButtons(false);
     setOldGameData(gameData);
   }
 
@@ -33,41 +40,33 @@ function GameInfoPure({ game, currentUserId }: {
   };
 
   const handleCloseClick = () => {
-    setIsButtonsDisabled(true);
-
-    closeGame(game.number);
+    close(game.number);
   };
 
   const handleLeaveClick = () => {
-    setIsButtonsDisabled(true);
-
-    leaveGame(game.number);
+    leave(game.number);
   };
 
   const handleReadyClick = () => {
-    setIsButtonsDisabled(true);
-
-    readyToGame(game.number);
+    ready(game.number);
   };
 
   const handleStartClick = () => {
-    setIsButtonsDisabled(true);
-
-    startGame(game.number);
+    start(game.number);
   };
 
   const { playersOnline, watchers } = game;
-  const gameDataParsed: types.GameData = JSON.parse(game.gameData);
-  const playersInGame: types.GamePlayer[] = gameDataParsed.players;
+  const gameDataParsed: GameData = JSON.parse(game.gameData);
+  const playersInGame: GamePlayerType[] = gameDataParsed.players;
 
   const isAbleToStart = game.players.length >= game.playersMin
     && game.players.length <= game.playersMax
-    && playersInGame.every((playerInGame: types.GamePlayer) => playerInGame.ready);
+    && playersInGame.every((playerInGame: GamePlayerType) => playerInGame.ready);
 
   return (
     <div className='game-info-container'>
       <Typography>
-        <img src={types.GAMES_LOGOS[game.name]} className='game-info-img' onClick={handleLogoClick} />
+        <img src={GAMES_LOGOS[game.name]} className='game-info-img' onClick={handleLogoClick} />
       </Typography>
 
       <div className='game-info-players'>
@@ -135,4 +134,19 @@ GameInfoPure.defaultProps = {
   currentUserId: 'user-id',
 };
 
-export const GameInfo = GameInfoPure;
+const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
+  isButtonsDisabled: state.users.isButtonsDisabled,
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  disableButtons: bindActionCreators(updateIsButtonsDisabled, dispatch),
+  close: bindActionCreators(closeGame, dispatch),
+  leave: bindActionCreators(leaveGame, dispatch),
+  ready: bindActionCreators(readyToGame, dispatch),
+  start: bindActionCreators(startGame, dispatch),
+});
+
+export const GameInfo = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(GameInfoPure as ComponentType<any>);

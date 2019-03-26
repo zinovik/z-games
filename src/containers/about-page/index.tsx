@@ -2,13 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Typography } from '@material-ui/core';
 
-import { Header, Loading } from '../../components';
+import { Header } from '../../components';
 
 import './index.scss';
 
-function AboutPagePure({ isConnected }: {
-  isConnected: boolean,
-}) {
+function AboutPagePure() {
   return (
     <main className='about-page-container'>
       <Header />
@@ -28,8 +26,6 @@ function AboutPagePure({ isConnected }: {
           </Typography>
         </div>
       </div>
-
-      <Loading isConnected={isConnected} text='Connecting to the server...' />
     </main>
   );
 }

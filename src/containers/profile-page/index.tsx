@@ -2,14 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Typography } from '@material-ui/core';
 
-import { Header, Loading } from '../../components';
-import * as types from '../../constants';
+import { Header } from '../../components';
+import { IUser, IUsersState, IGamesState } from '../../interfaces';
 
 import './index.scss';
 
-function ProfilePagePure({ currentUser, isConnected }: {
-  currentUser: types.IUser,
-  isConnected: boolean,
+function ProfilePagePure({ currentUser }: {
+  currentUser: IUser,
 }) {
   if (!currentUser) {
     // TODO: Redirect
@@ -37,14 +36,11 @@ function ProfilePagePure({ currentUser, isConnected }: {
           </Typography>
         </div>
       </div>
-
-      <Loading isConnected={isConnected} text='Connecting to the server...' />
     </main>
   );
 }
 
-const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => ({
-  isConnected: state.users.isConnected,
+const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
   currentUser: state.users.currentUser,
 });
 

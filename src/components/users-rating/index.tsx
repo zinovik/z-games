@@ -3,9 +3,9 @@ import React from 'react';
 import { array } from 'prop-types';
 import { Table, TableBody, TableCell, TableHead, TableRow } from '@material-ui/core';
 
-import * as types from '../../constants';
+import { IUser } from '../../interfaces';
 
-export function UsersRating({ users }: { users: types.IUser[] }) {
+export function UsersRating({ users }: { users: IUser[] }) {
   return <Table>
     <TableHead>
       <TableRow>

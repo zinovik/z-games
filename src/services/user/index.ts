@@ -1,21 +1,6 @@
 
 import { SERVER_URL } from '../../config';
-import * as types from '../../constants';
-
-interface IRegister {
-  username?: string;
-  password: string;
-  email: string;
-}
-
-interface IActivate {
-  token: string;
-}
-
-interface ILogin {
-  username: string;
-  password: string;
-}
+import { IUser, IRegister, IActivate, ILogin } from '../../interfaces';
 
 const makePostRequest = async (route: string, body: IRegister | IActivate | ILogin) => {
   const fetchResult = await fetch(`${SERVER_URL}/api/users/${route}`, {
@@ -35,7 +20,7 @@ const makePostRequest = async (route: string, body: IRegister | IActivate | ILog
   return fetchResultParsed;
 };
 
-export const registerUser = async (username: string, password: string, email: string): Promise<types.IUser> => {
+export const registerUser = async (username: string, password: string, email: string): Promise<IUser> => {
   return await makePostRequest('register', {
     username,
     password,
@@ -56,7 +41,7 @@ export const authorizeUser = async (username: string, password: string): Promise
   });
 };
 
-export const fetchUsersRating = async (): Promise<types.IUser[]> => {
+export const fetchUsersRating = async (): Promise<IUser[]> => {
   const fetchResult = await fetch(`${SERVER_URL}/api/users`);
 
   return await fetchResult.json();

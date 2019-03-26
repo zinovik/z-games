@@ -4,7 +4,7 @@ import { NO_THANKS, NoThanksPlayer } from 'z-games-no-thanks';
 import { PERUDO, PerudoPlayer } from 'z-games-perudo';
 
 import { GamePlayer } from '../../components';
-import * as types from '../../constants';
+import { IUser, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
 
@@ -27,9 +27,9 @@ GamePlayers.defaultProps = {
 export function GamePlayers({ gameName, currentUserId, playersInGame, players, nextPlayers }: {
   gameName: string,
   currentUserId: string,
-  playersInGame: types.GamePlayer[],
-  players: types.IUser[],
-  nextPlayers: types.IUser[],
+  playersInGame: GamePlayerType[],
+  players: IUser[],
+  nextPlayers: IUser[],
 }) {
   let playerNumber;
 
@@ -44,7 +44,7 @@ export function GamePlayers({ gameName, currentUserId, playersInGame, players, n
 
   return (
     <div className='game-players-container'>
-      {[...playersCopy, ...playersBefore].map((playerInGame: types.GamePlayer, index) => (
+      {[...playersCopy, ...playersBefore].map((playerInGame: GamePlayerType, index) => (
         <Fragment key={index}>
           {playerInGame.id !== currentUserId && <Fragment key={index}>
 

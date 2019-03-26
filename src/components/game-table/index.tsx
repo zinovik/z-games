@@ -6,7 +6,7 @@ import { PerudoPlayer, PERUDO } from 'z-games-perudo';
 import { LOST_CITIES } from 'z-games-lost-cities';
 
 import { GamePlayers, GamePlayer, GameResults, NoThanks, Perudo, LostCities } from '../../components';
-import * as types from '../../constants';
+import { IGame, IUser, GameData, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
 
@@ -21,14 +21,14 @@ GameTable.defaultProps = {
 }
 
 export function GameTable({ game, currentUser }: {
-  game: types.IGame,
-  currentUser: types.IUser,
+  game: IGame,
+  currentUser: IUser,
 }) {
   const { name, state, gameData, players, nextPlayers } = game;
-  const gameDataParsed: types.GameData = JSON.parse(gameData);
-  const playersInGame: types.GamePlayer[] = gameDataParsed.players;
+  const gameDataParsed: GameData = JSON.parse(gameData);
+  const playersInGame: GamePlayerType[] = gameDataParsed.players;
   const { cards, chips, points, dices } = (playersInGame.find(
-    (playerInGame: types.GamePlayer) => playerInGame.id === currentUser.id,
+    (playerInGame: GamePlayerType) => playerInGame.id === currentUser.id,
   ) || { cards: [], chips: 0, points: 0, dices: [] } ) as PerudoPlayer & NoThanksPlayer;
   const isMyTurn = nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id);
   const isPlayer = players.some(player => player.id === currentUser.id);

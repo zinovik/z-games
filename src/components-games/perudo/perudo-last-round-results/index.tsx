@@ -3,7 +3,7 @@ import { array, number, bool } from 'prop-types';
 import { PerudoPlayer } from 'z-games-perudo';
 
 import { PerudoLastRoundResult } from '../';
-import * as types from '../../../constants';
+import { IUser } from '../../../interfaces';
 
 PerudoLastRoundResults.propTypes = {
   playersInGame: array.isRequired,
@@ -21,7 +21,7 @@ PerudoLastRoundResults.defaultProps = {
 
 export function PerudoLastRoundResults({ playersInGame, players, lastRoundFigure, isLastRoundMaputo }: {
   playersInGame: PerudoPlayer[],
-  players: types.IUser[],
+  players: IUser[],
   lastRoundFigure: number,
   isLastRoundMaputo: boolean,
 }) {

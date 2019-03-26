@@ -4,12 +4,13 @@ import { Typography } from '@material-ui/core';
 import { PerudoData } from 'z-games-perudo';
 
 import { PerudoDices, PerudoMove, PerudoLastRoundResults } from '../';
-import * as types from '../../../constants';
+import { IGame, IUser } from '../../../interfaces';
+
 import './index.scss';
 
 export function Perudo({ game, currentUser, isMyTurn }: {
-	game: types.IGame,
-	currentUser: types.IUser,
+	game: IGame,
+	currentUser: IUser,
 	isMyTurn: boolean,
 }) {
 	const { gameData, players } = game;

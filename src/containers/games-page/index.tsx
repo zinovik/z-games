@@ -1,35 +1,30 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { Header, NewGame, GamesList, Loading } from '../../components';
-import { newGame } from '../../actions';
-import * as types from '../../constants';
+import { Header, NewGame, GamesList } from '../../components';
+import { IUser, IGame, IUsersState, IGamesState } from '../../interfaces';
 
 import './index.scss';
 
-function GamesPagePure({ currentUser, isConnected, allGames }: {
-  currentUser: types.IUser,
-  isConnected: boolean,
-  allGames: types.IGame[],
+function GamesPagePure({ currentUser, allGames }: {
+  currentUser: IUser,
+  allGames: IGame[],
 }) {
   return (
     <main className='games-page-container'>
       <Header />
 
-      {currentUser && <NewGame newGame={newGame} />}
+      {currentUser && <NewGame />}
 
       <GamesList
         allGames={allGames}
         currentUsername={currentUser && currentUser.username}
       />
-
-      <Loading isConnected={isConnected} text='Connecting to the server...' />
     </main>
   );
 }
 
-const mapStateToProps = (state: { users: types.IUsersState, games: types.IGamesState }) => ({
-  isConnected: state.users.isConnected,
+const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
   currentUser: state.users.currentUser,
   allGames: state.games.allGames,
 });
