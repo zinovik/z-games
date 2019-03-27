@@ -8,29 +8,24 @@ import { Gamepad, OpenInBrowser, RemoveRedEye } from '@material-ui/icons';
 import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED, GAME_STATE_LABEL } from 'z-games-base-game';
 
 import { GameRules } from '../../components';
-import { joinGame, openGame, watchGame, updateIsButtonsDisabled } from '../../actions';
+import {
+  joinGame as joinGameWithoutDispatch,
+  openGame as openGameWithoutDispatch,
+  watchGame as watchGameWithoutDispatch,
+} from '../../actions';
 import { IGame, GAMES_LOGOS, IUsersState, IGamesState } from '../../interfaces';
 
 import './index.scss';
 
-export function GamePure({ game, currentUsername, disableButtons, join, open, watch, isButtonsDisabled }: {
+export function GamePure({ game, currentUsername, isButtonsDisabled, joinGame, openGame, watchGame }: {
   game: IGame,
   currentUsername: string | undefined,
   isButtonsDisabled: boolean,
-  join: (gameNumber: number) => void,
-  open: (gameNumber: number) => void,
-  watch: (gameNumber: number) => void,
-  disableButtons: (isDisabled: boolean) => void,
+  joinGame: (gameNumber: number) => void,
+  openGame: (gameNumber: number) => void,
+  watchGame: (gameNumber: number) => void,
 }) {
   const [isRulesShown, setIsRulesShown] = useState(false);
-  const [oldGameData, setOldGameData] = useState('');
-
-  const { gameData } = game;
-
-  if (gameData !== oldGameData) {
-    disableButtons(false);
-    setOldGameData(gameData);
-  }
 
   const handleLogoClick = () => {
     setIsRulesShown(true);
@@ -41,15 +36,15 @@ export function GamePure({ game, currentUsername, disableButtons, join, open, wa
   };
 
   const handleJoinClick = () => {
-    join(game.number);
+    joinGame(game.number);
   };
 
   const handleOpenClick = () => {
-    open(game.number);
+    openGame(game.number);
   };
 
   const handleWatchClick = () => {
-    watch(game.number);
+    watchGame(game.number);
   };
 
   const isAbleToJoin = !game.state && game.players.length < game.playersMax && !game.players.some(player => player.username === currentUsername);
@@ -125,10 +120,9 @@ const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => (
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  disableButtons: bindActionCreators(updateIsButtonsDisabled, dispatch),
-  join: bindActionCreators(joinGame, dispatch),
-  open: bindActionCreators(openGame, dispatch),
-  watch: bindActionCreators(watchGame, dispatch),
+  joinGame: bindActionCreators(joinGameWithoutDispatch, dispatch),
+  openGame: bindActionCreators(openGameWithoutDispatch, dispatch),
+  watchGame: bindActionCreators(watchGameWithoutDispatch, dispatch),
 });
 
 export const Game = connect(

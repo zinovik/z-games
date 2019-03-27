@@ -6,30 +6,26 @@ import { Button, Typography } from '@material-ui/core';
 import { GAME_NOT_STARTED } from 'z-games-base-game';
 
 import { GameRules } from '../../components';
-import { closeGame, leaveGame, readyToGame, startGame, updateIsButtonsDisabled } from '../../actions';
+import {
+  closeGame as closeGameWithoutDispatch,
+  leaveGame as leaveGameWithoutDispatch,
+  readyToGame as readyToGameWithoutDispatch,
+  startGame as startGameWithoutDispatch,
+} from '../../actions';
 import { IGame, GamePlayerType, GameData, GAMES_LOGOS, IUsersState, IGamesState } from '../../interfaces';
 
 import './index.scss';
 
-function GameInfoPure({ game, currentUserId, disableButtons, close, leave, ready, start, isButtonsDisabled }: {
+function GameInfoPure({ game, currentUserId, isButtonsDisabled, closeGame, leaveGame, readyToGame, startGame }: {
   game: IGame,
   currentUserId: string,
   isButtonsDisabled: boolean,
-  close: (gameNumber: number) => void,
-  leave: (gameNumber: number) => void,
-  ready: (gameNumber: number) => void,
-  start: (gameNumber: number) => void,
-  disableButtons: (isDisabled: boolean) => void,
+  closeGame: (gameNumber: number) => void,
+  leaveGame: (gameNumber: number) => void,
+  readyToGame: (gameNumber: number) => void,
+  startGame: (gameNumber: number) => void,
 }) {
   const [isRulesShown, setIsRulesShown] = useState(false);
-  const [oldGameData, setOldGameData] = useState('');
-
-  const { gameData } = game;
-
-  if (gameData !== oldGameData) {
-    disableButtons(false);
-    setOldGameData(gameData);
-  }
 
   const handleLogoClick = () => {
     setIsRulesShown(true);
@@ -40,19 +36,19 @@ function GameInfoPure({ game, currentUserId, disableButtons, close, leave, ready
   };
 
   const handleCloseClick = () => {
-    close(game.number);
+    closeGame(game.number);
   };
 
   const handleLeaveClick = () => {
-    leave(game.number);
+    leaveGame(game.number);
   };
 
   const handleReadyClick = () => {
-    ready(game.number);
+    readyToGame(game.number);
   };
 
   const handleStartClick = () => {
-    start(game.number);
+    startGame(game.number);
   };
 
   const { playersOnline, watchers } = game;
@@ -139,11 +135,10 @@ const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => (
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  disableButtons: bindActionCreators(updateIsButtonsDisabled, dispatch),
-  close: bindActionCreators(closeGame, dispatch),
-  leave: bindActionCreators(leaveGame, dispatch),
-  ready: bindActionCreators(readyToGame, dispatch),
-  start: bindActionCreators(startGame, dispatch),
+  closeGame: bindActionCreators(closeGameWithoutDispatch, dispatch),
+  leaveGame: bindActionCreators(leaveGameWithoutDispatch, dispatch),
+  readyToGame: bindActionCreators(readyToGameWithoutDispatch, dispatch),
+  startGame: bindActionCreators(startGameWithoutDispatch, dispatch),
 });
 
 export const GameInfo = connect(

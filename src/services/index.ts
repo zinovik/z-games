@@ -1,2 +1,2 @@
-export * from './z-games-api';
+export * from './socket';
 export * from './user';

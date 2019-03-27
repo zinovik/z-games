@@ -4,13 +4,13 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { string } from 'prop-types';
 import { Button, Input } from '@material-ui/core';
 
-import { sendMessage } from '../../actions';
+import { sendMessage as sendMessageWithoutDispatch } from '../../actions';
 
 import './index.scss';
 
-function NewMessagePure({ gameId, sendMessageToChat }: {
+function NewMessagePure({ gameId, sendMessage }: {
   gameId: string,
-  sendMessageToChat: ({ gameId, message }: { gameId: string, message: string }) => void,
+  sendMessage: ({ gameId, message }: { gameId: string, message: string }) => void,
 }) {
   const [message, setMessage] = useState('');
 
@@ -25,7 +25,7 @@ function NewMessagePure({ gameId, sendMessageToChat }: {
   }
 
   const handleNewMessageClick = () => {
-    sendMessageToChat({ gameId, message });
+    sendMessage({ gameId, message });
 
     setMessage('');
   };
@@ -64,7 +64,7 @@ const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  sendMessageToChat: bindActionCreators(sendMessage, dispatch),
+  sendMessage: bindActionCreators(sendMessageWithoutDispatch, dispatch),
 });
 
 export const NewMessage = connect(

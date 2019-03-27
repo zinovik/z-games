@@ -1,41 +1,30 @@
-import React, { Fragment, useState, ComponentType } from 'react';
+import React, { Fragment, ComponentType } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { object, bool } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
 import { LostCitiesData } from 'z-games-lost-cities';
 
-import { makeMove } from '../../../actions';
-import { IGame, IUser } from '../../../interfaces';
+import { makeMove as makeMoveWithoutDispatch } from '../../../actions';
+import { IGame, IUser, IUsersState, IGamesState } from '../../../interfaces';
 
 import './index.scss';
 
-export function LostCitiesPure({ game, currentUser, isMyTurn, move }: {
+export function LostCitiesPure({ game, currentUser, isMyTurn, makeMove, isButtonsDisabled }: {
 	game: IGame,
 	currentUser: IUser,
 	isMyTurn: boolean,
-	move: ({ gameNumber, move }: { gameNumber: number, move: string }) => void, 
+	isButtonsDisabled: boolean,
+	makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void, 
 }) {
-	const [isButtonsDisabled, setIsButtonsDisabled] = useState(false);
-	const [oldGameData, setOldGameData] = useState('');
-
 	const { gameData } = game;
 
-	if (gameData !== oldGameData) {
-		setIsButtonsDisabled(false);
-		setOldGameData(gameData);
-	}
-
 	const movePay = (): void => {
-		move({ gameNumber: game.number, move: JSON.stringify({ takeCard: false }) });
-
-		setIsButtonsDisabled(true);
+		makeMove({ gameNumber: game.number, move: JSON.stringify({ takeCard: false }) });
 	};
 
 	const moveTake = (): void => {
-		move({ gameNumber: game.number, move: JSON.stringify({ takeCard: true }) });
-
-		setIsButtonsDisabled(true);
+		makeMove({ gameNumber: game.number, move: JSON.stringify({ takeCard: true }) });
 	};
 
 	if (!currentUser) {
@@ -86,11 +75,12 @@ LostCitiesPure.defaultProps = {
 	isMyTurn: false,
 };
 
-const mapStateToProps = () => ({
+const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
+	isButtonsDisabled: state.users.isButtonsDisabled,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  move: bindActionCreators(makeMove, dispatch),
+  makeMove: bindActionCreators(makeMoveWithoutDispatch, dispatch),
 });
 
 export const LostCities = connect(

@@ -3,19 +3,17 @@ import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 
 import { Header, UsersRating } from '../../components';
-import { fetchRating } from '../../actions';
-import { IUser, IUsersOnline, IUsersState, IGamesState } from '../../interfaces';
+import { fetchRating as fetchRatingWithoutDispatch } from '../../actions';
+import { IUser, IUsersState, IGamesState } from '../../interfaces';
 
 import './index.scss';
 
-function RatingPagePure({ usersRating, fetchUsersRating }: {
+function RatingPagePure({ usersRating, fetchRating }: {
   usersRating: IUser[],
-  currentUser: IUser,
-  usersOnline: IUsersOnline,
-  fetchUsersRating: () => Promise<void>,
+  fetchRating: () => Promise<void>,
 }) {
   if (!usersRating.length) {
-    fetchUsersRating();
+    fetchRating();
   }
 
   return (
@@ -23,11 +21,7 @@ function RatingPagePure({ usersRating, fetchUsersRating }: {
       <Header />
 
       <div className='rating-page-content'>
-        <div className='rating-page-logo-container'>
-
-          <UsersRating users={usersRating} />
-
-        </div>
+        <UsersRating users={usersRating} />
       </div>
     </main>
   );
@@ -35,11 +29,10 @@ function RatingPagePure({ usersRating, fetchUsersRating }: {
 
 const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
   usersRating: state.users.usersRating,
-  allGames: state.games.allGames,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  fetchUsersRating: bindActionCreators(fetchRating, dispatch),
+  fetchRating: bindActionCreators(fetchRatingWithoutDispatch, dispatch),
 });
 
 export const RatingPage = connect(

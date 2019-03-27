@@ -8,12 +8,12 @@ import { NO_THANKS } from 'z-games-no-thanks';
 import { PERUDO } from 'z-games-perudo';
 import { LOST_CITIES } from 'z-games-lost-cities';
 
-import { newGame } from '../../actions';
+import { newGame as newGameWithoutDispatch } from '../../actions';
 
 import './index.scss';
 
-function NewGamePure({ createNewGame }: {
-  createNewGame: (gameName: string) => void,
+function NewGamePure({ newGame }: {
+  newGame: (gameName: string) => void,
 }) {
   const [isModalShow, setIsModalShow] = useState(false);
 
@@ -26,7 +26,7 @@ function NewGamePure({ createNewGame }: {
   };
 
   const handleCreateGame = (game: string) => {
-    createNewGame(game);
+    newGame(game);
     setIsModalShow(false);
   };
 
@@ -67,7 +67,7 @@ const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  createNewGame: bindActionCreators(newGame, dispatch),
+  newGame: bindActionCreators(newGameWithoutDispatch, dispatch),
 });
 
 export const NewGame = connect(
