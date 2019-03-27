@@ -10,9 +10,8 @@ import { createBrowserHistory } from 'history';
 import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
 
 import App from './App';
-import { SocketActions } from './components/socket-actions';
 import createRootReducer from './reducers';
-import { ZGamesApi } from './services';
+import { SocketService } from './services';
 
 import './index.scss';
 
@@ -31,15 +30,18 @@ const theme = createMuiTheme({
   },
 });
 
-const zGamesApi: ZGamesApi = ZGamesApi.Instance;
+const socketService = SocketService.Instance;
 
 const history = createBrowserHistory();
 
-const store = createStore(createRootReducer(history), compose(
-  applyMiddleware(routerMiddleware(history), thunk),
-  (window as any).__REDUX_DEVTOOLS_EXTENSION__ && (window as any).__REDUX_DEVTOOLS_EXTENSION__(),
-));
-zGamesApi.setStore(store);
+const reduxDevTools = (window as any).__REDUX_DEVTOOLS_EXTENSION__;
+
+const enhancers = reduxDevTools ?
+  compose(applyMiddleware(routerMiddleware(history), thunk), reduxDevTools()) :
+  applyMiddleware(routerMiddleware(history), thunk);
+
+const store = createStore(createRootReducer(history), {}, enhancers);
+socketService.provideDispatch(store.dispatch);
 
 unregister();
 render(
@@ -47,10 +49,8 @@ render(
     <Provider store={store}>
       <ConnectedRouter history={history}>
         <MuiThemeProvider theme={theme}>
-          <SocketActions>
-            <CssBaseline />
-            <App />
-          </SocketActions>
+          <CssBaseline />
+          <App />
         </MuiThemeProvider>
       </ConnectedRouter>
     </Provider>

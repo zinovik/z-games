@@ -1,6 +1,5 @@
 import * as ActionTypes from '../actions/action-types';
 import { IUsersState } from '../interfaces';
-import { Action } from '../actions';
 
 const initialState = {
   isConnected: false,
@@ -13,7 +12,7 @@ const initialState = {
   usersRating: [],
 };
 
-const users = (state: IUsersState = initialState, action: Action): IUsersState => {
+const users = (state: IUsersState = initialState, action: ActionTypes.Action): IUsersState => {
 
   switch (action.type) {
 

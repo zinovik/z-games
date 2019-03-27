@@ -1,6 +1,5 @@
 import * as ActionTypes from '../actions/action-types';
 import { IGamesState } from '../interfaces';
-import { Action } from '../actions';
 
 const initialState = {
   allGames: [],
@@ -8,7 +7,7 @@ const initialState = {
   openGameNumber: null,
 };
 
-const games = (state: IGamesState = initialState, action: Action): IGamesState => {
+const games = (state: IGamesState = initialState, action: ActionTypes.Action): IGamesState => {
 
   switch (action.type) {
 

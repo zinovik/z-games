@@ -4,18 +4,19 @@ import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { Avatar, Menu, MenuItem, Button } from '@material-ui/core';
 
-import { ZGamesApi } from '../../services';
-import { updateCurrentUser } from '../../actions';
+import {
+  updateCurrentUser as updateCurrentUserWithoutDispatch,
+  logout as logoutWithoutDispatch,
+} from '../../actions';
 import { IUser } from '../../interfaces';
 
 import './index.scss';
 
-const zGamesApi = ZGamesApi.Instance;
-
-function CurrentUserPure({ currentUsername, avatar, updateUser }: {
+function CurrentUserPure({ currentUsername, avatar, updateCurrentUser, logout }: {
   currentUsername: string,
   avatar: string,
-  updateUser: (currentUser: IUser | null) => void
+  updateCurrentUser: (currentUser: IUser | null) => void,
+  logout: () => void,
 }) {
   const [anchorEl, setAnchorEl] = useState(null as HTMLElement | null);
 
@@ -28,9 +29,7 @@ function CurrentUserPure({ currentUsername, avatar, updateUser }: {
   };
 
   const handleLogOutClick = async () => {
-    localStorage.setItem('token', '');
-    zGamesApi.updateToken();
-    updateUser(null);
+    logout();
 
     handleMenuClose();
   };
@@ -73,7 +72,8 @@ const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  updateUser: bindActionCreators(updateCurrentUser, dispatch),
+  updateCurrentUser: bindActionCreators(updateCurrentUserWithoutDispatch, dispatch),
+  logout: bindActionCreators(logoutWithoutDispatch, dispatch),
 });
 
 export const CurrentUser = connect(

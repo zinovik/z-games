@@ -1,24 +1,20 @@
 import React, { ComponentType } from 'react';
+import { bindActionCreators, Dispatch } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { History } from 'history';
 import { connect } from 'react-redux';
 import { Typography } from '@material-ui/core';
 
 import { Header } from '../../components';
-import { ZGamesApi } from '../../services';
+import { refreshToken as refreshTokenWithoutDispatch } from '../../actions';
 
 import './index.scss';
 
-const zGamesApi = ZGamesApi.Instance;
-
-function HomePagePure({ match: { params: { token } }, history }: {
+function HomePagePure({ match: { params: { token } }, refreshToken }: {
   match: { params: { token: string } },
-  history: History,
+  refreshToken: (newToken: string) => void,
 }) {
   if (token && token.length >= 50) {
-    localStorage.setItem('token', token);
-    zGamesApi.updateToken();
-    history.push('/games');
+    refreshToken(token);
   }
 
   return (
@@ -44,7 +40,8 @@ function HomePagePure({ match: { params: { token } }, history }: {
 const mapStateToProps = () => ({
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  refreshToken: bindActionCreators(refreshTokenWithoutDispatch, dispatch),
 });
 
 export const HomePage = withRouter(connect(

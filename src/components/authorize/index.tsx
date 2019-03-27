@@ -5,14 +5,17 @@ import { Modal, Paper, Typography, Tabs, Tab, Button, TextField } from '@materia
 
 import { Loading } from '../';
 // import { Loading, Notification } from '../';
-import { register, authorize } from '../../actions';
+import {
+  register as registerWithoutDispatch,
+  authorize as authorizeWithoutDispatch,
+} from '../../actions';
 import { SERVER_URL } from '../../config';
 
 import './index.scss';
 
-function AuthorizePure({ registerUser, authorizeUser }: {
-  registerUser: (username: string, password: string, email: string) => Promise<void>,
-  authorizeUser: (username: string, password: string) => Promise<void>,
+function AuthorizePure({ register, authorize }: {
+  register: (username: string, password: string, email: string) => Promise<void>,
+  authorize: (username: string, password: string) => Promise<void>,
 }) {
   const [isModalShow, setIsModalShow] = useState(false);
   const [username, setUsername] = useState('');
@@ -43,27 +46,14 @@ function AuthorizePure({ registerUser, authorizeUser }: {
 
   const handleSignInClick = async () => {
     setIsLoading(true);
-
-    try {
-      await authorizeUser(username, password);
-    } catch (error) {
-      alert(error.message);
-    } finally {
-      setIsLoading(false);
-    }
+    await authorize(username, password);
+    setIsLoading(false);
   };
 
   const handleSignUpClick = async () => {
     setIsLoading(true);
-
-    try {
-      await registerUser(username, password, email);
-      alert('Check email to activate your account');
-    } catch (error) {
-      alert(error.message);
-    } finally {
-      setIsLoading(false);
-    }
+    await register(username, password, email);
+    setIsLoading(false);
   };
 
   const handleTabChange = () => {
@@ -148,8 +138,8 @@ const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  registerUser: bindActionCreators(register, dispatch),
-  authorizeUser: bindActionCreators(authorize, dispatch),
+  register: bindActionCreators(registerWithoutDispatch, dispatch),
+  authorize: bindActionCreators(authorizeWithoutDispatch, dispatch),
 });
 
 export const Authorize = connect(

@@ -2,29 +2,15 @@ import React, { ComponentType } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Dispatch, bindActionCreators } from 'redux';
-import { History } from 'history';
 
 import { Loading } from '../';
-import { activate } from '../../actions';
+import { activate as activateWithoutDispatch } from '../../actions';
 
-function ActivatePure({ match: { params: { token } }, history, activateUser }: {
+function ActivatePure({ match: { params: { token } }, activate }: {
   match: { params: { token: string } },
-  activateUser: (token: string) => Promise<void>,
-  history: History,
+  activate: (token: string) => Promise<void>,
 }) {
-
-  const activation = async () => {
-    try {
-      await activateUser(token);
-
-      alert('User has been successfully activated!');
-    } catch (error) {
-      alert(error.message);
-    } finally {
-      history.push('/games');
-    }
-  };
-  activation();
+  activate(token);
 
   return <Loading />;
 }
@@ -33,7 +19,7 @@ const mapStateToProps = () => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  activateUser: bindActionCreators(activate, dispatch),
+  activate: bindActionCreators(activateWithoutDispatch, dispatch),
 });
 
 export const Activate = withRouter(connect(

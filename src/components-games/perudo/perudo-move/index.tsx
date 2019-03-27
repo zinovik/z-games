@@ -18,22 +18,22 @@ import {
 } from 'z-games-perudo';
 
 import { PerudoDices } from '../';
-import { makeMove } from '../../../actions';
-import { IGame } from '../../../interfaces';
+import { makeMove as makeMoveWithoutDispatch } from '../../../actions';
+import { IGame, IUsersState, IGamesState } from '../../../interfaces';
 
 import './index.scss';
 
-export function PerudoMovePure({ game, isMaputoAble, move }: {
+export function PerudoMovePure({ game, isMaputoAble, makeMove, isButtonsDisabled }: {
   game: IGame,
   isMaputoAble: boolean,
-  move: ({ gameNumber, move }: { gameNumber: number, move: string }) => void, 
+	isButtonsDisabled: boolean,
+  makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void, 
 }) {
   const [diceNumber, setDiceNumber] = useState(0);
   const [diceFigure, setDiceFigure] = useState(0);
   const [isBetImpossible, setIsBetImpossible] = useState(false);
   const [isMaputo, setIsMaputo] = useState(false);
   const [oldGameData, setOldGameData] = useState('');
-  const [isButtonsDisabled, setIsButtonsDisabled] = useState(false);
 
   const { gameData } = game;
   const { currentDiceNumber, currentDiceFigure, isMaputoRound, players: playersInGame }: PerudoData = JSON.parse(gameData);
@@ -50,7 +50,6 @@ export function PerudoMovePure({ game, isMaputoAble, move }: {
     setDiceFigure(newDiceFigure);
     setIsBetImpossible(newIsBetImpossible || false);
 
-    setIsButtonsDisabled(false);
     setOldGameData(gameData);
   }
 
@@ -83,18 +82,14 @@ export function PerudoMovePure({ game, isMaputoAble, move }: {
 
   const moveBet = (): void => {
     if (isMaputoAble) {
-      move({ gameNumber: game.number, move: JSON.stringify({ number: diceNumber, figure: diceFigure, isMaputo }) });
+      makeMove({ gameNumber: game.number, move: JSON.stringify({ number: diceNumber, figure: diceFigure, isMaputo }) });
     } else {
-      move({ gameNumber: game.number, move: JSON.stringify({ number: diceNumber, figure: diceFigure }) });
+      makeMove({ gameNumber: game.number, move: JSON.stringify({ number: diceNumber, figure: diceFigure }) });
     }
-
-    setIsButtonsDisabled(true);
   }
 
   const moveNotBelieve = (): void => {
-    move({ gameNumber: game.number, move: JSON.stringify({ notBelieve: true }) });
-
-    setIsButtonsDisabled(true);
+    makeMove({ gameNumber: game.number, move: JSON.stringify({ notBelieve: true }) });
   }
 
   const handleMaputoChange = (): void => {
@@ -162,11 +157,12 @@ PerudoMovePure.defaultProps = {
   isMaputoAble: false,
 };
 
-const mapStateToProps = () => ({
+const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
+  isButtonsDisabled: state.users.isButtonsDisabled,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  move: bindActionCreators(makeMove, dispatch),
+  makeMove: bindActionCreators(makeMoveWithoutDispatch, dispatch),
 });
 
 export const PerudoMove = connect(

@@ -9,13 +9,12 @@ import { IUser, IGame, IUsersState, IGamesState } from '../../interfaces';
 
 import './index.scss';
 
-function GamePagePure({ currentUser, game, history }: {
+function GamePagePure({ currentUser, game }: {
   currentUser: IUser,
   game: IGame,
   history: History,
 }) {
   if (!currentUser || !game) {
-    history.push('/games');
     return null;
   }
 
