@@ -1,4 +1,4 @@
-import { Dispatch } from 'redux';
+import { Dispatch, AnyAction } from 'redux';
 import { push } from 'connected-react-router';
 
 import { SocketService, registerUser, authorizeUser, activateUser, fetchUsersRating } from '../services';
@@ -9,49 +9,74 @@ const socketService = SocketService.Instance;
 // Users
 
 export const register = (username: string, password: string, email: string) =>
-  async (dispatch: Dispatch): Promise<any> => {
-    const user = await registerUser(username, password, email);
+  async (dispatch: Dispatch): Promise<AnyAction> => {
+    try {
+      await registerUser(username, password, email);
+    } catch (error) {
+      return dispatch({
+        type: ActionTypes.ADD_ERROR,
+        message: error.message,
+      });
+    }
 
-    dispatch({
-      type: ActionTypes.REGISTER,
-      user,
+    dispatch(push('/games'));
+
+    return dispatch({
+      type: ActionTypes.ADD_NOTIFICATION,
+      message: 'You have successfully registered! Check email to activate your account',
     });
-
-    // TODO: Error
-
-    return alert('Check email to activate your account');
   };
 
 export const authorize = (username: string, password: string) =>
-  async (dispatch: Dispatch): Promise<any> => {
-    const { token } = await authorizeUser(username, password);
+  async (dispatch: Dispatch): Promise<AnyAction> => {
+    let token = '';
+
+    try {
+      ({ token } = await authorizeUser(username, password));
+    } catch (error) {
+      return dispatch({
+        type: ActionTypes.ADD_ERROR,
+        message: error.message,
+      });
+    }
+
+    localStorage.setItem('token', token);
+    socketService.reconnect();
+
+    dispatch(push('/games'));
+
+    return dispatch({
+      type: ActionTypes.ADD_NOTIFICATION,
+      message: 'You have successfully logged in!',
+    });
+  };
+
+export const activate = (activationToken: string) =>
+  async (dispatch: Dispatch): Promise<AnyAction> => {
+    let token = '';
+
+    try {
+      ({ token } = await activateUser(activationToken));
+    } catch (error) {
+      return dispatch({
+        type: ActionTypes.ADD_ERROR,
+        message: error.message,
+      });
+    } finally {
+      dispatch(push('/games'));
+    }
 
     localStorage.setItem('token', token);
     socketService.reconnect();
 
     return dispatch({
-      type: ActionTypes.LOGIN,
-      token,
+      type: ActionTypes.ADD_NOTIFICATION,
+      message: 'User has been successfully activated!',
     });
-  };
-
-export const activate = (activationToken: string) =>
-  async (dispatch: Dispatch): Promise<any> => {
-    const { token } = await activateUser(activationToken);
-
-    localStorage.setItem('token', token);
-    socketService.reconnect();
-
-    dispatch({
-      type: ActionTypes.ACTIVATE,
-      token,
-    });
-
-    return dispatch(push('/games'));
   };
 
 export const fetchRating = () =>
-  async (dispatch: Dispatch): Promise<any> => {
+  async (dispatch: Dispatch): Promise<AnyAction> => {
     const users = await fetchUsersRating();
 
     return dispatch({
@@ -61,20 +86,25 @@ export const fetchRating = () =>
   };
 
 export const logout = () =>
-  async (dispatch: Dispatch): Promise<any> => {
+  async (dispatch: Dispatch): Promise<AnyAction> => {
     localStorage.setItem('token', '');
     socketService.reconnect();
 
-    return dispatch({
+    dispatch({
       type: ActionTypes.UPDATE_CURRENT_USER,
       currentUser: null,
+    });
+
+    return dispatch({
+      type: ActionTypes.ADD_NOTIFICATION,
+      message: 'You have successfully logged out!',
     });
   };
 
 // Games
 
 export const joinGame = (gameNumber: number) =>
-  async (dispatch: Dispatch): Promise<any> => {
+  async (dispatch: Dispatch): Promise<AnyAction> => {
     socketService.joinGame(gameNumber);
 
     return dispatch({
@@ -84,7 +114,7 @@ export const joinGame = (gameNumber: number) =>
   };
 
 export const openGame = (gameNumber: number) =>
-  async (dispatch: Dispatch): Promise<any> => {
+  async (dispatch: Dispatch): Promise<AnyAction> => {
     socketService.openGame(gameNumber);
 
     return dispatch({
@@ -94,7 +124,7 @@ export const openGame = (gameNumber: number) =>
   };
 
 export const watchGame = (gameNumber: number) =>
-  async (dispatch: Dispatch): Promise<any> => {
+  async (dispatch: Dispatch): Promise<AnyAction> => {
     socketService.watchGame(gameNumber);
 
     return dispatch({
@@ -104,7 +134,7 @@ export const watchGame = (gameNumber: number) =>
   };
 
 export const leaveGame = (gameNumber: number) =>
-  async (dispatch: Dispatch): Promise<any> => {
+  async (dispatch: Dispatch): Promise<AnyAction> => {
     socketService.leaveGame(gameNumber);
 
     return dispatch({
@@ -114,7 +144,7 @@ export const leaveGame = (gameNumber: number) =>
   };
 
 export const closeGame = (gameNumber: number) =>
-  async (dispatch: Dispatch): Promise<any> => {
+  async (dispatch: Dispatch): Promise<AnyAction> => {
     socketService.closeGame(gameNumber);
 
     return dispatch({
@@ -124,7 +154,7 @@ export const closeGame = (gameNumber: number) =>
   };
 
 export const readyToGame = (gameNumber: number) =>
-  async (dispatch: Dispatch): Promise<any> => {
+  async (dispatch: Dispatch): Promise<AnyAction> => {
     socketService.readyToGame(gameNumber);
 
     return dispatch({
@@ -134,7 +164,7 @@ export const readyToGame = (gameNumber: number) =>
   };
 
 export const startGame = (gameNumber: number) =>
-  async (dispatch: Dispatch): Promise<any> => {
+  async (dispatch: Dispatch): Promise<AnyAction> => {
     socketService.startGame(gameNumber);
 
     return dispatch({
@@ -144,7 +174,7 @@ export const startGame = (gameNumber: number) =>
   };
 
 export const makeMove = ({ gameNumber, move }: { gameNumber: number, move: string }) =>
-  async (dispatch: Dispatch): Promise<any> => {
+  async (dispatch: Dispatch): Promise<AnyAction> => {
     socketService.makeMove({ gameNumber, move });
 
     return dispatch({
@@ -159,13 +189,40 @@ export const sendMessage = ({ gameId, message }: { gameId: string, message: stri
   };
 
 export const newGame = (gameName: string) =>
-  async (dispatch: Dispatch): Promise<void> => {
+  async (dispatch: Dispatch): Promise<AnyAction> => {
     socketService.newGame(gameName);
+
+    return dispatch({
+      type: ActionTypes.ADD_NOTIFICATION,
+      message: `New ${gameName} game was successfully created`,
+    });
   };
 
 export const refreshToken = (newToken: string) =>
-  async (dispatch: Dispatch): Promise<void> => {
+  async (dispatch: Dispatch): Promise<AnyAction> => {
     localStorage.setItem('token', newToken);
     socketService.reconnect();
+
     dispatch(push('/games'));
+
+    return dispatch({
+      type: ActionTypes.ADD_NOTIFICATION,
+      message: 'You have successfully logged in!',
+    });
+  };
+
+export const removeError = (errorId: number) =>
+  async (dispatch: Dispatch): Promise<any> => {
+    return dispatch({
+      type: ActionTypes.REMOVE_ERROR,
+      errorId,
+    });
+  };
+
+export const removeNotification = (notificationId: number) =>
+  async (dispatch: Dispatch): Promise<AnyAction> => {
+    return dispatch({
+      type: ActionTypes.REMOVE_NOTIFICATION,
+      notificationId,
+    });
   };

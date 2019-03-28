@@ -1,6 +1,5 @@
-import React, { ComponentType } from 'react';
+import React from 'react';
 import { bindActionCreators, Dispatch } from 'redux';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Typography } from '@material-ui/core';
 
@@ -44,7 +43,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   refreshToken: bindActionCreators(refreshTokenWithoutDispatch, dispatch),
 });
 
-export const HomePage = withRouter(connect(
+export const HomePage = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(HomePagePure) as ComponentType<any>);
+)(HomePagePure);

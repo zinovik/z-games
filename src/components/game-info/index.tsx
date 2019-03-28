@@ -12,7 +12,7 @@ import {
   readyToGame as readyToGameWithoutDispatch,
   startGame as startGameWithoutDispatch,
 } from '../../actions';
-import { IGame, GamePlayerType, GameData, GAMES_LOGOS, IUsersState, IGamesState } from '../../interfaces';
+import { IGame, GamePlayerType, GameDataType, GAMES_LOGOS, IUsersState, IGamesState } from '../../interfaces';
 
 import './index.scss';
 
@@ -52,7 +52,7 @@ function GameInfoPure({ game, currentUserId, isButtonsDisabled, closeGame, leave
   };
 
   const { playersOnline, watchers } = game;
-  const gameDataParsed: GameData = JSON.parse(game.gameData);
+  const gameDataParsed: GameDataType = JSON.parse(game.gameData);
   const playersInGame: GamePlayerType[] = gameDataParsed.players;
 
   const isAbleToStart = game.players.length >= game.playersMin

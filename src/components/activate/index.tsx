@@ -1,6 +1,5 @@
-import React, { ComponentType } from 'react';
+import React, { ComponentType, useState } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { Dispatch, bindActionCreators } from 'redux';
 
 import { Loading } from '../';
@@ -10,7 +9,12 @@ function ActivatePure({ match: { params: { token } }, activate }: {
   match: { params: { token: string } },
   activate: (token: string) => Promise<void>,
 }) {
-  activate(token);
+  const [isActivating, setIsActivating] = useState(false);
+
+  if (!isActivating) {
+    activate(token);
+    setIsActivating(true);
+  }
 
   return <Loading />;
 }
@@ -22,7 +26,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   activate: bindActionCreators(activateWithoutDispatch, dispatch),
 });
 
-export const Activate = withRouter(connect(
+export const Activate = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(ActivatePure as ComponentType<any>) as ComponentType<any>)
+)(ActivatePure as ComponentType<any>);

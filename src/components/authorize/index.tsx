@@ -4,7 +4,6 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { Modal, Paper, Typography, Tabs, Tab, Button, TextField } from '@material-ui/core';
 
 import { Loading } from '../';
-// import { Loading, Notification } from '../';
 import {
   register as registerWithoutDispatch,
   authorize as authorizeWithoutDispatch,
@@ -128,8 +127,6 @@ function AuthorizePure({ register, authorize }: {
       </Modal>
 
       {isLoading && <Loading />}
-
-      {/* <Notification /> */}
     </Fragment>
   );
 };

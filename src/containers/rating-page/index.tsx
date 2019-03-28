@@ -1,10 +1,10 @@
-import React, { ComponentType } from 'react';
+import React, { useState, ComponentType } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 
 import { Header, UsersRating } from '../../components';
 import { fetchRating as fetchRatingWithoutDispatch } from '../../actions';
-import { IUser, IUsersState, IGamesState } from '../../interfaces';
+import { IUser, IUsersState } from '../../interfaces';
 
 import './index.scss';
 
@@ -12,8 +12,11 @@ function RatingPagePure({ usersRating, fetchRating }: {
   usersRating: IUser[],
   fetchRating: () => Promise<void>,
 }) {
-  if (!usersRating.length) {
+  const [isFetching, setIsFetched] = useState(false);
+
+  if (!isFetching) {
     fetchRating();
+    setIsFetched(true);
   }
 
   return (
@@ -27,7 +30,7 @@ function RatingPagePure({ usersRating, fetchRating }: {
   );
 }
 
-const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
+const mapStateToProps = (state: { users: IUsersState }) => ({
   usersRating: state.users.usersRating,
 });
 

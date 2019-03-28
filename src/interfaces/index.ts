@@ -10,3 +10,7 @@ export * from './IGamesState.interface';
 export * from './IRegister.interface';
 export * from './ILogin.interface';
 export * from './IActivate.interface';
+export * from './IErrorsState.interface';
+export * from './IError.interface';
+export * from './INotificationsState.interface';
+export * from './INotification.interface';

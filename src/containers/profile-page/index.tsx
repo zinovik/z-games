@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Typography } from '@material-ui/core';
 
 import { Header } from '../../components';
-import { IUser, IUsersState, IGamesState } from '../../interfaces';
+import { IUser, IUsersState } from '../../interfaces';
 
 import './index.scss';
 
@@ -40,7 +40,7 @@ function ProfilePagePure({ currentUser }: {
   );
 }
 
-const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
+const mapStateToProps = (state: { users: IUsersState }) => ({
   currentUser: state.users.currentUser,
 });
 
