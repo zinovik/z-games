@@ -1,6 +1,4 @@
-import React, { ComponentType } from 'react';
-import { withRouter } from 'react-router-dom';
-import { History } from 'history';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Paper } from '@material-ui/core';
 
@@ -12,7 +10,6 @@ import './index.scss';
 function GamePagePure({ currentUser, game }: {
   currentUser: IUser,
   game: IGame,
-  history: History,
 }) {
   if (!currentUser || !game) {
     return null;
@@ -54,7 +51,7 @@ const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => (
 const mapDispatchToProps = () => ({
 });
 
-export const GamePage = withRouter(connect(
+export const GamePage = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(GamePagePure) as ComponentType<any>);
+)(GamePagePure);

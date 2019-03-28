@@ -1,21 +1,31 @@
 import React from 'react';
-import { string } from 'prop-types';
+import { number, string } from 'prop-types';
+import { connect } from 'react-redux';
+import { Dispatch, bindActionCreators } from 'redux';
 import { Snackbar, SnackbarContent, IconButton } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 
-export function NotificationError({ message }: { message: string }) {
+import { removeError as removeErrorWithoutDispatch } from '../../actions';
+
+import './index.scss';
+
+function NotificationErrorPure({ id, message, removeError }: {
+  id: number,
+  message: string,
+  removeError: (errorId: number) => void,
+}) {
 
   const handleClose = () => {
-    console.log('close');
+    removeError(id);
   };
 
   return (
     <Snackbar
-      open={false}
-      autoHideDuration={6000}
+      open={true}
     >
       <SnackbarContent
         message={message}
+        className='notification-error'
         action={[
           <IconButton
             key='close'
@@ -31,10 +41,24 @@ export function NotificationError({ message }: { message: string }) {
   );
 };
 
-NotificationError.propTypes = {
-  message: string,
+NotificationErrorPure.propTypes = {
+  id: number.isRequired,
+  message: string.isRequired,
 };
 
-NotificationError.defaultProps = {
+NotificationErrorPure.defaultProps = {
+  id: 0,
   message: '',
 };
+
+const mapStateToProps = () => ({
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  removeError: bindActionCreators(removeErrorWithoutDispatch, dispatch),
+});
+
+export const NotificationError = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(NotificationErrorPure);

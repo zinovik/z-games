@@ -1,4 +1,4 @@
-import React, { Component, Fragment, Props } from 'react';
+import React, { Component, Props, createContext } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -11,22 +11,26 @@ import {
   ProfilePage,
   AboutPage,
 } from './containers';
-import { Activate, Loading, NotificationError } from './components';
-import { IUsersState, IGamesState } from './interfaces';
+import { Activate, Loading, NotificationError, Notification } from './components';
+import { IUsersState, IErrorsState, INotificationsState, IError, INotification } from './interfaces';
 
 import './App.scss';
 
 interface IAppProps extends Props<{}> {
   isConnected: boolean,
+  errors: IError[],
+  notifications: INotification[],
 }
+
+const CurrentUserContext = createContext('test');
 
 class App extends Component<IAppProps, {}> {
 
   public render() {
-    const { isConnected } = this.props;
+    const { isConnected, errors, notifications } = this.props;
 
     return (
-      <Fragment>
+      <CurrentUserContext.Provider value='test'>
 
         <Switch>
           <Route path='/home' component={HomePage} />
@@ -43,16 +47,24 @@ class App extends Component<IAppProps, {}> {
 
         <Loading isConnected={isConnected} text='Connecting to the server...' />
 
-        <NotificationError />
+        {errors.map(error => (
+          <NotificationError key={`error${error.id}`} id={error.id} message={error.message} />
+        ))}
 
-      </Fragment>
+        {notifications.map(notification => (
+          <Notification key={`notification${notification.id}`} id={notification.id} message={notification.message} />
+        ))}
+
+      </CurrentUserContext.Provider>
     );
   }
 
 }
 
-const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
+const mapStateToProps = (state: { users: IUsersState, errors: IErrorsState, notifications: INotificationsState }) => ({
   isConnected: state.users.isConnected,
+  errors: state.errors.errors,
+  notifications: state.notifications.notifications,
 });
 
 const mapDispatchToProps = () => ({

@@ -7,7 +7,7 @@ import { Menu } from '@material-ui/icons';
 import { History } from 'history';
 
 import { Authorize, CurrentUser, UsersOnline } from '../../components';
-import { IUser, IUsersOnline, IUsersState, IGamesState } from '../../interfaces';
+import { IUser, IUsersOnline, IUsersState } from '../../interfaces';
 
 import './index.scss';
 
@@ -119,9 +119,8 @@ HeaderPure.defaultProps = {
 	currentUser: {},
 }
 
-const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
+const mapStateToProps = (state: { users: IUsersState }) => ({
 	usersOnline: state.users.usersOnline,
-	isConnected: state.users.isConnected,
 	currentUser: state.users.currentUser,
 });
 

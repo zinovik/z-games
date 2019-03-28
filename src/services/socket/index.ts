@@ -13,6 +13,7 @@ import {
   updateGame as updateGameWithoutDispatch,
   addNewLog as addNewLogWithoutDispatch,
   setNewToken as setNewTokenWithoutDispatch,
+  addError as addErrorWithoutDispatch,
 } from '../../actions';
 import { IGame, IUser, IUsersOnline, ILog } from '../../interfaces';
 
@@ -31,6 +32,10 @@ export class SocketService {
     this.SocketClient = io(SERVER_URL, {
       query: { token },
     }) as (typeof Socket) & { query: { token: string } };
+
+    setInterval(() => {
+      this.reconnect();
+    }, 1000 * 60 * 60 * 24 * 7);
   }
 
   provideDispatch = async (dispatch: Dispatch) => {
@@ -43,6 +48,7 @@ export class SocketService {
     const updateGame = bindActionCreators(updateGameWithoutDispatch, dispatch);
     const addNewLog = bindActionCreators(addNewLogWithoutDispatch, dispatch);
     const setNewToken = bindActionCreators(setNewTokenWithoutDispatch, dispatch);
+    const addError = bindActionCreators(addErrorWithoutDispatch, dispatch);
 
     // updates from the server
 
@@ -55,12 +61,12 @@ export class SocketService {
 
       this.SocketClient.emit('get-all-games', { ignoreNotStarted: false, ignoreStarted: false, ignoreFinished: false });
       this.SocketClient.emit('get-current-user');
-      this.SocketClient.emit('get-users-online');
       this.SocketClient.emit('get-opened-game');
     });
 
     this.SocketClient.on('update-current-user', (currentUser: IUser): void => {
       updateCurrentUser(currentUser);
+      this.SocketClient.emit('get-users-online');
     });
 
     this.SocketClient.on('update-users-online', (usersOnline: IUsersOnline): void => {
@@ -92,7 +98,7 @@ export class SocketService {
     });
 
     this.SocketClient.on('error-message', ({ message }: { message: string }): void => {
-      alert(message);
+      addError(message);
     });
   }
 

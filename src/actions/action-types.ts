@@ -13,10 +13,14 @@ export const ADD_NEW_LOG = 'ADD_NEW_LOG';
 
 export const ADD_SERVER_URL = 'ADD_SERVER_URL';
 
-export const REGISTER = 'REGISTER';
-export const LOGIN = 'LOGIN';
-export const ACTIVATE = 'ACTIVATE';
 export const FETCH_RATING = 'FETCH_RATING';
+
+export const ADD_ERROR = 'ADD_ERROR';
+export const REMOVE_ERROR = 'REMOVE_ERROR';
+
+export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
+export const REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION';
+
 
 export interface IUpdateStatus { type: typeof UPDATE_STATUS, isConnected: boolean };
 export interface IUpdateIsButtonsDisabled { type: typeof UPDATE_IS_BUTTONS_DISABLED, isButtonsDisabled: boolean };
@@ -28,10 +32,14 @@ export interface IAddNewGame { type: typeof ADD_NEW_GAME, newGame: IGame };
 export interface IUpdateGame { type: typeof UPDATE_GAME, game: IGame };
 export interface IAddNewLog { type: typeof ADD_NEW_LOG, newLog: ILog };
 
-export interface IRegister { type: typeof REGISTER, user: IUser };
-export interface IAuthorize { type: typeof LOGIN, token: string };
-export interface IActivate { type: typeof ACTIVATE, token: string };
 export interface IUsersRating { type: typeof FETCH_RATING, users: IUser[] };
+
+export interface IAddError { type: typeof ADD_ERROR, message: string };
+export interface IRemoveError { type: typeof REMOVE_ERROR, errorId: number };
+
+export interface IAddNotification { type: typeof ADD_NOTIFICATION, message: string };
+export interface IRemoveNotification { type: typeof REMOVE_NOTIFICATION, notificationId: number };
+
 
 export type Action = IUpdateStatus
   | IUpdateCurrentUser
@@ -42,7 +50,8 @@ export type Action = IUpdateStatus
   | IAddNewGame
   | IUpdateGame
   | IAddNewLog
-  | IRegister
-  | IAuthorize
-  | IActivate
-  | IUsersRating;
+  | IUsersRating
+  | IAddError
+  | IRemoveError
+  | IAddNotification
+  | IRemoveNotification;

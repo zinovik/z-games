@@ -6,7 +6,7 @@ import { PerudoPlayer, PERUDO } from 'z-games-perudo';
 import { LOST_CITIES } from 'z-games-lost-cities';
 
 import { GamePlayers, GamePlayer, GameResults, NoThanks, Perudo, LostCities } from '../../components';
-import { IGame, IUser, GameData, GamePlayerType } from '../../interfaces';
+import { IGame, IUser, GameDataType, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
 
@@ -25,7 +25,7 @@ export function GameTable({ game, currentUser }: {
   currentUser: IUser,
 }) {
   const { name, state, gameData, players, nextPlayers } = game;
-  const gameDataParsed: GameData = JSON.parse(gameData);
+  const gameDataParsed: GameDataType = JSON.parse(gameData);
   const playersInGame: GamePlayerType[] = gameDataParsed.players;
   const { cards, chips, points, dices } = (playersInGame.find(
     (playerInGame: GamePlayerType) => playerInGame.id === currentUser.id,

@@ -19,20 +19,20 @@ export function Log({ type, createdAt, username, text }: {
 
       <span className={`log-${type}`}>
         {(type === 'connect' ||
-          type === 'disconnect') && <Fragment>{username} {type}ed</Fragment>}
+          type === 'disconnect') && <Fragment>{username} has {type}ed</Fragment>}
 
         {(type === 'join' ||
           type === 'start' ||
-          type === 'open') && <Fragment>{username} {type}ed the game</Fragment>}
+          type === 'open') && <Fragment>{username} has {type}ed the game</Fragment>}
         {(type === 'create' ||
           type === 'close' ||
-          type === 'leave') && <Fragment>{username} {type}d the game</Fragment>}
+          type === 'leave') && <Fragment>{username} has {type}d the game</Fragment>}
 
-        {type === 'ready' && <Fragment>{username} updated ready status</Fragment>}
+        {type === 'ready' && <Fragment>{username} has updated ready status</Fragment>}
 
-        {type === 'watch' && <Fragment>{username} started to watch the game</Fragment>}
+        {type === 'watch' && <Fragment>{username} has started to watch the game</Fragment>}
 
-        {type === 'move' && <Fragment>{username} made a move</Fragment>}
+        {type === 'move' && <Fragment>{username} has made a move</Fragment>}
 
         {type === 'finish' && <Fragment>The game has been finished</Fragment>}
       </span>
