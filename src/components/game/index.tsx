@@ -13,7 +13,7 @@ import {
   openGame as openGameWithoutDispatch,
   watchGame as watchGameWithoutDispatch,
 } from '../../actions';
-import { IGame, GAMES_LOGOS, IUsersState, IGamesState } from '../../interfaces';
+import { IGame, GAMES_LOGOS, IState } from '../../interfaces';
 
 import './index.scss';
 
@@ -113,7 +113,7 @@ GamePure.defaultProps = {
   isButtonsDisabled: false,
 };
 
-const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
+const mapStateToProps = (state: IState) => ({
   isButtonsDisabled: state.users.isButtonsDisabled,
 });
 

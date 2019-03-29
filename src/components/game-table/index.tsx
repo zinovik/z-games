@@ -1,24 +1,14 @@
 import React, { Fragment } from 'react';
 import { object } from 'prop-types';
 import { GAME_STARTED, GAME_FINISHED } from 'z-games-base-game';
-import { NoThanksPlayer, NO_THANKS } from 'z-games-no-thanks';
-import { PerudoPlayer, PERUDO } from 'z-games-perudo';
+import { NO_THANKS } from 'z-games-no-thanks';
+import { PERUDO } from 'z-games-perudo';
 import { LOST_CITIES } from 'z-games-lost-cities';
 
 import { GamePlayers, GamePlayer, GameResults, NoThanks, Perudo, LostCities } from '../../components';
 import { IGame, IUser, GameDataType, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
-
-GameTable.propTypes = {
-  game: object.isRequired,
-  currentUser: object.isRequired,
-}
-
-GameTable.defaultProps = {
-  game: {},
-  currentUser: {},
-}
 
 export function GameTable({ game, currentUser }: {
   game: IGame,
@@ -27,11 +17,22 @@ export function GameTable({ game, currentUser }: {
   const { name, state, gameData, players, nextPlayers } = game;
   const gameDataParsed: GameDataType = JSON.parse(gameData);
   const playersInGame: GamePlayerType[] = gameDataParsed.players;
-  const { cards, chips, points, dices } = (playersInGame.find(
-    (playerInGame: GamePlayerType) => playerInGame.id === currentUser.id,
-  ) || { cards: [], chips: 0, points: 0, dices: [] } ) as PerudoPlayer & NoThanksPlayer;
   const isMyTurn = nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id);
   const isPlayer = players.some(player => player.id === currentUser.id);
+
+  let gameNameInStyle = '';
+
+  switch (name) {
+    case NO_THANKS:
+      gameNameInStyle = 'no-thanks';
+      break;
+    case PERUDO:
+      gameNameInStyle = 'perudo';
+      break;
+    case LOST_CITIES:
+      gameNameInStyle = 'lost-cities';
+      break;
+  }
 
   return (
     <Fragment>
@@ -45,10 +46,7 @@ export function GameTable({ game, currentUser }: {
           nextPlayers={nextPlayers}
         />
 
-        <div className={`
-          game-table-center
-          game-table-center-${name === NO_THANKS ? 'no-thanks' : ''}${name === PERUDO ? 'perudo' : ''}
-        `}>
+        <div className={`game-table-center game-table-center-${gameNameInStyle}`}>
           {name === NO_THANKS && <NoThanks game={game} currentUser={currentUser} isMyTurn={isMyTurn} />}
           {name === PERUDO && <Perudo game={game} currentUser={currentUser} isMyTurn={isMyTurn} />}
           {name === LOST_CITIES && <LostCities game={game} currentUser={currentUser} isMyTurn={isMyTurn} />}
@@ -58,11 +56,8 @@ export function GameTable({ game, currentUser }: {
           gameName={name}
           username={currentUser.username}
           avatar={currentUser.avatar}
-          cards={cards}
-          chips={chips}
-          points={points}
-          dices={dices}
           active={nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id)}
+          gamePlayer={playersInGame.find(playerInGame => playerInGame.id === currentUser.id)}
         />}
 
       </div>}
@@ -70,4 +65,14 @@ export function GameTable({ game, currentUser }: {
       {state === GAME_FINISHED && <GameResults gameName={name} players={players} playersInGame={playersInGame || []} />}
     </Fragment>
   );
-}
+};
+
+GameTable.propTypes = {
+  game: object.isRequired,
+  currentUser: object.isRequired,
+};
+
+GameTable.defaultProps = {
+  game: {},
+  currentUser: {},
+};

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Paper } from '@material-ui/core';
 
 import { GameInfo, GameTable, Chat } from '../../components';
-import { IUser, IGame, IUsersState, IGamesState } from '../../interfaces';
+import { IUser, IGame, IState } from '../../interfaces';
 
 import './index.scss';
 
@@ -43,7 +43,7 @@ function GamePagePure({ currentUser, game }: {
   );
 }
 
-const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
+const mapStateToProps = (state: IState) => ({
   currentUser: state.users.currentUser,
   game: state.games.openGame,
 });

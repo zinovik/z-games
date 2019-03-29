@@ -60,7 +60,7 @@ NewGamePure.propTypes = {
 };
 
 NewGamePure.defaultProps = {
-  newGame: () => console.log,
+  newGame: () => null,
 };
 
 const mapStateToProps = () => ({

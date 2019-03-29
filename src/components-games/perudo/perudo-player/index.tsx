@@ -4,18 +4,6 @@ import { Typography } from '@material-ui/core';
 
 import { PerudoDices } from '../';
 
-PerudoPlayer.propTypes = {
-  dices: arrayOf(number),
-  dicesCount: number,
-  highlightNumber: number,
-  highlightJoker: bool,
-}
-
-PerudoPlayer.defaultProps = {
-  dices: [],
-  dicesCount: 0,
-}
-
 export function PerudoPlayer({ dices, dicesCount, highlightNumber, highlightJoker }: {
   dices?: number[],
   dicesCount?: number,
@@ -35,4 +23,16 @@ export function PerudoPlayer({ dices, dicesCount, highlightNumber, highlightJoke
       </Typography>}
     </Fragment>
   );
+}
+
+PerudoPlayer.propTypes = {
+  dices: arrayOf(number),
+  dicesCount: number,
+  highlightNumber: number,
+  highlightJoker: bool,
+}
+
+PerudoPlayer.defaultProps = {
+  dices: [],
+  dicesCount: 0,
 }

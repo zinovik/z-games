@@ -14,3 +14,5 @@ export * from './IErrorsState.interface';
 export * from './IError.interface';
 export * from './INotificationsState.interface';
 export * from './INotification.interface';
+export * from './IState.interface';
+export * from './IPlayerResult.interface';

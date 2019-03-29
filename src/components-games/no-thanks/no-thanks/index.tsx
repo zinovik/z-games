@@ -7,7 +7,7 @@ import { NoThanksData } from 'z-games-no-thanks';
 
 import { NoThanksCard, NoThanksChips } from '../';
 import { makeMove as makeMoveWithoutDispatch } from '../../../actions';
-import { IGame, IUser, IUsersState, IGamesState } from '../../../interfaces';
+import { IGame, IUser, IState } from '../../../interfaces';
 
 import './index.scss';
 
@@ -20,12 +20,8 @@ export function NoThanksPure({ game, currentUser, isMyTurn, makeMove, isButtonsD
 }) {
 	const { gameData } = game;
 
-	const movePay = (): void => {
-		makeMove({ gameNumber: game.number, move: JSON.stringify({ takeCard: false }) });
-	};
-
-	const moveTake = (): void => {
-		makeMove({ gameNumber: game.number, move: JSON.stringify({ takeCard: true }) });
+	const move = (takeCard: boolean): void => {
+		makeMove({ gameNumber: game.number, move: JSON.stringify({ takeCard }) });
 	};
 
 	if (!currentUser) {
@@ -47,16 +43,16 @@ export function NoThanksPure({ game, currentUser, isMyTurn, makeMove, isButtonsD
 			<NoThanksChips chips={currentCardCost} />
 
 			{isMyTurn && <div className='no-thanks-buttons'>
-				<Button variant='contained' color='primary' className='no-thanks-button' onClick={movePay} disabled={!myChips || isButtonsDisabled}>
+				<Button variant='contained' color='primary' className='no-thanks-button' onClick={() => { move(false); }} disabled={!myChips || isButtonsDisabled}>
 					Pay
 				</Button>
-				<Button variant='contained' color='primary' className='no-thanks-button' onClick={moveTake} disabled={isButtonsDisabled}>
+				<Button variant='contained' color='primary' className='no-thanks-button' onClick={() => { move(true); }} disabled={isButtonsDisabled}>
 					Take
 				</Button>
 			</div>}
 		</Fragment>
 	);
-};
+}
 
 NoThanksPure.propTypes = {
 	game: object.isRequired,
@@ -70,7 +66,7 @@ NoThanksPure.defaultProps = {
 	isMyTurn: false,
 };
 
-const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
+const mapStateToProps = (state: IState) => ({
   isButtonsDisabled: state.users.isButtonsDisabled,
 });
 
