@@ -12,7 +12,7 @@ import {
   readyToGame as readyToGameWithoutDispatch,
   startGame as startGameWithoutDispatch,
 } from '../../actions';
-import { IGame, GamePlayerType, GameDataType, GAMES_LOGOS, IUsersState, IGamesState } from '../../interfaces';
+import { IGame, GamePlayerType, GameDataType, GAMES_LOGOS, IState } from '../../interfaces';
 
 import './index.scss';
 
@@ -77,14 +77,14 @@ function GameInfoPure({ game, currentUserId, isButtonsDisabled, closeGame, leave
         {playersInGame.map((playerInGame, index) => (
           <Typography key={index}>
 
-            {playersOnline.some((playerOnline) => playerOnline.id === playerInGame.id) ?
+            {playersOnline.some(playerOnline => playerOnline.id === playerInGame.id) ?
               (playerInGame.ready ?
                 <span className='player-dot game-green-dot' /> :
                 <span className='player-dot game-yellow-dot' />) :
               <span className='player-dot game-red-dot' />
             }
 
-            {game.players.find(player => player.id === playerInGame.id)!.username}
+            {game.players.find(player => player.id === playerInGame.id) && game.players.find(player => player.id === playerInGame.id)!.username}
           </Typography>
         ))}
 
@@ -130,7 +130,7 @@ GameInfoPure.defaultProps = {
   currentUserId: 'user-id',
 };
 
-const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
+const mapStateToProps = (state: IState) => ({
   isButtonsDisabled: state.users.isButtonsDisabled,
 });
 

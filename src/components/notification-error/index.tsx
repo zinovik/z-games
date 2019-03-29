@@ -22,6 +22,7 @@ function NotificationErrorPure({ id, message, removeError }: {
   return (
     <Snackbar
       open={true}
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
     >
       <SnackbarContent
         message={message}

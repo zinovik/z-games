@@ -1,24 +1,64 @@
 import React from 'react';
 import { string, array } from 'prop-types';
 import { Typography } from '@material-ui/core';
-import { NO_THANKS, NoThanksPlayer } from 'z-games-no-thanks';
-import { PerudoPlayer } from 'z-games-perudo';
+import { NoThanksPlayer } from 'z-games-no-thanks';
+import { PERUDO, PerudoPlayer } from 'z-games-perudo';
 
 import { GamePlayer } from '../../components'
-import { IUser, GamePlayerType } from '../../interfaces';
+import { IUser, IPlayerResult, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
 
-interface IResult {
-  username: string;
-  avatar: string;
-  place: number,
+export function GameResults({ gameName, players, playersInGame }: {
+  gameName: string,
+  players: IUser[],
+  playersInGame: GamePlayerType[],
+}) {
+  const results: IPlayerResult[] = playersInGame.map(playerInGame => {
+    const currentUser = players.find(player => player.id === playerInGame.id);
 
-  cards: number[],
-  chips: number,
-  points: number,
+    if (gameName === PERUDO) {
+      return {
+        username: currentUser!.username,
+        avatar: currentUser!.avatar,
+        place: playerInGame.place,
+        dicesCount: (playerInGame as PerudoPlayer).dicesCount || 0,
+        points: 0,
+      };
+    }
 
-  dicesCount: number,
+    return {
+      username: currentUser!.username,
+      avatar: currentUser!.avatar,
+      place: playerInGame.place,
+      cards: (playerInGame as NoThanksPlayer).cards || [],
+      chips: (playerInGame as NoThanksPlayer).chips || 0,
+      points: (playerInGame as NoThanksPlayer).points || 0,
+    };
+  });
+
+  results.sort((a, b) => (a.place === b.place ? a.points - b.points : a.place - b.place));
+
+  return (
+    <div className='game-results-container'>
+      {results.map((result, index) => (
+        <div key={`result${index}`} className='game-results-player'>
+
+          <Typography>
+            {result.place} place
+          </Typography>
+
+          <GamePlayer
+            gameName={gameName}
+            username={result.username}
+            avatar={result.avatar}
+            gamePlayer={result as unknown as GamePlayerType}
+          />
+
+        </div>
+      ))}
+    </div>
+  );
 }
 
 GameResults.propTypes = {
@@ -31,59 +71,4 @@ GameResults.defaultProps = {
   gameName: 'game-name',
   players: [],
   playersInGame: [],
-}
-
-export function GameResults({ gameName, players, playersInGame }: {
-  gameName: string,
-  players: IUser[],
-  playersInGame: GamePlayerType[],
-}) {
-  const results: IResult[] = playersInGame.map((playerInGame) => {
-    if (gameName === NO_THANKS) {
-      return {
-        username: players.find(player => player.id === playerInGame.id)!.username,
-        avatar: players.find(player => player.id === playerInGame.id)!.avatar,
-        cards: (playerInGame as NoThanksPlayer).cards || [],
-        chips: (playerInGame as NoThanksPlayer).chips || 0,
-        points: (playerInGame as NoThanksPlayer).points || 0,
-        place: playerInGame.place,
-        dicesCount: 0,
-      };
-    }
-
-    return {
-      username: players.find(player => player.id === playerInGame.id)!.username,
-      avatar: players.find(player => player.id === playerInGame.id)!.avatar,
-      cards: [],
-      chips: 0,
-      points: 0,
-      place: playerInGame.place,
-      dicesCount: (playerInGame as PerudoPlayer).dicesCount || 0,
-    };
-  });
-
-  results.sort((a, b) => (a.place === b.place ? a.points - b.points : a.place - b.place));
-
-  return (
-    <div className='game-results-container'>
-      {results.map((result, index) => (
-        <div key={index} className='game-results-player'>
-          <Typography>
-            {result.place} place
-          </Typography>
-
-          <GamePlayer
-            gameName={gameName}
-            username={result.username}
-            avatar={result.avatar}
-            cards={result.cards}
-            chips={result.chips}
-            points={result.points}
-            dicesCount={result.dicesCount}
-          />
-
-        </div>
-      ))}
-    </div>
-  );
 }

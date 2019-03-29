@@ -1,8 +1,7 @@
-
 import { Dispatch, AnyAction } from 'redux';
 import { push } from 'connected-react-router';
 
-import { IUser, IUsersOnline, IGame, ILog } from '../interfaces';
+import { IUser, IUsersOnline, IGame, ILog, IState } from '../interfaces';
 import * as ActionTypes from './action-types';
 
 export const updateStatus = (isConnected: boolean) =>
@@ -32,7 +31,7 @@ export const updateAllGames = (allGames: IGame[]) =>
   });
 
 export const updateOpenGame = (openGameToUpdate: IGame) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  async (dispatch: Dispatch, getState: () => IState): Promise<AnyAction> => {
 
     const gameNumber = openGameToUpdate && openGameToUpdate.number;
 
@@ -42,13 +41,26 @@ export const updateOpenGame = (openGameToUpdate: IGame) =>
       dispatch(push(`/game/${gameNumber}`));
     }
 
+    if (openGameToUpdate) {
+      const currentUser = getState().users.currentUser;
+
+      if (currentUser) {
+        const { nextPlayers } = openGameToUpdate;
+        const isMyTurn = nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id);
+
+        if (isMyTurn) {
+          dispatch({
+            type: ActionTypes.ADD_NOTIFICATION,
+            message: 'Your turn!',
+          })
+        }
+      }
+    }
+
     dispatch({
       type: ActionTypes.UPDATE_OPEN_GAME,
       openGame: openGameToUpdate,
     });
-
-    // TODO
-    // const isMyTurn = nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id);
 
     return dispatch({
       type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,

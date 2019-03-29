@@ -45,6 +45,6 @@ GameRules.propTypes = {
 };
 
 GameRules.defaultProps = {
-  gameName: 'game-name',
-  close: () => console.log,
+  gameName: '',
+  close: () => null,
 };

@@ -6,7 +6,7 @@ import { Button, Typography } from '@material-ui/core';
 import { LostCitiesData } from 'z-games-lost-cities';
 
 import { makeMove as makeMoveWithoutDispatch } from '../../../actions';
-import { IGame, IUser, IUsersState, IGamesState } from '../../../interfaces';
+import { IGame, IUser, IState } from '../../../interfaces';
 
 import './index.scss';
 
@@ -19,12 +19,8 @@ export function LostCitiesPure({ game, currentUser, isMyTurn, makeMove, isButton
 }) {
 	const { gameData } = game;
 
-	const movePay = (): void => {
-		makeMove({ gameNumber: game.number, move: JSON.stringify({ takeCard: false }) });
-	};
-
-	const moveTake = (): void => {
-		makeMove({ gameNumber: game.number, move: JSON.stringify({ takeCard: true }) });
+	const move = (takeCard: boolean): void => {
+		makeMove({ gameNumber: game.number, move: JSON.stringify({ takeCard }) });
 	};
 
 	if (!currentUser) {
@@ -52,16 +48,16 @@ export function LostCitiesPure({ game, currentUser, isMyTurn, makeMove, isButton
 			</Typography>
 
 			{isMyTurn && <div className='lost-cities-buttons'>
-				<Button variant='contained' color='primary' className='lost-cities-button' onClick={movePay} disabled={!myChips || isButtonsDisabled}>
+				<Button variant='contained' color='primary' className='lost-cities-button' onClick={() => { move(false); }} disabled={!myChips || isButtonsDisabled}>
 					Pay
 				</Button>
-				<Button variant='contained' color='primary' className='lost-cities-button' onClick={moveTake} disabled={isButtonsDisabled}>
+				<Button variant='contained' color='primary' className='lost-cities-button' onClick={() => { move(true); }} disabled={isButtonsDisabled}>
 					Take
 				</Button>
 			</div>}
 		</Fragment>
 	);
-};
+}
 
 LostCitiesPure.propTypes = {
 	game: object.isRequired,
@@ -75,7 +71,7 @@ LostCitiesPure.defaultProps = {
 	isMyTurn: false,
 };
 
-const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
+const mapStateToProps = (state: IState) => ({
 	isButtonsDisabled: state.users.isButtonsDisabled,
 });
 

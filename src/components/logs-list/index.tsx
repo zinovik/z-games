@@ -11,13 +11,13 @@ export function LogsList({ logs }: {
 }) {
   return (
     <div className='logs-list-container'>
-      {logs.map(({ type, text, createdAt, user: { username } }, index) => (
+      {logs.map(({ type, text, createdAt, user }, index) => (
         <div key={index}>
           <Log
             type={type}
             text={text}
             createdAt={createdAt}
-            username={username}
+            username={user && user.username}
           />
         </div>
       ))}

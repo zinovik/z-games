@@ -7,7 +7,7 @@ import { Menu } from '@material-ui/icons';
 import { History } from 'history';
 
 import { Authorize, CurrentUser, UsersOnline } from '../../components';
-import { IUser, IUsersOnline, IUsersState } from '../../interfaces';
+import { IUser, IUsersOnline, IState } from '../../interfaces';
 
 import './index.scss';
 
@@ -15,8 +15,8 @@ const MENU_WIDTH_MIN = 600;
 
 export function HeaderPure({ currentUser, usersOnline, history }: {
 	currentUser: IUser,
-	history: History,
 	usersOnline: IUsersOnline,
+	history: History,
 }) {
 	const [width, setWidth] = useState(0);
 	const [isDrawerShown, setIsDrawerShown] = useState(false);
@@ -24,7 +24,7 @@ export function HeaderPure({ currentUser, usersOnline, history }: {
 	const currentUsername = currentUser && currentUser.username;
 	const avatar = currentUser && currentUser.avatar;
 
-	const LINKS = ['Home', 'Games', 'Rating', 'Rules', 'Profile', 'About'];
+	const LINKS = currentUser ? ['Home', 'Games', 'Rating', 'Rules', 'Profile', 'About'] : ['Home', 'Games', 'Rating', 'Rules', 'About'];
 
 	const handleDrawerToggle = (): void => {
 		setIsDrawerShown(!isDrawerShown);
@@ -111,15 +111,15 @@ export function HeaderPure({ currentUser, usersOnline, history }: {
 
 HeaderPure.propTypes = {
 	currentUser: object,
-	history: object,
 	usersOnline: object.isRequired,
 }
 
 HeaderPure.defaultProps = {
 	currentUser: {},
+	usersOnline: {},
 }
 
-const mapStateToProps = (state: { users: IUsersState }) => ({
+const mapStateToProps = (state: IState) => ({
 	usersOnline: state.users.usersOnline,
 	currentUser: state.users.currentUser,
 });

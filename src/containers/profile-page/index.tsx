@@ -1,17 +1,18 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useContext } from 'react';
 import { Typography } from '@material-ui/core';
+import { withRouter } from 'react-router-dom';
+import { History } from 'history';
 
+import { CurrentUserContext } from '../../App';
 import { Header } from '../../components';
-import { IUser, IUsersState } from '../../interfaces';
 
 import './index.scss';
 
-function ProfilePagePure({ currentUser }: {
-  currentUser: IUser,
-}) {
+function ProfilePagePure({ history }: { history: History }) {
+  const currentUser = useContext(CurrentUserContext);
+
   if (!currentUser) {
-    // TODO: Redirect
+    history.push('home');
     return null;
   }
 
@@ -19,6 +20,7 @@ function ProfilePagePure({ currentUser }: {
 
   return (
     <main className='profile-page-container'>
+
       <Header />
 
       <div className='profile-page-content'>
@@ -36,18 +38,9 @@ function ProfilePagePure({ currentUser }: {
           </Typography>
         </div>
       </div>
+
     </main>
   );
 }
 
-const mapStateToProps = (state: { users: IUsersState }) => ({
-  currentUser: state.users.currentUser,
-});
-
-const mapDispatchToProps = () => ({
-});
-
-export const ProfilePage = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(ProfilePagePure);
+export const ProfilePage = withRouter(ProfilePagePure);

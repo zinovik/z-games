@@ -4,7 +4,7 @@ import { Dispatch, bindActionCreators } from 'redux';
 
 import { Header, UsersRating } from '../../components';
 import { fetchRating as fetchRatingWithoutDispatch } from '../../actions';
-import { IUser, IUsersState } from '../../interfaces';
+import { IUser, IState } from '../../interfaces';
 
 import './index.scss';
 
@@ -30,7 +30,7 @@ function RatingPagePure({ usersRating, fetchRating }: {
   );
 }
 
-const mapStateToProps = (state: { users: IUsersState }) => ({
+const mapStateToProps = (state: IState) => ({
   usersRating: state.users.usersRating,
 });
 

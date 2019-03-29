@@ -10,17 +10,6 @@ const lostCitiesCardShape = {
   expedition: number,
 };
 
-LostCitiesPlayer.propTypes = {
-  cardsHand: arrayOf(shape(lostCitiesCardShape)).isRequired,
-  cardsHandCount: number,
-  cardsExpeditions: arrayOf(shape(lostCitiesCardShape)).isRequired,
-  points: number,
-}
-
-LostCitiesPlayer.defaultProps = {
-  cards: [],
-}
-
 export function LostCitiesPlayer({ cardsHand, cardsHandCount, cardsExpeditions, points }: {
   cardsHand: LostCitiesCard[],
   cardsHandCount: number,
@@ -43,3 +32,14 @@ export function LostCitiesPlayer({ cardsHand, cardsHandCount, cardsExpeditions, 
     </Fragment>
   );
 }
+
+LostCitiesPlayer.propTypes = {
+  cardsHand: arrayOf(shape(lostCitiesCardShape)).isRequired,
+  cardsHandCount: number,
+  cardsExpeditions: arrayOf(shape(lostCitiesCardShape)).isRequired,
+  points: number,
+};
+
+LostCitiesPlayer.defaultProps = {
+  cards: [],
+};

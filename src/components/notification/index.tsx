@@ -20,7 +20,6 @@ function NotificationPure({ id, message, removeNotification }: {
   return (
     <Snackbar
       open={true}
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       autoHideDuration={4000}
       onClose={handleClose}
     >

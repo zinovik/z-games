@@ -12,25 +12,26 @@ import {
   AboutPage,
 } from './containers';
 import { Activate, Loading, NotificationError, Notification } from './components';
-import { IUsersState, IErrorsState, INotificationsState, IError, INotification } from './interfaces';
+import { IState, IUser, IError, INotification } from './interfaces';
 
 import './App.scss';
 
+export const CurrentUserContext = createContext(null as IUser | null);
+
 interface IAppProps extends Props<{}> {
   isConnected: boolean,
+  currentUser: IUser,
   errors: IError[],
   notifications: INotification[],
 }
 
-const CurrentUserContext = createContext('test');
-
 class App extends Component<IAppProps, {}> {
 
   public render() {
-    const { isConnected, errors, notifications } = this.props;
+    const { isConnected, currentUser, errors, notifications } = this.props;
 
     return (
-      <CurrentUserContext.Provider value='test'>
+      <CurrentUserContext.Provider value={currentUser}>
 
         <Switch>
           <Route path='/home' component={HomePage} />
@@ -61,8 +62,9 @@ class App extends Component<IAppProps, {}> {
 
 }
 
-const mapStateToProps = (state: { users: IUsersState, errors: IErrorsState, notifications: INotificationsState }) => ({
+const mapStateToProps = (state: IState) => ({
   isConnected: state.users.isConnected,
+  currentUser: state.users.currentUser,
   errors: state.errors.errors,
   notifications: state.notifications.notifications,
 });

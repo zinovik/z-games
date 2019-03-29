@@ -19,7 +19,7 @@ import {
 
 import { PerudoDices } from '../';
 import { makeMove as makeMoveWithoutDispatch } from '../../../actions';
-import { IGame, IUsersState, IGamesState } from '../../../interfaces';
+import { IGame, IState } from '../../../interfaces';
 
 import './index.scss';
 
@@ -157,7 +157,7 @@ PerudoMovePure.defaultProps = {
   isMaputoAble: false,
 };
 
-const mapStateToProps = (state: { users: IUsersState, games: IGamesState }) => ({
+const mapStateToProps = (state: IState) => ({
   isButtonsDisabled: state.users.isButtonsDisabled,
 });
 
