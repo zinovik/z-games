@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { Fragment, useState, ComponentType } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
-import { object, string, bool } from 'prop-types';
+import { object, string } from 'prop-types';
 import { Card, CardHeader, CardContent, Typography, IconButton, CardActions } from '@material-ui/core';
 import { Gamepad, OpenInBrowser, RemoveRedEye } from '@material-ui/icons';
 import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED, GAME_STATE_LABEL } from 'z-games-base-game';
@@ -104,13 +104,11 @@ export function GamePure({ game, currentUsername, isButtonsDisabled, joinGame, o
 GamePure.propTypes = {
   game: object.isRequired,
   currentUsername: string,
-  isButtonsDisabled: bool.isRequired,
 };
 
 GamePure.defaultProps = {
   game: {},
   currentUsername: undefined,
-  isButtonsDisabled: false,
 };
 
 const mapStateToProps = (state: IState) => ({

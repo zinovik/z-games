@@ -212,7 +212,7 @@ export const refreshToken = (newToken: string) =>
   };
 
 export const removeError = (errorId: number) =>
-  async (dispatch: Dispatch): Promise<any> => {
+  async (dispatch: Dispatch): Promise<AnyAction> => {
     return dispatch({
       type: ActionTypes.REMOVE_ERROR,
       errorId,
