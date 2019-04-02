@@ -14,7 +14,7 @@ import {
   numberDec,
   figureInc,
   figureDec,
-  PerudoData
+  IPerudoData,
 } from 'z-games-perudo';
 
 import { PerudoDices } from '../';
@@ -23,11 +23,11 @@ import { IGame, IState } from '../../../interfaces';
 
 import './index.scss';
 
-export function PerudoMovePure({ game, isMaputoAble, makeMove, isButtonsDisabled }: {
+export function PerudoMovePure({ game, isMaputoAble, isButtonsDisabled, makeMove }: {
   game: IGame,
   isMaputoAble: boolean,
-	isButtonsDisabled: boolean,
-  makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void, 
+  isButtonsDisabled: boolean,
+  makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
 }) {
   const [diceNumber, setDiceNumber] = useState(0);
   const [diceFigure, setDiceFigure] = useState(0);
@@ -36,8 +36,8 @@ export function PerudoMovePure({ game, isMaputoAble, makeMove, isButtonsDisabled
   const [oldGameData, setOldGameData] = useState('');
 
   const { gameData } = game;
-  const { currentDiceNumber, currentDiceFigure, isMaputoRound, players: playersInGame }: PerudoData = JSON.parse(gameData);
-  const allDicesCount = countDices(playersInGame);
+  const { currentDiceNumber, currentDiceFigure, isMaputoRound, players: gamePlayers }: IPerudoData = JSON.parse(gameData);
+  const allDicesCount = countDices(gamePlayers);
 
   if (gameData !== oldGameData) {
     const {
@@ -102,7 +102,7 @@ export function PerudoMovePure({ game, isMaputoAble, makeMove, isButtonsDisabled
   const myBetFigureIncDisable = diceFigure >= countMaxFigure({ currentDiceNumber, currentDiceFigure, allDicesCount });
 
   return (
-    <Fragment>
+    <div className='perudo-my-bet'>
       <Typography>
         My bet
       </Typography>
@@ -143,9 +143,9 @@ export function PerudoMovePure({ game, isMaputoAble, makeMove, isButtonsDisabled
         </Button>
       </Typography>
 
-    </Fragment>
+    </div>
   );
-};
+}
 
 PerudoMovePure.propTypes = {
   game: object.isRequired,

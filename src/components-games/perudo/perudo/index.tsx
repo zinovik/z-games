@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { object, bool } from 'prop-types';
 import { Typography } from '@material-ui/core';
-import { PerudoData } from 'z-games-perudo';
+import { IPerudoData } from 'z-games-perudo';
 
 import { PerudoDices, PerudoMove, PerudoLastRoundResults } from '../';
 import { IGame, IUser } from '../../../interfaces';
@@ -28,18 +28,18 @@ export function Perudo({ game, currentUser, isMyTurn }: {
 		lastRoundResults,
 		lastRoundFigure,
 		isLastRoundMaputo,
-		players: playersInGame,
-	}: PerudoData & { lastPlayerNumber: number } = JSON.parse(gameData); // TODO Check lastPlayerNumber in PerudoData
+		players: gamePlayers,
+	}: IPerudoData = JSON.parse(gameData);
 
-	const currentPlayerInGame = playersInGame.find(playerInGame => playerInGame.id === currentUser.id);
-	const isMaputoAble = currentPlayerInGame && currentPlayerInGame.dices.length === 1
+	const currentGamePlayer = gamePlayers.find(gamePlayer => gamePlayer.id === currentUser.id);
+	const isMaputoAble = currentGamePlayer && currentGamePlayer.dices.length === 1
 		&& !currentDiceNumber
 		&& !currentDiceFigure
-		&& playersInGame.filter(playerInGame => {
-			return (playerInGame.dicesCount || 0) > 0;
+		&& gamePlayers.filter(gamePlayer => {
+			return (gamePlayer.dicesCount || 0) > 0;
 		}).length > 2
-		&& playersInGame.reduce((diceCount: number, playerInGame) => {
-			return diceCount + (playerInGame.dicesCount || 0);
+		&& gamePlayers.reduce((diceCount: number, gamePlayer) => {
+			return diceCount + (gamePlayer.dicesCount || 0);
 		}, 0) > 3;
 
 	return (
@@ -50,7 +50,7 @@ export function Perudo({ game, currentUser, isMyTurn }: {
 				</Typography>
 
 				<PerudoLastRoundResults
-					playersInGame={lastRoundResults}
+					gamePlayers={lastRoundResults}
 					players={players}
 					lastRoundFigure={lastRoundFigure}
 					isLastRoundMaputo={isLastRoundMaputo}
@@ -75,12 +75,10 @@ export function Perudo({ game, currentUser, isMyTurn }: {
 					<PerudoDices dices={Array(currentDiceNumber).fill(currentDiceFigure)} />
 				</div> : ''}
 
-				{isMyTurn && <div className='perudo-my-bet'>
-					<PerudoMove
-						game={game}
-						isMaputoAble={isMaputoAble}
-					/>
-				</div>}
+				{isMyTurn && <PerudoMove
+					game={game}
+					isMaputoAble={isMaputoAble}
+				/>}
 
 			</div>
 

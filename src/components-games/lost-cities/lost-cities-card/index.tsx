@@ -10,8 +10,18 @@ LostCitiesCard.propTypes = {
 
 export function LostCitiesCard({ cost, expedition }: { cost: number, expedition: number }) {
   return (
-    <div className={`lost-cities-card${expedition ? ' lost-cities-card-dim' : ''}`}>
-      {cost}
+    <div className={`lost-cities-card lost-cities-card-expedition-${expedition}`}>
+      {cost || 'X'}
     </div>
   );
 };
+
+LostCitiesCard.propTypes = {
+  cost: number.isRequired,
+  expedition: number.isRequired,
+}
+
+LostCitiesCard.defaultProps = {
+  cost: 0,
+  expedition: 0,
+}

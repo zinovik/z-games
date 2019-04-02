@@ -1,21 +1,10 @@
 import React from 'react';
 import { arrayOf, shape, number } from 'prop-types';
+import { getCardShape } from 'z-games-lost-cities';
 
 import { LostCitiesCard } from '../';
+
 import './index.scss';
-
-const lostCitiesCardShape = {
-  cost: number,
-  expedition: number,
-};
-
-LostCitiesCardsList.propTypes = {
-  cards: arrayOf(shape(lostCitiesCardShape)).isRequired,
-}
-
-LostCitiesCardsList.defaultProps = {
-  cards: [],
-}
 
 export function LostCitiesCardsList({ cards }: { cards: Array<{ cost: number, expedition: number }> }) {
   return (
@@ -25,4 +14,12 @@ export function LostCitiesCardsList({ cards }: { cards: Array<{ cost: number, ex
       ))}
     </div>
   );
+}
+
+LostCitiesCardsList.propTypes = {
+  cards: arrayOf(shape(getCardShape(number))).isRequired,
+};
+
+LostCitiesCardsList.defaultProps = {
+  cards: [],
 };

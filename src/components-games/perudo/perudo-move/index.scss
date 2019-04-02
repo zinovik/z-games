@@ -1,12 +1,19 @@
-.perudo-my-bet > .perudo-move-buttons {
+.perudo-my-bet {
+  flex: 1 0 50%;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
 
-  .perudo-move-button {
-    width: 100px;
-    height: 60px;
-    margin: 2px;
+  .perudo-move-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    .perudo-move-button {
+      width: 100px;
+      height: 60px;
+      margin: 2px;
+    }
   }
 }

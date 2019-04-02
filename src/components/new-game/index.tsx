@@ -4,9 +4,9 @@ import { Dispatch, bindActionCreators } from 'redux';
 import { func } from 'prop-types';
 import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Fab } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
-import { NO_THANKS } from 'z-games-no-thanks';
-import { PERUDO } from 'z-games-perudo';
-import { LOST_CITIES } from 'z-games-lost-cities';
+import { NAME as NO_THANKS } from 'z-games-no-thanks';
+import { NAME as PERUDO } from 'z-games-perudo';
+import { NAME as LOST_CITIES } from 'z-games-lost-cities';
 
 import { newGame as newGameWithoutDispatch } from '../../actions';
 
