@@ -6,23 +6,23 @@ import { IUser, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
 
-export function GamePlayers({ gameName, currentUserId, playersInGame, players, nextPlayers }: {
+export function GamePlayers({ gameName, currentUserId, gamePlayers, players, nextPlayers }: {
   gameName: string,
   currentUserId: string,
-  playersInGame: GamePlayerType[],
+  gamePlayers: GamePlayerType[],
   players: IUser[],
   nextPlayers: IUser[],
 }) {
   let playerNumber;
 
-  playersInGame.forEach((player, index) => {
+  gamePlayers.forEach((player, index) => {
     if (player.id === currentUserId) {
       playerNumber = index;
     }
   });
 
   // Change players order to be make current player the last player
-  const playersCopy = playersInGame.slice();
+  const playersCopy = gamePlayers.slice();
   const playersBeforeCurrent = playersCopy.splice(0, playerNumber);
   const playersWithNewOrder = [...playersCopy, ...playersBeforeCurrent];
 
@@ -55,7 +55,7 @@ export function GamePlayers({ gameName, currentUserId, playersInGame, players, n
 GamePlayers.propTypes = {
   gameName: string.isRequired,
   currentUserId: string.isRequired,
-  playersInGame: array.isRequired,
+  gamePlayers: array.isRequired,
   players: array.isRequired,
   nextPlayers: array.isRequired,
 };
@@ -63,7 +63,7 @@ GamePlayers.propTypes = {
 GamePlayers.defaultProps = {
   gameName: '',
   currentUserId: '',
-  playersInGame: [],
+  gamePlayers: [],
   players: [],
   nextPlayers: [],
 };

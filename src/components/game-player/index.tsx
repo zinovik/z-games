@@ -1,9 +1,11 @@
 import React from 'react';
 import { string, bool, object } from 'prop-types';
 import { Typography, Avatar } from '@material-ui/core';
-import { NO_THANKS, NoThanksPlayer as INoThanksPlayer } from 'z-games-no-thanks';
-import { PERUDO, PerudoPlayer as IPerudoPlayer } from 'z-games-perudo';
-import { LOST_CITIES, LostCitiesPlayer as ILostCitiesPlayer } from 'z-games-lost-cities';
+import { NAME as NO_THANKS, INoThanksPlayer } from 'z-games-no-thanks';
+import { NAME as PERUDO, IPerudoPlayer } from 'z-games-perudo';
+import { NAME as LOST_CITIES, ILostCitiesPlayer } from 'z-games-lost-cities';
+
+import { gamesServices } from '../../services';
 
 import {
   NoThanksPlayer,
@@ -27,19 +29,7 @@ export function GamePlayer({
   active?: boolean,
   gamePlayer?: GamePlayerType;
 }) {
-  let gameNameInStyle = '';
-
-  switch (gameName) {
-    case NO_THANKS:
-      gameNameInStyle = 'no-thanks';
-      break;
-    case PERUDO:
-      gameNameInStyle = 'perudo';
-      break;
-    case LOST_CITIES:
-      gameNameInStyle = 'lost-cities';
-      break;
-  }
+  const gameNameInStyle = gamesServices[gameName].getNameWork();
 
   return (
     <div className={`

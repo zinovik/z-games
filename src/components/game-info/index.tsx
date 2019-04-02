@@ -53,11 +53,11 @@ function GameInfoPure({ game, currentUserId, isButtonsDisabled, closeGame, leave
 
   const { playersOnline, watchers } = game;
   const gameDataParsed: GameDataType = JSON.parse(game.gameData);
-  const playersInGame: GamePlayerType[] = gameDataParsed.players;
+  const { players: gamePlayers }: { players: GamePlayerType[] } = gameDataParsed;
 
   const isAbleToStart = game.players.length >= game.playersMin
     && game.players.length <= game.playersMax
-    && playersInGame.every((playerInGame: GamePlayerType) => playerInGame.ready);
+    && gamePlayers.every(gamePlayer => gamePlayer.ready);
 
   return (
     <div className='game-info-container'>
@@ -74,17 +74,17 @@ function GameInfoPure({ game, currentUserId, isButtonsDisabled, closeGame, leave
           ({game.playersMin} min, {game.playersMax} max)
         </Typography>}
 
-        {playersInGame.map((playerInGame, index) => (
+        {gamePlayers.map((gamePlayer, index) => (
           <Typography key={index}>
 
-            {playersOnline.some(playerOnline => playerOnline.id === playerInGame.id) ?
-              (playerInGame.ready ?
+            {playersOnline.some(playerOnline => playerOnline.id === gamePlayer.id) ?
+              (gamePlayer.ready ?
                 <span className='player-dot game-green-dot' /> :
                 <span className='player-dot game-yellow-dot' />) :
               <span className='player-dot game-red-dot' />
             }
 
-            {game.players.find(player => player.id === playerInGame.id) && game.players.find(player => player.id === playerInGame.id)!.username}
+            {game.players.find(player => player.id === gamePlayer.id) && game.players.find(player => player.id === gamePlayer.id)!.username}
           </Typography>
         ))}
 
@@ -107,7 +107,7 @@ function GameInfoPure({ game, currentUserId, isButtonsDisabled, closeGame, leave
 
         {game.state === GAME_NOT_STARTED && <Fragment>
           <Button onClick={handleReadyClick} disabled={isButtonsDisabled}>
-            {playersInGame.find(playerInGame => playerInGame.id === currentUserId)!.ready ? 'Not Ready' : 'Ready'}
+            {gamePlayers.find(gamePlayer => gamePlayer.id === currentUserId)!.ready ? 'Not Ready' : 'Ready'}
           </Button>
 
           <Button onClick={handleStartClick} disabled={!isAbleToStart || isButtonsDisabled}>Start</Button>

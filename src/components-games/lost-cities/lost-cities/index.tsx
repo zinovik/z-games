@@ -1,36 +1,23 @@
-import React, { Fragment, ComponentType } from 'react';
-import { connect } from 'react-redux';
-import { Dispatch, bindActionCreators } from 'redux';
+import React, { Fragment } from 'react';
 import { object, bool } from 'prop-types';
-import { Button, Typography } from '@material-ui/core';
-import { LostCitiesData } from 'z-games-lost-cities';
+import { Typography } from '@material-ui/core';
+import { ILostCitiesData } from 'z-games-lost-cities';
 
-import { makeMove as makeMoveWithoutDispatch } from '../../../actions';
-import { IGame, IUser, IState } from '../../../interfaces';
+import { LostCitiesMove, LostCitiesCardsList } from '../';
+import { IGame, IUser } from '../../../interfaces';
 
-import './index.scss';
-
-export function LostCitiesPure({ game, currentUser, isMyTurn, makeMove, isButtonsDisabled }: {
+export function LostCities({ game, currentUser, isMyTurn }: {
 	game: IGame,
 	currentUser: IUser,
 	isMyTurn: boolean,
-	isButtonsDisabled: boolean,
-	makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void, 
 }) {
 	const { gameData } = game;
-
-	const move = (takeCard: boolean): void => {
-		makeMove({ gameNumber: game.number, move: JSON.stringify({ takeCard }) });
-	};
 
 	if (!currentUser) {
 		return null;
 	}
 
-	const { cards, discards, cardsLeft, players: playersInGame }: LostCitiesData = JSON.parse(gameData);
-
-	const currentPlayerInGame = playersInGame.find(playerInGame => playerInGame.id === currentUser.id);
-	const myChips = currentPlayerInGame && currentPlayerInGame;
+	const { discards, cardsLeft }: ILostCitiesData = JSON.parse(gameData);
 
 	return (
 		<Fragment>
@@ -40,46 +27,26 @@ export function LostCitiesPure({ game, currentUser, isMyTurn, makeMove, isButton
 			</Typography>
 
 			<Typography>
-				Cards: {cards.join(', ')}
+				Discards:
 			</Typography>
+			<LostCitiesCardsList cards={discards} />
 
-			<Typography>
-				Discards: {discards.join(', ')}
-			</Typography>
-
-			{isMyTurn && <div className='lost-cities-buttons'>
-				<Button variant='contained' color='primary' className='lost-cities-button' onClick={() => { move(false); }} disabled={!myChips || isButtonsDisabled}>
-					Pay
-				</Button>
-				<Button variant='contained' color='primary' className='lost-cities-button' onClick={() => { move(true); }} disabled={isButtonsDisabled}>
-					Take
-				</Button>
-			</div>}
+			{isMyTurn && <LostCitiesMove
+				game={game}
+				currentUser={currentUser}
+			/>}
 		</Fragment>
 	);
 }
 
-LostCitiesPure.propTypes = {
+LostCities.propTypes = {
 	game: object.isRequired,
 	currentUser: object.isRequired,
 	isMyTurn: bool.isRequired,
 };
 
-LostCitiesPure.defaultProps = {
+LostCities.defaultProps = {
 	game: {},
 	currentUser: {},
 	isMyTurn: false,
 };
-
-const mapStateToProps = (state: IState) => ({
-	isButtonsDisabled: state.users.isButtonsDisabled,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  makeMove: bindActionCreators(makeMoveWithoutDispatch, dispatch),
-});
-
-export const LostCities = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(LostCitiesPure as ComponentType<any>);

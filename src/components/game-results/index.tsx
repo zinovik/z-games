@@ -1,28 +1,28 @@
 import React from 'react';
 import { string, array } from 'prop-types';
 import { Typography } from '@material-ui/core';
-import { NoThanksPlayer } from 'z-games-no-thanks';
-import { PERUDO, PerudoPlayer } from 'z-games-perudo';
+import { INoThanksPlayer } from 'z-games-no-thanks';
+import { NAME as PERUDO, IPerudoPlayer } from 'z-games-perudo';
 
 import { GamePlayer } from '../../components'
 import { IUser, IPlayerResult, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
 
-export function GameResults({ gameName, players, playersInGame }: {
+export function GameResults({ gameName, players, gamePlayers }: {
   gameName: string,
   players: IUser[],
-  playersInGame: GamePlayerType[],
+  gamePlayers: GamePlayerType[],
 }) {
-  const results: IPlayerResult[] = playersInGame.map(playerInGame => {
-    const currentUser = players.find(player => player.id === playerInGame.id);
+  const results: IPlayerResult[] = gamePlayers.map(gamePlayer => {
+    const currentUser = players.find(player => player.id === gamePlayer.id);
 
     if (gameName === PERUDO) {
       return {
         username: currentUser!.username,
         avatar: currentUser!.avatar,
-        place: playerInGame.place,
-        dicesCount: (playerInGame as PerudoPlayer).dicesCount || 0,
+        place: gamePlayer.place,
+        dicesCount: (gamePlayer as IPerudoPlayer).dicesCount || 0,
         points: 0,
       };
     }
@@ -30,10 +30,10 @@ export function GameResults({ gameName, players, playersInGame }: {
     return {
       username: currentUser!.username,
       avatar: currentUser!.avatar,
-      place: playerInGame.place,
-      cards: (playerInGame as NoThanksPlayer).cards || [],
-      chips: (playerInGame as NoThanksPlayer).chips || 0,
-      points: (playerInGame as NoThanksPlayer).points || 0,
+      place: gamePlayer.place,
+      cards: (gamePlayer as INoThanksPlayer).cards || [],
+      chips: (gamePlayer as INoThanksPlayer).chips || 0,
+      points: (gamePlayer as INoThanksPlayer).points || 0,
     };
   });
 
@@ -64,11 +64,11 @@ export function GameResults({ gameName, players, playersInGame }: {
 GameResults.propTypes = {
   gameName: string.isRequired,
   players: array.isRequired,
-  playersInGame: array.isRequired,
+  gamePlayers: array.isRequired,
 }
 
 GameResults.defaultProps = {
   gameName: 'game-name',
   players: [],
-  playersInGame: [],
+  gamePlayers: [],
 }

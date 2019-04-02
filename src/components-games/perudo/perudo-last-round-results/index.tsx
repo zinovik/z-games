@@ -1,25 +1,25 @@
 import React, { Fragment } from 'react';
 import { array, number, bool } from 'prop-types';
-import { PerudoPlayer } from 'z-games-perudo';
+import { IPerudoPlayer } from 'z-games-perudo';
 
 import { PerudoLastRoundResult } from '../';
 import { IUser } from '../../../interfaces';
 
-export function PerudoLastRoundResults({ playersInGame, players, lastRoundFigure, isLastRoundMaputo }: {
-  playersInGame: PerudoPlayer[],
+export function PerudoLastRoundResults({ gamePlayers, players, lastRoundFigure, isLastRoundMaputo }: {
+  gamePlayers: IPerudoPlayer[],
   players: IUser[],
   lastRoundFigure: number,
   isLastRoundMaputo: boolean,
 }) {
   return (
     <div>
-      {playersInGame.map((playerInGame, index) => (
+      {gamePlayers.map((gamePlayer, index) => (
         <Fragment key={index}>
 
-          {players.find(player => player.id === playerInGame.id) && <PerudoLastRoundResult
-            username={players.find(player => player.id === playerInGame.id)!.username}
-            avatar={players.find(player => player.id === playerInGame.id)!.avatar}
-            dices={playerInGame.dices}
+          {players.find(player => player.id === gamePlayer.id) && <PerudoLastRoundResult
+            username={players.find(player => player.id === gamePlayer.id)!.username}
+            avatar={players.find(player => player.id === gamePlayer.id)!.avatar}
+            dices={gamePlayer.dices}
             lastRoundFigure={lastRoundFigure}
             isLastRoundMaputo={isLastRoundMaputo}
           />}
@@ -31,14 +31,14 @@ export function PerudoLastRoundResults({ playersInGame, players, lastRoundFigure
 }
 
 PerudoLastRoundResults.propTypes = {
-  playersInGame: array.isRequired,
+  gamePlayer: array.isRequired,
   players: array.isRequired,
   lastRoundFigure: number.isRequired,
   isLastRoundMaputo: bool.isRequired,
 };
 
 PerudoLastRoundResults.defaultProps = {
-  playersInGame: [],
+  gamePlayer: [],
   players: [],
   lastRoundFigure: 0,
   isLastRoundMaputo: false,

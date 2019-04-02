@@ -1,5 +1,5 @@
-import { NoThanksData } from 'z-games-no-thanks';
-import { PerudoData } from 'z-games-perudo';
-import { LostCitiesData } from 'z-games-lost-cities';
+import { INoThanksData } from 'z-games-no-thanks';
+import { IPerudoData } from 'z-games-perudo';
+import { ILostCitiesData } from 'z-games-lost-cities';
 
-export type GameDataType = NoThanksData | PerudoData | LostCitiesData;
+export type GameDataType = INoThanksData | IPerudoData | ILostCitiesData;

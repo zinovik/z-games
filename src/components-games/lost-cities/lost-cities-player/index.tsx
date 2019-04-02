@@ -1,19 +1,14 @@
 import React, { Fragment } from 'react';
 import { arrayOf, shape, number } from 'prop-types';
 import { Typography } from '@material-ui/core';
-import { LostCitiesCard } from 'z-games-lost-cities';
+import { ILostCitiesCard, getCardShape } from 'z-games-lost-cities';
 
 import { LostCitiesCardsList } from '../';
 
-const lostCitiesCardShape = {
-  cost: number,
-  expedition: number,
-};
-
 export function LostCitiesPlayer({ cardsHand, cardsHandCount, cardsExpeditions, points }: {
-  cardsHand: LostCitiesCard[],
+  cardsHand: ILostCitiesCard[],
   cardsHandCount: number,
-  cardsExpeditions: LostCitiesCard[],
+  cardsExpeditions: ILostCitiesCard[],
   points: number,
 }) {
   return (
@@ -34,9 +29,9 @@ export function LostCitiesPlayer({ cardsHand, cardsHandCount, cardsExpeditions, 
 }
 
 LostCitiesPlayer.propTypes = {
-  cardsHand: arrayOf(shape(lostCitiesCardShape)).isRequired,
+  cardsHand: arrayOf(shape(getCardShape(number))).isRequired,
   cardsHandCount: number,
-  cardsExpeditions: arrayOf(shape(lostCitiesCardShape)).isRequired,
+  cardsExpeditions: arrayOf(shape(getCardShape(number))).isRequired,
   points: number,
 };
 

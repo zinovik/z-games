@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import { object } from 'prop-types';
 import { GAME_STARTED, GAME_FINISHED } from 'z-games-base-game';
-import { NO_THANKS } from 'z-games-no-thanks';
-import { PERUDO } from 'z-games-perudo';
-import { LOST_CITIES } from 'z-games-lost-cities';
+import { NAME as NO_THANKS } from 'z-games-no-thanks';
+import { NAME as PERUDO } from 'z-games-perudo';
+import { NAME as LOST_CITIES } from 'z-games-lost-cities';
 
 import { GamePlayers, GamePlayer, GameResults, NoThanks, Perudo, LostCities } from '../../components';
 import { IGame, IUser, GameDataType, GamePlayerType } from '../../interfaces';
@@ -16,7 +16,7 @@ export function GameTable({ game, currentUser }: {
 }) {
   const { name, state, gameData, players, nextPlayers } = game;
   const gameDataParsed: GameDataType = JSON.parse(gameData);
-  const playersInGame: GamePlayerType[] = gameDataParsed.players;
+  const gamePlayers: GamePlayerType[] = gameDataParsed.players;
   const isMyTurn = nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id);
   const isPlayer = players.some(player => player.id === currentUser.id);
 
@@ -41,7 +41,7 @@ export function GameTable({ game, currentUser }: {
         <GamePlayers
           gameName={name}
           currentUserId={currentUser.id}
-          playersInGame={playersInGame}
+          gamePlayers={gamePlayers}
           players={players}
           nextPlayers={nextPlayers}
         />
@@ -57,12 +57,12 @@ export function GameTable({ game, currentUser }: {
           username={currentUser.username}
           avatar={currentUser.avatar}
           active={nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id)}
-          gamePlayer={playersInGame.find(playerInGame => playerInGame.id === currentUser.id)}
+          gamePlayer={gamePlayers.find(gamePlayer => gamePlayer.id === currentUser.id)}
         />}
 
       </div>}
 
-      {state === GAME_FINISHED && <GameResults gameName={name} players={players} playersInGame={playersInGame || []} />}
+      {state === GAME_FINISHED && <GameResults gameName={name} players={players} gamePlayers={gamePlayers || []} />}
     </Fragment>
   );
 };
