@@ -5,13 +5,11 @@ import { NAME as NO_THANKS, INoThanksPlayer } from 'z-games-no-thanks';
 import { NAME as PERUDO, IPerudoPlayer } from 'z-games-perudo';
 import { NAME as LOST_CITIES, ILostCitiesPlayer } from 'z-games-lost-cities';
 
-import { gamesServices } from '../../services';
+import { GamesServices } from '../../services';
 
-import {
-  NoThanksPlayer,
-  PerudoPlayer,
-  LostCitiesPlayer,
-} from '../../components';
+import { NoThanksPlayer } from '../../components/games/no-thanks/no-thanks-player';
+import { PerudoPlayer } from '../../components/games/perudo/perudo-player';
+import { LostCitiesPlayer } from '../../components/games/lost-cities/lost-cities-player';
 import { GamePlayerType } from 'src/interfaces';
 
 import './index.scss';
@@ -29,7 +27,7 @@ export function GamePlayer({
   active?: boolean,
   gamePlayer?: GamePlayerType;
 }) {
-  const gameNameInStyle = gamesServices[gameName].getNameWork();
+  const gameNameInStyle = GamesServices[gameName].getNameWork();
 
   return (
     <div className={`
@@ -79,7 +77,6 @@ GamePlayer.propTypes = {
 };
 
 GamePlayer.defaultProps = {
-  gameName: 'game-name',
-  username: 'username',
-  active: false,
+  gameName: '',
+  username: '',
 };

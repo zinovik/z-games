@@ -1,6 +1,4 @@
-import React, { Fragment, useState, ComponentType } from 'react';
-import { connect } from 'react-redux';
-import { Dispatch, bindActionCreators } from 'redux';
+import React, { Fragment, useState } from 'react';
 import { func } from 'prop-types';
 import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Fab } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
@@ -8,11 +6,9 @@ import { NAME as NO_THANKS } from 'z-games-no-thanks';
 import { NAME as PERUDO } from 'z-games-perudo';
 import { NAME as LOST_CITIES } from 'z-games-lost-cities';
 
-import { newGame as newGameWithoutDispatch } from '../../actions';
-
 import './index.scss';
 
-function NewGamePure({ newGame }: {
+export function NewGame({ newGame }: {
   newGame: (gameName: string) => void,
 }) {
   const [isModalShow, setIsModalShow] = useState(false);
@@ -55,22 +51,10 @@ function NewGamePure({ newGame }: {
   );
 };
 
-NewGamePure.propTypes = {
+NewGame.propTypes = {
   newGame: func.isRequired,
 };
 
-NewGamePure.defaultProps = {
+NewGame.defaultProps = {
   newGame: () => null,
 };
-
-const mapStateToProps = () => ({
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  newGame: bindActionCreators(newGameWithoutDispatch, dispatch),
-});
-
-export const NewGame = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(NewGamePure as ComponentType<any>);

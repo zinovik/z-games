@@ -1,19 +1,21 @@
 import React from 'react';
-import { array, string } from 'prop-types';
+import { array, string, func } from 'prop-types';
 
-import { NewMessage, LogsList } from '../../components';
+import { NewMessage } from '../../components/new-message';
+import { LogsList } from '../../components/logs-list';
 import { ILog } from '../../interfaces';
 
 import './index.scss';
 
-export function Chat({ logs, gameId }: {
+export function Chat({ logs, gameId, sendMessage }: {
   logs: ILog[],
   gameId: string,
+  sendMessage: ({ gameId, message }: { gameId: string, message: string }) => void,
 }) {
   return (
     <div className='chat-container'>
       <div className='chat-new-message'>
-        <NewMessage gameId={gameId} />
+        <NewMessage gameId={gameId} sendMessage={sendMessage} />
       </div>
       <div className='chat-logs'>
         <LogsList logs={logs} />
@@ -25,9 +27,11 @@ export function Chat({ logs, gameId }: {
 Chat.propTypes = {
   logs: array.isRequired,
   gameId: string.isRequired,
+  sendMessage: func.isRequired
 };
 
 Chat.defaultProps = {
   logs: [],
   gameId: '',
+  sendMessage: () => null,
 };

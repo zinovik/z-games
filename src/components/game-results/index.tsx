@@ -4,7 +4,7 @@ import { Typography } from '@material-ui/core';
 import { INoThanksPlayer } from 'z-games-no-thanks';
 import { NAME as PERUDO, IPerudoPlayer } from 'z-games-perudo';
 
-import { GamePlayer } from '../../components'
+import { GamePlayer } from '../../components/game-player';
 import { IUser, IPlayerResult, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
@@ -68,7 +68,7 @@ GameResults.propTypes = {
 }
 
 GameResults.defaultProps = {
-  gameName: 'game-name',
+  gameName: '',
   players: [],
   gamePlayers: [],
 }

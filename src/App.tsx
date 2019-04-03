@@ -1,17 +1,23 @@
 import React, { Component, Props, createContext } from 'react';
+import { Dispatch, bindActionCreators } from 'redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
+import { HomePage } from './containers/home-page';
+import { GamesPage } from './containers/games-page';
+import { GamePage } from './containers/game-page';
+import { RatingPage } from './containers/rating-page';
+import { RulesPage } from './containers/rules-page';
+import { ProfilePage } from './containers/profile-page';
+import { AboutPage } from './containers/about-page';
+import { ActivatePage } from './containers/activate-page';
+import { Loading } from './components/loading';
+import { NotificationError } from './components/notification-error';
+import { Notification } from './components/notification';
 import {
-  HomePage,
-  GamesPage,
-  GamePage,
-  RatingPage,
-  RulesPage,
-  ProfilePage,
-  AboutPage,
-} from './containers';
-import { Activate, Loading, NotificationError, Notification } from './components';
+  removeNotification as removeNotificationWithoutDispatch,
+  removeError as removeErrorWithoutDispatch,
+} from './actions';
 import { IState, IUser, IError, INotification } from './interfaces';
 
 import './App.scss';
@@ -23,12 +29,14 @@ interface IAppProps extends Props<{}> {
   currentUser: IUser,
   errors: IError[],
   notifications: INotification[],
+  removeError: (errorId: number) => void,
+  removeNotification: (errorId: number) => void,
 }
 
 class App extends Component<IAppProps, {}> {
 
   public render() {
-    const { isConnected, currentUser, errors, notifications } = this.props;
+    const { isConnected, currentUser, errors, notifications, removeError, removeNotification } = this.props;
 
     return (
       <CurrentUserContext.Provider value={currentUser}>
@@ -41,7 +49,7 @@ class App extends Component<IAppProps, {}> {
           <Route path='/rules' component={RulesPage} />
           <Route path='/profile' component={ProfilePage} />
           <Route path='/about' component={AboutPage} />
-          <Route path='/activate/:token' component={Activate} />
+          <Route path='/activate/:token' component={ActivatePage} />
           <Route path='/:token' component={HomePage} />
           <Redirect from='*' to='/home' />
         </Switch>
@@ -49,11 +57,21 @@ class App extends Component<IAppProps, {}> {
         <Loading isConnected={isConnected} text='Connecting to the server...' />
 
         {errors.map(error => (
-          <NotificationError key={`error${error.id}`} id={error.id} message={error.message} />
+          <NotificationError
+            key={`error${error.id}`}
+            id={error.id}
+            message={error.message}
+            removeError={removeError}
+          />
         ))}
 
         {notifications.map(notification => (
-          <Notification key={`notification${notification.id}`} id={notification.id} message={notification.message} />
+          <Notification
+            key={`notification${notification.id}`}
+            id={notification.id}
+            message={notification.message}
+            removeNotification={removeNotification}
+          />
         ))}
 
       </CurrentUserContext.Provider>
@@ -69,7 +87,9 @@ const mapStateToProps = (state: IState) => ({
   notifications: state.notifications.notifications,
 });
 
-const mapDispatchToProps = () => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  removeError: bindActionCreators(removeErrorWithoutDispatch, dispatch),
+  removeNotification: bindActionCreators(removeNotificationWithoutDispatch, dispatch),
 });
 
 export default connect(

@@ -1,13 +1,9 @@
 import React from 'react';
-import { number, string } from 'prop-types';
-import { connect } from 'react-redux';
-import { Dispatch, bindActionCreators } from 'redux';
+import { number, string, func } from 'prop-types';
 import { Snackbar, SnackbarContent, IconButton } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 
-import { removeNotification as removeNotificationWithoutDispatch } from '../../actions';
-
-function NotificationPure({ id, message, removeNotification }: {
+export function Notification({ id, message, removeNotification }: {
   id: number,
   message: string,
   removeNotification: (errorId: number) => void,
@@ -40,24 +36,14 @@ function NotificationPure({ id, message, removeNotification }: {
   );
 };
 
-NotificationPure.propTypes = {
+Notification.propTypes = {
   id: number.isRequired,
   message: string.isRequired,
+  removeNotification: func.isRequired,
 };
 
-NotificationPure.defaultProps = {
+Notification.defaultProps = {
   id: 0,
   message: '',
+  removeNotification: () => null,
 };
-
-const mapStateToProps = () => ({
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  removeNotification: bindActionCreators(removeNotificationWithoutDispatch, dispatch),
-});
-
-export const Notification = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(NotificationPure);

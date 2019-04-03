@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { History } from 'history';
 
 import { CurrentUserContext } from '../../App';
-import { Header } from '../../components';
+import { Header } from '../header';
 
 import './index.scss';
 

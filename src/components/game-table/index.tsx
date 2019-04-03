@@ -1,18 +1,26 @@
 import React, { Fragment } from 'react';
-import { object } from 'prop-types';
+import { object, bool, func } from 'prop-types';
 import { GAME_STARTED, GAME_FINISHED } from 'z-games-base-game';
 import { NAME as NO_THANKS } from 'z-games-no-thanks';
 import { NAME as PERUDO } from 'z-games-perudo';
 import { NAME as LOST_CITIES } from 'z-games-lost-cities';
 
-import { GamePlayers, GamePlayer, GameResults, NoThanks, Perudo, LostCities } from '../../components';
+import { GamePlayers } from '../../components/game-players';
+import { GamePlayer } from '../../components/game-player';
+import { GameResults } from '../../components/game-results';
+import { NoThanks } from '../../components/games/no-thanks';
+import { Perudo } from '../../components/games/perudo';
+import { LostCities } from '../../components/games/lost-cities';
+import { GamesServices } from '../../services';
 import { IGame, IUser, GameDataType, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
 
-export function GameTable({ game, currentUser }: {
+export function GameTable({ game, currentUser, isButtonsDisabled, makeMove }: {
   game: IGame,
   currentUser: IUser,
+  isButtonsDisabled: boolean,
+  makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
 }) {
   const { name, state, gameData, players, nextPlayers } = game;
   const gameDataParsed: GameDataType = JSON.parse(gameData);
@@ -20,19 +28,7 @@ export function GameTable({ game, currentUser }: {
   const isMyTurn = nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id);
   const isPlayer = players.some(player => player.id === currentUser.id);
 
-  let gameNameInStyle = '';
-
-  switch (name) {
-    case NO_THANKS:
-      gameNameInStyle = 'no-thanks';
-      break;
-    case PERUDO:
-      gameNameInStyle = 'perudo';
-      break;
-    case LOST_CITIES:
-      gameNameInStyle = 'lost-cities';
-      break;
-  }
+  const gameNameInStyle = GamesServices[name].getNameWork();
 
   return (
     <Fragment>
@@ -47,9 +43,27 @@ export function GameTable({ game, currentUser }: {
         />
 
         <div className={`game-table-center game-table-center-${gameNameInStyle}`}>
-          {name === NO_THANKS && <NoThanks game={game} currentUser={currentUser} isMyTurn={isMyTurn} />}
-          {name === PERUDO && <Perudo game={game} currentUser={currentUser} isMyTurn={isMyTurn} />}
-          {name === LOST_CITIES && <LostCities game={game} currentUser={currentUser} isMyTurn={isMyTurn} />}
+          {name === NO_THANKS && <NoThanks
+            game={game}
+            currentUser={currentUser}
+            isMyTurn={isMyTurn}
+            isButtonsDisabled={isButtonsDisabled}
+            makeMove={makeMove}
+          />}
+          {name === PERUDO && <Perudo
+            game={game}
+            currentUser={currentUser}
+            isMyTurn={isMyTurn}
+            isButtonsDisabled={isButtonsDisabled}
+            makeMove={makeMove}
+          />}
+          {name === LOST_CITIES && <LostCities
+            game={game}
+            currentUser={currentUser}
+            isMyTurn={isMyTurn}
+            isButtonsDisabled={isButtonsDisabled}
+            makeMove={makeMove}
+          />}
         </div>
 
         {isPlayer && <GamePlayer
@@ -70,9 +84,13 @@ export function GameTable({ game, currentUser }: {
 GameTable.propTypes = {
   game: object.isRequired,
   currentUser: object.isRequired,
+  isButtonsDisabled: bool.isRequired,
+  makeMove: func.isRequired,
 };
 
 GameTable.defaultProps = {
   game: {},
   currentUser: {},
+  isButtonsDisabled: false,
+  makeMove: () => null,
 };

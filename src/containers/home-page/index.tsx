@@ -3,7 +3,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { Typography } from '@material-ui/core';
 
-import { Header } from '../../components';
+import { Header } from '../header';
 import { refreshToken as refreshTokenWithoutDispatch } from '../../actions';
 
 import './index.scss';

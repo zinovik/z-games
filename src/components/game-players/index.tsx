@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { array, string } from 'prop-types';
 
-import { GamePlayer } from '../../components';
+import { GamePlayer } from '../../components/game-player';
 import { IUser, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
