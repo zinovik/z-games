@@ -1,18 +1,13 @@
-import React, { ChangeEvent, Fragment, useState, ComponentType } from 'react';
-import { connect } from 'react-redux';
-import { Dispatch, bindActionCreators } from 'redux';
+import React, { ChangeEvent, Fragment, useState } from 'react';
+import { func } from 'prop-types';
 import { Modal, Paper, Typography, Tabs, Tab, Button, TextField, FormHelperText } from '@material-ui/core';
 
-import { Loading } from '../';
-import {
-  register as registerWithoutDispatch,
-  authorize as authorizeWithoutDispatch,
-} from '../../actions';
+import { Loading } from '../loading';
 import { SERVER_URL } from '../../config';
 
 import './index.scss';
 
-function AuthorizePure({ register, authorize }: {
+export function Authorize({ register, authorize }: {
   register: (username: string, password: string, email: string) => Promise<void>,
   authorize: (username: string, password: string) => Promise<void>,
 }) {
@@ -180,15 +175,12 @@ function AuthorizePure({ register, authorize }: {
   );
 };
 
-const mapStateToProps = () => ({
-});
+Authorize.propTypes = {
+  register: func.isRequired,
+  authorize: func.isRequired,
+}
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  register: bindActionCreators(registerWithoutDispatch, dispatch),
-  authorize: bindActionCreators(authorizeWithoutDispatch, dispatch),
-});
-
-export const Authorize = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(AuthorizePure as ComponentType<any>);
+Authorize.defaultProps = {
+  register: () => null,
+  authorize: () => null,
+}

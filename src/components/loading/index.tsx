@@ -31,5 +31,4 @@ Loading.propTypes = {
 
 Loading.defaultProps = {
   isConnected: false,
-  text: '',
 };

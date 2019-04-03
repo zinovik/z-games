@@ -2,7 +2,7 @@ import React from 'react';
 import { string, func } from 'prop-types';
 import { Button, Dialog, DialogTitle, DialogContent, Typography, DialogActions } from '@material-ui/core';
 
-import { gamesServices } from '../../services';
+import { GamesServices } from '../../services';
 
 export function GameRules({ gameName, close }: {
   gameName: string,
@@ -12,7 +12,7 @@ export function GameRules({ gameName, close }: {
     close();
   };
 
-  const rules = gamesServices[gameName].getRules();
+  const rules = GamesServices[gameName].getRules();
 
   return (
     <Dialog open={true} onClose={handleClose}>

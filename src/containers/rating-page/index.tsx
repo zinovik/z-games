@@ -2,7 +2,8 @@ import React, { useState, ComponentType } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 
-import { Header, UsersRating } from '../../components';
+import { Header } from '../header';
+import { UsersRating } from '../../components/users-rating';
 import { fetchRating as fetchRatingWithoutDispatch } from '../../actions';
 import { IUser, IState } from '../../interfaces';
 

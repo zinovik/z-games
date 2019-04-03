@@ -1,15 +1,11 @@
 import React from 'react';
-import { number, string } from 'prop-types';
-import { connect } from 'react-redux';
-import { Dispatch, bindActionCreators } from 'redux';
+import { number, string, func } from 'prop-types';
 import { Snackbar, SnackbarContent, IconButton } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 
-import { removeError as removeErrorWithoutDispatch } from '../../actions';
-
 import './index.scss';
 
-function NotificationErrorPure({ id, message, removeError }: {
+export function NotificationError({ id, message, removeError }: {
   id: number,
   message: string,
   removeError: (errorId: number) => void,
@@ -42,24 +38,14 @@ function NotificationErrorPure({ id, message, removeError }: {
   );
 };
 
-NotificationErrorPure.propTypes = {
+NotificationError.propTypes = {
   id: number.isRequired,
   message: string.isRequired,
+  removeError: func.isRequired,
 };
 
-NotificationErrorPure.defaultProps = {
+NotificationError.defaultProps = {
   id: 0,
   message: '',
+  removeError: () => null,
 };
-
-const mapStateToProps = () => ({
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  removeError: bindActionCreators(removeErrorWithoutDispatch, dispatch),
-});
-
-export const NotificationError = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(NotificationErrorPure);

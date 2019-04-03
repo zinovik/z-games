@@ -1,14 +1,10 @@
-import React, { ChangeEvent, KeyboardEvent, useState, ComponentType } from 'react';
-import { connect } from 'react-redux';
-import { Dispatch, bindActionCreators } from 'redux';
-import { string } from 'prop-types';
+import React, { ChangeEvent, KeyboardEvent, useState } from 'react';
+import { string, func } from 'prop-types';
 import { Button, Input } from '@material-ui/core';
-
-import { sendMessage as sendMessageWithoutDispatch } from '../../actions';
 
 import './index.scss';
 
-function NewMessagePure({ gameId, sendMessage }: {
+export function NewMessage({ gameId, sendMessage }: {
   gameId: string,
   sendMessage: ({ gameId, message }: { gameId: string, message: string }) => void,
 }) {
@@ -52,22 +48,12 @@ function NewMessagePure({ gameId, sendMessage }: {
   );
 };
 
-NewMessagePure.propTypes = {
+NewMessage.propTypes = {
   gameId: string.isRequired,
+  sendMessage: func.isRequired,
 };
 
-NewMessagePure.defaultProps = {
+NewMessage.defaultProps = {
   gameId: '',
+  sendMessage: () => null,
 };
-
-const mapStateToProps = () => ({
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  sendMessage: bindActionCreators(sendMessageWithoutDispatch, dispatch),
-});
-
-export const NewMessage = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(NewMessagePure as ComponentType<any>);

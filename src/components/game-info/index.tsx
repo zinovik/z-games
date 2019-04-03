@@ -1,22 +1,14 @@
-import React, { Fragment, useState, ComponentType } from 'react';
-import { connect } from 'react-redux';
-import { Dispatch, bindActionCreators } from 'redux';
-import { object, string } from 'prop-types';
+import React, { Fragment, useState } from 'react';
+import { object, string, bool, func } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
 import { GAME_NOT_STARTED } from 'z-games-base-game';
 
-import { GameRules } from '../../components';
-import {
-  closeGame as closeGameWithoutDispatch,
-  leaveGame as leaveGameWithoutDispatch,
-  readyToGame as readyToGameWithoutDispatch,
-  startGame as startGameWithoutDispatch,
-} from '../../actions';
-import { IGame, GamePlayerType, GameDataType, GAMES_LOGOS, IState } from '../../interfaces';
+import { GameRules } from '../../components/game-rules';
+import { IGame, GamePlayerType, GameDataType, GAMES_LOGOS } from '../../interfaces';
 
 import './index.scss';
 
-function GameInfoPure({ game, currentUserId, isButtonsDisabled, closeGame, leaveGame, readyToGame, startGame }: {
+export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, leaveGame, readyToGame, startGame }: {
   game: IGame,
   currentUserId: string,
   isButtonsDisabled: boolean,
@@ -120,28 +112,22 @@ function GameInfoPure({ game, currentUserId, isButtonsDisabled, closeGame, leave
   );
 };
 
-GameInfoPure.propTypes = {
+GameInfo.propTypes = {
   game: object.isRequired,
   currentUserId: string.isRequired,
+  isButtonsDisabled: bool.isRequired,
+  closeGame: func.isRequired,
+  leaveGame: func.isRequired,
+  readyToGame: func.isRequired,
+  startGame: func.isRequired,
 };
 
-GameInfoPure.defaultProps = {
+GameInfo.defaultProps = {
   game: {},
-  currentUserId: 'user-id',
+  currentUserId: '',
+  isButtonsDisabled: false,
+  closeGame: () => null,
+  leaveGame: () => null,
+  readyToGame: () => null,
+  startGame: () => null,
 };
-
-const mapStateToProps = (state: IState) => ({
-  isButtonsDisabled: state.users.isButtonsDisabled,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  closeGame: bindActionCreators(closeGameWithoutDispatch, dispatch),
-  leaveGame: bindActionCreators(leaveGameWithoutDispatch, dispatch),
-  readyToGame: bindActionCreators(readyToGameWithoutDispatch, dispatch),
-  startGame: bindActionCreators(startGameWithoutDispatch, dispatch),
-});
-
-export const GameInfo = connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(GameInfoPure as ComponentType<any>);

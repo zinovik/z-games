@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Typography } from '@material-ui/core';
 
-import { Header } from '../../components';
+import { Header } from '../header';
 
 import './index.scss';
 
@@ -19,6 +19,10 @@ function RulesPagePure() {
 
           <Typography variant='h5'>
             Perudo
+          </Typography>
+
+          <Typography variant='h5'>
+            Lost Cities
           </Typography>
         </div>
       </div>
