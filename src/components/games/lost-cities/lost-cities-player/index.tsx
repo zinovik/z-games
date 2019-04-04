@@ -4,6 +4,7 @@ import { Typography } from '@material-ui/core';
 import { ILostCitiesCard, getCardShape } from 'z-games-lost-cities';
 
 import { LostCitiesCardsList } from '../lost-cities-cards-list';
+import { LostCitiesExpeditions } from '../lost-cities-expeditions';
 
 export function LostCitiesPlayer({ cardsHand, cardsHandCount, cardsExpeditions, points }: {
   cardsHand: ILostCitiesCard[],
@@ -13,13 +14,19 @@ export function LostCitiesPlayer({ cardsHand, cardsHandCount, cardsExpeditions, 
 }) {
   return (
     <Fragment>
+      <Typography>
+        Hand cards
+      </Typography>
       <LostCitiesCardsList cards={cardsHand} />
 
-      {cardsHandCount !== undefined && <Typography>
+      {cardsHandCount !== undefined && !cardsHand.length && <Typography>
         {cardsHandCount} cards
       </Typography>}
 
-      <LostCitiesCardsList cards={cardsExpeditions} />
+      <Typography>
+        Expeditions
+      </Typography>
+      <LostCitiesExpeditions cards={cardsExpeditions} />
 
       {points !== undefined && <Typography>
         {points} points
@@ -30,10 +37,14 @@ export function LostCitiesPlayer({ cardsHand, cardsHandCount, cardsExpeditions, 
 
 LostCitiesPlayer.propTypes = {
   cardsHand: arrayOf(shape(getCardShape(number))).isRequired,
-  cardsHandCount: number,
+  cardsHandCount: number.isRequired,
   cardsExpeditions: arrayOf(shape(getCardShape(number))).isRequired,
-  points: number,
+  points: number.isRequired,
 };
 
 LostCitiesPlayer.defaultProps = {
+  cardsHand: [],
+  cardsHandCount: 0,
+  cardsExpeditions: [],
+  points: 0,
 };

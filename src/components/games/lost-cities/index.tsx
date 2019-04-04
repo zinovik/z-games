@@ -4,7 +4,7 @@ import { Typography } from '@material-ui/core';
 import { ILostCitiesData } from 'z-games-lost-cities';
 
 import { LostCitiesMove } from './lost-cities-move';
-import { LostCitiesCardsList } from './lost-cities-cards-list';
+import { LostCitiesExpeditions } from './lost-cities-expeditions';
 import { IGame, IUser } from '../../../interfaces';
 
 export function LostCities({ game, currentUser, isMyTurn, isButtonsDisabled, makeMove }: {
@@ -19,7 +19,7 @@ export function LostCities({ game, currentUser, isMyTurn, isButtonsDisabled, mak
 	if (!currentUser) {
 		return null;
 	}
-console.log(JSON.parse(gameData));
+
 	const { discards, cardsLeft }: ILostCitiesData = JSON.parse(gameData);
 
 	return (
@@ -29,10 +29,12 @@ console.log(JSON.parse(gameData));
 				Cards left: {cardsLeft}
 			</Typography>
 
-			<Typography>
-				Discards:
-			</Typography>
-			<LostCitiesCardsList cards={discards} />
+			{!isMyTurn && <Fragment>
+				<Typography>
+					Discards:
+					</Typography>
+				<LostCitiesExpeditions cards={discards} />
+			</Fragment>}
 
 			{isMyTurn && <LostCitiesMove
 				game={game}
