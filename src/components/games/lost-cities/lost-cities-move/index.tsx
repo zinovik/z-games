@@ -50,7 +50,7 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
     const lostCitiesMove: ILostCitiesMove = {
       card: cardsHand[chosenCard],
       isDiscard,
-      takeExpedition: chosenDiscard && discards[chosenDiscard].expedition,
+      takeExpedition: chosenDiscard !== null && discards[chosenDiscard].expedition,
     } as ILostCitiesMove;
 
     makeMove({ gameNumber: game.number, move: JSON.stringify(lostCitiesMove) });
