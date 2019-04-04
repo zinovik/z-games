@@ -3,6 +3,7 @@ import { string, array } from 'prop-types';
 import { Typography } from '@material-ui/core';
 import { INoThanksPlayer } from 'z-games-no-thanks';
 import { NAME as PERUDO, IPerudoPlayer } from 'z-games-perudo';
+import { NAME as LOST_CITIES, ILostCitiesPlayer } from 'z-games-lost-cities';
 
 import { GamePlayer } from '../../components/game-player';
 import { IUser, IPlayerResult, GamePlayerType } from '../../interfaces';
@@ -16,6 +17,17 @@ export function GameResults({ gameName, players, gamePlayers }: {
 }) {
   const results: IPlayerResult[] = gamePlayers.map(gamePlayer => {
     const currentUser = players.find(player => player.id === gamePlayer.id);
+
+    if (gameName === LOST_CITIES) {
+      return {
+        username: currentUser!.username,
+        avatar: currentUser!.avatar,
+        place: gamePlayer.place,
+        cardsExpeditions: (gamePlayer as ILostCitiesPlayer).cardsExpeditions || [],
+        cardsHand: (gamePlayer as ILostCitiesPlayer).cardsHand || [],
+        points: (gamePlayer as ILostCitiesPlayer).points || 0,
+      };
+    }
 
     if (gameName === PERUDO) {
       return {

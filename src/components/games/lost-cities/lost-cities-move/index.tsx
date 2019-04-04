@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { object, bool, func } from 'prop-types';
 import { Button, Typography, Checkbox } from '@material-ui/core';
 import { ILostCitiesData, ILostCitiesMove } from 'z-games-lost-cities';
+
+import { LostCitiesCard } from '../lost-cities-card';
 
 import { IGame, IUser } from '../../../../interfaces';
 
@@ -41,14 +43,14 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
   };
 
   const move = (): void => {
-    if (!chosenCard) {
+    if (chosenCard === null) {
       return;
     }
 
     const lostCitiesMove: ILostCitiesMove = {
       card: cardsHand[chosenCard],
-      discard: false,
-      takeExpedition: chosenDiscard !== null ? discards[chosenDiscard].expedition : null,
+      isDiscard,
+      takeExpedition: chosenDiscard && discards[chosenDiscard].expedition,
     } as ILostCitiesMove;
 
     makeMove({ gameNumber: game.number, move: JSON.stringify(lostCitiesMove) });
@@ -61,36 +63,48 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
   return (
     <div className='lost-cities-buttons'>
 
-      {discards.map((discard, index) => (
-        <Button
-          variant='contained'
-          color='primary'
-          className={`lost-cities-button${chosenDiscard === index ? ' lost-cities-chosen-card' : ''}`}
-          onClick={() => { choseDiscard(index); }}
-          disabled={isButtonsDisabled}
-          key={`discard-button${index}`}
-        >
-          {discard.cost}:{discard.expedition}
-        </Button>
-      ))}
+      {discards.length !== 0 && <Fragment>
+        <div>
+          <Typography>
+            Chose discard to get if you don't want to use the main deck:
+          </Typography>
+        </div>
+        <div className='lost-cities-cards-container'>
+          {discards.sort((a, b) => a.expedition - b.expedition).map((discard, index) => (
+            <LostCitiesCard
+              cost={discard.cost}
+              expedition={discard.expedition}
+              isSelected={chosenDiscard === index}
+              isClickable={!isButtonsDisabled}
+              onClick={() => { choseDiscard(index); }}
+              key={`discard-button${index}`}
+            />
+          ))}
+        </div>
+      </Fragment>}
 
-      {cardsHand.map((card, index) => (
-        <Button
-          variant='contained'
-          color='primary'
-          className={`lost-cities-button${chosenCard === index ? ' lost-cities-chosen-card' : ''}`}
-          onClick={() => { choseCard(index); }}
-          disabled={isButtonsDisabled}
-          key={`card-button${index}`}
-        >
-          {card.cost}:{card.expedition}
-        </Button>
-      ))}
+      <div>
+        <Typography>
+          Chose card from hand to play:
+        </Typography>
+      </div>
+      <div className='lost-cities-cards-container'>
+        {cardsHand.map((card, index) => (
+          <LostCitiesCard
+            cost={card.cost}
+            expedition={card.expedition}
+            isSelected={chosenCard === index}
+            isClickable={!isButtonsDisabled}
+            onClick={() => { choseCard(index); }}
+            key={`card-button${index}`}
+          />
+        ))}
+      </div>
 
       <div>
         <Typography>
           <Checkbox onChange={handleDiscardChange} />
-          Discard
+          Discard playing card
         </Typography>
       </div>
 
@@ -102,7 +116,7 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
           onClick={move}
           disabled={isButtonsDisabled || chosenCard === null}
         >
-          Finish Move
+          Move
         </Button>
       </div>
     </div>

@@ -93,9 +93,14 @@ export const setNewToken = (newToken: string) =>
 
 export const addError = (message: string) =>
   async (dispatch: Dispatch): Promise<AnyAction> => {
-    return dispatch({
+    dispatch({
       type: ActionTypes.ADD_ERROR,
       message,
+    });
+
+    return dispatch({
+      type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
+      isButtonsDisabled: false,
     });
   };
 

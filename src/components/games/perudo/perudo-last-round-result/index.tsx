@@ -5,21 +5,9 @@ import { Typography, Avatar } from '@material-ui/core';
 import { PerudoPlayer } from '../perudo-player';
 import './index.scss';
 
-PerudoLastRoundResult.propTypes = {
-  username: string.isRequired,
-  avatar: string.isRequired,
-  dices: arrayOf(number),
-  lastRoundFigure: number,
-  isLastRoundMaputo: bool,
-}
-
-PerudoLastRoundResult.defaultProps = {
-  username: 'username',
-}
-
 export function PerudoLastRoundResult({ username, avatar, dices, lastRoundFigure, isLastRoundMaputo }: {
   username: string,
-  avatar: string,
+  avatar?: string,
   dices?: number[],
   lastRoundFigure: number,
   isLastRoundMaputo: boolean,
@@ -42,3 +30,15 @@ export function PerudoLastRoundResult({ username, avatar, dices, lastRoundFigure
     </div>
   );
 }
+
+PerudoLastRoundResult.propTypes = {
+  username: string.isRequired,
+  avatar: string,
+  dices: arrayOf(number),
+  lastRoundFigure: number,
+  isLastRoundMaputo: bool,
+};
+
+PerudoLastRoundResult.defaultProps = {
+  username: 'username',
+};

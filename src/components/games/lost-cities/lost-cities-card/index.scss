@@ -11,6 +11,19 @@
   padding: 2px;
 }
 
+.lost-cities-card-selected {
+  background-color: white;
+}
+
+.lost-cities-card-clickable {
+  cursor: pointer;
+}
+
+div.lost-cities-card-half {
+  height: 20px;
+  border-width: 1px 1px 0px 1px;
+}
+
 .lost-cities-card-expedition-0 {
   border: 1px solid yellow;
   color: yellow;
