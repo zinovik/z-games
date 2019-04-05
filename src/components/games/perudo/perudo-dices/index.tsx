@@ -13,28 +13,28 @@ const DICES: string[] = [
   '\u2685',
 ];
 
-PerudoDices.propTypes = {
-  dices: arrayOf(number).isRequired,
-  highlightNumber: number,
-  highlightJoker: bool,
-}
-
-PerudoDices.defaultProps = {
-  dices: [],
-}
-
-export function PerudoDices({ dices, highlightNumber, highlightJoker }: {
+export function PerudoDices({ dices, highlightNumber, isHighlightJoker }: {
   dices: number[],
   highlightNumber?: number,
-  highlightJoker?: boolean,
+  isHighlightJoker?: boolean,
 }) {
   return (
     <Typography>
       {dices.map((dice, i) => (
-        <span key={i} className={`perudo-dices-dice${dice === highlightNumber || (dice === 1 && highlightNumber && highlightJoker) ? ' perudo-dices-highlight' : ''}`}>
+        <span key={i} className={`perudo-dices-dice${dice === highlightNumber || (dice === 1 && highlightNumber && isHighlightJoker) ? ' perudo-dices-highlight' : ''}`}>
           {DICES[dice - 1]}
         </span>
       ))}
     </Typography>
   );
+}
+
+PerudoDices.propTypes = {
+  dices: arrayOf(number).isRequired,
+  highlightNumber: number,
+  isHighlightJoker: bool,
+};
+
+PerudoDices.defaultProps = {
+  dices: [],
 };

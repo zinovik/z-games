@@ -4,14 +4,6 @@ import { arrayOf, number } from 'prop-types';
 import { NoThanksCard } from '../no-thanks-card';
 import './index.scss';
 
-NoThanksCardsList.propTypes = {
-  cards: arrayOf(number).isRequired,
-}
-
-NoThanksCardsList.defaultProps = {
-  cards: [],
-}
-
 export function NoThanksCardsList({ cards }: { cards: number[] }) {
   return (
     <div className='no-thanks-cards-list-container'>
@@ -20,4 +12,12 @@ export function NoThanksCardsList({ cards }: { cards: number[] }) {
       ))}
     </div>
   );
+}
+
+NoThanksCardsList.propTypes = {
+  cards: arrayOf(number).isRequired,
+};
+
+NoThanksCardsList.defaultProps = {
+  cards: [],
 };

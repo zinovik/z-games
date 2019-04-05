@@ -1,21 +1,24 @@
 import React, { Fragment } from 'react';
-import { arrayOf, number, bool } from 'prop-types';
+import { object, number, bool } from 'prop-types';
 import { Typography } from '@material-ui/core';
+import { IPerudoPlayer } from 'z-games-perudo';
 
 import { PerudoDices } from '../perudo-dices';
 
-export function PerudoPlayer({ dices, dicesCount, highlightNumber, highlightJoker }: {
-  dices?: number[],
-  dicesCount?: number,
+export function PerudoPlayer({ gamePlayer, highlightNumber, isHighlightJoker }: {
+  gamePlayer: IPerudoPlayer,
+  isHideHand?: boolean,
   highlightNumber?: number,
-  highlightJoker?: boolean,
+  isHighlightJoker?: boolean,
 }) {
+  const { dices, dicesCount } = gamePlayer;
+
   return (
     <Fragment>
       {dices && dices.length > 0 && <PerudoDices
         dices={dices}
         highlightNumber={highlightNumber}
-        highlightJoker={highlightJoker}
+        isHighlightJoker={isHighlightJoker}
       />}
 
       {!dices || !dices.length && <Typography>
@@ -26,13 +29,12 @@ export function PerudoPlayer({ dices, dicesCount, highlightNumber, highlightJoke
 }
 
 PerudoPlayer.propTypes = {
-  dices: arrayOf(number),
-  dicesCount: number,
+  gamePlayer: object.isRequired,
+  isHideHand: bool,
   highlightNumber: number,
-  highlightJoker: bool,
-}
+  isHighlightJoker: bool,
+};
 
 PerudoPlayer.defaultProps = {
-  dices: [],
-  dicesCount: 0,
-}
+  gamePlayer: {},
+};

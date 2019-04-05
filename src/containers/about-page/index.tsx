@@ -22,7 +22,7 @@ function AboutPagePure() {
           </Typography>
 
           <Typography>
-            Currently, there is only three games: No, Thanks, Perudo and Lost Cities. But we are working on it, you can help ;)
+            Currently, there is only four games: No, Thanks, Perudo, Lost Cities and 6 nimmt!. But we are working on it, you can help ;)
           </Typography>
         </div>
       </div>

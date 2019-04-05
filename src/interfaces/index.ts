@@ -1,4 +1,3 @@
-export * from './GamesLogos';
 export * from './GameData.type';
 export * from './GamePlayer.type';
 export * from './ILog.interface';

@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
 import { object, bool, func } from 'prop-types';
 import { Typography } from '@material-ui/core';
-import { ILostCitiesData } from 'z-games-lost-cities';
+import { ISixNimmtData } from 'z-games-six-nimmt';
 
-import { LostCitiesMove } from './lost-cities-move';
-import { LostCitiesExpeditions } from './lost-cities-expeditions';
+import { SixNimmtCard } from './six-nimmt-card';
+import { SixNimmtMove } from './six-nimmt-move';
 import { IGame, IUser } from '../../../interfaces';
 
-export function LostCities({ game, currentUser, isMyTurn, isButtonsDisabled, makeMove }: {
+export function SixNimmt({ game, currentUser, isMyTurn, isButtonsDisabled, makeMove }: {
 	game: IGame,
 	currentUser: IUser,
 	isMyTurn: boolean,
@@ -20,7 +20,7 @@ export function LostCities({ game, currentUser, isMyTurn, isButtonsDisabled, mak
 		return null;
 	}
 
-	const { discards, cardsLeft, discardsCount }: ILostCitiesData = JSON.parse(gameData);
+	const { cardsLeft, cardsTable }: ISixNimmtData = JSON.parse(gameData);
 
 	return (
 		<Fragment>
@@ -29,14 +29,17 @@ export function LostCities({ game, currentUser, isMyTurn, isButtonsDisabled, mak
 				Cards left: {cardsLeft}
 			</Typography>
 
-			{!isMyTurn && <Fragment>
-				<Typography>
-					Discards:
-					</Typography>
-				<LostCitiesExpeditions cards={discards} cardsCount={discardsCount} />
-			</Fragment>}
+			{cardsTable.map(cards => (
+				cards.map(({ cardNumber, cattleHeads }, index) => (
+					<SixNimmtCard
+						cardNumber={cardNumber}
+						cattleHeads={cattleHeads}
+						key={`table-card-${index}`}
+					/>
+				))
+			))}
 
-			{isMyTurn && <LostCitiesMove
+			{isMyTurn && <SixNimmtMove
 				game={game}
 				currentUser={currentUser}
 				isButtonsDisabled={isButtonsDisabled}
@@ -46,7 +49,7 @@ export function LostCities({ game, currentUser, isMyTurn, isButtonsDisabled, mak
 	);
 }
 
-LostCities.propTypes = {
+SixNimmt.propTypes = {
 	game: object.isRequired,
 	currentUser: object.isRequired,
 	isMyTurn: bool.isRequired,
@@ -54,7 +57,7 @@ LostCities.propTypes = {
 	makeMove: func.isRequired,
 };
 
-LostCities.defaultProps = {
+SixNimmt.defaultProps = {
 	game: {},
 	currentUser: {},
 	isMyTurn: false,

@@ -38,8 +38,8 @@ export function UsersRating({ users }: { users: IUser[] }) {
 
 UsersRating.propTypes = {
   users: array.isRequired,
-}
+};
 
 UsersRating.defaultProps = {
   users: [],
-}
+};

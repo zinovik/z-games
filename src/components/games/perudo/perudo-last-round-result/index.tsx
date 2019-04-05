@@ -1,14 +1,15 @@
 import React from 'react';
-import { string, arrayOf, number, bool } from 'prop-types';
+import { object, string, number, bool } from 'prop-types';
 import { Typography, Avatar } from '@material-ui/core';
+import { IPerudoPlayer } from 'z-games-perudo';
 
 import { PerudoPlayer } from '../perudo-player';
 import './index.scss';
 
-export function PerudoLastRoundResult({ username, avatar, dices, lastRoundFigure, isLastRoundMaputo }: {
+export function PerudoLastRoundResult({ gamePlayer, username, avatar, lastRoundFigure, isLastRoundMaputo }: {
+  gamePlayer: IPerudoPlayer,
   username: string,
   avatar?: string,
-  dices?: number[],
   lastRoundFigure: number,
   isLastRoundMaputo: boolean,
 }) {
@@ -23,22 +24,23 @@ export function PerudoLastRoundResult({ username, avatar, dices, lastRoundFigure
       </Typography>
 
       <PerudoPlayer
-        dices={dices}
+        gamePlayer={gamePlayer}
         highlightNumber={lastRoundFigure}
-        highlightJoker={!isLastRoundMaputo}
+        isHighlightJoker={!isLastRoundMaputo}
       />
     </div>
   );
 }
 
 PerudoLastRoundResult.propTypes = {
+  gamePlayer: object.isRequired,
   username: string.isRequired,
   avatar: string,
-  dices: arrayOf(number),
   lastRoundFigure: number,
   isLastRoundMaputo: bool,
 };
 
 PerudoLastRoundResult.defaultProps = {
+  gamePlayer: {},
   username: 'username',
 };

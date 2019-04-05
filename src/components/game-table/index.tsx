@@ -4,6 +4,7 @@ import { GAME_STARTED, GAME_FINISHED } from 'z-games-base-game';
 import { NAME as NO_THANKS } from 'z-games-no-thanks';
 import { NAME as PERUDO } from 'z-games-perudo';
 import { NAME as LOST_CITIES } from 'z-games-lost-cities';
+import { NAME as SIX_NIMMT } from 'z-games-six-nimmt';
 
 import { GamePlayers } from '../../components/game-players';
 import { GamePlayer } from '../../components/game-player';
@@ -11,6 +12,7 @@ import { GameResults } from '../../components/game-results';
 import { NoThanks } from '../../components/games/no-thanks';
 import { Perudo } from '../../components/games/perudo';
 import { LostCities } from '../../components/games/lost-cities';
+import { SixNimmt } from '../../components/games/six-nimmt';
 import { GamesServices } from '../../services';
 import { IGame, IUser, GameDataType, GamePlayerType } from '../../interfaces';
 
@@ -43,6 +45,7 @@ export function GameTable({ game, currentUser, isButtonsDisabled, makeMove }: {
         />
 
         <div className={`game-table-center game-table-center-${gameNameInStyle}`}>
+
           {name === NO_THANKS && <NoThanks
             game={game}
             currentUser={currentUser}
@@ -50,6 +53,7 @@ export function GameTable({ game, currentUser, isButtonsDisabled, makeMove }: {
             isButtonsDisabled={isButtonsDisabled}
             makeMove={makeMove}
           />}
+
           {name === PERUDO && <Perudo
             game={game}
             currentUser={currentUser}
@@ -57,6 +61,7 @@ export function GameTable({ game, currentUser, isButtonsDisabled, makeMove }: {
             isButtonsDisabled={isButtonsDisabled}
             makeMove={makeMove}
           />}
+
           {name === LOST_CITIES && <LostCities
             game={game}
             currentUser={currentUser}
@@ -64,6 +69,15 @@ export function GameTable({ game, currentUser, isButtonsDisabled, makeMove }: {
             isButtonsDisabled={isButtonsDisabled}
             makeMove={makeMove}
           />}
+
+          {name === SIX_NIMMT && <SixNimmt
+            game={game}
+            currentUser={currentUser}
+            isMyTurn={isMyTurn}
+            isButtonsDisabled={isButtonsDisabled}
+            makeMove={makeMove}
+          />}
+
         </div>
 
         {isPlayer && <GamePlayer
@@ -72,6 +86,7 @@ export function GameTable({ game, currentUser, isButtonsDisabled, makeMove }: {
           avatar={currentUser.avatar}
           active={nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id)}
           gamePlayer={gamePlayers.find(gamePlayer => gamePlayer.id === currentUser.id)}
+          isPlayersTurn={isMyTurn}
         />}
 
       </div>}
