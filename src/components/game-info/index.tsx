@@ -4,7 +4,8 @@ import { Button, Typography } from '@material-ui/core';
 import { GAME_NOT_STARTED } from 'z-games-base-game';
 
 import { GameRules } from '../../components/game-rules';
-import { IGame, GamePlayerType, GameDataType, GAMES_LOGOS } from '../../interfaces';
+import { GamesServices } from '../../services';
+import { IGame, GamePlayerType, GameDataType } from '../../interfaces';
 
 import './index.scss';
 
@@ -54,7 +55,12 @@ export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, le
   return (
     <div className='game-info-container'>
       <Typography>
-        <img src={GAMES_LOGOS[game.name]} className='game-info-img' onClick={handleLogoClick} />
+        <img
+          src={`/images/${GamesServices[game.name].getNameWork()}.png`}
+          className='game-info-img'
+          onClick={handleLogoClick}
+          title={`click to see ${game.name} game rules`}
+        />
       </Typography>
 
       <div className='game-info-players'>

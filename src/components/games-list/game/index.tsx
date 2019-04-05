@@ -6,7 +6,8 @@ import { Gamepad, OpenInBrowser, RemoveRedEye } from '@material-ui/icons';
 import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED, GAME_STATE_LABEL } from 'z-games-base-game';
 
 import { GameRules } from '../../game-rules';
-import { IGame, GAMES_LOGOS } from '../../../interfaces';
+import { GamesServices } from '../../../services';
+import { IGame } from '../../../interfaces';
 
 import './index.scss';
 
@@ -53,7 +54,12 @@ export function Game({ game, currentUsername, isButtonsDisabled, joinGame, openG
         />
 
         <div className='game-img-container'>
-          <img src={GAMES_LOGOS[game.name]} className='game-img' onClick={handleLogoClick} />
+          <img
+            src={`/images/${GamesServices[game.name].getNameWork()}.png`}
+            className='game-img'
+            onClick={handleLogoClick}
+            title={`click to see ${game.name} game rules`}
+          />
         </div>
 
         <CardContent>
@@ -73,15 +79,15 @@ export function Game({ game, currentUsername, isButtonsDisabled, joinGame, openG
 
         {currentUsername && <CardActions>
 
-          {isAbleToJoin && <IconButton onClick={handleJoinClick} disabled={isButtonsDisabled || isButtonsDisabled} >
+          {isAbleToJoin && <IconButton onClick={handleJoinClick} disabled={isButtonsDisabled || isButtonsDisabled} title='Click to join game' >
             <Gamepad />
           </IconButton>}
 
-          {isAbleToOpen && <IconButton onClick={handleOpenClick} disabled={isButtonsDisabled || isButtonsDisabled} >
+          {isAbleToOpen && <IconButton onClick={handleOpenClick} disabled={isButtonsDisabled || isButtonsDisabled} title='Click to open game' >
             <OpenInBrowser />
           </IconButton>}
 
-          {isAbleToWatch && <IconButton onClick={handleWatchClick} disabled={isButtonsDisabled || isButtonsDisabled} >
+          {isAbleToWatch && <IconButton onClick={handleWatchClick} disabled={isButtonsDisabled || isButtonsDisabled} title='Click to watch game' >
             <RemoveRedEye />
           </IconButton>}
 

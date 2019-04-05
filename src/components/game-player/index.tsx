@@ -4,12 +4,15 @@ import { Typography, Avatar } from '@material-ui/core';
 import { NAME as NO_THANKS, INoThanksPlayer } from 'z-games-no-thanks';
 import { NAME as PERUDO, IPerudoPlayer } from 'z-games-perudo';
 import { NAME as LOST_CITIES, ILostCitiesPlayer } from 'z-games-lost-cities';
+import { NAME as SIX_NIMMT, ISixNimmtPlayer } from 'z-games-six-nimmt';
 
 import { GamesServices } from '../../services';
 
 import { NoThanksPlayer } from '../../components/games/no-thanks/no-thanks-player';
 import { PerudoPlayer } from '../../components/games/perudo/perudo-player';
 import { LostCitiesPlayer } from '../../components/games/lost-cities/lost-cities-player';
+import { SixNimmtPlayer } from '../../components/games/six-nimmt/six-nimmt-player';
+
 import { GamePlayerType } from 'src/interfaces';
 
 import './index.scss';
@@ -20,12 +23,14 @@ export function GamePlayer({
   avatar,
   active,
   gamePlayer,
+  isPlayersTurn,
 }: {
   gameName: string,
   username: string,
   avatar?: string,
   active?: boolean,
   gamePlayer?: GamePlayerType;
+  isPlayersTurn?: boolean,
 }) {
   const gameNameInStyle = GamesServices[gameName].getNameWork();
 
@@ -47,21 +52,23 @@ export function GamePlayer({
       </div>
 
       {gameName === NO_THANKS && <NoThanksPlayer
-        cards={(gamePlayer as INoThanksPlayer).cards}
-        chips={(gamePlayer as INoThanksPlayer).chips}
-        points={(gamePlayer as INoThanksPlayer).points}
+        gamePlayer={gamePlayer as INoThanksPlayer}
+        isHideHand={isPlayersTurn}
       />}
 
       {gameName === PERUDO && <PerudoPlayer
-        dices={(gamePlayer as IPerudoPlayer).dices}
-        dicesCount={(gamePlayer as IPerudoPlayer).dicesCount}
+        gamePlayer={gamePlayer as IPerudoPlayer}
+        isHideHand={isPlayersTurn}
       />}
 
       {gameName === LOST_CITIES && <LostCitiesPlayer
-        cardsHand={(gamePlayer as ILostCitiesPlayer).cardsHand || []}
-        cardsHandCount={(gamePlayer as ILostCitiesPlayer).cardsHandCount || 0}
-        cardsExpeditions={(gamePlayer as ILostCitiesPlayer).cardsExpeditions || []}
-        points={(gamePlayer as ILostCitiesPlayer).points || 0}
+        gamePlayer={gamePlayer as ILostCitiesPlayer}
+        isHideHand={isPlayersTurn}
+      />}
+
+      {gameName === SIX_NIMMT && <SixNimmtPlayer
+        gamePlayer={gamePlayer as ISixNimmtPlayer}
+        isHideHand={isPlayersTurn}
       />}
 
     </div>
@@ -74,6 +81,7 @@ GamePlayer.propTypes = {
   avatar: string,
   active: bool,
   gamePlayer: object,
+  isPlayersTurn: bool,
 };
 
 GamePlayer.defaultProps = {

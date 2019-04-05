@@ -1,11 +1,28 @@
 import React from 'react';
-import { number, arrayOf } from 'prop-types';
+import { number, arrayOf, bool, func } from 'prop-types';
+import { Typography } from '@material-ui/core';
 
 import { LostCitiesCard } from '../lost-cities-card';
 
 import './index.scss';
 
-export function LostCitiesExpeditionCards({ cards, expedition }: { cards: number[], expedition: number }) {
+export function LostCitiesExpeditionCards({ cards, expedition, cardsCount, isSelected, isClickable, onClick }: {
+  cards: number[],
+  expedition: number,
+  cardsCount?: number,
+  isSelected?: boolean,
+  isClickable?: boolean,
+  onClick?: (expedition: number) => void,
+}) {
+
+  const handleClick = (clickExpedition: number) => {
+    if (!onClick) {
+      return;
+    }
+
+    onClick(clickExpedition);
+  };
+
   return (
     <div className='lost-cities-expedition-cards-container'>
       {cards.length ? cards.map((card, index) => (
@@ -14,6 +31,9 @@ export function LostCitiesExpeditionCards({ cards, expedition }: { cards: number
           expedition={expedition}
           key={index}
           isHalfCard={index !== cards.length - 1}
+          isSelected={isSelected}
+          isClickable={isClickable}
+          onClick={() => { handleClick(expedition) }}
         />
       )) : ''}
 
@@ -23,6 +43,10 @@ export function LostCitiesExpeditionCards({ cards, expedition }: { cards: number
           expedition={expedition}
         />
       )}
+
+      <Typography>
+        {cardsCount}
+      </Typography>
     </div>
   );
 }
@@ -30,6 +54,10 @@ export function LostCitiesExpeditionCards({ cards, expedition }: { cards: number
 LostCitiesExpeditionCards.propTypes = {
   cards: arrayOf(number).isRequired,
   expedition: number.isRequired,
+  cardsCount: number,
+  isSelected: bool,
+  isClickable: bool,
+  onClick: func,
 };
 
 LostCitiesExpeditionCards.defaultProps = {

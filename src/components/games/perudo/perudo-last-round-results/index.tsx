@@ -17,9 +17,9 @@ export function PerudoLastRoundResults({ gamePlayers, players, lastRoundFigure, 
         <Fragment key={index}>
 
           {players.find(player => player.id === gamePlayer.id) && <PerudoLastRoundResult
+            gamePlayer={gamePlayer}
             username={players.find(player => player.id === gamePlayer.id)!.username}
             avatar={players.find(player => player.id === gamePlayer.id)!.avatar}
-            dices={gamePlayer.dices}
             lastRoundFigure={lastRoundFigure}
             isLastRoundMaputo={isLastRoundMaputo}
           />}

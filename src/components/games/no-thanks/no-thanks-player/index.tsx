@@ -1,26 +1,18 @@
 import React, { Fragment } from 'react';
-import { arrayOf, number } from 'prop-types';
+import { object, bool } from 'prop-types';
 import { Typography } from '@material-ui/core';
+import { INoThanksPlayer } from 'z-games-no-thanks';
 
 import { NoThanksCardsList } from '../no-thanks-cards-list';
 import { NoThanksChips } from '../no-thanks-chips';
 
-NoThanksPlayer.propTypes = {
-  cards: arrayOf(number).isRequired,
-  chips: number,
-  points: number,
-}
-
-NoThanksPlayer.defaultProps = {
-  cards: [],
-}
-
-export function NoThanksPlayer({ cards, chips, points }: {
-  cards: number[],
-  chips?: number,
-  points?: number,
+export function NoThanksPlayer({ gamePlayer }: {
+  gamePlayer: INoThanksPlayer,
+  isHideHand?: boolean,
   active?: boolean,
 }) {
+  const { cards, chips, points } = gamePlayer;
+
   return (
     <Fragment>
       <NoThanksCardsList cards={cards || []} />
@@ -33,3 +25,12 @@ export function NoThanksPlayer({ cards, chips, points }: {
     </Fragment>
   );
 }
+
+NoThanksPlayer.propTypes = {
+  gamePlayer: object.isRequired,
+  isHideHand: bool,
+};
+
+NoThanksPlayer.defaultProps = {
+  gamePlayer: {},
+};

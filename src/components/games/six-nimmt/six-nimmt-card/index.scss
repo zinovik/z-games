@@ -1,0 +1,22 @@
+.six-nimmt-card {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  display: flex;
+  border: 1px solid;
+  font-weight: bold;
+  width: 30px;
+  height: 50px;
+  align-items: center;
+  justify-content: center;
+  margin: 1px;
+  padding: 2px;
+}
+
+.six-nimmt-card-selected {
+  background-color: darkslategray;
+}
+
+.six-nimmt-card-clickable {
+  cursor: pointer;
+}

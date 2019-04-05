@@ -29,10 +29,10 @@
     "serve": "^10.1.2",
     "socket.io-client": "^2.2.0",
     "z-games-base-game": "^0.0.17",
-    "z-games-lost-cities": "^0.0.13",
+    "z-games-lost-cities": "^0.0.15",
     "z-games-no-thanks": "^0.0.13",
     "z-games-perudo": "^0.0.11",
-    "z-games-six-nimmt": "^0.0.11"
+    "z-games-six-nimmt": "^0.0.12"
   },
   "scripts": {
     "start": "serve -s build",

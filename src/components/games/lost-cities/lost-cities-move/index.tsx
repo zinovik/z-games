@@ -1,10 +1,11 @@
 import React, { useState, Fragment } from 'react';
 import { object, bool, func } from 'prop-types';
-import { Button, Typography, Checkbox } from '@material-ui/core';
-import { ILostCitiesData, ILostCitiesMove } from 'z-games-lost-cities';
+import { Button, Typography } from '@material-ui/core';
+import { ILostCitiesData, ILostCitiesMove, NAME } from 'z-games-lost-cities';
 
+import { LostCitiesExpeditions } from '../lost-cities-expeditions';
 import { LostCitiesCard } from '../lost-cities-card';
-
+import { GamesServices } from '../../../../services';
 import { IGame, IUser } from '../../../../interfaces';
 
 import './index.scss';
@@ -16,15 +17,15 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
   makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
 }) {
   const [chosenCard, setChosenCard] = useState(null as number | null);
-  const [isDiscard, setIsDiscard] = useState(false);
-  const [chosenDiscard, setChosenDiscard] = useState(null as number | null);
+  const [takeExpedition, setTakeExpedition] = useState(null as number | null);
+  const [isExpeditionPossible, setIsExpeditionPossible] = useState(false);
 
   if (!currentUser) {
     return null;
   }
 
   const { gameData } = game;
-  const { discards, players: gamePlayers }: ILostCitiesData = JSON.parse(gameData);
+  const { discards, discardsCount, players: gamePlayers }: ILostCitiesData = JSON.parse(gameData);
 
   const currentGamePlayer = gamePlayers.find(gamePlayer => gamePlayer.id === currentUser.id);
 
@@ -35,14 +36,28 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
   const { cardsHand } = currentGamePlayer;
 
   const choseCard = (cardNumber: number): void => {
-    setChosenCard(cardNumber === chosenCard ? null : cardNumber);
+    const currentCard = cardNumber === chosenCard ? null : cardNumber;
+    setChosenCard(currentCard);
+
+    if (currentCard === null) {
+      setIsExpeditionPossible(false);
+      return;
+    }
+
+    const lostCitiesMove: ILostCitiesMove = {
+      card: cardsHand[currentCard],
+      isDiscard: false,
+      takeExpedition,
+    } as ILostCitiesMove;
+
+    setIsExpeditionPossible(GamesServices[NAME].checkMove({ gameData, move: JSON.stringify(lostCitiesMove), userId: currentUser.id }));
   };
 
-  const choseDiscard = (discardNumber: number): void => {
-    setChosenDiscard(discardNumber === chosenDiscard ? null : discardNumber);
+  const choseTakeExpedition = (expedition: number): void => {
+    setTakeExpedition(expedition === takeExpedition ? null : expedition);
   };
 
-  const move = (): void => {
+  const move = (isDiscard: boolean): void => {
     if (chosenCard === null) {
       return;
     }
@@ -50,14 +65,10 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
     const lostCitiesMove: ILostCitiesMove = {
       card: cardsHand[chosenCard],
       isDiscard,
-      takeExpedition: chosenDiscard === null ? null : discards[chosenDiscard].expedition,
+      takeExpedition,
     } as ILostCitiesMove;
 
     makeMove({ gameNumber: game.number, move: JSON.stringify(lostCitiesMove) });
-  };
-
-  const handleDiscardChange = () => {
-    setIsDiscard(!isDiscard);
   };
 
   return (
@@ -66,26 +77,26 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
       {discards.length !== 0 && <Fragment>
         <div>
           <Typography>
-            Chose discard to get if you don't want to use the main deck:
+            Chose discard to get in case you
           </Typography>
         </div>
-        <div className='lost-cities-cards-container'>
-          {discards.sort((a, b) => a.expedition - b.expedition).map((discard, index) => (
-            <LostCitiesCard
-              cost={discard.cost}
-              expedition={discard.expedition}
-              isSelected={chosenDiscard === index}
-              isClickable={!isButtonsDisabled}
-              onClick={() => { choseDiscard(index); }}
-              key={`discard-button${index}`}
-            />
-          ))}
+        <div>
+          <Typography>
+            don't want to use the main pile:
+          </Typography>
         </div>
+        <LostCitiesExpeditions
+          cards={discards}
+          cardsCount={discardsCount}
+          selectedExpedition={takeExpedition}
+          isClickable={true}
+          onClick={choseTakeExpedition}
+        />
       </Fragment>}
 
       <div>
         <Typography>
-          Chose card from hand to play:
+          Chose card from the hand to play:
         </Typography>
       </div>
       <div className='lost-cities-cards-container'>
@@ -102,21 +113,23 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
       </div>
 
       <div>
-        <Typography>
-          <Checkbox onChange={handleDiscardChange} />
-          Discard playing card
-        </Typography>
-      </div>
-
-      <div>
         <Button
           variant='contained'
           color='primary'
           className='lost-cities-button'
-          onClick={move}
+          onClick={() => move(true)}
           disabled={isButtonsDisabled || chosenCard === null}
         >
-          Move
+          Discard
+        </Button>
+        <Button
+          variant='contained'
+          color='primary'
+          className='lost-cities-button'
+          onClick={() => move(false)}
+          disabled={isButtonsDisabled || !isExpeditionPossible}
+        >
+          Expedition
         </Button>
       </div>
     </div>

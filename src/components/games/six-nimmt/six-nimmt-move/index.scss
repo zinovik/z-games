@@ -1,22 +1,22 @@
-.lost-cities-buttons {
+.six-nimmt-buttons {
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  .lost-cities-cards-container {
+  .six-nimmt-cards-container {
     display: flex;
     flex-direction: row;
   }
 
-  .lost-cities-button {
+  .six-nimmt-button {
     width: 100px;
     height: 60px;
     margin: 2px;
   }
 
-  button.lost-cities-chosen-card {
+  button.six-nimmt-chosen-card {
     background-color: #bf360c;
   }
 }
