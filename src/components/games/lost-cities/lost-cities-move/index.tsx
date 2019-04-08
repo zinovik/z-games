@@ -19,12 +19,22 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
   const [chosenCard, setChosenCard] = useState(null as number | null);
   const [takeExpedition, setTakeExpedition] = useState(null as number | null);
   const [isExpeditionPossible, setIsExpeditionPossible] = useState(false);
+  const [oldGameData, setOldGameData] = useState('');
 
   if (!currentUser) {
     return null;
   }
 
   const { gameData } = game;
+
+  if (gameData !== oldGameData) {
+    setChosenCard(null);
+    setTakeExpedition(null);
+    setIsExpeditionPossible(false);
+
+    setOldGameData(gameData);
+  }
+
   const { discards, discardsCount, players: gamePlayers }: ILostCitiesData = JSON.parse(gameData);
 
   const currentGamePlayer = gamePlayers.find(gamePlayer => gamePlayer.id === currentUser.id);
@@ -77,7 +87,7 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
       {discards.length !== 0 && <Fragment>
         <div>
           <Typography>
-            Chose discard to get in case you
+            Choose discard to get in case you
           </Typography>
         </div>
         <div>

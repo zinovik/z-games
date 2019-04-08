@@ -29,8 +29,8 @@ export function SixNimmt({ game, currentUser, isMyTurn, isButtonsDisabled, makeM
 				Cards left: {cardsLeft}
 			</Typography>
 
-			{cardsTable.map(cards => (
-				cards.map(({ cardNumber, cattleHeads }, index) => (
+			{cardsTable && cardsTable.map(cards => (
+				cards && cards.map(({ cardNumber, cattleHeads }, index) => (
 					<SixNimmtCard
 						cardNumber={cardNumber}
 						cattleHeads={cattleHeads}

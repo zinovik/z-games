@@ -1,32 +1,58 @@
 import React, { Fragment } from 'react';
-import { array, number, bool } from 'prop-types';
+import { array, number, bool, func } from 'prop-types';
 import { IPerudoPlayer } from 'z-games-perudo';
+import { Typography, Button } from '@material-ui/core';
 
 import { PerudoLastRoundResult } from '../perudo-last-round-result';
 import { IUser } from '../../../../interfaces';
 
-export function PerudoLastRoundResults({ gamePlayers, players, lastRoundFigure, isLastRoundMaputo }: {
+import './index.scss';
+
+export function PerudoLastRoundResults({
+  gamePlayers,
+  players,
+  lastRoundFigure,
+  isLastRoundMaputo,
+  hideClick,
+}: {
   gamePlayers: IPerudoPlayer[],
   players: IUser[],
   lastRoundFigure: number,
   isLastRoundMaputo: boolean,
+  hideClick: () => void,
 }) {
   return (
-    <div>
-      {gamePlayers.map((gamePlayer, index) => (
-        <Fragment key={index}>
+    <Fragment>
 
-          {players.find(player => player.id === gamePlayer.id) && <PerudoLastRoundResult
-            gamePlayer={gamePlayer}
-            username={players.find(player => player.id === gamePlayer.id)!.username}
-            avatar={players.find(player => player.id === gamePlayer.id)!.avatar}
-            lastRoundFigure={lastRoundFigure}
-            isLastRoundMaputo={isLastRoundMaputo}
-          />}
+      <Typography>
+        Last round results
+      </Typography>
 
-        </Fragment>
-      ))}
-    </div>
+      <div>
+        {gamePlayers.map((gamePlayer, index) => (
+          <Fragment key={index}>
+
+            {players.find(player => player.id === gamePlayer.id) && <PerudoLastRoundResult
+              gamePlayer={gamePlayer}
+              username={players.find(player => player.id === gamePlayer.id)!.username}
+              avatar={players.find(player => player.id === gamePlayer.id)!.avatar}
+              lastRoundFigure={lastRoundFigure}
+              isLastRoundMaputo={isLastRoundMaputo}
+            />}
+
+          </Fragment>
+        ))}
+      </div>
+
+      <Button
+        variant='contained'
+        color='primary'
+        className='perudo-last-round-results-button'
+        onClick={hideClick}>
+        Hide Results
+      </Button>
+
+    </Fragment>
   );
 }
 
@@ -35,6 +61,7 @@ PerudoLastRoundResults.propTypes = {
   players: array.isRequired,
   lastRoundFigure: number.isRequired,
   isLastRoundMaputo: bool.isRequired,
+  hideClick: func.isRequired,
 };
 
 PerudoLastRoundResults.defaultProps = {
@@ -42,4 +69,5 @@ PerudoLastRoundResults.defaultProps = {
   players: [],
   lastRoundFigure: 0,
   isLastRoundMaputo: false,
+  hideClick: () => null,
 };
