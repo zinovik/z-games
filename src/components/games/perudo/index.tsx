@@ -1,6 +1,6 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { object, bool, func } from 'prop-types';
-import { Typography } from '@material-ui/core';
+import { Typography, Button } from '@material-ui/core';
 import { IPerudoData } from 'z-games-perudo';
 
 import { PerudoDices } from './perudo-dices';
@@ -17,6 +17,9 @@ export function Perudo({ game, currentUser, isMyTurn, isButtonsDisabled, makeMov
 	isButtonsDisabled: boolean,
 	makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
 }) {
+	const [isResultsHidden, setIsResultsHidden] = useState(false);
+	const [currentRoundState, setCurrentRoundState] = useState(0);
+
 	const { gameData, players } = game;
 
 	if (!currentUser) {
@@ -35,6 +38,19 @@ export function Perudo({ game, currentUser, isMyTurn, isButtonsDisabled, makeMov
 		players: gamePlayers,
 	}: IPerudoData = JSON.parse(gameData);
 
+	if (lastRoundResults.length && currentRoundState !== currentRound && isResultsHidden) {
+		setIsResultsHidden(false);
+	}
+
+	const hideClick = () => {
+		setCurrentRoundState(currentRound);
+		setIsResultsHidden(true);
+	};
+
+	const lastRoundResultsClick = () => {
+		setIsResultsHidden(false);
+	};
+
 	const currentGamePlayer = gamePlayers.find(gamePlayer => gamePlayer.id === currentUser.id);
 	const isMaputoAble = currentGamePlayer && currentGamePlayer.dices.length === 1
 		&& !currentDiceNumber
@@ -48,45 +64,53 @@ export function Perudo({ game, currentUser, isMyTurn, isButtonsDisabled, makeMov
 
 	return (
 		<Fragment>
-			{lastRoundResults.length > 0 && currentDiceNumber === 0 && currentDiceFigure === 0 && <Fragment>
-				<Typography>
-					Last round results
-				</Typography>
-
+			{!isResultsHidden && <Fragment>
 				<PerudoLastRoundResults
 					gamePlayers={lastRoundResults}
 					players={players}
 					lastRoundFigure={lastRoundFigure}
 					isLastRoundMaputo={isLastRoundMaputo}
+					hideClick={hideClick}
 				/>
 			</Fragment>}
 
-			<Typography>
-				Round: {currentRound} {isMaputoRound && <span>(maputo)</span>}
-			</Typography>
+			{isResultsHidden && <Fragment>
 
-			{(lastPlayerNumber || lastPlayerNumber === 0) && <Typography>
-				Last player: {players[lastPlayerNumber].username}
-			</Typography>}
+				{lastRoundResults.length && <Button
+					variant='contained'
+					color='primary'
+					className='perudo-button'
+					onClick={lastRoundResultsClick}>
+					Show Last Round Results
+				</Button>}
 
-			<div className='perudo-bets'>
+				<Typography>
+					Round: {currentRound} {isMaputoRound && <span>(maputo)</span>}
+				</Typography>
 
-				{(currentDiceNumber && currentDiceFigure) ? <div className='perudo-current-bet'>
-					<Typography>
-						Current bet
-					</Typography>
+				{lastPlayerNumber >= 0 && <Typography>
+					Last player: {players[lastPlayerNumber].username}
+				</Typography>}
 
-					<PerudoDices dices={Array(currentDiceNumber).fill(currentDiceFigure)} />
-				</div> : ''}
+				<div className='perudo-bets'>
 
-				{isMyTurn && <PerudoMove
-					game={game}
-					isMaputoAble={isMaputoAble}
-					isButtonsDisabled={isButtonsDisabled}
-					makeMove={makeMove}
-				/>}
+					{(currentDiceNumber && currentDiceFigure) ? <div className='perudo-current-bet'>
+						<Typography>
+							Current bet
+						</Typography>
 
-			</div>
+						<PerudoDices dices={Array(currentDiceNumber).fill(currentDiceFigure)} />
+					</div> : ''}
+
+					{isMyTurn && <PerudoMove
+						game={game}
+						isMaputoAble={isMaputoAble}
+						isButtonsDisabled={isButtonsDisabled}
+						makeMove={makeMove}
+					/>}
+
+				</div>
+			</Fragment>}
 
 		</Fragment>
 	);

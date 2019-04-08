@@ -40,15 +40,17 @@ export function NewGame({ newGame }: {
             Choose a game to create
           </DialogContentText>
           <DialogActions>
-            {Object.keys(GamesServices).map((gameName) => (
-              <img
-                src={`/images/${GamesServices[gameName].getNameWork()}.png`}
-                className='game-img'
-                onClick={() => handleCreateGame(gameName)}
-                title={`click to create new ${gameName} game`}
-                key={`new-game-${gameName}`}
-              />
-            ))}
+            <div className='new-game-games'>
+              {Object.keys(GamesServices).map((gameName) => (
+                <img
+                  src={`/images/${GamesServices[gameName].getNameWork()}.png`}
+                  className='game-img'
+                  onClick={() => handleCreateGame(gameName)}
+                  title={`click to create new ${gameName} game`}
+                  key={`new-game-${gameName}`}
+                />
+              ))}
+            </div>
           </DialogActions>
         </DialogContent>
       </Dialog>

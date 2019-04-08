@@ -4,7 +4,6 @@ import { IGamesState } from '../interfaces';
 const initialState = {
   allGames: [],
   openGame: null,
-  openGameNumber: null,
 };
 
 const games = (state: IGamesState = initialState, action: ActionTypes.Action): IGamesState => {

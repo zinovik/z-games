@@ -84,10 +84,13 @@ export function Authorize({ register, authorize }: {
   const validate = (): boolean => {
     setIsValidated(true);
 
-    const isUsernameOk = /^(?=.{6,20}$)(?![_.])(?!.*[_.]{2})[a-zA-Z0-9._]+(?<![_.])$/.test(username);
-    const isPasswordOk = /[0-9a-zA-Z]{6,20}/.test(password);
-    const isEmailOk =
-      /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/.test(email);
+    const usernameRegexp = /[0-9a-zA-Z]{3,30}/;
+    const passwordRegexp = /[0-9a-zA-Z]{6,30}/;
+    const emailRegexp = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+
+    const isUsernameOk = usernameRegexp.test(username);
+    const isPasswordOk = passwordRegexp.test(password);
+    const isEmailOk = emailRegexp.test(email);
 
     setIsUsernameError(!isUsernameOk);
     setIsPasswordError(!isPasswordOk);
@@ -124,7 +127,7 @@ export function Authorize({ register, authorize }: {
                 placeholder='Username'
                 onChange={handleUsernameChange}
               />
-              {isValidated && isUsernameError && <FormHelperText>You can't use this username</FormHelperText>}
+              {isValidated && isUsernameError && <FormHelperText>You can't use this username!</FormHelperText>}
             </div>
 
             <div>
@@ -133,7 +136,7 @@ export function Authorize({ register, authorize }: {
                 placeholder='Password'
                 onChange={handlePasswordChange}
               />
-              {isValidated && isPasswordError && <FormHelperText>You can't use this password</FormHelperText>}
+              {isValidated && isPasswordError && <FormHelperText>You can't use this password!</FormHelperText>}
             </div>
 
             {currentTab === 0 && <div className='authorize-modal-form-button'>
@@ -147,7 +150,7 @@ export function Authorize({ register, authorize }: {
                   placeholder='Email'
                   onChange={handleEmailChange}
                 />
-                {isValidated && isEmailError && <FormHelperText>Error! Email isn't valid</FormHelperText>}
+                {isValidated && isEmailError && <FormHelperText>Email isn't valid!</FormHelperText>}
               </div>
               <div className='authorize-modal-form-button'>
                 <Button

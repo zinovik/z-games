@@ -3,3 +3,9 @@ div.new-game-button {
   bottom: 30px;
   right: 30px;
 }
+
+.new-game-games {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}

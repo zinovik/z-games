@@ -18,9 +18,6 @@ export function LostCitiesPlayer({ gamePlayer, isHideHand }: {
         <LostCitiesCardsList cards={cardsHand} />
       </Fragment>}
 
-      <Typography>
-        Expeditions
-      </Typography>
       <LostCitiesExpeditions cards={cardsExpeditions} />
 
       {points !== undefined && <Typography>
