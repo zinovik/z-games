@@ -7,6 +7,8 @@ import { SixNimmtCard } from './six-nimmt-card';
 import { SixNimmtMove } from './six-nimmt-move';
 import { IGame, IUser } from '../../../interfaces';
 
+import './index.scss';
+
 export function SixNimmt({ game, currentUser, isMyTurn, isButtonsDisabled, makeMove }: {
 	game: IGame,
 	currentUser: IUser,
@@ -20,7 +22,7 @@ export function SixNimmt({ game, currentUser, isMyTurn, isButtonsDisabled, makeM
 		return null;
 	}
 
-	const { cardsLeft, cardsTable }: ISixNimmtData = JSON.parse(gameData);
+	const { cardsLeft, cardsTable, currentRound, currentRoundMove }: ISixNimmtData = JSON.parse(gameData);
 
 	return (
 		<Fragment>
@@ -29,14 +31,28 @@ export function SixNimmt({ game, currentUser, isMyTurn, isButtonsDisabled, makeM
 				Cards left: {cardsLeft}
 			</Typography>
 
-			{cardsTable && cardsTable.map(cards => (
-				cards && cards.map(({ cardNumber, cattleHeads }, index) => (
-					<SixNimmtCard
-						cardNumber={cardNumber}
-						cattleHeads={cattleHeads}
-						key={`table-card-${index}`}
-					/>
-				))
+			<Typography>
+				Round: {currentRound}
+			</Typography>
+
+			<Typography>
+				Round Move: {currentRoundMove}
+			</Typography>
+
+			<Typography>
+				Cards left: {cardsLeft}
+			</Typography>
+
+			{cardsTable && cardsTable.map((cards, rowIndex) => (
+				<div className='six-nimmt-cards-table' key={`table-cards-row-${rowIndex}`}>
+					{cards && cards.map(({ cardNumber, cattleHeads }, cardIndex) => (
+						<SixNimmtCard
+							cardNumber={cardNumber}
+							cattleHeads={cattleHeads}
+							key={`table-card-${cardIndex}`}
+						/>
+					))}
+				</div>
 			))}
 
 			{isMyTurn && <SixNimmtMove

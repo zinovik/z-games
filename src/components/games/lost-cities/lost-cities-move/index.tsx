@@ -87,7 +87,7 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
       {discards.length !== 0 && <Fragment>
         <div>
           <Typography>
-            Choose discard to get in case you
+            Choose discard to take in case you
           </Typography>
         </div>
         <div>

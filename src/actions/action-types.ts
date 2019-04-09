@@ -21,6 +21,8 @@ export const REMOVE_ERROR = 'REMOVE_ERROR';
 export const ADD_NOTIFICATION = 'ADD_NOTIFICATION';
 export const REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION';
 
+export const UPDATE_SERVER_URL = 'UPDATE_SERVER_URL';
+
 
 export interface IUpdateStatus { type: typeof UPDATE_STATUS, isConnected: boolean };
 export interface IUpdateIsButtonsDisabled { type: typeof UPDATE_IS_BUTTONS_DISABLED, isButtonsDisabled: boolean };
@@ -40,6 +42,8 @@ export interface IRemoveError { type: typeof REMOVE_ERROR, errorId: number };
 export interface IAddNotification { type: typeof ADD_NOTIFICATION, message: string };
 export interface IRemoveNotification { type: typeof REMOVE_NOTIFICATION, notificationId: number };
 
+export interface IUpdateServerUrl { type: typeof UPDATE_SERVER_URL, serverUrl: string };
+
 
 export type Action = IUpdateStatus
   | IUpdateCurrentUser
@@ -54,4 +58,5 @@ export type Action = IUpdateStatus
   | IAddError
   | IRemoveError
   | IAddNotification
-  | IRemoveNotification;
+  | IRemoveNotification
+  | IUpdateServerUrl;

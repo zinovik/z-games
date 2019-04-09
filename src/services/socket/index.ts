@@ -1,6 +1,5 @@
 import io, { Socket } from 'socket.io-client';
 import { Dispatch } from 'redux';
-import { SERVER_URL } from '../../config';
 import { bindActionCreators } from 'redux';
 
 import {
@@ -16,6 +15,7 @@ import {
   addError as addErrorWithoutDispatch,
 } from '../../actions';
 import { IGame, IUser, IUsersOnline, ILog } from '../../interfaces';
+import { SERVER_URL } from '../../config';
 
 export class SocketService {
 
@@ -27,16 +27,24 @@ export class SocketService {
   }
 
   constructor() {
-    const token = localStorage.getItem('token');
-
-    this.SocketClient = io(SERVER_URL, {
-      query: { token },
-    }) as (typeof Socket) & { query: { token: string } };
+    this.connectToTheServer(SERVER_URL);
 
     setInterval(() => {
       this.reconnect();
     }, 1000 * 60 * 60 * 24 * 7);
   }
+
+  connectToTheServer = (serverUrl: string, dispatch?: Dispatch) => {
+    const token = localStorage.getItem('token');
+
+    this.SocketClient = io(serverUrl, {
+      query: { token },
+    }) as (typeof Socket) & { query: { token: string } };
+
+    if (dispatch) {
+      this.provideDispatch(dispatch);
+    }
+  };
 
   provideDispatch = async (dispatch: Dispatch) => {
     const updateStatus = bindActionCreators(updateStatusWithoutDispatch, dispatch);

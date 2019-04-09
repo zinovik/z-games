@@ -21,7 +21,7 @@
     "moment": "^2.23.0",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
-    "react-redux": "^6.0.1",
+    "react-redux": "^7.0.1",
     "react-router-dom": "^5.0.0",
     "react-scripts-scss-ts": "2.17.1",
     "redux": "^4.0.1",
@@ -32,7 +32,7 @@
     "z-games-lost-cities": "^0.0.15",
     "z-games-no-thanks": "^0.0.13",
     "z-games-perudo": "^0.0.11",
-    "z-games-six-nimmt": "^0.0.12"
+    "z-games-six-nimmt": "^0.0.13"
   },
   "scripts": {
     "start": "serve -s build",
@@ -49,7 +49,7 @@
   "devDependencies": {
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "^24.0.11",
-    "@types/node": "^11.13.0",
+    "@types/node": "^11.13.2",
     "@types/react": "^16.8.13",
     "@types/react-dom": "^16.8.3",
     "@types/react-redux": "^7.0.6",

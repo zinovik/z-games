@@ -46,10 +46,10 @@ Log.propTypes = {
   createdAt: string.isRequired,
   username: string.isRequired,
   text: string,
-}
+};
 
 Log.defaultProps = {
   type: '',
   createdAt: Date().toString(),
   username: Date().toString(),
-}
+};

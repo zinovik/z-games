@@ -9,14 +9,15 @@ import { IUser, IState } from '../../interfaces';
 
 import './index.scss';
 
-function RatingPagePure({ usersRating, fetchRating }: {
+function RatingPagePure({ serverUrl, usersRating, fetchRating }: {
+  serverUrl: string,
   usersRating: IUser[],
-  fetchRating: () => Promise<void>,
+  fetchRating: (serverUrl: string) => Promise<void>,
 }) {
   const [isFetching, setIsFetched] = useState(false);
 
   if (!isFetching) {
-    fetchRating();
+    fetchRating(serverUrl);
     setIsFetched(true);
   }
 
@@ -32,6 +33,7 @@ function RatingPagePure({ usersRating, fetchRating }: {
 }
 
 const mapStateToProps = (state: IState) => ({
+  serverUrl: state.users.serverUrl,
   usersRating: state.users.usersRating,
 });
 

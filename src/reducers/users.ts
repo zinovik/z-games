@@ -1,5 +1,6 @@
 import * as ActionTypes from '../actions/action-types';
 import { IUsersState } from '../interfaces';
+import { SERVER_URL } from '../config';
 
 const initialState = {
   isConnected: false,
@@ -10,6 +11,7 @@ const initialState = {
     usersCount: 0,
   },
   usersRating: [],
+  serverUrl: SERVER_URL,
 };
 
 const users = (state: IUsersState = initialState, action: ActionTypes.Action): IUsersState => {
@@ -49,6 +51,12 @@ const users = (state: IUsersState = initialState, action: ActionTypes.Action): I
       return {
         ...state,
         usersRating: [...action.users],
+      };
+
+    case ActionTypes.UPDATE_SERVER_URL:
+      return {
+        ...state,
+        serverUrl: action.serverUrl,
       };
 
     default:

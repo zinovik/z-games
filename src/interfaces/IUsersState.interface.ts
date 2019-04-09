@@ -6,4 +6,5 @@ export interface IUsersState {
   currentUser: IUser | null;
   usersOnline: IUsersOnline;
   usersRating: IUser[];
+  serverUrl: string;
 }

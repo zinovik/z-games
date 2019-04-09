@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import { object, bool, func } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
 import { ISixNimmtData, ISixNimmtMove } from 'z-games-six-nimmt';
@@ -21,7 +21,7 @@ export function SixNimmtMove({ game, currentUser, makeMove, isButtonsDisabled }:
   }
 
   const { gameData } = game;
-  const { players: gamePlayers }: ISixNimmtData = JSON.parse(gameData);
+  const { players: gamePlayers, isCardsPlaying, cardsTable }: ISixNimmtData = JSON.parse(gameData);
 
   const currentGamePlayer = gamePlayers.find(gamePlayer => gamePlayer.id === currentUser.id);
 
@@ -36,48 +36,77 @@ export function SixNimmtMove({ game, currentUser, makeMove, isButtonsDisabled }:
     setChosenCard(currentCard);
   };
 
-  const move = (isDiscard: boolean): void => {
+  const move = (): void => {
     if (chosenCard === null) {
       return;
     }
 
-    const lostCitiesMove: ISixNimmtMove = {
-      card: cardsHand[chosenCard],
-    } as ISixNimmtMove;
+    let sixNimmtCitiesMove: ISixNimmtMove;
 
-    makeMove({ gameNumber: game.number, move: JSON.stringify(lostCitiesMove) });
+    if (isCardsPlaying) {
+      sixNimmtCitiesMove = {
+        card: cardsHand[chosenCard],
+      } as ISixNimmtMove;
+    } else {
+      sixNimmtCitiesMove = {
+        rowNumber: chosenCard,
+      } as ISixNimmtMove;
+    }
+
+    makeMove({ gameNumber: game.number, move: JSON.stringify(sixNimmtCitiesMove) });
   };
 
   return (
     <div className='six-nimmt-buttons'>
 
-      <div>
-        <Typography>
-          Chose card from the hand to play:
-        </Typography>
-      </div>
-      <div className='six-nimmt-cards-container'>
-        {cardsHand.map((card, index) => (
-          <SixNimmtCard
-            cardNumber={card.cardNumber}
-            cattleHeads={card.cattleHeads}
-            isSelected={chosenCard === index}
-            isClickable={!isButtonsDisabled}
-            onClick={() => { choseCard(index); }}
-            key={`card-button${index}`}
-          />
-        ))}
-      </div>
+      {isCardsPlaying && <Fragment>
+        <div>
+          <Typography>
+            Chose card from the hand to play:
+          </Typography>
+        </div>
+        <div className='six-nimmt-cards-container'>
+          {cardsHand.map((card, index) => (
+            <SixNimmtCard
+              cardNumber={card.cardNumber}
+              cattleHeads={card.cattleHeads}
+              isSelected={chosenCard === index}
+              isClickable={!isButtonsDisabled}
+              onClick={() => { choseCard(index); }}
+              key={`card-button${index}`}
+            />
+          ))}
+        </div>
+      </Fragment>}
+
+      {!isCardsPlaying && <Fragment>
+        <div>
+          <Typography>
+            Chose row number to take:
+          </Typography>
+        </div>
+        <div className='six-nimmt-cards-container'>
+          {cardsTable.map((card, index) => (
+            <SixNimmtCard
+              cardNumber={index + 1}
+              isSelected={chosenCard === index}
+              isClickable={!isButtonsDisabled}
+              onClick={() => { choseCard(index); }}
+              key={`card-button${index}`}
+            />
+          ))}
+        </div>
+      </Fragment>}
 
       <div>
         <Button
           variant='contained'
           color='primary'
           className='six-nimmt-button'
-          onClick={() => move(true)}
+          onClick={move}
           disabled={isButtonsDisabled || chosenCard === null}
         >
-          OK
+          Play
         </Button>
       </div>
     </div>

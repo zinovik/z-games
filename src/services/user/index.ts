@@ -1,9 +1,8 @@
 
-import { SERVER_URL } from '../../config';
 import { IUser, IRegister, IActivate, ILogin } from '../../interfaces';
 
-const makePostRequest = async (route: string, body: IRegister | IActivate | ILogin) => {
-  const fetchResult = await fetch(`${SERVER_URL}/api/users/${route}`, {
+const makePostRequest = async (serverUrl: string, route: string, body: IRegister | IActivate | ILogin) => {
+  const fetchResult = await fetch(`${serverUrl}/api/users/${route}`, {
     method: 'post',
     body: JSON.stringify(body),
     headers: {
@@ -20,29 +19,29 @@ const makePostRequest = async (route: string, body: IRegister | IActivate | ILog
   return fetchResultParsed;
 };
 
-export const registerUser = async (username: string, password: string, email: string): Promise<IUser> => {
-  return await makePostRequest('register', {
+export const registerUser = async (serverUrl: string, username: string, password: string, email: string): Promise<IUser> => {
+  return await makePostRequest(serverUrl, 'register', {
     username,
     password,
     email,
   });
 };
 
-export const activateUser = async (token: string): Promise<{ token: string }> => {
-  return await makePostRequest('activate', {
+export const activateUser = async (serverUrl: string, token: string): Promise<{ token: string }> => {
+  return await makePostRequest(serverUrl, 'activate', {
     token,
   });
 };
 
-export const authorizeUser = async (username: string, password: string): Promise<{ token: string }> => {
-  return await makePostRequest('authorize', {
+export const authorizeUser = async (serverUrl: string, username: string, password: string): Promise<{ token: string }> => {
+  return await makePostRequest(serverUrl, 'authorize', {
     username,
     password,
   });
 };
 
-export const fetchUsersRating = async (): Promise<IUser[]> => {
-  const fetchResult = await fetch(`${SERVER_URL}/api/users`);
+export const fetchUsersRating = async (serverUrl: string): Promise<IUser[]> => {
+  const fetchResult = await fetch(`${serverUrl}/api/users`);
 
   return await fetchResult.json();
 };
