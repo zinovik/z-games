@@ -29,7 +29,7 @@ export function LostCities({ game, currentUser, isMyTurn, isButtonsDisabled, mak
 				Cards left: {cardsLeft}
 			</Typography>
 
-			{!isMyTurn || (isMyTurn && !discards.length) && <Fragment>
+			{(!isMyTurn || (isMyTurn && !discards.length)) && <Fragment>
 				<Typography>
 					Discards:
 					</Typography>
