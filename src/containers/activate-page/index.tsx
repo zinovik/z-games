@@ -4,22 +4,25 @@ import { Dispatch, bindActionCreators } from 'redux';
 
 import { Loading } from '../../components/loading';
 import { activate as activateWithoutDispatch } from '../../actions';
+import { IState } from '../../interfaces';
 
-function ActivatePagePure({ match: { params: { token } }, activate }: {
+function ActivatePagePure({ match: { params: { token } }, serverUrl, activate }: {
   match: { params: { token: string } },
-  activate: (token: string) => Promise<void>,
+  serverUrl: string,
+  activate: (serverUrl: string, token: string) => Promise<void>,
 }) {
   const [isActivating, setIsActivating] = useState(false);
 
   if (!isActivating) {
-    activate(token);
+    activate(serverUrl, token);
     setIsActivating(true);
   }
 
   return <Loading />;
 }
 
-const mapStateToProps = () => ({
+const mapStateToProps = (state: IState) => ({
+	serverUrl: state.users.serverUrl,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

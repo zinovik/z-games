@@ -9,13 +9,17 @@ export function SixNimmtPlayer({ gamePlayer, isHideHand }: {
   gamePlayer: ISixNimmtPlayer,
   isHideHand?: boolean,
 }) {
-  const { cardsHand, points } = gamePlayer;
+  const { cardsHand, cardsTakenCount, points } = gamePlayer;
 
   return (
     <Fragment>
       {!isHideHand && cardsHand && cardsHand.length > 0 && <Fragment>
         <SixNimmtCardsList cards={cardsHand} />
       </Fragment>}
+
+      {cardsTakenCount !== undefined && <Typography>
+        {cardsTakenCount} cards taken
+      </Typography>}
 
       {points !== undefined && <Typography>
         {points} points

@@ -8,10 +8,10 @@ const socketService = SocketService.Instance;
 
 // Users
 
-export const register = (username: string, password: string, email: string) =>
+export const register = (serverUrl: string, username: string, password: string, email: string) =>
   async (dispatch: Dispatch): Promise<AnyAction> => {
     try {
-      await registerUser(username, password, email);
+      await registerUser(serverUrl, username, password, email);
     } catch (error) {
       return dispatch({
         type: ActionTypes.ADD_ERROR,
@@ -27,12 +27,12 @@ export const register = (username: string, password: string, email: string) =>
     });
   };
 
-export const authorize = (username: string, password: string) =>
+export const authorize = (serverUrl: string, username: string, password: string) =>
   async (dispatch: Dispatch): Promise<AnyAction> => {
     let token = '';
 
     try {
-      ({ token } = await authorizeUser(username, password));
+      ({ token } = await authorizeUser(serverUrl, username, password));
     } catch (error) {
       return dispatch({
         type: ActionTypes.ADD_ERROR,
@@ -51,12 +51,12 @@ export const authorize = (username: string, password: string) =>
     });
   };
 
-export const activate = (activationToken: string) =>
+export const activate = (serverUrl: string, activationToken: string) =>
   async (dispatch: Dispatch): Promise<AnyAction> => {
     let token = '';
 
     try {
-      ({ token } = await activateUser(activationToken));
+      ({ token } = await activateUser(serverUrl, activationToken));
     } catch (error) {
       return dispatch({
         type: ActionTypes.ADD_ERROR,
@@ -75,9 +75,9 @@ export const activate = (activationToken: string) =>
     });
   };
 
-export const fetchRating = () =>
+export const fetchRating = (serverUrl: string) =>
   async (dispatch: Dispatch): Promise<AnyAction> => {
-    const users = await fetchUsersRating();
+    const users = await fetchUsersRating(serverUrl);
 
     return dispatch({
       type: ActionTypes.FETCH_RATING,
@@ -225,4 +225,14 @@ export const removeNotification = (notificationId: number) =>
       type: ActionTypes.REMOVE_NOTIFICATION,
       notificationId,
     });
+  };
+
+export const updateServerUrl = (serverUrl: string) =>
+  async (dispatch: Dispatch): Promise<void> => {
+    dispatch({
+      type: ActionTypes.UPDATE_SERVER_URL,
+      serverUrl,
+    });
+
+    socketService.connectToTheServer(serverUrl, dispatch);
   };

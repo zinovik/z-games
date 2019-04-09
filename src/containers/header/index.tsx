@@ -20,13 +20,15 @@ import './index.scss';
 
 const MENU_WIDTH_MIN = 600;
 
-export function HeaderPure({ currentUser, usersOnline, history, register, authorize, logout }: {
+export function HeaderPure({ serverUrl, currentUser, usersOnline, history, register, authorize, logout, updateServerUrl }: {
+	serverUrl: string,
 	currentUser: IUser,
 	usersOnline: IUsersOnline,
 	history: History,
-	register: (username: string, password: string, email: string) => Promise<void>,
-	authorize: (username: string, password: string) => Promise<void>,
+	register: (serverUrl: string, username: string, password: string, email: string) => Promise<void>,
+	authorize: (serverUrl: string, username: string, password: string) => Promise<void>,
 	logout: () => void,
+	updateServerUrl: (serverUrl: string) => void,
 }) {
 	const [width, setWidth] = useState(0);
 	const [isDrawerShown, setIsDrawerShown] = useState(false);
@@ -90,6 +92,7 @@ export function HeaderPure({ currentUser, usersOnline, history, register, author
 					</nav>}
 
 					{!currentUsername && <Authorize
+						serverUrl={serverUrl}
 						register={register}
 						authorize={authorize}
 					/>}
@@ -127,6 +130,7 @@ export function HeaderPure({ currentUser, usersOnline, history, register, author
 }
 
 const mapStateToProps = (state: IState) => ({
+	serverUrl: state.users.serverUrl,
 	usersOnline: state.users.usersOnline,
 	currentUser: state.users.currentUser,
 });

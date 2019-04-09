@@ -1,15 +1,15 @@
 import React, { ChangeEvent, Fragment, useState } from 'react';
-import { func } from 'prop-types';
+import { string, func } from 'prop-types';
 import { Modal, Paper, Typography, Tabs, Tab, Button, TextField, FormHelperText } from '@material-ui/core';
 
 import { Loading } from '../loading';
-import { SERVER_URL } from '../../config';
 
 import './index.scss';
 
-export function Authorize({ register, authorize }: {
-  register: (username: string, password: string, email: string) => Promise<void>,
-  authorize: (username: string, password: string) => Promise<void>,
+export function Authorize({ serverUrl, register, authorize }: {
+  serverUrl: string,
+	register: (serverUrl: string, username: string, password: string, email: string) => Promise<void>,
+	authorize: (serverUrl: string, username: string, password: string) => Promise<void>,
 }) {
   const [isModalShow, setIsModalShow] = useState(false);
   const [username, setUsername] = useState('');
@@ -56,7 +56,7 @@ export function Authorize({ register, authorize }: {
 
   const handleSignInClick = async () => {
     setIsLoading(true);
-    await authorize(username, password);
+    await authorize(serverUrl, username, password);
     setIsLoading(false);
   };
 
@@ -66,7 +66,7 @@ export function Authorize({ register, authorize }: {
     }
 
     setIsLoading(true);
-    await register(username, password, email);
+    await register(serverUrl, username, password, email);
     setIsLoading(false);
     setIsModalShow(false);
   };
@@ -78,7 +78,7 @@ export function Authorize({ register, authorize }: {
   };
 
   const handleSignInGoogle = () => {
-    window.location.href = `${SERVER_URL}/api/users/authorize/google`;
+    window.location.href = `${serverUrl}/api/users/authorize/google`;
   };
 
   const validate = (): boolean => {
@@ -176,14 +176,16 @@ export function Authorize({ register, authorize }: {
       {isLoading && <Loading />}
     </Fragment>
   );
-};
+}
 
 Authorize.propTypes = {
+  serverUrl: string.isRequired,
   register: func.isRequired,
   authorize: func.isRequired,
-}
+};
 
 Authorize.defaultProps = {
+  serverUrl: '',
   register: () => null,
   authorize: () => null,
-}
+};
