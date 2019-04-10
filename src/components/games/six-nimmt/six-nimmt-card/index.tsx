@@ -28,12 +28,11 @@ export function SixNimmtCard({ cardNumber, cattleHeads, isSelected, isClickable,
         + `${isClickable ? ' six-nimmt-card-clickable' : ''}`}
       onClick={handleClick}
     >
-      <div>
+      {cardNumber > 0 && <div>
         {cardNumber}
-      </div>
-      <div>
-        <SixNimmtCattleHeads cattleHeads={cattleHeads} />
-      </div>
+      </div>}
+
+      <SixNimmtCattleHeads cattleHeads={cattleHeads} />
     </div>
   );
 }

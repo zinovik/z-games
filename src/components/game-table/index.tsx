@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { object, bool, func } from 'prop-types';
 import { GAME_STARTED, GAME_FINISHED } from 'z-games-base-game';
 import { NAME as NO_THANKS } from 'z-games-no-thanks';
@@ -13,7 +13,6 @@ import { NoThanks } from '../../components/games/no-thanks';
 import { Perudo } from '../../components/games/perudo';
 import { LostCities } from '../../components/games/lost-cities';
 import { SixNimmt } from '../../components/games/six-nimmt';
-import { GamesServices } from '../../services';
 import { IGame, IUser, GameDataType, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
@@ -24,13 +23,19 @@ export function GameTable({ game, currentUser, isButtonsDisabled, makeMove }: {
   isButtonsDisabled: boolean,
   makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
 }) {
+  const [oldGameData, setOldGameData] = useState('');
+
   const { name, state, gameData, players, nextPlayers } = game;
+
+  if (gameData !== oldGameData) {
+    window.scrollTo(0, 0);
+    setOldGameData(gameData);
+  }
+
   const gameDataParsed: GameDataType = JSON.parse(gameData);
   const gamePlayers: GamePlayerType[] = gameDataParsed.players;
   const isMyTurn = nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id);
   const isPlayer = players.some(player => player.id === currentUser.id);
-
-  const gameNameInStyle = GamesServices[name].getNameWork();
 
   return (
     <Fragment>
@@ -44,7 +49,7 @@ export function GameTable({ game, currentUser, isButtonsDisabled, makeMove }: {
           nextPlayers={nextPlayers}
         />
 
-        <div className={`game-table-center game-table-center-${gameNameInStyle}`}>
+        <div className='game-table-center'>
 
           {name === NO_THANKS && <NoThanks
             game={game}

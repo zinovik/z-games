@@ -15,13 +15,20 @@ export function SixNimmtMove({ game, currentUser, makeMove, isButtonsDisabled }:
   makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
 }) {
   const [chosenCard, setChosenCard] = useState(null as number | null);
+  const [currentRoundMoveOld, setCurrentRoundMoveOld] = useState(0);
 
   if (!currentUser) {
     return null;
   }
 
   const { gameData } = game;
-  const { players: gamePlayers, isCardsPlaying, cardsTable }: ISixNimmtData = JSON.parse(gameData);
+
+  const { players: gamePlayers, isCardsPlaying, cardsTable, currentRoundMove }: ISixNimmtData = JSON.parse(gameData);
+
+  if (currentRoundMove !== currentRoundMoveOld) {
+    setChosenCard(null);
+    setCurrentRoundMoveOld(currentRoundMove);
+  }
 
   const currentGamePlayer = gamePlayers.find(gamePlayer => gamePlayer.id === currentUser.id);
 
@@ -62,7 +69,7 @@ export function SixNimmtMove({ game, currentUser, makeMove, isButtonsDisabled }:
       {isCardsPlaying && <Fragment>
         <div>
           <Typography>
-            Chose card from the hand to play:
+            Choose card from the hand to play:
           </Typography>
         </div>
         <div className='six-nimmt-cards-container'>
@@ -82,7 +89,7 @@ export function SixNimmtMove({ game, currentUser, makeMove, isButtonsDisabled }:
       {!isCardsPlaying && <Fragment>
         <div>
           <Typography>
-            Chose row number to take:
+            Choose row number to take:
           </Typography>
         </div>
         <div className='six-nimmt-cards-container'>
@@ -106,7 +113,7 @@ export function SixNimmtMove({ game, currentUser, makeMove, isButtonsDisabled }:
           onClick={move}
           disabled={isButtonsDisabled || chosenCard === null}
         >
-          Play
+          {isCardsPlaying ? 'Play' : 'Take'}
         </Button>
       </div>
     </div>

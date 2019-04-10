@@ -1,0 +1,11 @@
+p.six-nimmt-cattle-heads {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  font-size: 30%;
+  justify-content: center;
+
+  .six-nimmt-cattle-head {
+    margin: 1px;
+  }
+}

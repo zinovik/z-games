@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { object, bool, func } from 'prop-types';
 import { Typography } from '@material-ui/core';
-import { ISixNimmtData } from 'z-games-six-nimmt';
+import { ISixNimmtData, ROW_MAX_LENGTH } from 'z-games-six-nimmt';
 
 import { SixNimmtCard } from './six-nimmt-card';
 import { SixNimmtMove } from './six-nimmt-move';
@@ -22,14 +22,10 @@ export function SixNimmt({ game, currentUser, isMyTurn, isButtonsDisabled, makeM
 		return null;
 	}
 
-	const { cardsLeft, cardsTable, currentRound, currentRoundMove }: ISixNimmtData = JSON.parse(gameData);
+	const { cardsTable, currentRound, currentRoundMove }: ISixNimmtData = JSON.parse(gameData);
 
 	return (
 		<Fragment>
-
-			<Typography>
-				Cards left: {cardsLeft}
-			</Typography>
 
 			<Typography>
 				Round: {currentRound}
@@ -39,17 +35,13 @@ export function SixNimmt({ game, currentUser, isMyTurn, isButtonsDisabled, makeM
 				Round Move: {currentRoundMove}
 			</Typography>
 
-			<Typography>
-				Cards left: {cardsLeft}
-			</Typography>
-
 			{cardsTable && cardsTable.map((cards, rowIndex) => (
 				<div className='six-nimmt-cards-table' key={`table-cards-row-${rowIndex}`}>
-					{cards && cards.map(({ cardNumber, cattleHeads }, cardIndex) => (
+					{new Array(ROW_MAX_LENGTH).fill(0).map((row, cardIndex) => (
 						<SixNimmtCard
-							cardNumber={cardNumber}
-							cattleHeads={cattleHeads}
-							key={`table-card-${cardIndex}`}
+							cardNumber={cards[cardIndex] ? cards[cardIndex].cardNumber : undefined}
+							cattleHeads={cards[cardIndex] ? cards[cardIndex].cattleHeads : undefined}
+							key={`table-card-${rowIndex}-${cardIndex}`}
 						/>
 					))}
 				</div>

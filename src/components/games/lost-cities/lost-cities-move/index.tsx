@@ -87,12 +87,7 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
       {discards.length !== 0 && <Fragment>
         <div>
           <Typography>
-            Choose discard to take in case you
-          </Typography>
-        </div>
-        <div>
-          <Typography>
-            don't want to use the main pile:
+            Choose discard to take if you want
           </Typography>
         </div>
         <LostCitiesExpeditions
@@ -106,7 +101,7 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
 
       <div>
         <Typography>
-          Chose card from the hand to play:
+          Choose card from the hand to play:
         </Typography>
       </div>
       <div className='lost-cities-cards-container'>

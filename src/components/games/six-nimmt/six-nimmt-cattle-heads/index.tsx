@@ -2,12 +2,16 @@ import React from 'react';
 import { number } from 'prop-types';
 import { Typography } from '@material-ui/core';
 
-const CATTLE_HEAD: string = '\u25E6';
+import './index.scss';
+
+const CATTLE_HEAD: string = '\u23FA';
 
 export function SixNimmtCattleHeads({ cattleHeads }: { cattleHeads: number }) {
   return (
-    <Typography>
-      {Array(cattleHeads + 1).join(CATTLE_HEAD)}
+    <Typography className='six-nimmt-cattle-heads'>
+      {Array(cattleHeads).fill(0).map((cattleHead, index) =>
+        <span className='six-nimmt-cattle-head' key={index}>{CATTLE_HEAD}</span>
+      )}
     </Typography>
   );
 }
