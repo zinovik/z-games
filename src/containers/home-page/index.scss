@@ -1,9 +1,9 @@
 .home-page-container {
-  height: 100vh;
+  min-height: 100vh;
+  background: url(/images/home.jpg) transparent no-repeat fixed center/cover;
   width: 100vw;
   display: flex;
   flex-direction: column;
-  background: url(/images/home.jpg) transparent no-repeat top center/cover;
 }
 
 .home-page-content {

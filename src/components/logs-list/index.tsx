@@ -12,18 +12,17 @@ export function LogsList({ logs }: {
   return (
     <div className='logs-list-container'>
       {logs.map(({ type, text, createdAt, user }, index) => (
-        <div key={index}>
-          <Log
-            type={type}
-            text={text}
-            createdAt={createdAt}
-            username={user && user.username}
-          />
-        </div>
+        <Log
+          type={type}
+          text={text}
+          createdAt={createdAt}
+          username={user && user.username}
+          key={index}
+        />
       ))}
     </div>
   );
-};
+}
 
 LogsList.propTypes = {
   logs: array.isRequired,

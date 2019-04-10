@@ -64,6 +64,11 @@ export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, le
       </Typography>
 
       <div className='game-info-players'>
+      
+        <Typography>
+          #{game.number}: {game.name}
+        </Typography>
+
         <Typography>
           Players
         </Typography>

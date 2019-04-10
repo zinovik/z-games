@@ -16,7 +16,7 @@ export function Notification({ id, message, removeNotification }: {
   return (
     <Snackbar
       open={true}
-      autoHideDuration={4000}
+      autoHideDuration={2000}
       onClose={handleClose}
     >
       <SnackbarContent

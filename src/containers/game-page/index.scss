@@ -1,21 +1,22 @@
 .game-page-container {
-  display: flex;
-  flex-direction: row;
-  height: 100vh;
-  padding: 5px;
-  justify-content: center;
+  min-height: 100vh;
   background: linear-gradient(
     rgba(0, 0, 0, 0.8), 
     rgba(0, 0, 0, 0.8)
   ),
-  url(/images/home.jpg) transparent no-repeat top center/cover ;
+  url(/images/home.jpg) transparent no-repeat fixed center/cover;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .game-page-table {
+  height: 100vh;
   flex: 1 1 70%;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 5px;
 }
 
 .game-page-info-chat-container {
@@ -24,6 +25,8 @@
   padding-left: 5px;
   display: flex;
   flex-direction: column;
+  max-height: 100vh;
+  padding: 5px;
 }
 
 .game-page-info-container {
@@ -51,10 +54,6 @@
 @media screen and (max-width: 700px) {
   .game-page-container {
     flex-wrap: wrap;
-  }
-
-  .game-page-info-chat-container {
-    padding-left: 0px;
   }
 
   .game-page-table {

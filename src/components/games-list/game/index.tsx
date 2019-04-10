@@ -49,7 +49,7 @@ export function Game({ game, currentUsername, isButtonsDisabled, joinGame, openG
     <Fragment>
       <Card className='game-card'>
         <CardHeader
-          title={`${game.name} (${game.number})`}
+          title={`#${game.number}: ${game.name}`}
           subheader={moment(game.createdAt).fromNow()}
         />
 

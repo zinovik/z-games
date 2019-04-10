@@ -6,8 +6,6 @@ import { NAME as PERUDO, IPerudoPlayer } from 'z-games-perudo';
 import { NAME as LOST_CITIES, ILostCitiesPlayer } from 'z-games-lost-cities';
 import { NAME as SIX_NIMMT, ISixNimmtPlayer } from 'z-games-six-nimmt';
 
-import { GamesServices } from '../../services';
-
 import { NoThanksPlayer } from '../../components/games/no-thanks/no-thanks-player';
 import { PerudoPlayer } from '../../components/games/perudo/perudo-player';
 import { LostCitiesPlayer } from '../../components/games/lost-cities/lost-cities-player';
@@ -32,14 +30,8 @@ export function GamePlayer({
   gamePlayer?: GamePlayerType;
   isPlayersTurn?: boolean,
 }) {
-  const gameNameInStyle = GamesServices[gameName].getNameWork();
-
   return (
-    <div className={`
-      game-player-container
-      game-player-container-${gameNameInStyle}
-      ${active ? 'game-player-container-active' : ''}
-    `}>
+    <div className={`game-player-container${active ? ' game-player-container-active' : ''}`}>
 
       <div className='game-player-user'>
         <Avatar src={avatar}>
@@ -73,7 +65,7 @@ export function GamePlayer({
 
     </div>
   );
-};
+}
 
 GamePlayer.propTypes = {
   gameName: string.isRequired,

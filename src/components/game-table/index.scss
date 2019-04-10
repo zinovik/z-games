@@ -2,23 +2,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100vh;
+  justify-content: space-between;
 }
 
 .game-table-center {
-  padding: 10px;
-  margin: 10px;
+  padding: 5px;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.game-table-center-no-thanks {
-  min-width: 240px;
-  min-height: 200px;
-  justify-content: space-around;
-}
-
-.game-table-center-perudo {
-  min-width: 330px;
-  min-height: 450px;
 }

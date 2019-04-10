@@ -32,6 +32,9 @@ export function GamesList({ allGames, currentUsername, isButtonsDisabled, joinGa
 		setIsFinished(!isFinished);
 	}
 
+	// TODO: Add filter by game name
+	// TODO: Add filter by my games / my turn
+
 	return <Fragment>
 		<Typography>
 			<Checkbox checked={isNotStarted} onChange={handleNotStarted} />
@@ -44,9 +47,11 @@ export function GamesList({ allGames, currentUsername, isButtonsDisabled, joinGa
 
 		<div className='games-list'>
 			{allGames.map((game, index) => (
-				((isNotStarted && game.state === GAME_NOT_STARTED)
+				(
+					(isNotStarted && game.state === GAME_NOT_STARTED)
 					|| (isStarted && game.state === GAME_STARTED)
-					|| (isFinished && game.state === GAME_FINISHED)) && <Game
+					|| (isFinished && game.state === GAME_FINISHED)
+				) && <Game
 					game={game}
 					currentUsername={currentUsername}
 					key={`game${index}`}

@@ -9,7 +9,7 @@ export function SixNimmtPlayer({ gamePlayer, isHideHand }: {
   gamePlayer: ISixNimmtPlayer,
   isHideHand?: boolean,
 }) {
-  const { cardsHand, cardsTakenCount, points } = gamePlayer;
+  const { cardsHand, cardsTakenCount, points, pointsCurrentRound } = gamePlayer;
 
   return (
     <Fragment>
@@ -21,9 +21,9 @@ export function SixNimmtPlayer({ gamePlayer, isHideHand }: {
         {cardsTakenCount} cards taken
       </Typography>}
 
-      {points !== undefined && <Typography>
-        {points} points
-      </Typography>}
+      <Typography>
+        {points} (+{pointsCurrentRound}) points
+      </Typography>
     </Fragment>
   );
 }
