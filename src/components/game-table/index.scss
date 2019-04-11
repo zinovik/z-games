@@ -1,12 +1,15 @@
 .game-table-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   height: 100vh;
   justify-content: space-between;
+  overflow: auto;
 }
 
 .game-table-center {
+  width: 100%;
   padding: 5px;
   display: flex;
   flex-direction: column;

@@ -32,7 +32,7 @@ function GamesPagePure({ currentUser, allGames, isButtonsDisabled, newGame, join
 
       <GamesList
         allGames={allGames}
-        currentUsername={currentUser && currentUser.username}
+        currentUser={currentUser}
         isButtonsDisabled={isButtonsDisabled}
         joinGame={joinGame}
         openGame={openGame}

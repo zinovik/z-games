@@ -29,7 +29,11 @@ function AboutPagePure({ serverUrl, updateServerUrl }: {
           </Typography>
 
           <Typography>
-            Currently, there is only four games: No, Thanks, Perudo, Lost Cities and 6 nimmt!. But we are working on it, you can help ;)
+            Currently, there is only four games: No, Thanks, Perudo, Lost Cities and 6 nimmt!. But we are working on it and you can help ;)
+          </Typography>
+
+          <Typography>
+            The easiest way is to create issue here: <a href='https://github.com/zinovik/z-games-api/issues#zenhub'>https://github.com/zinovik/z-games-api/issues#zenhub</a>
           </Typography>
 
           <ChangeServer

@@ -28,19 +28,14 @@ export function SixNimmt({ game, currentUser, isMyTurn, isButtonsDisabled, makeM
 		<Fragment>
 
 			<Typography>
-				Round: {currentRound}
-			</Typography>
-
-			<Typography>
-				Round Move: {currentRoundMove}
+				Round: {currentRound} | Move: {currentRoundMove}
 			</Typography>
 
 			{cardsTable && cardsTable.map((cards, rowIndex) => (
 				<div className='six-nimmt-cards-table' key={`table-cards-row-${rowIndex}`}>
 					{new Array(ROW_MAX_LENGTH).fill(0).map((row, cardIndex) => (
 						<SixNimmtCard
-							cardNumber={cards[cardIndex] ? cards[cardIndex].cardNumber : undefined}
-							cattleHeads={cards[cardIndex] ? cards[cardIndex].cattleHeads : undefined}
+							card={cards[cardIndex]}
 							key={`table-card-${rowIndex}-${cardIndex}`}
 						/>
 					))}

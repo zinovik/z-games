@@ -1,18 +1,17 @@
 import React from 'react';
-import { number, bool, func } from 'prop-types';
+import { object, bool, func } from 'prop-types';
+import { ISixNimmtCard } from 'z-games-six-nimmt';
 
 import { SixNimmtCattleHeads } from '../six-nimmt-cattle-heads';
 
 import './index.scss';
 
-export function SixNimmtCard({ cardNumber, cattleHeads, isSelected, isClickable, onClick }: {
-  cardNumber: number,
-  cattleHeads: number,
+export function SixNimmtCard({ card, isSelected, isClickable, onClick }: {
+  card?: ISixNimmtCard | null,
   isSelected?: boolean,
   isClickable?: boolean,
   onClick?: () => void,
 }) {
-
   const handleClick = () => {
     if (!isClickable || !onClick) {
       return;
@@ -22,30 +21,26 @@ export function SixNimmtCard({ cardNumber, cattleHeads, isSelected, isClickable,
   };
 
   return (
-    <div
-      className={`six-nimmt-card`
-        + `${isSelected ? ' six-nimmt-card-selected' : ''}`
-        + `${isClickable ? ' six-nimmt-card-clickable' : ''}`}
+    <div className={`six-nimmt-card`
+      + `${isSelected ? ' six-nimmt-card-selected' : ''}`
+      + `${isClickable ? ' six-nimmt-card-clickable' : ''}`}
       onClick={handleClick}
     >
-      {cardNumber > 0 && <div>
-        {cardNumber}
+      {card && <div>
+        {card.cardNumber}
       </div>}
 
-      <SixNimmtCattleHeads cattleHeads={cattleHeads} />
+      <SixNimmtCattleHeads cattleHeads={card ? card.cattleHeads : 0} />
     </div>
   );
 }
 
 SixNimmtCard.propTypes = {
-  cardNumber: number.isRequired,
-  cattleHeads: number.isRequired,
+  card: object,
   isSelected: bool,
   isClickable: bool,
   onClick: func,
 };
 
 SixNimmtCard.defaultProps = {
-  cardNumber: 0,
-  cattleHeads: 0,
 };

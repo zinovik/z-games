@@ -1,25 +1,27 @@
 import moment from 'moment';
 import React, { Fragment, useState } from 'react';
-import { object, string, func } from 'prop-types';
+import { object, func } from 'prop-types';
 import { Card, CardHeader, CardContent, Typography, IconButton, CardActions } from '@material-ui/core';
 import { Gamepad, OpenInBrowser, RemoveRedEye } from '@material-ui/icons';
 import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED, GAME_STATE_LABEL } from 'z-games-base-game';
 
 import { GameRules } from '../../game-rules';
 import { GamesServices } from '../../../services';
-import { IGame } from '../../../interfaces';
+import { IGame, IUser } from '../../../interfaces';
 
 import './index.scss';
 
-export function Game({ game, currentUsername, isButtonsDisabled, joinGame, openGame, watchGame }: {
+export function Game({ game, currentUser, isButtonsDisabled, joinGame, openGame, watchGame }: {
   game: IGame,
-  currentUsername?: string,
+  currentUser?: IUser,
   isButtonsDisabled: boolean,
   joinGame: (gameNumber: number) => void,
   openGame: (gameNumber: number) => void,
   watchGame: (gameNumber: number) => void,
 }) {
   const [isRulesShown, setIsRulesShown] = useState(false);
+
+  const { number: gameNumber, name, state, players, playersMax, createdAt } = game;
 
   const handleLogoClick = () => {
     setIsRulesShown(true);
@@ -30,54 +32,57 @@ export function Game({ game, currentUsername, isButtonsDisabled, joinGame, openG
   };
 
   const handleJoinClick = () => {
-    joinGame(game.number);
+    joinGame(gameNumber);
   };
 
   const handleOpenClick = () => {
-    openGame(game.number);
+    openGame(gameNumber);
   };
 
   const handleWatchClick = () => {
-    watchGame(game.number);
+    watchGame(gameNumber);
   };
 
-  const isAbleToJoin = !game.state && game.players.length < game.playersMax && !game.players.some(player => player.username === currentUsername);
-  const isAbleToOpen = game.players.some(player => player.username === currentUsername);
-  const isAbleToWatch = game.state > GAME_NOT_STARTED && !game.players.some(player => player.username === currentUsername);
+  const isAbleToJoin = currentUser && !state && players.length < playersMax && !players.some(player => player.id === currentUser.id);
+  const isAbleToOpen = currentUser && players.some(player => player.id === currentUser.id);
+  const isAbleToWatch = currentUser && state > GAME_NOT_STARTED && !players.some(player => player.id === currentUser.id);
+
+  const isGameWithCurrentUser = currentUser && game.players && game.players.some(gamePlayer => gamePlayer.id === currentUser.id);
+  const isCurrentUserMove = currentUser && game.nextPlayers && game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id);
 
   return (
     <Fragment>
       <Card className='game-card'>
         <CardHeader
-          title={`#${game.number}: ${game.name}`}
-          subheader={moment(game.createdAt).fromNow()}
+          title={`#${gameNumber}: ${name}`}
+          subheader={moment(createdAt).fromNow()}
         />
 
         <div className='game-img-container'>
           <img
-            src={`/images/${GamesServices[game.name].getNameWork()}.png`}
+            src={`/images/${GamesServices[name].getNameWork()}.png`}
             className='game-img'
             onClick={handleLogoClick}
-            title={`click to see ${game.name} game rules`}
+            title={`click to see ${name} game rules`}
           />
         </div>
 
         <CardContent>
 
           <Typography>
-            {game.players.length} {game.players.length === 1 ? 'player' : 'players'}
+            {players.length} {players.length === 1 ? 'player' : 'players'}{isGameWithCurrentUser && ' (with me)'}
           </Typography>
 
           <Typography>
-            {game.state === GAME_NOT_STARTED && <span className='game-dot game-green-dot' />}
-            {game.state === GAME_STARTED && <span className='game-dot game-yellow-dot' />}
-            {game.state === GAME_FINISHED && <span className='game-dot game-red-dot' />}
-            {GAME_STATE_LABEL[game.state]}
+            {state === GAME_NOT_STARTED && <span className='game-dot game-green-dot' />}
+            {state === GAME_STARTED && <span className='game-dot game-yellow-dot' />}
+            {state === GAME_FINISHED && <span className='game-dot game-red-dot' />}
+            {GAME_STATE_LABEL[state]}{isCurrentUserMove && ' (MY MOVE!)'}
           </Typography>
 
         </CardContent>
 
-        {currentUsername && <CardActions>
+        {currentUser && <CardActions>
 
           {isAbleToJoin && <IconButton onClick={handleJoinClick} disabled={isButtonsDisabled || isButtonsDisabled} title='Click to join game' >
             <Gamepad />
@@ -95,14 +100,14 @@ export function Game({ game, currentUsername, isButtonsDisabled, joinGame, openG
 
       </Card>
 
-      {isRulesShown && <GameRules gameName={game.name} close={handleRulesClose} />}
+      {isRulesShown && <GameRules gameName={name} close={handleRulesClose} />}
     </Fragment>
   );
-};
+}
 
 Game.propTypes = {
   game: object.isRequired,
-  currentUsername: string,
+  currentUser: object,
   joinGame: func.isRequired,
   openGame: func.isRequired,
   watchGame: func.isRequired,
@@ -110,7 +115,6 @@ Game.propTypes = {
 
 Game.defaultProps = {
   game: {},
-  currentUsername: '',
   joinGame: () => null,
   openGame: () => null,
   watchGame: () => null,

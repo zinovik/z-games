@@ -19,8 +19,12 @@
   cursor: pointer;
 }
 
+.lost-cities-card-clickable:hover {
+  background-color: darkslategray;
+}
+
 div.lost-cities-card-half {
-  height: 20px;
+  height: 16px;
   border-width: 1px 1px 0px 1px;
 }
 

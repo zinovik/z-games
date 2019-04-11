@@ -17,9 +17,6 @@ export function Perudo({ game, currentUser, isMyTurn, isButtonsDisabled, makeMov
 	isButtonsDisabled: boolean,
 	makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
 }) {
-	const [isResultsHidden, setIsResultsHidden] = useState(false);
-	const [currentRoundState, setCurrentRoundState] = useState(0);
-
 	const { gameData, players } = game;
 
 	if (!currentUser) {
@@ -30,13 +27,16 @@ export function Perudo({ game, currentUser, isMyTurn, isButtonsDisabled, makeMov
 		currentDiceNumber,
 		currentDiceFigure,
 		currentRound,
-		lastPlayerNumber,
+		lastPlayerId,
 		isMaputoRound,
 		lastRoundResults,
 		lastRoundFigure,
 		isLastRoundMaputo,
 		players: gamePlayers,
 	}: IPerudoData = JSON.parse(gameData);
+
+	const [isResultsHidden, setIsResultsHidden] = useState(currentRound === 1);
+	const [currentRoundState, setCurrentRoundState] = useState(1);
 
 	if (lastRoundResults.length && currentRoundState !== currentRound && isResultsHidden) {
 		setIsResultsHidden(false);
@@ -52,6 +52,8 @@ export function Perudo({ game, currentUser, isMyTurn, isButtonsDisabled, makeMov
 	};
 
 	const currentGamePlayer = gamePlayers.find(gamePlayer => gamePlayer.id === currentUser.id);
+	const lastPlayer = players.find(player => player.id === lastPlayerId);
+
 	const isMaputoAble = currentGamePlayer && currentGamePlayer.dices.length === 1
 		&& !currentDiceNumber
 		&& !currentDiceFigure
@@ -76,7 +78,7 @@ export function Perudo({ game, currentUser, isMyTurn, isButtonsDisabled, makeMov
 
 			{isResultsHidden && <Fragment>
 
-				{lastRoundResults.length && <Button
+				{lastRoundResults.length > 0 && <Button
 					variant='contained'
 					color='primary'
 					className='perudo-button'
@@ -88,19 +90,15 @@ export function Perudo({ game, currentUser, isMyTurn, isButtonsDisabled, makeMov
 					Round: {currentRound} {isMaputoRound && <span>(maputo)</span>}
 				</Typography>
 
-				{lastPlayerNumber >= 0 && <Typography>
-					Last player: {players[lastPlayerNumber].username}
-				</Typography>}
-
 				<div className='perudo-bets'>
 
-					{(currentDiceNumber && currentDiceFigure) ? <div className='perudo-current-bet'>
+					{(currentDiceNumber > 0 && currentDiceFigure > 0) && <div className='perudo-current-bet'>
 						<Typography>
-							Current bet
+							Current bet ({lastPlayer && lastPlayer.username})
 						</Typography>
 
 						<PerudoDices dices={Array(currentDiceNumber).fill(currentDiceFigure)} />
-					</div> : ''}
+					</div>}
 
 					{isMyTurn && <PerudoMove
 						game={game}

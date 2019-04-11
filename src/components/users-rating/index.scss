@@ -1,0 +1,13 @@
+.users-rating-container {
+  width: 100%;
+  padding: 2px;
+  
+  table {
+    tr {
+      th, th:last-child, td, td:last-child {
+        text-align: center;
+        padding: 5px;
+      }
+    }
+  }
+}

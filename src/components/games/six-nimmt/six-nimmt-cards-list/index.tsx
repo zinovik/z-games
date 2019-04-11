@@ -9,8 +9,10 @@ import './index.scss';
 export function SixNimmtCardsList({ cards }: { cards: Array<{ cardNumber: number, cattleHeads: number }> }) {
   return (
     <div className='six-nimmt-cards-list-container'>
-      {cards.map(({ cardNumber, cattleHeads }, index) => (
-        <SixNimmtCard cardNumber={cardNumber} cattleHeads={cattleHeads} key={index} />
+      {cards.map((card, index) => (
+        <SixNimmtCard
+          card={card}
+          key={`index-${card && card.cardNumber}-${card && card.cattleHeads}`} />
       ))}
     </div>
   );
