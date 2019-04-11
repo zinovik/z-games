@@ -28,21 +28,19 @@ export function PerudoLastRoundResults({
         Last round results
       </Typography>
 
-      <div>
-        {gamePlayers.map((gamePlayer, index) => (
-          <Fragment key={index}>
+      {gamePlayers.map((gamePlayer, index) => (
+        <Fragment key={index}>
 
-            {players.find(player => player.id === gamePlayer.id) && <PerudoLastRoundResult
-              gamePlayer={gamePlayer}
-              username={players.find(player => player.id === gamePlayer.id)!.username}
-              avatar={players.find(player => player.id === gamePlayer.id)!.avatar}
-              lastRoundFigure={lastRoundFigure}
-              isLastRoundMaputo={isLastRoundMaputo}
-            />}
+          {players.find(player => player.id === gamePlayer.id) && <PerudoLastRoundResult
+            gamePlayer={gamePlayer}
+            username={players.find(player => player.id === gamePlayer.id)!.username}
+            avatar={players.find(player => player.id === gamePlayer.id)!.avatar}
+            lastRoundFigure={lastRoundFigure}
+            isLastRoundMaputo={isLastRoundMaputo}
+          />}
 
-          </Fragment>
-        ))}
-      </div>
+        </Fragment>
+      ))}
 
       <Button
         variant='contained'

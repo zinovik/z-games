@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 import { object, bool, func } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
 import { ISixNimmtData, ISixNimmtMove } from 'z-games-six-nimmt';
@@ -14,8 +14,8 @@ export function SixNimmtMove({ game, currentUser, makeMove, isButtonsDisabled }:
   isButtonsDisabled: boolean,
   makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
 }) {
-  const [chosenCard, setChosenCard] = useState(null as number | null);
-  const [currentRoundMoveOld, setCurrentRoundMoveOld] = useState(0);
+	const [isMoved, setIsMoved] = useState(false);
+	const [oldGameData, setOldGameData] = useState('');
 
   if (!currentUser) {
     return null;
@@ -23,12 +23,13 @@ export function SixNimmtMove({ game, currentUser, makeMove, isButtonsDisabled }:
 
   const { gameData } = game;
 
-  const { players: gamePlayers, isCardsPlaying, cardsTable, currentRoundMove }: ISixNimmtData = JSON.parse(gameData);
+  if (gameData !== oldGameData) {
+    setIsMoved(false);
 
-  if (currentRoundMove !== currentRoundMoveOld) {
-    setChosenCard(null);
-    setCurrentRoundMoveOld(currentRoundMove);
+    setOldGameData(gameData);
   }
+
+  const { players: gamePlayers, isCardsPlaying, cardsTable }: ISixNimmtData = JSON.parse(gameData);
 
   const currentGamePlayer = gamePlayers.find(gamePlayer => gamePlayer.id === currentUser.id);
 
@@ -38,27 +39,18 @@ export function SixNimmtMove({ game, currentUser, makeMove, isButtonsDisabled }:
 
   const { cardsHand } = currentGamePlayer;
 
-  const choseCard = (cardNumber: number): void => {
-    const currentCard = cardNumber === chosenCard ? null : cardNumber;
-    setChosenCard(currentCard);
+  const moveCard = (cardNumber: number): void => {
+    setIsMoved(true);
+
+    const sixNimmtCitiesMove = { card: cardsHand[cardNumber] } as ISixNimmtMove;
+
+    makeMove({ gameNumber: game.number, move: JSON.stringify(sixNimmtCitiesMove) });
   };
 
-  const move = (): void => {
-    if (chosenCard === null) {
-      return;
-    }
+  const moveRowNumber = (rowNumber: number): void => {
+    setIsMoved(true);
 
-    let sixNimmtCitiesMove: ISixNimmtMove;
-
-    if (isCardsPlaying) {
-      sixNimmtCitiesMove = {
-        card: cardsHand[chosenCard],
-      } as ISixNimmtMove;
-    } else {
-      sixNimmtCitiesMove = {
-        rowNumber: chosenCard,
-      } as ISixNimmtMove;
-    }
+    const sixNimmtCitiesMove = { rowNumber } as ISixNimmtMove;
 
     makeMove({ gameNumber: game.number, move: JSON.stringify(sixNimmtCitiesMove) });
   };
@@ -75,12 +67,10 @@ export function SixNimmtMove({ game, currentUser, makeMove, isButtonsDisabled }:
         <div className='six-nimmt-cards-container'>
           {cardsHand.map((card, index) => (
             <SixNimmtCard
-              cardNumber={card.cardNumber}
-              cattleHeads={card.cattleHeads}
-              isSelected={chosenCard === index}
-              isClickable={!isButtonsDisabled}
-              onClick={() => { choseCard(index); }}
-              key={`card-button${index}`}
+              card={card}
+              isClickable={!isButtonsDisabled && !isMoved}
+              onClick={() => { moveCard(index); }}
+              key={`six-nimmt-card-button-${index}`}
             />
           ))}
         </div>
@@ -94,28 +84,19 @@ export function SixNimmtMove({ game, currentUser, makeMove, isButtonsDisabled }:
         </div>
         <div className='six-nimmt-cards-container'>
           {cardsTable.map((card, index) => (
-            <SixNimmtCard
-              cardNumber={index + 1}
-              isSelected={chosenCard === index}
-              isClickable={!isButtonsDisabled}
-              onClick={() => { choseCard(index); }}
-              key={`card-button${index}`}
-            />
+            <Button
+              variant='contained'
+              color='primary'
+              className='six-nimmt-button'
+              onClick={() => { moveRowNumber(index); }}
+              disabled={isMoved}
+              key={`roNumber-button-${index}`}
+            >
+              {index + 1}
+            </Button>
           ))}
         </div>
       </Fragment>}
-
-      <div>
-        <Button
-          variant='contained'
-          color='primary'
-          className='six-nimmt-button'
-          onClick={move}
-          disabled={isButtonsDisabled || chosenCard === null}
-        >
-          {isCardsPlaying ? 'Play' : 'Take'}
-        </Button>
-      </div>
     </div>
   );
 }

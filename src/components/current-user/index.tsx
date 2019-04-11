@@ -25,30 +25,32 @@ export function CurrentUser({ currentUsername, avatar, logout }: {
     handleMenuClose();
   };
 
-  return <Fragment>
-    <Button
-      onClick={handleMenuOpen}
-      aria-owns={anchorEl ? 'user-menu' : undefined}
-      aria-haspopup='true'
-      className='current-user-avatar'
-    >
+  return (
+    <Fragment>
+      <Button
+        onClick={handleMenuOpen}
+        aria-owns={anchorEl ? 'user-menu' : undefined}
+        aria-haspopup='true'
+        className='current-user-avatar'
+      >
 
-      <Avatar src={avatar}>
-        {currentUsername[0]}
-      </Avatar>
-    </Button>
+        <Avatar src={avatar}>
+          {currentUsername[0]}
+        </Avatar>
+      </Button>
 
-    <Menu
-      id='user-menu'
-      anchorEl={anchorEl}
-      open={Boolean(anchorEl)}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleLogOutClick}>Log out</MenuItem>
-    </Menu>
+      <Menu
+        id='user-menu'
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={handleLogOutClick}>Log out</MenuItem>
+      </Menu>
 
-  </Fragment>;
-};
+    </Fragment>
+  );
+}
 
 CurrentUser.propTypes = {
   currentUsername: string.isRequired,

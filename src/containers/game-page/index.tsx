@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { Paper } from '@material-ui/core';
+import { GAME_STARTED } from 'z-games-base-game';
 
 import { GameInfo } from '../../components/game-info';
 import { GameTable } from '../../components/game-table';
@@ -36,7 +37,7 @@ function GamePagePure({ currentUser, game, isButtonsDisabled, closeGame, leaveGa
   return (
     <main>
       <div className='game-page-container'>
-        <div className='game-page-table'>
+        <div className={`game-page-table${game.state === GAME_STARTED ? '' : ' game-page-table-not-started'}`}>
           <GameTable
             game={game}
             currentUser={currentUser}

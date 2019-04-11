@@ -15,19 +15,25 @@ export function PerudoLastRoundResult({ gamePlayer, username, avatar, lastRoundF
 }) {
   return (
     <div className='perudo-last-round-result-container'>
-      <Avatar src={avatar}>
-        {username[0]}
-      </Avatar>
+      <div className='perudo-last-round-result-player'>
+        <div className='perudo-last-round-result-player-avatar'>
+          <Avatar src={avatar}>
+            {username[0]}
+          </Avatar>
+        </div>
 
-      <Typography className='perudo-last-round-result-player-username'>
-        {username}
-      </Typography>
+        <Typography>
+          {username}
+        </Typography>
+      </div>
 
-      <PerudoPlayer
-        gamePlayer={gamePlayer}
-        highlightNumber={lastRoundFigure}
-        isHighlightJoker={!isLastRoundMaputo}
-      />
+      <div className='perudo-last-round-result-player-result'>
+        <PerudoPlayer
+          gamePlayer={gamePlayer}
+          highlightNumber={lastRoundFigure}
+          isHighlightJoker={!isLastRoundMaputo}
+        />
+      </div>
     </div>
   );
 }
