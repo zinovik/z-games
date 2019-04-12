@@ -42,7 +42,7 @@ export function GameTable({ game, currentUser, isButtonsDisabled, makeMove }: {
       {game.state === GAME_STARTED && <div className='game-table-container'>
 
         <GamePlayers
-          gameName={name}
+          game={game}
           currentUserId={currentUser.id}
           gamePlayers={gamePlayers}
           players={players}
@@ -85,18 +85,21 @@ export function GameTable({ game, currentUser, isButtonsDisabled, makeMove }: {
 
         </div>
 
-        {isPlayer && <GamePlayer
-          gameName={name}
-          username={currentUser.username}
-          avatar={currentUser.avatar}
-          active={nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id)}
-          gamePlayer={gamePlayers.find(gamePlayer => gamePlayer.id === currentUser.id)}
-          isPlayersTurn={isMyTurn}
-        />}
+        <div>
+          {isPlayer && <GamePlayer
+            game={game}
+            username={currentUser.username}
+            avatar={currentUser.avatar}
+            active={nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id)}
+            gamePlayer={gamePlayers.find(gamePlayer => gamePlayer.id === currentUser.id)}
+            isCurrentPlayer={true}
+            isMyTurn={isMyTurn}
+          />}
+        </div>
 
       </div>}
 
-      {state === GAME_FINISHED && <GameResults gameName={name} players={players} gamePlayers={gamePlayers || []} />}
+      {state === GAME_FINISHED && <GameResults game={game} players={players} gamePlayers={gamePlayers || []} />}
     </Fragment>
   );
 };

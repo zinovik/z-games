@@ -8,21 +8,24 @@ import { GamesList } from '../../components/games-list';
 import {
   newGame as newGameWithoutDispatch,
   joinGame as joinGameWithoutDispatch,
-	openGame as openGameWithoutDispatch,
-	watchGame as watchGameWithoutDispatch,
+  openGame as openGameWithoutDispatch,
+  watchGame as watchGameWithoutDispatch,
+  updateFilterSettings as updateFilterSettingsWithoutDispatch,
 } from '../../actions';
-import { IUser, IGame, IState } from '../../interfaces';
+import { IUser, IGame, IState, IFilterSettings } from '../../interfaces';
 
 import './index.scss';
 
-function GamesPagePure({ currentUser, allGames, isButtonsDisabled, newGame, joinGame, openGame, watchGame }: {
+function GamesPagePure({ currentUser, allGames, isButtonsDisabled, filterSettings, newGame, joinGame, openGame, watchGame, updateFilterSettings }: {
   currentUser: IUser,
   allGames: IGame[],
   isButtonsDisabled: boolean,
+  filterSettings: IFilterSettings,
   newGame: (gameName: string) => void,
-	joinGame: (gameNumber: number) => void,
-	openGame: (gameNumber: number) => void,
-	watchGame: (gameNumber: number) => void,
+  joinGame: (gameNumber: number) => void,
+  openGame: (gameNumber: number) => void,
+  watchGame: (gameNumber: number) => void,
+  updateFilterSettings: (filterSettings: IFilterSettings) => void,
 }) {
   return (
     <main className='games-page-container'>
@@ -34,9 +37,11 @@ function GamesPagePure({ currentUser, allGames, isButtonsDisabled, newGame, join
         allGames={allGames}
         currentUser={currentUser}
         isButtonsDisabled={isButtonsDisabled}
+        filterSettings={filterSettings}
         joinGame={joinGame}
         openGame={openGame}
         watchGame={watchGame}
+        updateFilterSettings={updateFilterSettings}
       />
     </main>
   );
@@ -46,13 +51,15 @@ const mapStateToProps = (state: IState) => ({
   currentUser: state.users.currentUser,
   allGames: state.games.allGames,
   isButtonsDisabled: state.users.isButtonsDisabled,
+  filterSettings: state.users.filterSettings,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   newGame: bindActionCreators(newGameWithoutDispatch, dispatch),
   joinGame: bindActionCreators(joinGameWithoutDispatch, dispatch),
-	openGame: bindActionCreators(openGameWithoutDispatch, dispatch),
-	watchGame: bindActionCreators(watchGameWithoutDispatch, dispatch),
+  openGame: bindActionCreators(openGameWithoutDispatch, dispatch),
+  watchGame: bindActionCreators(watchGameWithoutDispatch, dispatch),
+  updateFilterSettings: bindActionCreators(updateFilterSettingsWithoutDispatch, dispatch),
 });
 
 export const GamesPage = connect(

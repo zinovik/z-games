@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react';
-import { array, string } from 'prop-types';
+import { array, string, object } from 'prop-types';
 
 import { GamePlayer } from '../../components/game-player';
-import { IUser, GamePlayerType } from '../../interfaces';
+import { IUser, IGame, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
 
-export function GamePlayers({ gameName, currentUserId, gamePlayers, players, nextPlayers }: {
-  gameName: string,
+export function GamePlayers({ game, currentUserId, gamePlayers, players, nextPlayers }: {
+  game: IGame,
   currentUserId: string,
   gamePlayers: GamePlayerType[],
   players: IUser[],
@@ -36,7 +36,7 @@ export function GamePlayers({ gameName, currentUserId, gamePlayers, players, nex
           {playerInGame.id !== currentUserId && players.find(player => player.id === playerInGame.id) && (
 
             <GamePlayer
-              gameName={gameName}
+              game={game}
               username={players.find(player => player.id === playerInGame.id)!.username}
               avatar={players.find(player => player.id === playerInGame.id)!.avatar}
               active={nextPlayers.some(nextPlayer => nextPlayer.id === playerInGame.id)}
@@ -50,10 +50,10 @@ export function GamePlayers({ gameName, currentUserId, gamePlayers, players, nex
       ))}
     </div>
   );
-};
+}
 
 GamePlayers.propTypes = {
-  gameName: string.isRequired,
+  game: object.isRequired,
   currentUserId: string.isRequired,
   gamePlayers: array.isRequired,
   players: array.isRequired,
@@ -61,7 +61,7 @@ GamePlayers.propTypes = {
 };
 
 GamePlayers.defaultProps = {
-  gameName: '',
+  game: {},
   currentUserId: '',
   gamePlayers: [],
   players: [],

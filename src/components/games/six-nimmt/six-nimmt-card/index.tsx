@@ -6,9 +6,8 @@ import { SixNimmtCattleHeads } from '../six-nimmt-cattle-heads';
 
 import './index.scss';
 
-export function SixNimmtCard({ card, isSelected, isClickable, onClick }: {
+export function SixNimmtCard({ card, isClickable, onClick }: {
   card?: ISixNimmtCard | null,
-  isSelected?: boolean,
   isClickable?: boolean,
   onClick?: () => void,
 }) {
@@ -21,9 +20,7 @@ export function SixNimmtCard({ card, isSelected, isClickable, onClick }: {
   };
 
   return (
-    <div className={`six-nimmt-card`
-      + `${isSelected ? ' six-nimmt-card-selected' : ''}`
-      + `${isClickable ? ' six-nimmt-card-clickable' : ''}`}
+    <div className={`six-nimmt-card${isClickable ? ' six-nimmt-card-clickable' : ''}`}
       onClick={handleClick}
     >
       {card && <div>
@@ -37,7 +34,6 @@ export function SixNimmtCard({ card, isSelected, isClickable, onClick }: {
 
 SixNimmtCard.propTypes = {
   card: object,
-  isSelected: bool,
   isClickable: bool,
   onClick: func,
 };

@@ -5,10 +5,13 @@ import { INoThanksPlayer } from 'z-games-no-thanks';
 
 import { NoThanksCardsList } from '../no-thanks-cards-list';
 import { NoThanksChips } from '../no-thanks-chips';
+import { IGame } from '../../../../interfaces';
 
-export function NoThanksPlayer({ gamePlayer }: {
+export function NoThanksPlayer({ gamePlayer, isCurrentPlayer }: {
   gamePlayer: INoThanksPlayer,
-  isHideHand?: boolean,
+  isCurrentPlayer?: boolean,
+  isMyTurn?: boolean,
+  game?: IGame,
   active?: boolean,
 }) {
   const { cards, chips, points } = gamePlayer;
@@ -17,9 +20,9 @@ export function NoThanksPlayer({ gamePlayer }: {
     <Fragment>
       <NoThanksCardsList cards={cards || []} />
 
-      {chips !== undefined && <NoThanksChips chips={chips} />}
+      {isCurrentPlayer && chips !== undefined && <NoThanksChips chips={chips} />}
 
-      {points !== undefined && <Typography>
+      {isCurrentPlayer && points !== undefined && <Typography>
         {points} points
       </Typography>}
     </Fragment>
@@ -28,7 +31,9 @@ export function NoThanksPlayer({ gamePlayer }: {
 
 NoThanksPlayer.propTypes = {
   gamePlayer: object.isRequired,
-  isHideHand: bool,
+  isCurrentPlayer: bool,
+  isMyTurn: bool,
+  game: object,
 };
 
 NoThanksPlayer.defaultProps = {

@@ -4,7 +4,7 @@ import { Typography } from '@material-ui/core';
 
 import './index.scss';
 
-const CATTLE_HEAD: string = '\u23FA';
+const CATTLE_HEAD: string = '+';
 
 export function SixNimmtCattleHeads({ cattleHeads }: { cattleHeads: number }) {
   return (

@@ -5,16 +5,19 @@ import { ILostCitiesPlayer } from 'z-games-lost-cities';
 
 import { LostCitiesCardsList } from '../lost-cities-cards-list';
 import { LostCitiesExpeditions } from '../lost-cities-expeditions';
+import { IGame } from '../../../../interfaces';
 
-export function LostCitiesPlayer({ gamePlayer, isHideHand }: {
+export function LostCitiesPlayer({ gamePlayer, isCurrentPlayer, isMyTurn, game }: {
   gamePlayer: ILostCitiesPlayer,
-  isHideHand?: boolean,
+  isCurrentPlayer?: boolean,
+  isMyTurn?: boolean,
+  game?: IGame,
 }) {
   const { cardsHand, cardsExpeditions, points } = gamePlayer;
 
   return (
     <Fragment>
-      {!isHideHand && cardsHand && cardsHand.length > 0 && <Fragment>
+      {(isCurrentPlayer && !isMyTurn) && cardsHand && cardsHand.length > 0 && <Fragment>
         <LostCitiesCardsList cards={cardsHand} />
       </Fragment>}
 
@@ -29,7 +32,9 @@ export function LostCitiesPlayer({ gamePlayer, isHideHand }: {
 
 LostCitiesPlayer.propTypes = {
   gamePlayer: object.isRequired,
-  isHideHand: bool,
+  isCurrentPlayer: bool,
+  isMyTurn: bool,
+  game: object,
 };
 
 LostCitiesPlayer.defaultProps = {

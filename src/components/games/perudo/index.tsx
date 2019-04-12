@@ -79,9 +79,6 @@ export function Perudo({ game, currentUser, isMyTurn, isButtonsDisabled, makeMov
 			{isResultsHidden && <Fragment>
 
 				{lastRoundResults.length > 0 && <Button
-					variant='contained'
-					color='primary'
-					className='perudo-button'
 					onClick={lastRoundResultsClick}>
 					Show Last Round Results
 				</Button>}

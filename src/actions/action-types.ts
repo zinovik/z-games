@@ -1,4 +1,4 @@
-import { IUser, IUsersOnline, IGame, ILog } from '../interfaces';
+import { IUser, IUsersOnline, IGame, ILog, IFilterSettings } from '../interfaces';
 
 export const UPDATE_STATUS = 'UPDATE_STATUS';
 export const UPDATE_IS_BUTTONS_DISABLED = 'UPDATE_IS_BUTTONS_DISABLED';
@@ -23,6 +23,8 @@ export const REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION';
 
 export const UPDATE_SERVER_URL = 'UPDATE_SERVER_URL';
 
+export const UPDATE_FILTER_SETTINGS = 'UPDATE_FILTER_SETTINGS';
+
 
 export interface IUpdateStatus { type: typeof UPDATE_STATUS, isConnected: boolean };
 export interface IUpdateIsButtonsDisabled { type: typeof UPDATE_IS_BUTTONS_DISABLED, isButtonsDisabled: boolean };
@@ -44,6 +46,8 @@ export interface IRemoveNotification { type: typeof REMOVE_NOTIFICATION, notific
 
 export interface IUpdateServerUrl { type: typeof UPDATE_SERVER_URL, serverUrl: string };
 
+export interface IUpdateFilterSettings { type: typeof UPDATE_FILTER_SETTINGS, filterSettings: IFilterSettings };
+
 
 export type Action = IUpdateStatus
   | IUpdateCurrentUser
@@ -59,4 +63,5 @@ export type Action = IUpdateStatus
   | IRemoveError
   | IAddNotification
   | IRemoveNotification
-  | IUpdateServerUrl;
+  | IUpdateServerUrl
+  | IUpdateFilterSettings;

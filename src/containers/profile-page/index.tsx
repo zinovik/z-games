@@ -16,7 +16,7 @@ function ProfilePagePure({ history }: { history: History }) {
     return null;
   }
 
-  const { username, email, firstName, lastName } = currentUser;
+  const { username, email, firstName, lastName, gamesPlayed, gamesWon } = currentUser;
 
   return (
     <main className='profile-page-container'>
@@ -35,6 +35,14 @@ function ProfilePagePure({ history }: { history: History }) {
 
           <Typography>
             {`${firstName} ${lastName}`}
+          </Typography>
+
+          <Typography>
+            Games Played: {gamesPlayed}
+          </Typography>
+
+          <Typography>
+            Games Won: {gamesWon}
           </Typography>
         </div>
       </div>

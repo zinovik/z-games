@@ -4,10 +4,13 @@ import { Typography } from '@material-ui/core';
 import { IPerudoPlayer } from 'z-games-perudo';
 
 import { PerudoDices } from '../perudo-dices';
+import { IGame } from '../../../../interfaces';
 
 export function PerudoPlayer({ gamePlayer, highlightNumber, isHighlightJoker }: {
   gamePlayer: IPerudoPlayer,
-  isHideHand?: boolean,
+  isCurrentPlayer?: boolean,
+  isMyTurn?: boolean,
+  game?: IGame,
   highlightNumber?: number,
   isHighlightJoker?: boolean,
 }) {
@@ -30,7 +33,9 @@ export function PerudoPlayer({ gamePlayer, highlightNumber, isHighlightJoker }: 
 
 PerudoPlayer.propTypes = {
   gamePlayer: object.isRequired,
-  isHideHand: bool,
+  isCurrentPlayer: bool,
+  isMyTurn: bool,
+  game: object,
   highlightNumber: number,
   isHighlightJoker: bool,
 };

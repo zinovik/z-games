@@ -1,15 +1,15 @@
 import React from 'react';
-import { string, array } from 'prop-types';
+import { object, array } from 'prop-types';
 import { Typography } from '@material-ui/core';
 import { INoThanksPlayer } from 'z-games-no-thanks';
 
 import { GamePlayer } from '../../components/game-player';
-import { IUser, IPlayerResult, GamePlayerType } from '../../interfaces';
+import { IUser, IGame, IPlayerResult, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
 
-export function GameResults({ gameName, players, gamePlayers }: {
-  gameName: string,
+export function GameResults({ game, players, gamePlayers }: {
+  game: IGame,
   players: IUser[],
   gamePlayers: GamePlayerType[],
 }) {
@@ -38,10 +38,11 @@ export function GameResults({ gameName, players, gamePlayers }: {
           </Typography>
 
           <GamePlayer
-            gameName={gameName}
+            game={game}
             username={result.username}
             avatar={result.avatar}
             gamePlayer={result.gamePlayer}
+            isCurrentPlayer={true}
           />
 
         </div>
@@ -51,13 +52,13 @@ export function GameResults({ gameName, players, gamePlayers }: {
 }
 
 GameResults.propTypes = {
-  gameName: string.isRequired,
+  game: object.isRequired,
   players: array.isRequired,
   gamePlayers: array.isRequired,
 };
 
 GameResults.defaultProps = {
-  gameName: '',
+  game: {},
   players: [],
   gamePlayers: [],
 };

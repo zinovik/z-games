@@ -37,7 +37,7 @@ function GamePagePure({ currentUser, game, isButtonsDisabled, closeGame, leaveGa
   return (
     <main>
       <div className='game-page-container'>
-        <div className={`game-page-table${game.state === GAME_NOT_STARTED ? 'game-page-table-not-started' : ''}`}>
+        <div className={`game-page-table${game.state === GAME_NOT_STARTED ? ' game-page-table-not-started' : ''}`}>
           <GameTable
             game={game}
             currentUser={currentUser}

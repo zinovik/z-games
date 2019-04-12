@@ -27,7 +27,7 @@ export function NoThanks({ game, currentUser, isMyTurn, isButtonsDisabled, makeM
 		<Fragment>
 
 			<Typography>
-				Cards left: {cardsLeft}
+				{cardsLeft} cards left
 			</Typography>
 			<NoThanksCard card={currentCard} />
 			<NoThanksChips chips={currentCardCost} />
