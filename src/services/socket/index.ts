@@ -14,7 +14,7 @@ import {
   setNewToken as setNewTokenWithoutDispatch,
   addError as addErrorWithoutDispatch,
 } from '../../actions';
-import { IGame, IUser, IUsersOnline, ILog } from '../../interfaces';
+import { IGame, IUser, IUsersOnline, ILog, IFilterSettings } from '../../interfaces';
 import { SERVER_URL } from '../../config';
 
 export class SocketService {
@@ -67,7 +67,7 @@ export class SocketService {
     this.SocketClient.on('connect', (): void => {
       updateStatus(true);
 
-      this.SocketClient.emit('get-all-games', { ignoreNotStarted: false, ignoreStarted: false, ignoreFinished: false });
+      this.SocketClient.emit('get-all-games', {});
       this.SocketClient.emit('get-current-user');
       this.SocketClient.emit('get-opened-game');
     });
@@ -112,6 +112,10 @@ export class SocketService {
 
 
   // updates from the user
+
+  public getAllGames(filterSettings: IFilterSettings) {
+    this.SocketClient.emit('get-all-games', filterSettings);
+  }
 
   public joinGame(gameNumber: number) {
     this.SocketClient.emit('join-game', gameNumber);

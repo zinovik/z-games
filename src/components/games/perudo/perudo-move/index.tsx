@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { object, bool, func } from 'prop-types';
-import { Button, Typography, Checkbox } from '@material-ui/core';
+import { Button, Typography, FormControlLabel, Checkbox } from '@material-ui/core';
 import {
   countDices,
   calculateStartBet,
@@ -134,8 +134,7 @@ export function PerudoMove({ game, isMaputoAble, isButtonsDisabled, makeMove }: 
       </Fragment>}
 
       {isMaputoAble && <Typography>
-        <Checkbox onChange={handleMaputoChange} />
-        Maputo
+        <FormControlLabel control={<Checkbox onChange={handleMaputoChange} />} label='Maputo' />
       </Typography>}
 
       <Typography className='perudo-move-buttons'>

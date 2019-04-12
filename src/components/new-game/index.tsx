@@ -56,7 +56,7 @@ export function NewGame({ newGame }: {
       </Dialog>
     </Fragment>
   );
-};
+}
 
 NewGame.propTypes = {
   newGame: func.isRequired,

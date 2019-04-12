@@ -1,29 +1,39 @@
 import React, { Fragment } from 'react';
 import { object, bool } from 'prop-types';
 import { Typography } from '@material-ui/core';
-import { ISixNimmtPlayer } from 'z-games-six-nimmt';
+import { ISixNimmtPlayer, ISixNimmtData } from 'z-games-six-nimmt';
 
 import { SixNimmtCardsList } from '../six-nimmt-cards-list';
 import { SixNimmtCard } from '../six-nimmt-card';
+import { IGame } from '../../../../interfaces';
 
 import './index.scss';
 
-export function SixNimmtPlayer({ gamePlayer, isHideHand }: {
+export function SixNimmtPlayer({ gamePlayer, isCurrentPlayer, isMyTurn, game }: {
   gamePlayer: ISixNimmtPlayer,
-  isHideHand?: boolean,
+  isCurrentPlayer?: boolean,
+  isMyTurn?: boolean,
+  game?: IGame,
 }) {
   const { cardsHand, cardsTakenCount, points, pointsCurrentRound, lastPlayedCard, lastPlayedCardForPlayers, lastTakenCards } = gamePlayer;
 
+  let isCardsPlaying = false;
+
+  if (game) {
+    const { gameData } = game;
+    isCardsPlaying = (JSON.parse(gameData) as ISixNimmtData).isCardsPlaying;
+  }
+
   return (
     <Fragment>
-      {!isHideHand && cardsHand && cardsHand.length > 0 && <Fragment>
+      {(isCurrentPlayer && (!isMyTurn || !isCardsPlaying)) && cardsHand && cardsHand.length > 0 && <Fragment>
         <SixNimmtCardsList cards={cardsHand} />
       </Fragment>}
 
       <div className='six-nimmt-player-last-info-container'>
         {lastPlayedCard && <div className='six-nimmt-player-last-info'>
           <Typography>
-            Last played card:
+            Last played
           </Typography>
           <div>
             <SixNimmtCard card={lastPlayedCard} />
@@ -32,7 +42,7 @@ export function SixNimmtPlayer({ gamePlayer, isHideHand }: {
 
         {lastPlayedCardForPlayers && !lastPlayedCard && <div className='six-nimmt-player-last-info'>
           <Typography>
-            Last played card:
+            Last played
           </Typography>
           <div>
             <SixNimmtCard card={lastPlayedCardForPlayers} />
@@ -41,7 +51,7 @@ export function SixNimmtPlayer({ gamePlayer, isHideHand }: {
 
         {lastTakenCards && lastTakenCards.length > 0 && <div className='six-nimmt-player-last-info'>
           <Typography>
-            Last taken cards:
+            Last taken
           </Typography>
           <div>
             <SixNimmtCardsList cards={lastTakenCards} />
@@ -50,19 +60,17 @@ export function SixNimmtPlayer({ gamePlayer, isHideHand }: {
       </div>
 
       {cardsTakenCount !== undefined && <Typography>
-        {cardsTakenCount} cards taken
+        {cardsTakenCount} cards taken | {points} (+{pointsCurrentRound}) points
       </Typography>}
-
-      <Typography>
-        {points} (+{pointsCurrentRound}) points
-      </Typography>
     </Fragment>
   );
 }
 
 SixNimmtPlayer.propTypes = {
   gamePlayer: object.isRequired,
-  isHideHand: bool,
+  isCurrentPlayer: bool,
+  isMyTurn: bool,
+  game: object,
 };
 
 SixNimmtPlayer.defaultProps = {

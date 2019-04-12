@@ -11,24 +11,26 @@ import { PerudoPlayer } from '../../components/games/perudo/perudo-player';
 import { LostCitiesPlayer } from '../../components/games/lost-cities/lost-cities-player';
 import { SixNimmtPlayer } from '../../components/games/six-nimmt/six-nimmt-player';
 
-import { GamePlayerType } from 'src/interfaces';
+import { IGame, GamePlayerType } from 'src/interfaces';
 
 import './index.scss';
 
 export function GamePlayer({
-  gameName,
+  game,
   username,
   avatar,
   active,
   gamePlayer,
-  isPlayersTurn,
+  isCurrentPlayer,
+  isMyTurn,
 }: {
-  gameName: string,
+  game: IGame,
   username: string,
   avatar?: string,
   active?: boolean,
   gamePlayer?: GamePlayerType;
-  isPlayersTurn?: boolean,
+  isCurrentPlayer?: boolean,
+  isMyTurn?: boolean,
 }) {
   return (
     <div className={`game-player-container${active ? ' game-player-container-active' : ''}`}>
@@ -43,24 +45,32 @@ export function GamePlayer({
         </Typography>
       </div>
 
-      {gameName === NO_THANKS && <NoThanksPlayer
+      {game.name === NO_THANKS && <NoThanksPlayer
         gamePlayer={gamePlayer as INoThanksPlayer}
-        isHideHand={isPlayersTurn}
+        isCurrentPlayer={isCurrentPlayer}
+        isMyTurn={isMyTurn}
+        game={game}
       />}
 
-      {gameName === PERUDO && <PerudoPlayer
+      {game.name === PERUDO && <PerudoPlayer
         gamePlayer={gamePlayer as IPerudoPlayer}
-        isHideHand={isPlayersTurn}
+        isCurrentPlayer={isCurrentPlayer}
+        isMyTurn={isMyTurn}
+        game={game}
       />}
 
-      {gameName === LOST_CITIES && <LostCitiesPlayer
+      {game.name === LOST_CITIES && <LostCitiesPlayer
         gamePlayer={gamePlayer as ILostCitiesPlayer}
-        isHideHand={isPlayersTurn}
+        isCurrentPlayer={isCurrentPlayer}
+        isMyTurn={isMyTurn}
+        game={game}
       />}
 
-      {gameName === SIX_NIMMT && <SixNimmtPlayer
+      {game.name === SIX_NIMMT && <SixNimmtPlayer
         gamePlayer={gamePlayer as ISixNimmtPlayer}
-        isHideHand={isPlayersTurn}
+        isCurrentPlayer={isCurrentPlayer}
+        isMyTurn={isMyTurn}
+        game={game}
       />}
 
     </div>
@@ -68,15 +78,16 @@ export function GamePlayer({
 }
 
 GamePlayer.propTypes = {
-  gameName: string.isRequired,
+  game: object.isRequired,
   username: string.isRequired,
   avatar: string,
   active: bool,
   gamePlayer: object,
-  isPlayersTurn: bool,
+  isCurrentPlayer: bool,
+  isMyTurn: bool,
 };
 
 GamePlayer.defaultProps = {
-  gameName: '',
+  game: {},
   username: '',
 };

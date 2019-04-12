@@ -1,49 +1,67 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { string, object, array, bool, func } from 'prop-types';
-import { Typography, Checkbox } from '@material-ui/core';
 import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED } from 'z-games-base-game';
+import { Button } from '@material-ui/core';
 
+import { BackToTop } from './back-to-top';
+import { GamesFilter } from './games-filter';
 import { Game } from './game';
-import { IGame, IUser } from '../../interfaces';
+import { IGame, IUser, IFilterSettings } from '../../interfaces';
 
 import './index.scss';
 
-export function GamesList({ allGames, currentUser, isButtonsDisabled, joinGame, openGame, watchGame }: {
+export function GamesList({ allGames, currentUser, isButtonsDisabled, filterSettings, joinGame, openGame, watchGame, updateFilterSettings }: {
 	allGames: IGame[],
 	currentUser?: IUser,
 	isButtonsDisabled: boolean,
+	filterSettings: IFilterSettings,
 	joinGame: (gameNumber: number) => void,
 	openGame: (gameNumber: number) => void,
 	watchGame: (gameNumber: number) => void,
+	updateFilterSettings: (filterSettings: IFilterSettings) => void,
 }) {
-	const [isNotStarted, setIsNotStarted] = useState(true);
-	const [isStarted, setIsStarted] = useState(true);
-	const [isFinished, setIsFinished] = useState(false);
+	const [isBackToTop, setIsBackToTop] = useState(false);
+	const [isFilterShown, setIsFilterShown] = useState(false);
 
-	const handleNotStarted = (): void => {
-		setIsNotStarted(!isNotStarted);
-	}
+	const { isNotStarted, isStarted, isFinished, isWithMe, isWithoutMe, isMyMove, isNotMyMove, isGames } = filterSettings;
 
-	const handleStarted = (): void => {
-		setIsStarted(!isStarted);
-	}
+	const handleFilterButtonClick = () => {
+		setIsFilterShown(!isFilterShown);
+	};
 
-	const handleFinished = (): void => {
-		setIsFinished(!isFinished);
-	}
+	const updateIsBackToTop = () => {
+		setIsBackToTop(window.pageYOffset > 100);
+	};
 
-	// TODO: Add filter by game name
-	// TODO: Add filter by my games / my turn
+	useEffect(() => {
+		window.addEventListener('scroll', updateIsBackToTop);
+
+		return function cleanup() {
+			window.removeEventListener('scroll', updateIsBackToTop);
+		};
+	});
+
+	// TODO: Move filter to the back-end
 
 	return <Fragment>
-		<Typography>
-			<Checkbox checked={isNotStarted} onChange={handleNotStarted} />
-			Not Started
-			<Checkbox checked={isStarted} onChange={handleStarted} />
-			Started
-			<Checkbox checked={isFinished} onChange={handleFinished} />
-			Finished
-		</Typography>
+
+		{isBackToTop && <BackToTop />}
+
+		{isFilterShown && <Fragment>
+			<Button onClick={handleFilterButtonClick}>
+				Hide Filter
+			</Button>
+			<GamesFilter
+				filterSettings={filterSettings}
+				currentUser={currentUser}
+				updateFilterSettings={updateFilterSettings}
+			/>
+		</Fragment>
+		}
+
+		{!isFilterShown && <Button onClick={handleFilterButtonClick}>
+			Show Filter
+		</Button>}
 
 		<div className='games-list'>
 			{allGames.map((game, index) => (
@@ -51,6 +69,12 @@ export function GamesList({ allGames, currentUser, isButtonsDisabled, joinGame, 
 					(isNotStarted && game.state === GAME_NOT_STARTED)
 					|| (isStarted && game.state === GAME_STARTED)
 					|| (isFinished && game.state === GAME_FINISHED)
+				) && isGames[game.name] && (
+					(isWithoutMe && (!currentUser || !game.players || !game.players.some(gamePlayer => gamePlayer.id === currentUser.id)))
+					|| (isWithMe && currentUser && game.players && game.players.some(gamePlayer => gamePlayer.id === currentUser.id))
+				) && (
+					(isNotMyMove && (!currentUser || !game.nextPlayers || !game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id)))
+					|| (isMyMove && currentUser && game.nextPlayers && game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id))
 				) && <Game
 					game={game}
 					currentUser={currentUser}
@@ -63,23 +87,27 @@ export function GamesList({ allGames, currentUser, isButtonsDisabled, joinGame, 
 			)}
 		</div>
 	</Fragment>;
-};
+}
 
 GamesList.propTypes = {
 	newMessage: string.isRequired,
 	allGames: array.isRequired,
 	isButtonsDisabled: bool.isRequired,
+	filterSettings: object.isRequired,
 	currentUser: object,
 	joinGame: func.isRequired,
 	openGame: func.isRequired,
 	watchGame: func.isRequired,
+	updateFilterSettings: func.isRequired,
 };
 
 GamesList.defaultProps = {
 	newMessage: '',
 	allGames: [],
 	isButtonsDisabled: false,
+	filterSettings: {},
 	joinGame: () => null,
 	openGame: () => null,
 	watchGame: () => null,
+	updateFilterSettings: () => null,
 };

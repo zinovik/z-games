@@ -2,6 +2,7 @@ import { Dispatch, AnyAction } from 'redux';
 import { push } from 'connected-react-router';
 
 import { SocketService, registerUser, authorizeUser, activateUser, fetchUsersRating } from '../services';
+import { IFilterSettings } from '../interfaces';
 import * as ActionTypes from './action-types';
 
 const socketService = SocketService.Instance;
@@ -235,4 +236,12 @@ export const updateServerUrl = (serverUrl: string) =>
     });
 
     socketService.connectToTheServer(serverUrl, dispatch);
+  };
+
+export const updateFilterSettings = (filterSettings: IFilterSettings) =>
+  async (dispatch: Dispatch): Promise<AnyAction> => {
+    return dispatch({
+      type: ActionTypes.UPDATE_FILTER_SETTINGS,
+      filterSettings,
+    });
   };

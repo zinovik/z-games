@@ -70,14 +70,14 @@ export function Game({ game, currentUser, isButtonsDisabled, joinGame, openGame,
         <CardContent>
 
           <Typography>
-            {players.length} {players.length === 1 ? 'player' : 'players'}{isGameWithCurrentUser && ' (with me)'}
+            {players.length} {players.length === 1 ? 'player' : 'players'}{isGameWithCurrentUser && ' [with me]'}
           </Typography>
 
           <Typography>
             {state === GAME_NOT_STARTED && <span className='game-dot game-green-dot' />}
             {state === GAME_STARTED && <span className='game-dot game-yellow-dot' />}
             {state === GAME_FINISHED && <span className='game-dot game-red-dot' />}
-            {GAME_STATE_LABEL[state]}{isCurrentUserMove && ' (MY MOVE!)'}
+            {GAME_STATE_LABEL[state]}{isCurrentUserMove && ' [my move!]'}
           </Typography>
 
         </CardContent>
