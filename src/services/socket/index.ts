@@ -157,6 +157,18 @@ export class SocketService {
     this.SocketClient.emit('new-game', gameName);
   }
 
+  public removeGame(gameNumber: number) {
+    this.SocketClient.emit('remove-game', gameNumber);
+  }
+
+  public repeatGame(gameNumber: number) {
+    this.SocketClient.emit('repeat-game', gameNumber);
+  }
+
+  public updateOption({ gameNumber, name, value }: { gameNumber: number, name: string, value: string }) {
+    this.SocketClient.emit('update-option', { gameNumber, name, value });
+  }
+
 
   public reconnect = (): void => {
     const token = localStorage.getItem('token') || '';

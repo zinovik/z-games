@@ -14,12 +14,28 @@ import {
   startGame as startGameWithoutDispatch,
   sendMessage as sendMessageWithoutDispatch,
   makeMove as makeMoveWithoutDispatch,
+  removeGame as removeGameWithoutDispatch,
+  repeatGame as repeatGameWithoutDispatch,
+  updateOption as updateOptionWithoutDispatch,
 } from '../../actions';
 import { IUser, IGame, IState } from '../../interfaces';
 
 import './index.scss';
 
-function GamePagePure({ currentUser, game, isButtonsDisabled, closeGame, leaveGame, readyToGame, startGame, sendMessage, makeMove }: {
+function GamePagePure({
+  currentUser,
+  game,
+  isButtonsDisabled,
+  closeGame,
+  leaveGame,
+  readyToGame,
+  startGame,
+  sendMessage,
+  makeMove,
+  removeGame,
+  repeatGame,
+  updateOption,
+}: {
   currentUser: IUser,
   game: IGame,
   isButtonsDisabled: boolean,
@@ -27,8 +43,11 @@ function GamePagePure({ currentUser, game, isButtonsDisabled, closeGame, leaveGa
   leaveGame: (gameNumber: number) => void,
   readyToGame: (gameNumber: number) => void,
   startGame: (gameNumber: number) => void,
+  removeGame: (gameNumber: number) => void,
+  repeatGame: (gameNumber: number) => void,
   sendMessage: ({ gameId, message }: { gameId: string, message: string }) => void,
   makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
+  updateOption: ({ gameNumber, name, value }: { gameNumber: number, name: string, value: string }) => void,
 }) {
   if (!currentUser || !game) {
     return null;
@@ -57,6 +76,9 @@ function GamePagePure({ currentUser, game, isButtonsDisabled, closeGame, leaveGa
                 leaveGame={leaveGame}
                 readyToGame={readyToGame}
                 startGame={startGame}
+                removeGame={removeGame}
+                repeatGame={repeatGame}
+                updateOption={updateOption}
               />
             </Paper>
           </div>
@@ -89,6 +111,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   startGame: bindActionCreators(startGameWithoutDispatch, dispatch),
   sendMessage: bindActionCreators(sendMessageWithoutDispatch, dispatch),
   makeMove: bindActionCreators(makeMoveWithoutDispatch, dispatch),
+  removeGame: bindActionCreators(removeGameWithoutDispatch, dispatch),
+  repeatGame: bindActionCreators(repeatGameWithoutDispatch, dispatch),
+  updateOption: bindActionCreators(updateOptionWithoutDispatch, dispatch),
 });
 
 export const GamePage = connect(

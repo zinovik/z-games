@@ -26,6 +26,7 @@ export function Log({ type, createdAt, username, text }: {
           type === 'open') && <Fragment>{username} has {type}ed the game</Fragment>}
         {(type === 'create' ||
           type === 'close' ||
+          type === 'update' ||
           type === 'leave') && <Fragment>{username} has {type}d the game</Fragment>}
 
         {type === 'ready' && <Fragment>{username} has updated ready status</Fragment>}
