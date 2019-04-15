@@ -8,6 +8,7 @@ export interface IGame {
   playersMax: number;
   playersMin: number;
   createdAt: Date;
+  createdBy: string;
   gameData: string;
   players: IUser[];
 

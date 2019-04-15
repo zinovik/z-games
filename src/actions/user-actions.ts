@@ -240,8 +240,40 @@ export const updateServerUrl = (serverUrl: string) =>
 
 export const updateFilterSettings = (filterSettings: IFilterSettings) =>
   async (dispatch: Dispatch): Promise<AnyAction> => {
+    socketService.getAllGames(filterSettings);
+
     return dispatch({
       type: ActionTypes.UPDATE_FILTER_SETTINGS,
       filterSettings,
+    });
+  };
+
+export const removeGame = (gameNumber: number) =>
+  async (dispatch: Dispatch): Promise<AnyAction> => {
+    socketService.removeGame(gameNumber);
+
+    return dispatch({
+      type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
+      isButtonsDisabled: true,
+    });
+  };
+
+export const repeatGame = (gameNumber: number) =>
+  async (dispatch: Dispatch): Promise<AnyAction> => {
+    socketService.repeatGame(gameNumber);
+
+    return dispatch({
+      type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
+      isButtonsDisabled: true,
+    });
+  };
+
+export const updateOption = ({ gameNumber, name, value }: { gameNumber: number, name: string, value: string }) =>
+  async (dispatch: Dispatch): Promise<AnyAction> => {
+    socketService.updateOption({ gameNumber, name, value });
+
+    return dispatch({
+      type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
+      isButtonsDisabled: true,
     });
   };
