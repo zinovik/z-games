@@ -1,9 +1,25 @@
 import * as ActionTypes from '../actions/action-types';
 import { IGamesState } from '../interfaces';
+import { gamesNames } from '../services/game/index';
 
-const initialState = {
+export const initialState = {
   allGames: [],
   openGame: null,
+  filterSettings: {
+    isNotStarted: true,
+    isStarted: true,
+    isFinished: false,
+    isWithMe: true,
+    isWithoutMe: true,
+    isMyMove: true,
+    isNotMyMove: true,
+    isGames: gamesNames.reduce((acc: any, gameName: string) => { acc[gameName] = true; return acc; }, {}),
+    limit: 21,
+    offset: 0,
+  },
+  isHasMore: true,
+  isLoadingAllGames: false,
+  lastAllGamesCount: 0,
 };
 
 const games = (state: IGamesState = initialState, action: ActionTypes.Action): IGamesState => {
@@ -14,6 +30,9 @@ const games = (state: IGamesState = initialState, action: ActionTypes.Action): I
       return {
         ...state,
         allGames: [...action.allGames],
+        isHasMore: action.allGames.length !== state.lastAllGamesCount,
+        isLoadingAllGames: false,
+        lastAllGamesCount: action.allGames.length,
       };
 
     case ActionTypes.UPDATE_OPEN_GAME:
@@ -57,6 +76,20 @@ const games = (state: IGamesState = initialState, action: ActionTypes.Action): I
       return {
         ...state,
         allGames,
+      };
+
+    case ActionTypes.RELOAD_GAMES:
+      const isScrollReload = action.filterSettings.limit > state.filterSettings.limit;
+
+      return {
+        ...state,
+        filterSettings: {
+          ...action.filterSettings,
+          limit: isScrollReload ? action.filterSettings.limit : initialState.filterSettings.limit,
+        },
+        isHasMore: isScrollReload ? state.isHasMore : true,
+        lastAllGamesCount: isScrollReload ? state.lastAllGamesCount : 0,
+        isLoadingAllGames: true,
       };
 
     default:

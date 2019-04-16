@@ -87,7 +87,7 @@ export const fetchRating = (serverUrl: string) =>
   };
 
 export const logout = () =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     localStorage.setItem('token', '');
     socketService.reconnect();
 
@@ -105,7 +105,7 @@ export const logout = () =>
 // Games
 
 export const joinGame = (gameNumber: number) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     socketService.joinGame(gameNumber);
 
     return dispatch({
@@ -115,7 +115,7 @@ export const joinGame = (gameNumber: number) =>
   };
 
 export const openGame = (gameNumber: number) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     socketService.openGame(gameNumber);
 
     return dispatch({
@@ -125,7 +125,7 @@ export const openGame = (gameNumber: number) =>
   };
 
 export const watchGame = (gameNumber: number) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     socketService.watchGame(gameNumber);
 
     return dispatch({
@@ -135,7 +135,7 @@ export const watchGame = (gameNumber: number) =>
   };
 
 export const leaveGame = (gameNumber: number) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     socketService.leaveGame(gameNumber);
 
     return dispatch({
@@ -145,7 +145,7 @@ export const leaveGame = (gameNumber: number) =>
   };
 
 export const closeGame = (gameNumber: number) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     socketService.closeGame(gameNumber);
 
     return dispatch({
@@ -155,7 +155,7 @@ export const closeGame = (gameNumber: number) =>
   };
 
 export const readyToGame = (gameNumber: number) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     socketService.readyToGame(gameNumber);
 
     return dispatch({
@@ -165,7 +165,7 @@ export const readyToGame = (gameNumber: number) =>
   };
 
 export const startGame = (gameNumber: number) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     socketService.startGame(gameNumber);
 
     return dispatch({
@@ -175,7 +175,7 @@ export const startGame = (gameNumber: number) =>
   };
 
 export const makeMove = ({ gameNumber, move }: { gameNumber: number, move: string }) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     socketService.makeMove({ gameNumber, move });
 
     return dispatch({
@@ -185,12 +185,12 @@ export const makeMove = ({ gameNumber, move }: { gameNumber: number, move: strin
   };
 
 export const sendMessage = ({ gameId, message }: { gameId: string, message: string }) =>
-  async (dispatch: Dispatch): Promise<void> => {
+  (dispatch: Dispatch): void => {
     socketService.sendMessage({ gameId, message });
   };
 
 export const newGame = (gameName: string) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     socketService.newGame(gameName);
 
     return dispatch({
@@ -200,7 +200,7 @@ export const newGame = (gameName: string) =>
   };
 
 export const refreshToken = (newToken: string) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     localStorage.setItem('token', newToken);
     socketService.reconnect();
 
@@ -213,7 +213,7 @@ export const refreshToken = (newToken: string) =>
   };
 
 export const removeError = (errorId: number) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     return dispatch({
       type: ActionTypes.REMOVE_ERROR,
       errorId,
@@ -221,7 +221,7 @@ export const removeError = (errorId: number) =>
   };
 
 export const removeNotification = (notificationId: number) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     return dispatch({
       type: ActionTypes.REMOVE_NOTIFICATION,
       notificationId,
@@ -229,7 +229,7 @@ export const removeNotification = (notificationId: number) =>
   };
 
 export const updateServerUrl = (serverUrl: string) =>
-  async (dispatch: Dispatch): Promise<void> => {
+  (dispatch: Dispatch): void => {
     dispatch({
       type: ActionTypes.UPDATE_SERVER_URL,
       serverUrl,
@@ -238,18 +238,18 @@ export const updateServerUrl = (serverUrl: string) =>
     socketService.connectToTheServer(serverUrl, dispatch);
   };
 
-export const updateFilterSettings = (filterSettings: IFilterSettings) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
-    socketService.getAllGames(filterSettings);
-
-    return dispatch({
-      type: ActionTypes.UPDATE_FILTER_SETTINGS,
+export const reloadGames = (filterSettings: IFilterSettings) =>
+  (dispatch: Dispatch): void => {
+    dispatch({
+      type: ActionTypes.RELOAD_GAMES,
       filterSettings,
     });
+
+    socketService.getAllGames(filterSettings);
   };
 
 export const removeGame = (gameNumber: number) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     socketService.removeGame(gameNumber);
 
     return dispatch({
@@ -259,7 +259,7 @@ export const removeGame = (gameNumber: number) =>
   };
 
 export const repeatGame = (gameNumber: number) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     socketService.repeatGame(gameNumber);
 
     return dispatch({
@@ -269,7 +269,7 @@ export const repeatGame = (gameNumber: number) =>
   };
 
 export const updateOption = ({ gameNumber, name, value }: { gameNumber: number, name: string, value: string }) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     socketService.updateOption({ gameNumber, name, value });
 
     return dispatch({

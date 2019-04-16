@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { string, object, array, bool, func } from 'prop-types';
 import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED } from 'z-games-base-game';
-import { Button } from '@material-ui/core';
+import { Button, Typography } from '@material-ui/core';
 
 import { BackToTop } from './back-to-top';
 import { GamesFilter } from './games-filter';
@@ -10,18 +10,34 @@ import { IGame, IUser, IFilterSettings } from '../../interfaces';
 
 import './index.scss';
 
-export function GamesList({ allGames, currentUser, isButtonsDisabled, filterSettings, joinGame, openGame, watchGame, updateFilterSettings }: {
+const SCROLL_HEIGHT = 1300;
+
+export function GamesList({
+	allGames,
+	currentUser,
+	isButtonsDisabled,
+	filterSettings,
+	isHasMore,
+	isLoadingAllGames,
+	joinGame,
+	openGame,
+	watchGame,
+	reloadGames,
+}: {
 	allGames: IGame[],
 	currentUser?: IUser,
 	isButtonsDisabled: boolean,
 	filterSettings: IFilterSettings,
+	isHasMore: boolean,
+	isLoadingAllGames: boolean,
 	joinGame: (gameNumber: number) => void,
 	openGame: (gameNumber: number) => void,
 	watchGame: (gameNumber: number) => void,
-	updateFilterSettings: (filterSettings: IFilterSettings) => void,
+	reloadGames: (filterSettings: IFilterSettings) => void,
 }) {
 	const [isBackToTop, setIsBackToTop] = useState(false);
 	const [isFilterShown, setIsFilterShown] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 
 	const { isNotStarted, isStarted, isFinished, isWithMe, isWithoutMe, isMyMove, isNotMyMove, isGames } = filterSettings;
 
@@ -29,15 +45,37 @@ export function GamesList({ allGames, currentUser, isButtonsDisabled, filterSett
 		setIsFilterShown(!isFilterShown);
 	};
 
-	const updateIsBackToTop = () => {
+	const handleScroll = () => {
 		setIsBackToTop(window.pageYOffset > 100);
+
+		if (!isHasMore || isLoadingAllGames || isLoading) {
+			return;
+		}
+
+		if (window.document.body.scrollHeight - window.pageYOffset > SCROLL_HEIGHT) {
+			return;
+		}
+
+		setIsLoading(true);
+
+		reloadGames({
+			...filterSettings,
+			limit: filterSettings.limit + 10,
+		});
 	};
 
+	// isLoadingAllGames updates asynchronous.
+	// That's why we need isLoading component state variable,
+	// we use it only until isLoadingAllGames is set
+	if (isLoadingAllGames && isLoading) {
+		setIsLoading(false);
+	}
+
 	useEffect(() => {
-		window.addEventListener('scroll', updateIsBackToTop);
+		window.addEventListener('scroll', handleScroll);
 
 		return function cleanup() {
-			window.removeEventListener('scroll', updateIsBackToTop);
+			window.removeEventListener('scroll', handleScroll);
 		};
 	});
 
@@ -54,7 +92,7 @@ export function GamesList({ allGames, currentUser, isButtonsDisabled, filterSett
 			<GamesFilter
 				filterSettings={filterSettings}
 				currentUser={currentUser}
-				updateFilterSettings={updateFilterSettings}
+				reloadGames={reloadGames}
 			/>
 		</Fragment>
 		}
@@ -86,6 +124,11 @@ export function GamesList({ allGames, currentUser, isButtonsDisabled, filterSett
 				/>)
 			)}
 		</div>
+		{(isLoadingAllGames || isLoading) && <div className='games-list-loading'>
+			<Typography variant='h1'>
+				Loading...
+			</Typography>
+		</div>}
 	</Fragment>;
 }
 
@@ -94,11 +137,13 @@ GamesList.propTypes = {
 	allGames: array.isRequired,
 	isButtonsDisabled: bool.isRequired,
 	filterSettings: object.isRequired,
+	isHasMore: bool.isRequired,
+	isLoadingAllGames: bool.isRequired,
 	currentUser: object,
 	joinGame: func.isRequired,
 	openGame: func.isRequired,
 	watchGame: func.isRequired,
-	updateFilterSettings: func.isRequired,
+	reloadGames: func.isRequired,
 };
 
 GamesList.defaultProps = {
@@ -106,8 +151,10 @@ GamesList.defaultProps = {
 	allGames: [],
 	isButtonsDisabled: false,
 	filterSettings: {},
+	isHasMore: false,
+	isLoadingAllGames: false,
 	joinGame: () => null,
 	openGame: () => null,
 	watchGame: () => null,
-	updateFilterSettings: () => null,
+	reloadGames: () => null,
 };

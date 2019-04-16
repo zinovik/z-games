@@ -1,7 +1,6 @@
 import * as ActionTypes from '../actions/action-types';
 import { IUsersState } from '../interfaces';
 import { SERVER_URL } from '../config';
-import { gamesNames } from '../services/game/index';
 
 const initialState = {
   isConnected: false,
@@ -13,18 +12,6 @@ const initialState = {
   },
   usersRating: [],
   serverUrl: SERVER_URL,
-  filterSettings: {
-    isNotStarted: true,
-    isStarted: true,
-    isFinished: false,
-    isWithMe: true,
-    isWithoutMe: true,
-    isMyMove: true,
-    isNotMyMove: true,
-    isGames: gamesNames.reduce((acc: any, gameName: string) => { acc[gameName] = true; return acc; }, {}),
-    limit: 100,
-    offset: 0,
-  },
 };
 
 const users = (state: IUsersState = initialState, action: ActionTypes.Action): IUsersState => {
@@ -70,12 +57,6 @@ const users = (state: IUsersState = initialState, action: ActionTypes.Action): I
       return {
         ...state,
         serverUrl: action.serverUrl,
-      };
-
-    case ActionTypes.UPDATE_FILTER_SETTINGS:
-      return {
-        ...state,
-        filterSettings: { ...action.filterSettings },
       };
 
     default:

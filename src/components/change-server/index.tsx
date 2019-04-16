@@ -2,7 +2,7 @@ import React, { Fragment, useState, ChangeEvent } from 'react';
 import { string, func } from 'prop-types';
 import { Typography, TextField, Button } from '@material-ui/core';
 
-// import './index.scss';
+import './index.scss';
 
 export function ChangeServer({ serverUrl, updateServerUrl }: {
   serverUrl: string,
@@ -20,15 +20,20 @@ export function ChangeServer({ serverUrl, updateServerUrl }: {
     setCurrentServerUrl(event.target.value);
   };
 
-  const handleServerUrlChange = () => {
-    updateServerUrl(currentServerUrl);
-    setIsServerUrlInputShowed(false);
+  const handleServerUrlChange = (isSave: boolean) => {
+    if (isSave) {
+      updateServerUrl(currentServerUrl);
+    } else {
+      setCurrentServerUrl(serverUrl);
+    }
+
+    setIsServerUrlInputShowed(false);  
   };
 
   return (
     <Fragment>
 
-      {!isServerUrlInputShowed &&<Typography onClick={handleServerUrlClick}>
+      {!isServerUrlInputShowed && <Typography onClick={handleServerUrlClick}>
         {serverUrl}
       </Typography>}
 
@@ -40,10 +45,16 @@ export function ChangeServer({ serverUrl, updateServerUrl }: {
           onChange={handleCurrentServerUrlChange}
         />
 
-        <Button onClick={handleServerUrlChange}>
+        <div className='change-server-buttons'>
+        <Button onClick={() => { handleServerUrlChange(true) }}>
           Update
         </Button>
-      
+
+        <Button onClick={() => { handleServerUrlChange(false) }}>
+          Cancel
+        </Button>
+        </div>
+
       </Fragment>}
 
     </Fragment>

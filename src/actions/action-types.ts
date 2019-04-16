@@ -23,7 +23,7 @@ export const REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION';
 
 export const UPDATE_SERVER_URL = 'UPDATE_SERVER_URL';
 
-export const UPDATE_FILTER_SETTINGS = 'UPDATE_FILTER_SETTINGS';
+export const RELOAD_GAMES = 'RELOAD_GAMES';
 
 
 export interface IUpdateStatus { type: typeof UPDATE_STATUS, isConnected: boolean };
@@ -46,7 +46,7 @@ export interface IRemoveNotification { type: typeof REMOVE_NOTIFICATION, notific
 
 export interface IUpdateServerUrl { type: typeof UPDATE_SERVER_URL, serverUrl: string };
 
-export interface IUpdateFilterSettings { type: typeof UPDATE_FILTER_SETTINGS, filterSettings: IFilterSettings };
+export interface IReloadGames { type: typeof RELOAD_GAMES, filterSettings: IFilterSettings };
 
 
 export type Action = IUpdateStatus
@@ -64,4 +64,4 @@ export type Action = IUpdateStatus
   | IAddNotification
   | IRemoveNotification
   | IUpdateServerUrl
-  | IUpdateFilterSettings;
+  | IReloadGames;
