@@ -32,7 +32,7 @@
     "z-games-lost-cities": "^0.0.16",
     "z-games-no-thanks": "^0.0.14",
     "z-games-perudo": "^0.0.13",
-    "z-games-six-nimmt": "^0.0.17"
+    "z-games-six-nimmt": "^0.0.18"
   },
   "scripts": {
     "start": "serve -s build",
