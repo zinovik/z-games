@@ -2,6 +2,7 @@ import io, { Socket } from 'socket.io-client';
 import { Dispatch } from 'redux';
 import { bindActionCreators } from 'redux';
 
+import { initialState } from '../../reducers/games';
 import {
   updateStatus as updateStatusWithoutDispatch,
   updateCurrentUser as updateCurrentUserWithoutDispatch,
@@ -67,7 +68,7 @@ export class SocketService {
     this.SocketClient.on('connect', (): void => {
       updateStatus(true);
 
-      this.SocketClient.emit('get-all-games', {});
+      this.SocketClient.emit('get-all-games', initialState.filterSettings);
       this.SocketClient.emit('get-current-user');
       this.SocketClient.emit('get-opened-game');
     });

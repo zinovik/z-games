@@ -33,7 +33,9 @@ function AboutPagePure({ serverUrl, updateServerUrl }: {
           </Typography>
 
           <Typography>
-            The easiest way is to create issue here: <a href='https://github.com/zinovik/z-games-api/issues#zenhub'>https://github.com/zinovik/z-games-api/issues#zenhub</a>
+            The easiest way is to create issue here: <a href='https://github.com/zinovik/z-games-api/issues#zenhub' className='about-page-link'>
+              https://github.com/zinovik/z-games-api/issues#zenhub
+            </a>
           </Typography>
 
           <ChangeServer
@@ -47,11 +49,11 @@ function AboutPagePure({ serverUrl, updateServerUrl }: {
 }
 
 const mapStateToProps = (state: IState) => ({
-	serverUrl: state.users.serverUrl,
+  serverUrl: state.users.serverUrl,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-	updateServerUrl: bindActionCreators(updateServerUrlDispatch, dispatch),
+  updateServerUrl: bindActionCreators(updateServerUrlDispatch, dispatch),
 });
 
 export const AboutPage = connect(

@@ -5,6 +5,8 @@ import { FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
 import { GamesServices } from '../../../services';
 import { IGame, GameDataType } from '../../../interfaces';
 
+import './index.scss';
+
 export function GameOptions({ game, isButtonsDisabled, updateOption }: {
   game: IGame,
   isButtonsDisabled: boolean,
@@ -24,7 +26,7 @@ export function GameOptions({ game, isButtonsDisabled, updateOption }: {
   };
 
   return (
-    <div>
+    <div className='game-options-container'>
       {optionsVariants.map(option => (
         <FormControl key={`game-option-${option.name}`}>
           <InputLabel>{option.name}</InputLabel>

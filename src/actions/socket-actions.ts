@@ -5,7 +5,7 @@ import { IUser, IUsersOnline, IGame, ILog, IState } from '../interfaces';
 import * as ActionTypes from './action-types';
 
 export const updateStatus = (isConnected: boolean) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     return dispatch({
       type: ActionTypes.UPDATE_STATUS,
       isConnected,
@@ -13,25 +13,25 @@ export const updateStatus = (isConnected: boolean) =>
   };
 
 export const updateCurrentUser = (currentUser: IUser | null) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => dispatch({
+  (dispatch: Dispatch): AnyAction => dispatch({
     type: ActionTypes.UPDATE_CURRENT_USER,
     currentUser,
   });
 
 export const updateUsersOnline = (usersOnline: IUsersOnline) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => dispatch({
+  (dispatch: Dispatch): AnyAction => dispatch({
     type: ActionTypes.UPDATE_USERS_ONLINE,
     usersOnline,
   });
 
 export const updateAllGames = (allGames: IGame[]) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => dispatch({
+  (dispatch: Dispatch): AnyAction => dispatch({
     type: ActionTypes.UPDATE_ALL_GAMES,
     allGames,
   });
 
 export const updateOpenGame = (openGameToUpdate: IGame) =>
-  async (dispatch: Dispatch, getState: () => IState): Promise<AnyAction> => {
+  (dispatch: Dispatch, getState: () => IState): AnyAction => {
 
     const gameNumber = openGameToUpdate && openGameToUpdate.number;
 
@@ -69,30 +69,30 @@ export const updateOpenGame = (openGameToUpdate: IGame) =>
   };
 
 export const addNewGame = (newGameToAdd: IGame) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => dispatch({
+  (dispatch: Dispatch): AnyAction => dispatch({
     type: ActionTypes.ADD_NEW_GAME,
     newGame: newGameToAdd,
   });
 
 export const updateGame = (game: IGame) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => dispatch({
+  (dispatch: Dispatch): AnyAction => dispatch({
     type: ActionTypes.UPDATE_GAME,
     game,
   });
 
 export const addNewLog = (newLog: ILog) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => dispatch({
+  (dispatch: Dispatch): AnyAction => dispatch({
     type: ActionTypes.ADD_NEW_LOG,
     newLog,
   });
 
 export const setNewToken = (newToken: string) =>
-  async (dispatch: Dispatch): Promise<void> => {
+  (dispatch: Dispatch): void => {
     localStorage.setItem('token', newToken);
   };
 
 export const addError = (message: string) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     dispatch({
       type: ActionTypes.ADD_ERROR,
       message,
@@ -105,7 +105,7 @@ export const addError = (message: string) =>
   };
 
 export const addNotification = (message: string) =>
-  async (dispatch: Dispatch): Promise<AnyAction> => {
+  (dispatch: Dispatch): AnyAction => {
     return dispatch({
       type: ActionTypes.ADD_NOTIFICATION,
       message,

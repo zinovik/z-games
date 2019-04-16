@@ -1,4 +1,4 @@
-import { IUser, IUsersOnline, IFilterSettings } from './';
+import { IUser, IUsersOnline } from './';
 
 export interface IUsersState {
   isConnected: boolean;
@@ -7,5 +7,4 @@ export interface IUsersState {
   usersOnline: IUsersOnline;
   usersRating: IUser[];
   serverUrl: string;
-  filterSettings: IFilterSettings;
 }

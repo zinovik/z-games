@@ -10,22 +10,36 @@ import {
   joinGame as joinGameWithoutDispatch,
   openGame as openGameWithoutDispatch,
   watchGame as watchGameWithoutDispatch,
-  updateFilterSettings as updateFilterSettingsWithoutDispatch,
+  reloadGames as reloadGamesWithoutDispatch,
 } from '../../actions';
 import { IUser, IGame, IState, IFilterSettings } from '../../interfaces';
 
 import './index.scss';
 
-function GamesPagePure({ currentUser, allGames, isButtonsDisabled, filterSettings, newGame, joinGame, openGame, watchGame, updateFilterSettings }: {
+function GamesPagePure({
+  currentUser,
+  allGames,
+  isButtonsDisabled,
+  filterSettings,
+  isHasMore,
+  isLoadingAllGames,
+  newGame,
+  joinGame,
+  openGame,
+  watchGame,
+  reloadGames,
+}: {
   currentUser: IUser,
   allGames: IGame[],
   isButtonsDisabled: boolean,
   filterSettings: IFilterSettings,
+  isHasMore: boolean,
+  isLoadingAllGames: boolean,
   newGame: (gameName: string) => void,
   joinGame: (gameNumber: number) => void,
   openGame: (gameNumber: number) => void,
   watchGame: (gameNumber: number) => void,
-  updateFilterSettings: (filterSettings: IFilterSettings) => void,
+  reloadGames: (filterSettings: IFilterSettings) => void,
 }) {
   return (
     <main className='games-page-container'>
@@ -38,10 +52,12 @@ function GamesPagePure({ currentUser, allGames, isButtonsDisabled, filterSetting
         currentUser={currentUser}
         isButtonsDisabled={isButtonsDisabled}
         filterSettings={filterSettings}
+        isHasMore={isHasMore}
+        isLoadingAllGames={isLoadingAllGames}
         joinGame={joinGame}
         openGame={openGame}
         watchGame={watchGame}
-        updateFilterSettings={updateFilterSettings}
+        reloadGames={reloadGames}
       />
     </main>
   );
@@ -51,7 +67,9 @@ const mapStateToProps = (state: IState) => ({
   currentUser: state.users.currentUser,
   allGames: state.games.allGames,
   isButtonsDisabled: state.users.isButtonsDisabled,
-  filterSettings: state.users.filterSettings,
+  filterSettings: state.games.filterSettings,
+  isHasMore: state.games.isHasMore,
+  isLoadingAllGames: state.games.isLoadingAllGames,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -59,7 +77,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   joinGame: bindActionCreators(joinGameWithoutDispatch, dispatch),
   openGame: bindActionCreators(openGameWithoutDispatch, dispatch),
   watchGame: bindActionCreators(watchGameWithoutDispatch, dispatch),
-  updateFilterSettings: bindActionCreators(updateFilterSettingsWithoutDispatch, dispatch),
+  reloadGames: bindActionCreators(reloadGamesWithoutDispatch, dispatch),
 });
 
 export const GamesPage = connect(

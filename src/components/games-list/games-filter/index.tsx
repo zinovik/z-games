@@ -2,74 +2,57 @@ import React, { Fragment } from 'react';
 import { object, func } from 'prop-types';
 import { Typography, FormControlLabel, Checkbox } from '@material-ui/core';
 import { gamesNames } from '../../../services';
+import { initialState } from '../../../reducers/games';
 
 import { IFilterSettings, IUser } from '../../../interfaces';
 
 import './index.scss';
 
-export function GamesFilter({ filterSettings, currentUser, updateFilterSettings }: {
+export function GamesFilter({ filterSettings, currentUser, reloadGames }: {
   filterSettings: IFilterSettings,
   currentUser?: IUser,
-  updateFilterSettings: (filterSettings: IFilterSettings) => void,
+  reloadGames: (filterSettings: IFilterSettings) => void,
 }) {
   const { isNotStarted, isStarted, isFinished, isWithMe, isWithoutMe, isMyMove, isNotMyMove, isGames } = filterSettings;
 
+  const { filterSettings: { limit } } = initialState;
+
   const handleNotStarted = (): void => {
-    updateFilterSettings({
-      ...filterSettings,
-      isNotStarted: !isNotStarted,
-    });
+    reloadGames({ ...filterSettings, isNotStarted: !isNotStarted, limit });
   };
 
   const handleStarted = (): void => {
-    updateFilterSettings({
-      ...filterSettings,
-      isStarted: !isStarted,
-    });
+    reloadGames({ ...filterSettings, isStarted: !isStarted, limit });
   };
 
   const handleFinished = (): void => {
-    updateFilterSettings({
-      ...filterSettings,
-      isFinished: !isFinished,
-    });
+    reloadGames({ ...filterSettings, isFinished: !isFinished, limit });
   };
 
   const handleWithoutMe = (): void => {
-    updateFilterSettings({
-      ...filterSettings,
-      isWithoutMe: !isWithoutMe,
-    });
-  };
+    reloadGames({ ...filterSettings, isWithoutMe: !isWithoutMe, limit });
+  }
 
   const handleWithMe = (): void => {
-    updateFilterSettings({
-      ...filterSettings,
-      isWithMe: !isWithMe,
-    });
+    reloadGames({ ...filterSettings, isWithMe: !isWithMe, limit });
   };
 
   const handleNotMyMove = (): void => {
-    updateFilterSettings({
-      ...filterSettings,
-      isNotMyMove: !isNotMyMove,
-    });
+    reloadGames({ ...filterSettings, isNotMyMove: !isNotMyMove, limit });
   };
 
   const handleMyMove = (): void => {
-    updateFilterSettings({
-      ...filterSettings,
-      isMyMove: !isMyMove,
-    });
+    reloadGames({ ...filterSettings, isMyMove: !isMyMove, limit });
   };
 
   const handleIsGame = (gameName: string) => {
-    updateFilterSettings({
+    reloadGames({
       ...filterSettings,
       isGames: {
         ...isGames,
         [gameName]: !isGames[gameName]
       },
+      limit,
     });
   };
 
@@ -85,12 +68,12 @@ export function GamesFilter({ filterSettings, currentUser, updateFilterSettings 
         <Typography>
           <FormControlLabel control={<Checkbox checked={isWithoutMe} onChange={handleWithoutMe} />} label='Without Me' />
           <FormControlLabel control={<Checkbox checked={isWithMe} onChange={handleWithMe} />} label='With Me' />
-          </Typography>
+        </Typography>
 
         <Typography>
           <FormControlLabel control={<Checkbox checked={isNotMyMove} onChange={handleNotMyMove} />} label='Not My Move' />
           <FormControlLabel control={<Checkbox checked={isMyMove} onChange={handleMyMove} />} label='My Move' />
-          </Typography>
+        </Typography>
       </Fragment>}
 
       <Typography>
@@ -110,10 +93,10 @@ export function GamesFilter({ filterSettings, currentUser, updateFilterSettings 
 GamesFilter.propTypes = {
   filterSettings: object.isRequired,
   currentUser: object,
-  updateFilterSettings: func.isRequired,
+  reloadGames: func.isRequired,
 };
 
 GamesFilter.defaultProps = {
   filterSettings: {},
-  updateFilterSettings: () => null,
+  reloadGames: () => null,
 };
