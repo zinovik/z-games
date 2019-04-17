@@ -1,2 +1,2 @@
 export * from './user-actions';
-export * from './socket-actions';
+export * from './server-actions';

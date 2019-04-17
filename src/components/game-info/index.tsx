@@ -49,6 +49,7 @@ export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, le
   };
 
   const handleRemoveClick = () => {
+    // TODO: Warning
     removeGame(game.number);
   };
 
@@ -64,7 +65,7 @@ export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, le
     && game.players.length <= game.playersMax
     && gamePlayers.every(gamePlayer => gamePlayer.ready);
 
-  const isAccessToRemove = game.createdBy === currentUserId;
+  const isAccessToRemove = game.createdBy.id === currentUserId;
 
   return (
     <div>

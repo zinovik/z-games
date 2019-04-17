@@ -14,7 +14,7 @@ import {
   startGame as startGameWithoutDispatch,
   sendMessage as sendMessageWithoutDispatch,
   makeMove as makeMoveWithoutDispatch,
-  removeGame as removeGameWithoutDispatch,
+  removeGameUser as removeGameWithoutDispatch,
   repeatGame as repeatGameWithoutDispatch,
   updateOption as updateOptionWithoutDispatch,
 } from '../../actions';

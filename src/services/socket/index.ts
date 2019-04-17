@@ -11,6 +11,7 @@ import {
   updateOpenGame as updateOpenGameWithoutDispatch,
   addNewGame as addNewGameWithoutDispatch,
   updateGame as updateGameWithoutDispatch,
+  removeGameServer as removeGameWithoutDispatch,
   addNewLog as addNewLogWithoutDispatch,
   setNewToken as setNewTokenWithoutDispatch,
   addError as addErrorWithoutDispatch,
@@ -55,6 +56,7 @@ export class SocketService {
     const updateOpenGame = bindActionCreators(updateOpenGameWithoutDispatch, dispatch);
     const addNewGame = bindActionCreators(addNewGameWithoutDispatch, dispatch);
     const updateGame = bindActionCreators(updateGameWithoutDispatch, dispatch);
+    const removeGame = bindActionCreators(removeGameWithoutDispatch, dispatch);
     const addNewLog = bindActionCreators(addNewLogWithoutDispatch, dispatch);
     const setNewToken = bindActionCreators(setNewTokenWithoutDispatch, dispatch);
     const addError = bindActionCreators(addErrorWithoutDispatch, dispatch);
@@ -92,6 +94,10 @@ export class SocketService {
 
     this.SocketClient.on('update-game', (game: IGame): void => {
       updateGame(game);
+    });
+
+    this.SocketClient.on('remove-game', (gameNumber: number): void => {
+      removeGame(gameNumber);
     });
 
     this.SocketClient.on('update-opened-game', (openGame: IGame): void => {

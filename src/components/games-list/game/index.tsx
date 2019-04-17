@@ -55,7 +55,7 @@ export function Game({ game, currentUser, isButtonsDisabled, joinGame, openGame,
       <Card className='game-card'>
         <CardHeader
           title={`#${gameNumber}: ${name}`}
-          subheader={moment(createdAt).fromNow()}
+          subheader={`${moment(createdAt).fromNow()} by ${game.createdBy && game.createdBy.username}`}
         />
 
         <div className='game-img-container'>

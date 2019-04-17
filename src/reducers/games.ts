@@ -78,6 +78,12 @@ const games = (state: IGamesState = initialState, action: ActionTypes.Action): I
         allGames,
       };
 
+    case ActionTypes.REMOVE_GAME:
+      return {
+        ...state,
+        allGames: state.allGames.filter(game => game.number !== action.gameNumber),
+      };
+
     case ActionTypes.RELOAD_GAMES:
       const isScrollReload = action.filterSettings.limit > state.filterSettings.limit;
 

@@ -248,7 +248,7 @@ export const reloadGames = (filterSettings: IFilterSettings) =>
     socketService.getAllGames(filterSettings);
   };
 
-export const removeGame = (gameNumber: number) =>
+export const removeGameUser = (gameNumber: number) =>
   (dispatch: Dispatch): AnyAction => {
     socketService.removeGame(gameNumber);
 
