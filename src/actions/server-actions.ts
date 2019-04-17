@@ -80,6 +80,12 @@ export const updateGame = (game: IGame) =>
     game,
   });
 
+export const removeGameServer = (gameNumber: number) =>
+  (dispatch: Dispatch): AnyAction => dispatch({
+    type: ActionTypes.REMOVE_GAME,
+    gameNumber,
+  });
+
 export const addNewLog = (newLog: ILog) =>
   (dispatch: Dispatch): AnyAction => dispatch({
     type: ActionTypes.ADD_NEW_LOG,

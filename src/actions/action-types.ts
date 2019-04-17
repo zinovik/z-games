@@ -9,6 +9,7 @@ export const UPDATE_ALL_GAMES = 'UPDATE_ALL_GAMES';
 export const UPDATE_OPEN_GAME = 'UPDATE_OPEN_GAME';
 export const ADD_NEW_GAME = 'ADD_NEW_GAME';
 export const UPDATE_GAME = 'UPDATE_GAME';
+export const REMOVE_GAME = 'REMOVE_GAME';
 export const ADD_NEW_LOG = 'ADD_NEW_LOG';
 
 export const ADD_SERVER_URL = 'ADD_SERVER_URL';
@@ -34,6 +35,7 @@ export interface IUpdateAllGames { type: typeof UPDATE_ALL_GAMES, allGames: IGam
 export interface IUpdateOpenGame { type: typeof UPDATE_OPEN_GAME, openGame: IGame };
 export interface IAddNewGame { type: typeof ADD_NEW_GAME, newGame: IGame };
 export interface IUpdateGame { type: typeof UPDATE_GAME, game: IGame };
+export interface IRemoveGame { type: typeof REMOVE_GAME, gameNumber: number };
 export interface IAddNewLog { type: typeof ADD_NEW_LOG, newLog: ILog };
 
 export interface IUsersRating { type: typeof FETCH_RATING, users: IUser[] };
@@ -57,6 +59,7 @@ export type Action = IUpdateStatus
   | IUpdateOpenGame
   | IAddNewGame
   | IUpdateGame
+  | IRemoveGame
   | IAddNewLog
   | IUsersRating
   | IAddError
