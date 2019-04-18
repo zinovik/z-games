@@ -64,7 +64,7 @@ export function GamesList({
 		});
 	};
 
-	// isLoadingAllGames updates asynchronous.
+	// isLoadingAllGames updates asynchronously.
 	// That's why we need isLoading component state variable,
 	// we use it only until isLoadingAllGames is set
 	if (isLoadingAllGames && isLoading) {

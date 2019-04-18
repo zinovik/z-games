@@ -20,7 +20,7 @@ import './index.scss';
 
 const MENU_WIDTH_MIN = 600;
 
-export function HeaderPure({ serverUrl, currentUser, usersOnline, history, register, authorize, logout, updateServerUrl }: {
+export function HeaderPure({ serverUrl, currentUser, usersOnline, history, register, authorize, logout }: {
 	serverUrl: string,
 	currentUser: IUser,
 	usersOnline: IUsersOnline,
@@ -28,7 +28,6 @@ export function HeaderPure({ serverUrl, currentUser, usersOnline, history, regis
 	register: (serverUrl: string, username: string, password: string, email: string) => Promise<void>,
 	authorize: (serverUrl: string, username: string, password: string) => Promise<void>,
 	logout: () => void,
-	updateServerUrl: (serverUrl: string) => void,
 }) {
 	const [width, setWidth] = useState(0);
 	const [isDrawerShown, setIsDrawerShown] = useState(false);

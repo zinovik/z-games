@@ -14,9 +14,9 @@ export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, le
   game: IGame,
   currentUserId: string,
   isButtonsDisabled: boolean,
-  closeGame: (gameNumber: number) => void,
+  closeGame: () => void,
   leaveGame: (gameNumber: number) => void,
-  readyToGame: (gameNumber: number) => void,
+  readyToGame: () => void,
   startGame: (gameNumber: number) => void,
   removeGame: (gameNumber: number) => void,
   repeatGame: (gameNumber: number) => void,
@@ -33,7 +33,7 @@ export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, le
   };
 
   const handleCloseClick = () => {
-    closeGame(game.number);
+    closeGame();
   };
 
   const handleLeaveClick = () => {
@@ -41,7 +41,7 @@ export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, le
   };
 
   const handleReadyClick = () => {
-    readyToGame(game.number);
+    readyToGame();
   };
 
   const handleStartClick = () => {
@@ -50,7 +50,9 @@ export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, le
 
   const handleRemoveClick = () => {
     // TODO: Warning
-    removeGame(game.number);
+    if (confirm('Are you sure?')) {
+      removeGame(game.number);
+    }
   };
 
   const handleRepeatClick = () => {
@@ -85,29 +87,28 @@ export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, le
             #{game.number}: {game.name}
           </Typography>
 
-          <Typography>
-            Players
-        </Typography>
-
           {game.state === GAME_NOT_STARTED && <Typography>
             ({game.playersMin} min, {game.playersMax} max)
-        </Typography>}
+          </Typography>}
 
           {gamePlayers.map((gamePlayer, index) => (
             <Typography key={index}>
 
               {playersOnline.some(playerOnline => playerOnline.id === gamePlayer.id) ?
-                (gamePlayer.ready ?
-                  <span className='player-dot game-green-dot' /> :
-                  <span className='player-dot game-yellow-dot' />) :
+                <span className='player-dot game-green-dot' /> :
                 <span className='player-dot game-red-dot' />
+              }
+
+              {game.state === GAME_NOT_STARTED && (gamePlayer.ready ?
+                <span className='player-dot game-green-dot' /> :
+                <span className='player-dot game-yellow-dot' />)
               }
 
               {game.players.find(player => player.id === gamePlayer.id) && game.players.find(player => player.id === gamePlayer.id)!.username}
             </Typography>
           ))}
 
-          {!!watchers.length && <Typography>
+          {watchers.length > 0 && <Typography>
             Watchers
         </Typography>}
 
