@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { Paper } from '@material-ui/core';
@@ -39,9 +39,9 @@ function GamePagePure({
   currentUser: IUser,
   game: IGame,
   isButtonsDisabled: boolean,
-  closeGame: (gameNumber: number) => void,
+  closeGame: () => void,
   leaveGame: (gameNumber: number) => void,
-  readyToGame: (gameNumber: number) => void,
+  readyToGame: () => void,
   startGame: (gameNumber: number) => void,
   removeGame: (gameNumber: number) => void,
   repeatGame: (gameNumber: number) => void,
@@ -52,6 +52,18 @@ function GamePagePure({
   if (!currentUser || !game) {
     return null;
   }
+
+  const handleBrowserBackButton = () => {
+    closeGame();
+  };
+
+  useEffect(() => {
+    window.addEventListener('popstate', handleBrowserBackButton);
+
+    return function cleanup() {
+      window.removeEventListener('popstate', handleBrowserBackButton);
+    };
+  });
 
   return (
     <main>

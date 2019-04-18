@@ -140,12 +140,12 @@ export class SocketService {
     this.SocketClient.emit('leave-game', gameNumber);
   }
 
-  public closeGame(gameNumber: number) {
-    this.SocketClient.emit('close-game', gameNumber);
+  public closeGame() {
+    this.SocketClient.emit('close-game');
   }
 
-  public readyToGame(gameNumber: number) {
-    this.SocketClient.emit('toggle-ready', gameNumber);
+  public readyToGame() {
+    this.SocketClient.emit('toggle-ready');
   }
 
   public startGame(gameNumber: number) {

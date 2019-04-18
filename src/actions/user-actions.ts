@@ -144,9 +144,9 @@ export const leaveGame = (gameNumber: number) =>
     });
   };
 
-export const closeGame = (gameNumber: number) =>
+export const closeGame = () =>
   (dispatch: Dispatch): AnyAction => {
-    socketService.closeGame(gameNumber);
+    socketService.closeGame();
 
     return dispatch({
       type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
@@ -154,9 +154,9 @@ export const closeGame = (gameNumber: number) =>
     });
   };
 
-export const readyToGame = (gameNumber: number) =>
+export const readyToGame = () =>
   (dispatch: Dispatch): AnyAction => {
-    socketService.readyToGame(gameNumber);
+    socketService.readyToGame();
 
     return dispatch({
       type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
