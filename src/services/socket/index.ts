@@ -16,7 +16,7 @@ import {
   setNewToken as setNewTokenWithoutDispatch,
   addError as addErrorWithoutDispatch,
 } from '../../actions';
-import { IGame, IUser, IUsersOnline, ILog, IFilterSettings } from '../../interfaces';
+import { IGame, IUser, IUsersOnline, ILog, IFilterSettings, IInvite } from '../../interfaces';
 import { SERVER_URL } from '../../config';
 
 export class SocketService {
@@ -107,6 +107,13 @@ export class SocketService {
     this.SocketClient.on('new-log', (newLog: ILog): void => {
       addNewLog(newLog);
     });
+
+    this.SocketClient.on('new-invite', (invite: IInvite) => {
+      // TODO: Dialog window
+      if (confirm(`You was invited to the new game by ${invite.createdBy.username}. Do you want to join?`)) {
+        this.joinGame(invite.game.number);
+      }
+    })
 
     this.SocketClient.on('new-token', (newToken: string): void => {
       setNewToken(newToken);

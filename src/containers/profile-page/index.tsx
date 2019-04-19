@@ -16,7 +16,7 @@ function ProfilePagePure({ history }: { history: History }) {
     return null;
   }
 
-  const { username, email, firstName, lastName, gamesPlayed, gamesWon } = currentUser;
+  const { username, email, firstName, lastName, gamesPlayed, gamesWon, invitesInviter, invitesInvitee } = currentUser;
 
   return (
     <main className='profile-page-container'>
@@ -43,6 +43,14 @@ function ProfilePagePure({ history }: { history: History }) {
 
           <Typography>
             Games Won: {gamesWon}
+          </Typography>
+
+          <Typography>
+            Games Inviter: {invitesInviter.map(invite => invite.game.number).join(', ')}
+          </Typography>
+
+          <Typography>
+            Games Invitee: {invitesInvitee.map(invite => invite.game.number).join(', ')}
           </Typography>
         </div>
       </div>
