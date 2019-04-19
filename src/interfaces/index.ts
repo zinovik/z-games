@@ -16,3 +16,4 @@ export * from './INotification.interface';
 export * from './IState.interface';
 export * from './IPlayerResult.interface';
 export * from './IFilterSettings.interface';
+export * from './IInvite.interface';

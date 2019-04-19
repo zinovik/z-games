@@ -55,7 +55,7 @@ export function Game({ game, currentUser, isButtonsDisabled, joinGame, openGame,
       <Card className='game-card'>
         <CardHeader
           title={`#${gameNumber}: ${name}`}
-          subheader={`${moment(createdAt).fromNow()} by ${game.createdBy && game.createdBy.username}`}
+          subheader={moment(createdAt).fromNow()}
         />
 
         <div className='game-img-container'>
@@ -68,6 +68,10 @@ export function Game({ game, currentUser, isButtonsDisabled, joinGame, openGame,
         </div>
 
         <CardContent>
+
+          <Typography>
+            {`by ${game.createdBy && game.createdBy.username}`}
+          </Typography>
 
           <Typography>
             {players.length} {players.length === 1 ? 'player' : 'players'}{isGameWithCurrentUser && ' [with me]'}

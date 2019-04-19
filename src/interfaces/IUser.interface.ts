@@ -1,4 +1,4 @@
-import { IGame } from './';
+import { IGame, IInvite } from './';
 
 export interface IUser {
   avatar: string;
@@ -14,4 +14,6 @@ export interface IUser {
   updatedAt: Date;
   username: string;
   currentGames: IGame[];
+  invitesInviter: IInvite[];
+  invitesInvitee: IInvite[];
 }
