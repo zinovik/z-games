@@ -6,4 +6,5 @@ export interface IInvite {
   invitee: IUser;
   createdAt: Date;
   createdBy: IUser;
+  isClosed: boolean;
 }

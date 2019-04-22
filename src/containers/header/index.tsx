@@ -35,7 +35,7 @@ export function HeaderPure({ serverUrl, currentUser, usersOnline, history, regis
 	const currentUsername = currentUser && currentUser.username;
 	const avatar = currentUser && currentUser.avatar;
 
-	const LINKS = currentUser ? ['Home', 'Games', 'Rating', 'Rules', 'Profile', 'About'] : ['Home', 'Games', 'Rating', 'Rules', 'About'];
+	const LINKS = currentUser ? ['Home', 'Games', 'Invites', 'Rating', 'Rules', 'Profile', 'About'] : ['Home', 'Games', 'Rating', 'Rules', 'About'];
 
 	const handleDrawerToggle = (): void => {
 		setIsDrawerShown(!isDrawerShown);
