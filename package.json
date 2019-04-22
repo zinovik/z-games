@@ -21,7 +21,7 @@
     "moment": "^2.23.0",
     "react": "^16.8.5",
     "react-dom": "^16.8.5",
-    "react-redux": "^7.0.1",
+    "react-redux": "^7.0.2",
     "react-router-dom": "^5.0.0",
     "react-scripts-scss-ts": "2.17.1",
     "redux": "^4.0.1",
@@ -32,7 +32,7 @@
     "z-games-lost-cities": "^0.0.16",
     "z-games-no-thanks": "^0.0.14",
     "z-games-perudo": "^0.0.13",
-    "z-games-six-nimmt": "^0.0.18"
+    "z-games-six-nimmt": "^0.0.19"
   },
   "scripts": {
     "start": "serve -s build",
@@ -49,13 +49,13 @@
   "devDependencies": {
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "^24.0.11",
-    "@types/node": "^11.13.2",
-    "@types/react": "^16.8.13",
+    "@types/node": "^11.13.6",
+    "@types/react": "^16.8.14",
     "@types/react-dom": "^16.8.3",
     "@types/react-redux": "^7.0.6",
     "@types/react-router-dom": "^4.3.1",
     "@types/socket.io-client": "^1.4.32",
-    "typescript": "^3.4.3"
+    "typescript": "^3.4.4"
   },
   "heroku-run-build-script": true
 }

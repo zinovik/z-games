@@ -111,8 +111,10 @@ export class SocketService {
     this.SocketClient.on('new-invite', (invite: IInvite) => {
       // TODO: Dialog window
       if (confirm(`You was invited to the new game by ${invite.createdBy.username}. Do you want to join?`)) {
-        this.joinGame(invite.game.number);
+        return this.acceptInvite(invite.id);
       }
+
+      return this.declineInvite(invite.id);
     })
 
     this.SocketClient.on('new-token', (newToken: string): void => {
@@ -181,6 +183,14 @@ export class SocketService {
 
   public updateOption({ gameNumber, name, value }: { gameNumber: number, name: string, value: string }) {
     this.SocketClient.emit('update-option', { gameNumber, name, value });
+  }
+
+  public acceptInvite(inviteId: string) {
+    this.SocketClient.emit('accept-invite', inviteId);
+  }
+
+  public declineInvite(inviteId: string) {
+    this.SocketClient.emit('decline-invite', inviteId);
   }
 
 

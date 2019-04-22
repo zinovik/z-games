@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import { HomePage } from './containers/home-page';
 import { GamesPage } from './containers/games-page';
+import { InvitesPage } from './containers/invites-page';
 import { GamePage } from './containers/game-page';
 import { RatingPage } from './containers/rating-page';
 import { RulesPage } from './containers/rules-page';
@@ -44,6 +45,7 @@ class App extends Component<IAppProps, {}> {
         <Switch>
           <Route path='/home' component={HomePage} />
           <Route path='/games' component={GamesPage} />
+          <Route path='/invites' component={InvitesPage} />
           <Route path='/game/:number' component={GamePage} />
           <Route path='/rating' component={RatingPage} />
           <Route path='/rules' component={RulesPage} />
