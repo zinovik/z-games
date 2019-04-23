@@ -14,12 +14,10 @@ import './index.scss';
 
 function InvitesPagePure({
   currentUser,
-  isButtonsDisabled,
   acceptInvite,
   declineInvite,
 }: {
   currentUser: IUser,
-  isButtonsDisabled: boolean,
   acceptInvite: (inviteId: string) => void,
   declineInvite: (inviteId: string) => void,
 }) {
@@ -29,7 +27,6 @@ function InvitesPagePure({
 
       {currentUser && <Invites
         currentUser={currentUser}
-        isButtonsDisabled={isButtonsDisabled}
         acceptInvite={acceptInvite}
         declineInvite={declineInvite}
       />}
@@ -39,7 +36,6 @@ function InvitesPagePure({
 
 const mapStateToProps = (state: IState) => ({
   currentUser: state.users.currentUser,
-  isButtonsDisabled: state.users.isButtonsDisabled,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

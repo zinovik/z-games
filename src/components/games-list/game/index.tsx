@@ -88,15 +88,15 @@ export function Game({ game, currentUser, isButtonsDisabled, joinGame, openGame,
 
         {currentUser && <CardActions>
 
-          {isAbleToJoin && <IconButton onClick={handleJoinClick} disabled={isButtonsDisabled || isButtonsDisabled} title='Click to join game' >
+          {isAbleToJoin && <IconButton onClick={handleJoinClick} disabled={isButtonsDisabled} title='Click to join game' >
             <Gamepad />
           </IconButton>}
 
-          {isAbleToOpen && <IconButton onClick={handleOpenClick} disabled={isButtonsDisabled || isButtonsDisabled} title='Click to open game' >
+          {isAbleToOpen && <IconButton onClick={handleOpenClick} disabled={isButtonsDisabled} title='Click to open game' >
             <OpenInBrowser />
           </IconButton>}
 
-          {isAbleToWatch && <IconButton onClick={handleWatchClick} disabled={isButtonsDisabled || isButtonsDisabled} title='Click to watch game' >
+          {isAbleToWatch && <IconButton onClick={handleWatchClick} disabled={isButtonsDisabled} title='Click to watch game' >
             <RemoveRedEye />
           </IconButton>}
 

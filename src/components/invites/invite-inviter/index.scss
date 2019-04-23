@@ -1,0 +1,12 @@
+.invite-inviter-card {
+  min-width: 230px;
+  margin: 10px;
+
+  p.invite-inviter-accepted {
+    color: green;
+  }
+  
+  p.invite-inviter-declined {
+    color: red;
+  }
+}

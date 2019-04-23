@@ -18,7 +18,7 @@ import { IUser, IUsersOnline, IState } from '../../interfaces';
 
 import './index.scss';
 
-const MENU_WIDTH_MIN = 600;
+const MENU_WIDTH_MIN = 700;
 
 export function HeaderPure({ serverUrl, currentUser, usersOnline, history, register, authorize, logout }: {
 	serverUrl: string,

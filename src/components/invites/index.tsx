@@ -1,19 +1,19 @@
 import React, { Fragment } from 'react';
-import { object, bool, func } from 'prop-types';
-import { Typography } from '@material-ui/core';
+import { object, func } from 'prop-types';
+import { Divider } from '@material-ui/core';
 
 import { InviteInvitee } from './invite-invitee';
 import { InviteInviter } from './invite-inviter';
 import { IUser } from '../../interfaces';
 
+import './index.scss';
+
 export function Invites({
   currentUser,
-  isButtonsDisabled,
   acceptInvite,
   declineInvite,
 }: {
   currentUser: IUser,
-  isButtonsDisabled: boolean,
   acceptInvite: (inviteId: string) => void,
   declineInvite: (inviteId: string) => void,
 }) {
@@ -22,29 +22,25 @@ export function Invites({
   return (
     <Fragment>
 
-      {invitesInvitee.length > 0 && <Fragment>
-        <Typography>
-          My invites (I am invitee):
-        </Typography>
-
+      {invitesInvitee.length > 0 && <div className='invites-invitee-container'>
         {invitesInvitee.map(invite => (
           <InviteInvitee key={invite.id}
             invite={invite}
+            acceptInvite={acceptInvite}
+            declineInvite={declineInvite}
           />
         ))}
-      </Fragment>}
+      </div>}
 
-      {invitesInviter.length > 0 && <Fragment>
-        <Typography>
-          My invites (created by me):
-        </Typography>
+      <Divider variant='middle' />
 
+      {invitesInviter.length > 0 && <div className='invites-inviter-container'>
         {invitesInviter.map(invite => (
           <InviteInviter key={invite.id}
             invite={invite}
           />
         ))}
-      </Fragment>}
+      </div>}
 
     </Fragment>
   );
@@ -52,14 +48,12 @@ export function Invites({
 
 Invites.propTypes = {
   currentUser: object.isRequired,
-  isButtonsDisabled: bool.isRequired,
   acceptInvite: func.isRequired,
   declineInvite: func.isRequired,
 };
 
 Invites.defaultProps = {
   invites: [],
-  isButtonsDisabled: [],
   acceptInvite: () => null,
   declineInvite: () => null,
 };

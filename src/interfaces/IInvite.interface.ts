@@ -7,4 +7,6 @@ export interface IInvite {
   createdAt: Date;
   createdBy: IUser;
   isClosed: boolean;
+  isAccepted: boolean;
+  isDeclined: boolean;
 }
