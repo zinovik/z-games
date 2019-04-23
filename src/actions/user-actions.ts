@@ -278,22 +278,12 @@ export const updateOption = ({ gameNumber, name, value }: { gameNumber: number, 
     });
   };
 
-export const acceptInvite = ({ inviteId }: { inviteId: string }) =>
-  (dispatch: Dispatch): AnyAction => {
+export const acceptInvite = (inviteId: string) =>
+  (dispatch: Dispatch): void => {
     socketService.acceptInvite(inviteId);
-
-    return dispatch({
-      type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
-      isButtonsDisabled: true,
-    });
   };
 
-export const declineInvite = ({ inviteId }: { inviteId: string }) =>
-  (dispatch: Dispatch): AnyAction => {
+export const declineInvite = (inviteId: string) =>
+  (dispatch: Dispatch): void => {
     socketService.declineInvite(inviteId);
-
-    return dispatch({
-      type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
-      isButtonsDisabled: true,
-    });
   };
