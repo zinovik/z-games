@@ -108,30 +108,45 @@ export const joinGame = (gameNumber: number) =>
   (dispatch: Dispatch): AnyAction => {
     socketService.joinGame(gameNumber);
 
-    return dispatch({
+    dispatch({
       type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
       isButtonsDisabled: true,
     });
+
+    return dispatch({
+      type: ActionTypes.OPEN_GAME_LOADING,
+      isOpenGameLoaded: false,
+    })
   };
 
 export const openGame = (gameNumber: number) =>
   (dispatch: Dispatch): AnyAction => {
     socketService.openGame(gameNumber);
 
-    return dispatch({
+    dispatch({
       type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
       isButtonsDisabled: true,
     });
+
+    return dispatch({
+      type: ActionTypes.OPEN_GAME_LOADING,
+      isOpenGameLoaded: false,
+    })
   };
 
 export const watchGame = (gameNumber: number) =>
   (dispatch: Dispatch): AnyAction => {
     socketService.watchGame(gameNumber);
 
-    return dispatch({
+    dispatch({
       type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
       isButtonsDisabled: true,
     });
+
+    return dispatch({
+      type: ActionTypes.OPEN_GAME_LOADING,
+      isOpenGameLoaded: false,
+    })
   };
 
 export const leaveGame = (gameNumber: number) =>

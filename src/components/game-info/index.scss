@@ -23,10 +23,18 @@
   padding: 3px;
 }
 
-.player-dot {
+.player-online-dot {
   height: 10px;
   width: 10px;
-  border-radius: 25%;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.player-ready-dot {
+  height: 10px;
+  width: 10px;
+  border-radius: 15%;
   display: inline-block;
   margin-right: 5px;
 }

@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, ComponentType } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { Dispatch, bindActionCreators } from 'redux';
 import { Paper } from '@material-ui/core';
 import { GAME_NOT_STARTED } from 'z-games-base-game';
+import { History } from 'history';
 
 import { GameInfo } from '../../components/game-info';
 import { GameTable } from '../../components/game-table';
@@ -26,6 +28,8 @@ function GamePagePure({
   currentUser,
   game,
   isButtonsDisabled,
+  isOpenGameLoaded,
+  history,
   closeGame,
   leaveGame,
   readyToGame,
@@ -39,6 +43,8 @@ function GamePagePure({
   currentUser: IUser,
   game: IGame,
   isButtonsDisabled: boolean,
+  isOpenGameLoaded: boolean,
+  history: History,
   closeGame: () => void,
   leaveGame: (gameNumber: number) => void,
   readyToGame: () => void,
@@ -49,7 +55,16 @@ function GamePagePure({
   makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
   updateOption: ({ gameNumber, name, value }: { gameNumber: number, name: string, value: string }) => void,
 }) {
-  if (!currentUser || !game) {
+  if (!isOpenGameLoaded || !currentUser) {
+    return null;
+  }
+
+  if (!game) {
+    history.push('/games');
+    return null;
+  }
+
+  if (!currentUser) {
     return null;
   }
 
@@ -114,6 +129,7 @@ const mapStateToProps = (state: IState) => ({
   currentUser: state.users.currentUser,
   game: state.games.openGame,
   isButtonsDisabled: state.users.isButtonsDisabled,
+  isOpenGameLoaded: state.games.isOpenGameLoaded,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -128,7 +144,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   updateOption: bindActionCreators(updateOptionWithoutDispatch, dispatch),
 });
 
-export const GamePage = connect(
+export const GamePage = withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(GamePagePure);
+)(GamePagePure as ComponentType<any>) as ComponentType<any>);
