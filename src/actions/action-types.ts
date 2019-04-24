@@ -26,6 +26,8 @@ export const UPDATE_SERVER_URL = 'UPDATE_SERVER_URL';
 
 export const RELOAD_GAMES = 'RELOAD_GAMES';
 
+export const OPEN_GAME_LOADING = 'OPEN_GAME_LOADING';
+
 
 export interface IUpdateStatus { type: typeof UPDATE_STATUS, isConnected: boolean };
 export interface IUpdateIsButtonsDisabled { type: typeof UPDATE_IS_BUTTONS_DISABLED, isButtonsDisabled: boolean };
@@ -50,6 +52,8 @@ export interface IUpdateServerUrl { type: typeof UPDATE_SERVER_URL, serverUrl: s
 
 export interface IReloadGames { type: typeof RELOAD_GAMES, filterSettings: IFilterSettings };
 
+export interface IOpenGameLoading { type: typeof OPEN_GAME_LOADING, isOpenGameLoaded: boolean };
+
 
 export type Action = IUpdateStatus
   | IUpdateCurrentUser
@@ -67,4 +71,5 @@ export type Action = IUpdateStatus
   | IAddNotification
   | IRemoveNotification
   | IUpdateServerUrl
-  | IReloadGames;
+  | IReloadGames
+  | IOpenGameLoading;

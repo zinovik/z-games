@@ -95,13 +95,13 @@ export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, le
             <Typography key={index}>
 
               {playersOnline.some(playerOnline => playerOnline.id === gamePlayer.id) ?
-                <span className='player-dot game-green-dot' /> :
-                <span className='player-dot game-red-dot' />
+                <span className='player-online-dot game-green-dot' /> :
+                <span className='player-online-dot game-red-dot' />
               }
 
               {game.state === GAME_NOT_STARTED && (gamePlayer.ready ?
-                <span className='player-dot game-green-dot' /> :
-                <span className='player-dot game-yellow-dot' />)
+                <span className='player-ready-dot game-green-dot' /> :
+                <span className='player-ready-dot game-yellow-dot' />)
               }
 
               {game.players.find(player => player.id === gamePlayer.id) && game.players.find(player => player.id === gamePlayer.id)!.username}
