@@ -64,10 +64,6 @@ function GamePagePure({
     return null;
   }
 
-  if (!currentUser) {
-    return null;
-  }
-
   const handleBrowserBackButton = () => {
     closeGame();
   };
@@ -75,9 +71,7 @@ function GamePagePure({
   useEffect(() => {
     window.addEventListener('popstate', handleBrowserBackButton);
 
-    return function cleanup() {
-      window.removeEventListener('popstate', handleBrowserBackButton);
-    };
+    return () => window.removeEventListener('popstate', handleBrowserBackButton);
   });
 
   return (
