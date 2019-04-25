@@ -74,9 +74,7 @@ export function GamesList({
 	useEffect(() => {
 		window.addEventListener('scroll', handleScroll);
 
-		return function cleanup() {
-			window.removeEventListener('scroll', handleScroll);
-		};
+		return () => window.removeEventListener('scroll', handleScroll);
 	});
 
 	// TODO: Move filter to the back-end

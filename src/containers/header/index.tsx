@@ -2,7 +2,7 @@ import React, { useState, useEffect, ComponentType } from 'react';
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { AppBar, Toolbar, Button, IconButton, Drawer, List, ListItem, ListItemText, Typography } from '@material-ui/core';
+import { AppBar, Toolbar, Button, IconButton, Drawer, List, ListItem, ListItemText, Typography, Badge } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
 import { History } from 'history';
 
@@ -45,9 +45,7 @@ export function HeaderPure({ serverUrl, currentUser, usersOnline, history, regis
 		updateWindowDimensions();
 		window.addEventListener('resize', updateWindowDimensions);
 
-		return function cleanup() {
-			window.removeEventListener('resize', updateWindowDimensions);
-		};
+		return () => window.removeEventListener('resize', updateWindowDimensions);
 	});
 
 	const updateWindowDimensions = () => {
@@ -59,6 +57,8 @@ export function HeaderPure({ serverUrl, currentUser, usersOnline, history, regis
 			history.push(path);
 		}
 	};
+
+	const invitesCount = currentUser ? currentUser.invitesInvitee.filter(invite => !invite.isClosed).length : 0;
 
 	return (
 		<AppBar position='static'>
@@ -85,7 +85,9 @@ export function HeaderPure({ serverUrl, currentUser, usersOnline, history, regis
 					{width >= MENU_WIDTH_MIN && <nav>
 						{LINKS.map(label =>
 							<Button key={`${label}1`} onClick={() => { nextPath(`/${label.toLowerCase()}`); }}>
-								{label}
+								{label === 'Invites' && invitesCount > 0 ? <Badge badgeContent={invitesCount} color='secondary'>
+									{label}
+								</Badge> : label}
 							</Button>
 						)}
 					</nav>}
@@ -116,7 +118,9 @@ export function HeaderPure({ serverUrl, currentUser, usersOnline, history, regis
 						<List>
 							{LINKS.map(label =>
 								<ListItem button={true} key={`${label}2`}>
-									<ListItemText primary={label} onClick={() => { nextPath(`/${label.toLowerCase()}`); }} />
+									{label === 'Invites' && invitesCount > 0 ? <Badge badgeContent={invitesCount} color='secondary'>
+										<ListItemText primary={label} onClick={() => { nextPath(`/${label.toLowerCase()}`); }} />
+									</Badge> : <ListItemText primary={label} onClick={() => { nextPath(`/${label.toLowerCase()}`); }} />}
 								</ListItem>
 							)}
 						</List>
