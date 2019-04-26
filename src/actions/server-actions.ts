@@ -1,8 +1,11 @@
 import { Dispatch, AnyAction } from 'redux';
 import { push } from 'connected-react-router';
 
-import { IUser, IUsersOnline, IGame, ILog, IState } from '../interfaces';
+import { SocketService } from '../services';
+import { IUser, IUsersOnline, IGame, ILog, IState, IInvite } from '../interfaces';
 import * as ActionTypes from './action-types';
+
+const socketService = SocketService.Instance;
 
 export const updateStatus = (isConnected: boolean) =>
   (dispatch: Dispatch): AnyAction => {
@@ -35,14 +38,8 @@ export const updateOpenGame = (openGameToUpdate: IGame) =>
 
     const gameNumber = openGameToUpdate && openGameToUpdate.number;
 
-    if (gameNumber === undefined || gameNumber === null) {
-      dispatch(push('/games'));
-    } else {
-      dispatch(push(`/game/${gameNumber}`));
-    }
-
     if (openGameToUpdate) {
-      const currentUser = getState().users.currentUser;
+      const { currentUser } = getState().users;
 
       if (currentUser) {
         const { nextPlayers } = openGameToUpdate;
@@ -62,10 +59,16 @@ export const updateOpenGame = (openGameToUpdate: IGame) =>
       openGame: openGameToUpdate,
     });
 
-    return dispatch({
+    dispatch({
       type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
       isButtonsDisabled: false,
     });
+
+    if (gameNumber === undefined || gameNumber === null) {
+      return dispatch(push('/games'));
+    }
+
+    return dispatch(push(`/game/${gameNumber}`));
   };
 
 export const addNewGame = (newGameToAdd: IGame) =>
@@ -115,5 +118,45 @@ export const addNotification = (message: string) =>
     return dispatch({
       type: ActionTypes.ADD_NOTIFICATION,
       message,
+    });
+  };
+
+export const addInvite = (invite: IInvite) =>
+  (dispatch: Dispatch, getState: () => IState): void => {
+
+    const { currentUser } = getState().users;
+
+    if (!currentUser) {
+      return;
+    }
+
+    if (currentUser.id === invite.createdBy.id) {
+      dispatch({
+        type: ActionTypes.ADD_INVITE_INVITER,
+        invite,
+      });
+      return;
+    }
+
+    if (currentUser.id === invite.invitee.id) {
+      dispatch({
+        type: ActionTypes.ADD_INVITE_INVITEE,
+        invite,
+      });
+
+      // TODO: Dialog window
+      if (confirm(`You was invited to the new game by ${invite.createdBy.username}. Do you want to join?`)) {
+        return socketService.acceptInvite(invite.id);
+      }
+
+      socketService.declineInvite(invite.id);
+    }
+  };
+
+export const updateInvite = (invite: IInvite) =>
+  (dispatch: Dispatch): AnyAction => {
+    return dispatch({
+      type: ActionTypes.UPDATE_INVITE,
+      invite,
     });
   };

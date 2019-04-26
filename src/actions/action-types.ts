@@ -1,4 +1,4 @@
-import { IUser, IUsersOnline, IGame, ILog, IFilterSettings } from '../interfaces';
+import { IUser, IUsersOnline, IGame, ILog, IFilterSettings, IInvite } from '../interfaces';
 
 export const UPDATE_STATUS = 'UPDATE_STATUS';
 export const UPDATE_IS_BUTTONS_DISABLED = 'UPDATE_IS_BUTTONS_DISABLED';
@@ -26,7 +26,9 @@ export const UPDATE_SERVER_URL = 'UPDATE_SERVER_URL';
 
 export const RELOAD_GAMES = 'RELOAD_GAMES';
 
-export const OPEN_GAME_LOADING = 'OPEN_GAME_LOADING';
+export const ADD_INVITE_INVITER = 'ADD_INVITE_INVITER';
+export const ADD_INVITE_INVITEE = 'ADD_INVITE_INVITEE';
+export const UPDATE_INVITE = 'UPDATE_INVITE';
 
 
 export interface IUpdateStatus { type: typeof UPDATE_STATUS, isConnected: boolean };
@@ -52,7 +54,9 @@ export interface IUpdateServerUrl { type: typeof UPDATE_SERVER_URL, serverUrl: s
 
 export interface IReloadGames { type: typeof RELOAD_GAMES, filterSettings: IFilterSettings };
 
-export interface IOpenGameLoading { type: typeof OPEN_GAME_LOADING, isOpenGameLoaded: boolean };
+export interface IAddInviteInviter { type: typeof ADD_INVITE_INVITER, invite: IInvite };
+export interface IAddInviteInvitee { type: typeof ADD_INVITE_INVITEE, invite: IInvite };
+export interface IUpdateInvite { type: typeof UPDATE_INVITE, invite: IInvite };
 
 
 export type Action = IUpdateStatus
@@ -72,4 +76,6 @@ export type Action = IUpdateStatus
   | IRemoveNotification
   | IUpdateServerUrl
   | IReloadGames
-  | IOpenGameLoading;
+  | IAddInviteInviter
+  | IAddInviteInvitee
+  | IUpdateInvite;

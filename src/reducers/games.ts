@@ -20,7 +20,6 @@ export const initialState = {
   isHasMore: true,
   isLoadingAllGames: false,
   lastAllGamesCount: 0,
-  isOpenGameLoaded: false,
 };
 
 const games = (state: IGamesState = initialState, action: ActionTypes.Action): IGamesState => {
@@ -36,23 +35,15 @@ const games = (state: IGamesState = initialState, action: ActionTypes.Action): I
         lastAllGamesCount: action.allGames.length,
       };
 
-    case ActionTypes.OPEN_GAME_LOADING:
-      return {
-        ...state,
-        isOpenGameLoaded: action.isOpenGameLoaded,
-      };
-
     case ActionTypes.UPDATE_OPEN_GAME:
       if (action.openGame) {
         return {
           ...state,
-          isOpenGameLoaded: true,
           openGame: { ...action.openGame },
         };
       }
       return {
         ...state,
-        isOpenGameLoaded: true,
         openGame: null,
       };
 
@@ -81,10 +72,9 @@ const games = (state: IGamesState = initialState, action: ActionTypes.Action): I
       };
 
     case ActionTypes.UPDATE_GAME:
-      const allGames = state.allGames.map(game => game.number === action.game.number ? { ...game, ...action.game } : { ...game });
       return {
         ...state,
-        allGames,
+        allGames: state.allGames.map(game => game.number === action.game.number ? { ...game, ...action.game } : { ...game }),
       };
 
     case ActionTypes.REMOVE_GAME:

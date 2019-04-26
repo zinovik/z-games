@@ -59,6 +59,47 @@ const users = (state: IUsersState = initialState, action: ActionTypes.Action): I
         serverUrl: action.serverUrl,
       };
 
+    case ActionTypes.ADD_INVITE_INVITEE:
+      if (!state.currentUser) {
+        return { ...state };
+      }
+
+      return {
+        ...state,
+        currentUser: {
+          ...state.currentUser,
+          invitesInvitee: [action.invite, ...state.currentUser.invitesInvitee],
+        },
+      };
+
+    case ActionTypes.ADD_INVITE_INVITER:
+      if (!state.currentUser) {
+        return { ...state };
+      }
+
+      return {
+        ...state,
+        currentUser: {
+          ...state.currentUser,
+          invitesInviter: [action.invite, ...state.currentUser.invitesInviter],
+        },
+      };
+
+
+    case ActionTypes.UPDATE_INVITE:
+      if (!state.currentUser) {
+        return { ...state };
+      }
+
+      return {
+        ...state,
+        currentUser: {
+          ...state.currentUser,
+          invitesInvitee: state.currentUser.invitesInvitee.map(invite => invite.id === action.invite.id ? { ...action.invite } : { ...invite }),
+          invitesInviter: state.currentUser.invitesInviter.map(invite => invite.id === action.invite.id ? { ...action.invite } : { ...invite }),
+        },
+      };
+
     default:
       return state;
 

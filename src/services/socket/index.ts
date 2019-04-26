@@ -15,6 +15,8 @@ import {
   addNewLog as addNewLogWithoutDispatch,
   setNewToken as setNewTokenWithoutDispatch,
   addError as addErrorWithoutDispatch,
+  updateInvite as updateInviteWithoutDispatch,
+  addInvite as addInviteWithoutDispatch,
 } from '../../actions';
 import { IGame, IUser, IUsersOnline, ILog, IFilterSettings, IInvite } from '../../interfaces';
 import { SERVER_URL } from '../../config';
@@ -60,6 +62,8 @@ export class SocketService {
     const addNewLog = bindActionCreators(addNewLogWithoutDispatch, dispatch);
     const setNewToken = bindActionCreators(setNewTokenWithoutDispatch, dispatch);
     const addError = bindActionCreators(addErrorWithoutDispatch, dispatch);
+    const addInvite = bindActionCreators(addInviteWithoutDispatch, dispatch);
+    const updateInvite = bindActionCreators(updateInviteWithoutDispatch, dispatch);
 
     // updates from the server
 
@@ -109,13 +113,12 @@ export class SocketService {
     });
 
     this.SocketClient.on('new-invite', (invite: IInvite) => {
-      // TODO: Dialog window
-      if (confirm(`You was invited to the new game by ${invite.createdBy.username}. Do you want to join?`)) {
-        return this.acceptInvite(invite.id);
-      }
-
-      return this.declineInvite(invite.id);
+      addInvite(invite);
     })
+
+    this.SocketClient.on('update-invite', (invite: IInvite) => {
+      updateInvite(invite);
+    });
 
     this.SocketClient.on('new-token', (newToken: string): void => {
       setNewToken(newToken);
