@@ -28,8 +28,6 @@ function GamePagePure({
   currentUser,
   game,
   isButtonsDisabled,
-  isOpenGameLoaded,
-  history,
   closeGame,
   leaveGame,
   readyToGame,
@@ -40,27 +38,22 @@ function GamePagePure({
   repeatGame,
   updateOption,
 }: {
-  currentUser: IUser,
-  game: IGame,
-  isButtonsDisabled: boolean,
-  isOpenGameLoaded: boolean,
-  history: History,
-  closeGame: () => void,
-  leaveGame: (gameNumber: number) => void,
-  readyToGame: () => void,
-  startGame: (gameNumber: number) => void,
-  removeGame: (gameNumber: number) => void,
-  repeatGame: (gameNumber: number) => void,
-  sendMessage: ({ gameId, message }: { gameId: string, message: string }) => void,
-  makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
-  updateOption: ({ gameNumber, name, value }: { gameNumber: number, name: string, value: string }) => void,
+  match: { params: { number: string } };
+  currentUser: IUser;
+  game: IGame;
+  isButtonsDisabled: boolean;
+  history: History;
+  closeGame: () => void;
+  leaveGame: (gameNumber: number) => void;
+  readyToGame: () => void;
+  startGame: (gameNumber: number) => void;
+  removeGame: (gameNumber: number) => void;
+  repeatGame: (gameNumber: number) => void;
+  sendMessage: ({ gameId, message }: { gameId: string, message: string }) => void;
+  makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void;
+  updateOption: ({ gameNumber, name, value }: { gameNumber: number, name: string, value: string }) => void;
 }) {
-  if (!isOpenGameLoaded || !currentUser) {
-    return null;
-  }
-
-  if (!game) {
-    history.push('/games');
+  if (!game || !currentUser) {
     return null;
   }
 
@@ -123,7 +116,6 @@ const mapStateToProps = (state: IState) => ({
   currentUser: state.users.currentUser,
   game: state.games.openGame,
   isButtonsDisabled: state.users.isButtonsDisabled,
-  isOpenGameLoaded: state.games.isOpenGameLoaded,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

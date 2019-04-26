@@ -7,5 +7,4 @@ export interface IGamesState {
   isHasMore: boolean,
   isLoadingAllGames: boolean,
   lastAllGamesCount: number,
-  isOpenGameLoaded: boolean,
 }

@@ -59,7 +59,7 @@ export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, le
     repeatGame(game.number);
   };
 
-  const { playersOnline, watchers } = game;
+  const { playersOnline, watchersOnline } = game;
   const gameDataParsed: GameDataType = JSON.parse(game.gameData);
   const { players: gamePlayers }: { players: GamePlayerType[] } = gameDataParsed;
 
@@ -108,11 +108,11 @@ export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, le
             </Typography>
           ))}
 
-          {watchers.length > 0 && <Typography>
+          {watchersOnline.length > 0 && <Typography>
             Watchers
         </Typography>}
 
-          {watchers.map((watcher, index) => (
+          {watchersOnline.map((watcher, index) => (
             <Typography key={index}>
               <span className='player-dot game-green-dot' />
               {watcher.username}

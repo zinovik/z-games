@@ -12,7 +12,7 @@ export interface IGame {
   gameData: string;
   players: IUser[];
 
-  watchers: IUser[];
+  watchersOnline: IUser[];
   logs: ILog[];
 
   nextPlayers: IUser[];
