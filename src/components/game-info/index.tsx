@@ -1,26 +1,42 @@
 import React, { Fragment, useState } from 'react';
-import { object, string, bool, func } from 'prop-types';
+import { object, string, bool, func, array } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
 import { GAME_NOT_STARTED, GAME_FINISHED } from 'z-games-base-game';
 
 import { GameRules } from '../game-rules';
 import { GameOptions } from './game-options';
+import { NewInvite } from './new-invite';
 import { GamesServices } from '../../services';
-import { IGame, GamePlayerType, GameDataType } from '../../interfaces';
+import { IGame, GamePlayerType, GameDataType, IUser } from '../../interfaces';
 
 import './index.scss';
 
-export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, leaveGame, readyToGame, startGame, removeGame, repeatGame, updateOption }: {
-  game: IGame,
-  currentUserId: string,
-  isButtonsDisabled: boolean,
-  closeGame: () => void,
-  leaveGame: (gameNumber: number) => void,
-  readyToGame: () => void,
-  startGame: (gameNumber: number) => void,
-  removeGame: (gameNumber: number) => void,
-  repeatGame: (gameNumber: number) => void,
-  updateOption: ({ gameNumber, name, value }: { gameNumber: number, name: string, value: string }) => void,
+export function GameInfo({
+  game,
+  currentUserId,
+  isButtonsDisabled,
+  users,
+  closeGame,
+  leaveGame,
+  readyToGame,
+  startGame,
+  removeGame,
+  repeatGame,
+  updateOption,
+  newInvite,
+}: {
+  game: IGame;
+  currentUserId: string;
+  isButtonsDisabled: boolean;
+  users: IUser[];
+  closeGame: () => void;
+  leaveGame: (gameNumber: number) => void;
+  readyToGame: () => void;
+  startGame: (gameNumber: number) => void;
+  removeGame: (gameNumber: number) => void;
+  repeatGame: (gameNumber: number) => void;
+  updateOption: ({ gameNumber, name, value }: { gameNumber: number, name: string, value: string }) => void;
+  newInvite: (data: { gameId: string; userId: string; }) => void;
 }) {
   const [isRulesShown, setIsRulesShown] = useState(false);
 
@@ -69,6 +85,8 @@ export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, le
 
   const isAccessToRemove = game.createdBy.id === currentUserId;
 
+  const isAccessToRepeat = gamePlayers.some(gamePlayer => gamePlayer.id === currentUserId);
+
   return (
     <div>
       <div className='game-info-container'>
@@ -108,10 +126,6 @@ export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, le
             </Typography>
           ))}
 
-          {watchersOnline.length > 0 && <Typography>
-            Watchers
-        </Typography>}
-
           {watchersOnline.map((watcher, index) => (
             <Typography key={index}>
               <span className='player-dot game-green-dot' />
@@ -125,7 +139,7 @@ export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, le
 
           <Button onClick={handleCloseClick} disabled={isButtonsDisabled}>Close</Button>
 
-          {game.state === GAME_FINISHED && <Button onClick={handleRepeatClick} disabled={isButtonsDisabled}>Repeat</Button>}
+          {isAccessToRepeat && game.state === GAME_FINISHED && <Button onClick={handleRepeatClick} disabled={isButtonsDisabled}>Repeat</Button>}
 
           {game.state === GAME_NOT_STARTED && <Button onClick={handleLeaveClick} disabled={isButtonsDisabled}>Leave</Button>}
 
@@ -145,6 +159,12 @@ export function GameInfo({ game, currentUserId, isButtonsDisabled, closeGame, le
         isButtonsDisabled={isButtonsDisabled || game.state !== GAME_NOT_STARTED}
         updateOption={updateOption}
       />}
+
+      {game.state === GAME_NOT_STARTED && <NewInvite
+        gameId={game.id}
+        users={users}
+        newInvite={newInvite}
+      />}
     </div>
   );
 }
@@ -153,18 +173,21 @@ GameInfo.propTypes = {
   game: object.isRequired,
   currentUserId: string.isRequired,
   isButtonsDisabled: bool.isRequired,
+  users: array.isRequired,
   closeGame: func.isRequired,
   leaveGame: func.isRequired,
   readyToGame: func.isRequired,
   startGame: func.isRequired,
   removeGame: func.isRequired,
   updateOption: func.isRequired,
+  newInvite: func.isRequired,
 };
 
 GameInfo.defaultProps = {
   game: {},
   currentUserId: '',
   isButtonsDisabled: false,
+  users: [],
   closeGame: () => null,
   leaveGame: () => null,
   readyToGame: () => null,
@@ -172,4 +195,5 @@ GameInfo.defaultProps = {
   removeGame: () => null,
   repeatGame: () => null,
   updateOption: () => null,
+  newInvite: () => null,
 };
