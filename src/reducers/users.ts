@@ -85,7 +85,6 @@ const users = (state: IUsersState = initialState, action: ActionTypes.Action): I
         },
       };
 
-
     case ActionTypes.UPDATE_INVITE:
       if (!state.currentUser) {
         return { ...state };
@@ -98,6 +97,12 @@ const users = (state: IUsersState = initialState, action: ActionTypes.Action): I
           invitesInvitee: state.currentUser.invitesInvitee.map(invite => invite.id === action.invite.id ? { ...action.invite } : { ...invite }),
           invitesInviter: state.currentUser.invitesInviter.map(invite => invite.id === action.invite.id ? { ...action.invite } : { ...invite }),
         },
+      };
+
+    case ActionTypes.REMOVE_GAME:
+      // TODO: Check and remove invites
+      return {
+        ...state,
       };
 
     default:

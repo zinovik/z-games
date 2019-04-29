@@ -1,4 +1,4 @@
-import React, { useEffect, ComponentType } from 'react';
+import React, { ComponentType } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Dispatch, bindActionCreators } from 'redux';
@@ -19,6 +19,7 @@ import {
   removeGameUser as removeGameWithoutDispatch,
   repeatGame as repeatGameWithoutDispatch,
   updateOption as updateOptionWithoutDispatch,
+  newInvite as newInviteWithoutDispatch,
 } from '../../actions';
 import { IUser, IGame, IState } from '../../interfaces';
 
@@ -28,6 +29,7 @@ function GamePagePure({
   currentUser,
   game,
   isButtonsDisabled,
+  users,
   closeGame,
   leaveGame,
   readyToGame,
@@ -37,11 +39,13 @@ function GamePagePure({
   removeGame,
   repeatGame,
   updateOption,
+  newInvite,
 }: {
   match: { params: { number: string } };
   currentUser: IUser;
   game: IGame;
   isButtonsDisabled: boolean;
+  users: IUser[];
   history: History;
   closeGame: () => void;
   leaveGame: (gameNumber: number) => void;
@@ -52,20 +56,11 @@ function GamePagePure({
   sendMessage: ({ gameId, message }: { gameId: string, message: string }) => void;
   makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void;
   updateOption: ({ gameNumber, name, value }: { gameNumber: number, name: string, value: string }) => void;
+  newInvite: (data: { gameId: string; userId: string; }) => void;
 }) {
   if (!game || !currentUser) {
     return null;
   }
-
-  const handleBrowserBackButton = () => {
-    closeGame();
-  };
-
-  useEffect(() => {
-    window.addEventListener('popstate', handleBrowserBackButton);
-
-    return () => window.removeEventListener('popstate', handleBrowserBackButton);
-  });
 
   return (
     <main>
@@ -86,6 +81,7 @@ function GamePagePure({
                 game={game}
                 currentUserId={currentUser.id}
                 isButtonsDisabled={isButtonsDisabled}
+                users={users}
                 closeGame={closeGame}
                 leaveGame={leaveGame}
                 readyToGame={readyToGame}
@@ -93,6 +89,7 @@ function GamePagePure({
                 removeGame={removeGame}
                 repeatGame={repeatGame}
                 updateOption={updateOption}
+                newInvite={newInvite}
               />
             </Paper>
           </div>
@@ -116,6 +113,7 @@ const mapStateToProps = (state: IState) => ({
   currentUser: state.users.currentUser,
   game: state.games.openGame,
   isButtonsDisabled: state.users.isButtonsDisabled,
+  users: state.users.usersOnline.users,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
@@ -128,6 +126,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   removeGame: bindActionCreators(removeGameWithoutDispatch, dispatch),
   repeatGame: bindActionCreators(repeatGameWithoutDispatch, dispatch),
   updateOption: bindActionCreators(updateOptionWithoutDispatch, dispatch),
+  newInvite: bindActionCreators(newInviteWithoutDispatch, dispatch),
 });
 
 export const GamePage = withRouter(connect(

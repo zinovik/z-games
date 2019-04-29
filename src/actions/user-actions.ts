@@ -287,3 +287,8 @@ export const declineInvite = (inviteId: string) =>
   (dispatch: Dispatch): void => {
     socketService.declineInvite(inviteId);
   };
+
+export const newInvite = ({ gameId, userId }: { gameId: string; userId: string; }) =>
+  (dispatch: Dispatch): void => {
+    socketService.newInvite({ gameId, userId });
+  };

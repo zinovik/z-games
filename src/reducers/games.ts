@@ -78,7 +78,6 @@ const games = (state: IGamesState = initialState, action: ActionTypes.Action): I
       };
 
     case ActionTypes.REMOVE_GAME:
-      // TODO: Check and remove invites
       return {
         ...state,
         allGames: state.allGames.filter(game => game.number !== action.gameNumber),

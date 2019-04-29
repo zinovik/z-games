@@ -196,6 +196,9 @@ export class SocketService {
     this.SocketClient.emit('decline-invite', inviteId);
   }
 
+  public newInvite({ gameId, userId }: { gameId: string; userId: string; }) {
+    this.SocketClient.emit('new-invite', { gameId, userId });
+  }
 
   public reconnect = (): void => {
     const token = localStorage.getItem('token') || '';
