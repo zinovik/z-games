@@ -4,9 +4,9 @@ import { Snackbar, SnackbarContent, IconButton } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 
 export function Notification({ id, message, removeNotification }: {
-  id: number,
-  message: string,
-  removeNotification: (errorId: number) => void,
+  id: number;
+  message: string;
+  removeNotification: (errorId: number) => void;
 }) {
 
   const handleClose = () => {

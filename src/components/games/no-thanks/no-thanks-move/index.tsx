@@ -8,10 +8,10 @@ import { IGame, IUser } from '../../../../interfaces';
 import './index.scss';
 
 export function NoThanksMove({ game, currentUser, makeMove, isButtonsDisabled }: {
-  game: IGame,
-  currentUser: IUser,
-  isButtonsDisabled: boolean,
-  makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
+  game: IGame;
+  currentUser: IUser;
+  isButtonsDisabled: boolean;
+  makeMove: (parameters: { gameId: string, move: string }) => void;
 }) {
   const { gameData } = game;
 
@@ -20,7 +20,7 @@ export function NoThanksMove({ game, currentUser, makeMove, isButtonsDisabled }:
       takeCard,
     };
 
-    makeMove({ gameNumber: game.number, move: JSON.stringify(noThanksMove) });
+    makeMove({ gameId: game.id, move: JSON.stringify(noThanksMove) });
   };
 
   if (!currentUser) {

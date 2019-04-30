@@ -24,16 +24,16 @@ export function GamesList({
 	watchGame,
 	reloadGames,
 }: {
-	allGames: IGame[],
-	currentUser?: IUser,
-	isButtonsDisabled: boolean,
-	filterSettings: IFilterSettings,
-	isHasMore: boolean,
-	isLoadingAllGames: boolean,
-	joinGame: (gameNumber: number) => void,
-	openGame: (gameNumber: number) => void,
-	watchGame: (gameNumber: number) => void,
-	reloadGames: (filterSettings: IFilterSettings) => void,
+	allGames: IGame[];
+	currentUser?: IUser;
+	isButtonsDisabled: boolean;
+	filterSettings: IFilterSettings;
+	isHasMore: boolean;
+	isLoadingAllGames: boolean;
+	joinGame: (gameId: string) => void;
+	openGame: (gameId: string) => void;
+	watchGame: (gameId: string) => void;
+	reloadGames: (filterSettings: IFilterSettings) => void;
 }) {
 	const [isBackToTop, setIsBackToTop] = useState(false);
 	const [isFilterShown, setIsFilterShown] = useState(false);

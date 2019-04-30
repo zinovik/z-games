@@ -18,10 +18,10 @@ import { IGame, IUser, GameDataType, GamePlayerType } from '../../interfaces';
 import './index.scss';
 
 export function GameTable({ game, currentUser, isButtonsDisabled, makeMove }: {
-  game: IGame,
-  currentUser: IUser,
-  isButtonsDisabled: boolean,
-  makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
+  game: IGame;
+  currentUser: IUser;
+  isButtonsDisabled: boolean;
+  makeMove: (parameters: { gameId: string, move: string }) => void;
 }) {
   const [oldGameData, setOldGameData] = useState('');
 

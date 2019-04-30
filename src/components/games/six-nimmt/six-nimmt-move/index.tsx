@@ -9,10 +9,10 @@ import { IGame, IUser } from '../../../../interfaces';
 import './index.scss';
 
 export function SixNimmtMove({ game, currentUser, makeMove, isButtonsDisabled }: {
-  game: IGame,
-  currentUser: IUser,
-  isButtonsDisabled: boolean,
-  makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
+  game: IGame;
+  currentUser: IUser;
+  isButtonsDisabled: boolean;
+  makeMove: (parameters: { gameId: string, move: string }) => void;
 }) {
 	const [isMoved, setIsMoved] = useState(false);
 	const [oldGameData, setOldGameData] = useState('');
@@ -44,7 +44,7 @@ export function SixNimmtMove({ game, currentUser, makeMove, isButtonsDisabled }:
 
     const sixNimmtCitiesMove = { card: cardsHand[cardNumber] } as ISixNimmtMove;
 
-    makeMove({ gameNumber: game.number, move: JSON.stringify(sixNimmtCitiesMove) });
+    makeMove({ gameId: game.id, move: JSON.stringify(sixNimmtCitiesMove) });
   };
 
   const moveRowNumber = (rowNumber: number): void => {
@@ -52,7 +52,7 @@ export function SixNimmtMove({ game, currentUser, makeMove, isButtonsDisabled }:
 
     const sixNimmtCitiesMove = { rowNumber } as ISixNimmtMove;
 
-    makeMove({ gameNumber: game.number, move: JSON.stringify(sixNimmtCitiesMove) });
+    makeMove({ gameId: game.id, move: JSON.stringify(sixNimmtCitiesMove) });
   };
 
   return (

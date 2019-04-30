@@ -7,11 +7,11 @@ import { IUser, IGame, GamePlayerType } from '../../interfaces';
 import './index.scss';
 
 export function GamePlayers({ game, currentUserId, gamePlayers, players, nextPlayers }: {
-  game: IGame,
-  currentUserId: string,
-  gamePlayers: GamePlayerType[],
-  players: IUser[],
-  nextPlayers: IUser[],
+  game: IGame;
+  currentUserId: string;
+  gamePlayers: GamePlayerType[];
+  players: IUser[];
+  nextPlayers: IUser[];
 }) {
   let playerNumber;
 

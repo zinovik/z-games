@@ -6,7 +6,7 @@ import { IUsersOnline } from '../../interfaces';
 
 import './index.scss';
 
-export function UsersOnline({ usersOnline }: { usersOnline: IUsersOnline }) {
+export function UsersOnline({ usersOnline }: { usersOnline: IUsersOnline; }) {
   const [anchorEl, setAnchorEl] = useState(null as HTMLElement | null);
 
   const handleShow = (event: MouseEvent<HTMLElement>) => {

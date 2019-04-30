@@ -8,10 +8,10 @@ import { LostCitiesExpeditions } from '../lost-cities-expeditions';
 import { IGame } from '../../../../interfaces';
 
 export function LostCitiesPlayer({ gamePlayer, isCurrentPlayer, isMyTurn, game }: {
-  gamePlayer: ILostCitiesPlayer,
-  isCurrentPlayer?: boolean,
-  isMyTurn?: boolean,
-  game?: IGame,
+  gamePlayer: ILostCitiesPlayer;
+  isCurrentPlayer?: boolean;
+  isMyTurn?: boolean;
+  game?: IGame;
 }) {
   const { cardsHand, cardsExpeditions, points } = gamePlayer;
 

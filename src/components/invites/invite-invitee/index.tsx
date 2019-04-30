@@ -11,9 +11,9 @@ import { IInvite } from '../../../interfaces';
 import './index.scss';
 
 export function InviteInvitee({ invite, acceptInvite, declineInvite }: {
-  invite: IInvite,
-  acceptInvite: (inviteId: string) => void,
-  declineInvite: (inviteId: string) => void,
+  invite: IInvite;
+  acceptInvite: (inviteId: string) => void;
+  declineInvite: (inviteId: string) => void;
 }) {
 
   const [isRulesShown, setIsRulesShown] = useState(false);

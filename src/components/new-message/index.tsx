@@ -5,8 +5,8 @@ import { Button, Input } from '@material-ui/core';
 import './index.scss';
 
 export function NewMessage({ gameId, sendMessage }: {
-  gameId: string,
-  sendMessage: ({ gameId, message }: { gameId: string, message: string }) => void,
+  gameId: string;
+  sendMessage: (parameters: { gameId: string, message: string }) => void;
 }) {
   const [message, setMessage] = useState('');
 

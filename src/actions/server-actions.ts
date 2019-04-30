@@ -83,10 +83,10 @@ export const updateGame = (game: IGame) =>
     game,
   });
 
-export const removeGameServer = (gameNumber: number) =>
+export const removeGameServer = (gameId: string) =>
   (dispatch: Dispatch): AnyAction => dispatch({
     type: ActionTypes.REMOVE_GAME,
-    gameNumber,
+    gameId,
   });
 
 export const addNewLog = (newLog: ILog) =>

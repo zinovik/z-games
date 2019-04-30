@@ -10,10 +10,10 @@ import { IGame } from '../../../../interfaces';
 import './index.scss';
 
 export function SixNimmtPlayer({ gamePlayer, isCurrentPlayer, isMyTurn, game }: {
-  gamePlayer: ISixNimmtPlayer,
-  isCurrentPlayer?: boolean,
-  isMyTurn?: boolean,
-  game?: IGame,
+  gamePlayer: ISixNimmtPlayer;
+  isCurrentPlayer?: boolean;
+  isMyTurn?: boolean;
+  game?: IGame;
 }) {
   const { cardsHand, cardsTakenCount, points, pointsCurrentRound, lastPlayedCard, lastPlayedCardForPlayers, lastTakenCards } = gamePlayer;
 

@@ -7,9 +7,9 @@ import { Loading } from '../loading';
 import './index.scss';
 
 export function Authorize({ serverUrl, register, authorize }: {
-  serverUrl: string,
-	register: (serverUrl: string, username: string, password: string, email: string) => Promise<void>,
-	authorize: (serverUrl: string, username: string, password: string) => Promise<void>,
+  serverUrl: string;
+	register: (serverUrl: string, username: string, password: string, email: string) => Promise<void>;
+	authorize: (serverUrl: string, username: string, password: string) => Promise<void>;
 }) {
   const [isModalShow, setIsModalShow] = useState(false);
   const [username, setUsername] = useState('');

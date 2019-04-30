@@ -8,9 +8,9 @@ import { ILog } from '../../interfaces';
 import './index.scss';
 
 export function Chat({ logs, gameId, sendMessage }: {
-  logs: ILog[],
-  gameId: string,
-  sendMessage: ({ gameId, message }: { gameId: string, message: string }) => void,
+  logs: ILog[];
+  gameId: string;
+  sendMessage: (parameters: { gameId: string, message: string }) => void;
 }) {
   return (
     <div className='chat-container'>

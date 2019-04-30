@@ -6,7 +6,7 @@ import './index.scss';
 
 const CATTLE_HEAD: string = '+';
 
-export function SixNimmtCattleHeads({ cattleHeads }: { cattleHeads: number }) {
+export function SixNimmtCattleHeads({ cattleHeads }: { cattleHeads: number; }) {
   return (
     <Typography className='six-nimmt-cattle-heads'>
       {Array(cattleHeads).fill(0).map((cattleHead, index) =>

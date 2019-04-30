@@ -30,13 +30,13 @@ export function GameInfo({
   isButtonsDisabled: boolean;
   users: IUser[];
   closeGame: () => void;
-  leaveGame: (gameNumber: number) => void;
+  leaveGame: (gameId: string) => void;
   readyToGame: () => void;
-  startGame: (gameNumber: number) => void;
-  removeGame: (gameNumber: number) => void;
-  repeatGame: (gameNumber: number) => void;
-  updateOption: ({ gameNumber, name, value }: { gameNumber: number, name: string, value: string }) => void;
-  newInvite: (data: { gameId: string; userId: string; }) => void;
+  startGame: (gameId: string) => void;
+  removeGame: (gameId: string) => void;
+  repeatGame: (gameId: string) => void;
+  updateOption: (parameters: { gameId: string, name: string, value: string }) => void;
+  newInvite: (parameters: { gameId: string; userId: string; }) => void;
 }) {
   const [isRulesShown, setIsRulesShown] = useState(false);
 
@@ -53,7 +53,7 @@ export function GameInfo({
   };
 
   const handleLeaveClick = () => {
-    leaveGame(game.number);
+    leaveGame(game.id);
   };
 
   const handleReadyClick = () => {
@@ -61,18 +61,18 @@ export function GameInfo({
   };
 
   const handleStartClick = () => {
-    startGame(game.number);
+    startGame(game.id);
   };
 
   const handleRemoveClick = () => {
     // TODO: Warning
     if (confirm('Are you sure?')) {
-      removeGame(game.number);
+      removeGame(game.id);
     }
   };
 
   const handleRepeatClick = () => {
-    repeatGame(game.number);
+    repeatGame(game.id);
   };
 
   const { playersOnline, watchersOnline } = game;
@@ -161,6 +161,7 @@ export function GameInfo({
       />}
 
       {game.state === GAME_NOT_STARTED && <NewInvite
+        currentUserId={currentUserId}
         gameId={game.id}
         users={users}
         newInvite={newInvite}

@@ -11,11 +11,11 @@ import { IGame, IUser } from '../../../interfaces';
 import './index.scss';
 
 export function Perudo({ game, currentUser, isMyTurn, isButtonsDisabled, makeMove }: {
-	game: IGame,
-	currentUser: IUser,
-	isMyTurn: boolean,
-	isButtonsDisabled: boolean,
-	makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
+	game: IGame;
+	currentUser: IUser;
+	isMyTurn: boolean;
+	isButtonsDisabled: boolean;
+	makeMove: ({ gameId, move }: { gameId: string, move: string }) => void;
 }) {
 	const { gameData, players } = game;
 

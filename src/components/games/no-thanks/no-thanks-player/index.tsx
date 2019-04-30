@@ -8,11 +8,11 @@ import { NoThanksChips } from '../no-thanks-chips';
 import { IGame } from '../../../../interfaces';
 
 export function NoThanksPlayer({ gamePlayer, isCurrentPlayer }: {
-  gamePlayer: INoThanksPlayer,
-  isCurrentPlayer?: boolean,
-  isMyTurn?: boolean,
-  game?: IGame,
-  active?: boolean,
+  gamePlayer: INoThanksPlayer;
+  isCurrentPlayer?: boolean;
+  isMyTurn?: boolean;
+  game?: IGame;
+  active?: boolean;
 }) {
   const { cards, chips, points } = gamePlayer;
 
