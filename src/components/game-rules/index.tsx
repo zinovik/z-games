@@ -5,8 +5,8 @@ import { Button, Dialog, DialogTitle, DialogContent, Typography, DialogActions }
 import { GamesServices } from '../../services';
 
 export function GameRules({ gameName, close }: {
-  gameName: string,
-  close: () => void,
+  gameName: string;
+  close: () => void;
 }) {
   const handleClose = () => {
     close();

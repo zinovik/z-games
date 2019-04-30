@@ -3,8 +3,8 @@ import { bool, string } from 'prop-types';
 import { Dialog, DialogTitle, DialogContent, Typography, CircularProgress } from '@material-ui/core';
 
 export function Loading({ isConnected, text }: {
-  isConnected: boolean,
-  text?: string,
+  isConnected: boolean;
+  text?: string;
 }) {
   return (
     <Dialog open={!isConnected} fullScreen={false}>

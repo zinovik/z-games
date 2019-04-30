@@ -15,11 +15,11 @@ export function PerudoLastRoundResults({
   isLastRoundMaputo,
   hideClick,
 }: {
-  gamePlayers: IPerudoPlayer[],
-  players: IUser[],
-  lastRoundFigure: number,
-  isLastRoundMaputo: boolean,
-  hideClick: () => void,
+  gamePlayers: IPerudoPlayer[];
+  players: IUser[];
+  lastRoundFigure: number;
+  isLastRoundMaputo: boolean;
+  hideClick: () => void;
 }) {
   return (
     <Fragment>

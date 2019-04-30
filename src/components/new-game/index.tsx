@@ -8,7 +8,7 @@ import { GamesServices } from '../../services';
 import './index.scss';
 
 export function NewGame({ newGame }: {
-  newGame: (gameName: string) => void,
+  newGame: (gameName: string) => void;
 }) {
   const [isModalShow, setIsModalShow] = useState(false);
 

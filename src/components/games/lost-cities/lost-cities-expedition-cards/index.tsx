@@ -7,12 +7,12 @@ import { LostCitiesCard } from '../lost-cities-card';
 import './index.scss';
 
 export function LostCitiesExpeditionCards({ cards, expedition, cardsCount, isSelected, isClickable, onClick }: {
-  cards: number[],
-  expedition: number,
-  cardsCount?: number,
-  isSelected?: boolean,
-  isClickable?: boolean,
-  onClick?: (expedition: number) => void,
+  cards: number[];
+  expedition: number;
+  cardsCount?: number;
+  isSelected?: boolean;
+  isClickable?: boolean;
+  onClick?: (expedition: number) => void;
 }) {
 
   const handleClick = (clickExpedition: number) => {

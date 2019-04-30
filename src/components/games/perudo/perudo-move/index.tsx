@@ -22,10 +22,10 @@ import { IGame } from '../../../../interfaces';
 import './index.scss';
 
 export function PerudoMove({ game, isMaputoAble, isButtonsDisabled, makeMove }: {
-  game: IGame,
-  isMaputoAble: boolean,
-  isButtonsDisabled: boolean,
-  makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
+  game: IGame;
+  isMaputoAble: boolean;
+  isButtonsDisabled: boolean;
+  makeMove: (parameters: { gameId: string, move: string }) => void;
 }) {
   const [diceNumber, setDiceNumber] = useState(0);
   const [diceFigure, setDiceFigure] = useState(0);
@@ -87,13 +87,13 @@ export function PerudoMove({ game, isMaputoAble, isButtonsDisabled, makeMove }: 
       perudoMove = { number: diceNumber, figure: diceFigure } as IPerudoMove;
     }
 
-    makeMove({ gameNumber: game.number, move: JSON.stringify(perudoMove) });
+    makeMove({ gameId: game.id, move: JSON.stringify(perudoMove) });
   }
 
   const moveNotBelieve = (): void => {
     const perudoMove: IPerudoMove = { notBelieve: true } as IPerudoMove;
 
-    makeMove({ gameNumber: game.number, move: JSON.stringify(perudoMove) });
+    makeMove({ gameId: game.id, move: JSON.stringify(perudoMove) });
   }
 
   const handleMaputoChange = (): void => {

@@ -6,10 +6,10 @@ import { Typography } from '@material-ui/core';
 import './index.scss';
 
 export function Log({ type, createdAt, username, text }: {
-  type: string,
-  createdAt: Date,
-  username: string,
-  text?: string,
+  type: string;
+  createdAt: Date;
+  username: string;
+  text?: string;
 }) {
   return (
     <Typography>

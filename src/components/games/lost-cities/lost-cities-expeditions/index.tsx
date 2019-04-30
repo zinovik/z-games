@@ -7,11 +7,11 @@ import { LostCitiesExpeditionCards } from '../lost-cities-expedition-cards';
 import './index.scss';
 
 export function LostCitiesExpeditions({ cards, cardsCount, selectedExpedition, isClickable, onClick }: {
-  cards: Array<{ cost: number, expedition: number }>,
-  cardsCount?: number[],
-  selectedExpedition?: number | null,
-  isClickable?: boolean,
-  onClick?: (expedition: number) => void,
+  cards: Array<{ cost: number, expedition: number }>;
+  cardsCount?: number[];
+  selectedExpedition?: number | null;
+  isClickable?: boolean;
+  onClick?: (expedition: number) => void;
 }) {
 
   const expeditions: number[][] = [];

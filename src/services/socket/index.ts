@@ -100,8 +100,8 @@ export class SocketService {
       updateGame(game);
     });
 
-    this.SocketClient.on('remove-game', (gameNumber: number): void => {
-      removeGame(gameNumber);
+    this.SocketClient.on('remove-game', (gameId: string): void => {
+      removeGame(gameId);
     });
 
     this.SocketClient.on('update-opened-game', (openGame: IGame): void => {
@@ -136,20 +136,20 @@ export class SocketService {
     this.SocketClient.emit('get-all-games', filterSettings);
   }
 
-  public joinGame(gameNumber: number) {
-    this.SocketClient.emit('join-game', gameNumber);
+  public joinGame(gameId: string) {
+    this.SocketClient.emit('join-game', gameId);
   }
 
-  public openGame(gameNumber: number) {
-    this.SocketClient.emit('open-game', gameNumber);
+  public openGame(gameId: string) {
+    this.SocketClient.emit('open-game', gameId);
   }
 
-  public watchGame(gameNumber: number) {
-    this.SocketClient.emit('watch-game', gameNumber);
+  public watchGame(gameId: string) {
+    this.SocketClient.emit('watch-game', gameId);
   }
 
-  public leaveGame(gameNumber: number) {
-    this.SocketClient.emit('leave-game', gameNumber);
+  public leaveGame(gameId: string) {
+    this.SocketClient.emit('leave-game', gameId);
   }
 
   public closeGame() {
@@ -160,32 +160,32 @@ export class SocketService {
     this.SocketClient.emit('toggle-ready');
   }
 
-  public startGame(gameNumber: number) {
-    this.SocketClient.emit('start-game', gameNumber);
+  public startGame(gameId: string) {
+    this.SocketClient.emit('start-game', gameId);
   }
 
-  public makeMove({ gameNumber, move }: { gameNumber: number, move: string }) {
-    this.SocketClient.emit('make-move', { gameNumber, move });
+  public makeMove({ gameId, move }: { gameId: string, move: string }) {
+    this.SocketClient.emit('make-move', { gameId, move });
   }
 
   public sendMessage({ gameId, message }: { gameId: string, message: string }) {
     this.SocketClient.emit('message', { gameId, message });
   }
 
-  public newGame(gameName: string) {
-    this.SocketClient.emit('new-game', gameName);
+  public newGame(gameId: string) {
+    this.SocketClient.emit('new-game', gameId);
   }
 
-  public removeGame(gameNumber: number) {
-    this.SocketClient.emit('remove-game', gameNumber);
+  public removeGame(gameId: string) {
+    this.SocketClient.emit('remove-game', gameId);
   }
 
-  public repeatGame(gameNumber: number) {
-    this.SocketClient.emit('repeat-game', gameNumber);
+  public repeatGame(gameId: string) {
+    this.SocketClient.emit('repeat-game', gameId);
   }
 
-  public updateOption({ gameNumber, name, value }: { gameNumber: number, name: string, value: string }) {
-    this.SocketClient.emit('update-option', { gameNumber, name, value });
+  public updateOption({ gameId, name, value }: { gameId: string, name: string, value: string }) {
+    this.SocketClient.emit('update-option', { gameId, name, value });
   }
 
   public acceptInvite(inviteId: string) {

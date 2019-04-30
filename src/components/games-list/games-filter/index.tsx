@@ -9,9 +9,9 @@ import { IFilterSettings, IUser } from '../../../interfaces';
 import './index.scss';
 
 export function GamesFilter({ filterSettings, currentUser, reloadGames }: {
-  filterSettings: IFilterSettings,
-  currentUser?: IUser,
-  reloadGames: (filterSettings: IFilterSettings) => void,
+  filterSettings: IFilterSettings;
+  currentUser?: IUser;
+  reloadGames: (filterSettings: IFilterSettings) => void;
 }) {
   const { isNotStarted, isStarted, isFinished, isWithMe, isWithoutMe, isMyMove, isNotMyMove, isGames } = filterSettings;
 

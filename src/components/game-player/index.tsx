@@ -24,13 +24,13 @@ export function GamePlayer({
   isCurrentPlayer,
   isMyTurn,
 }: {
-  game: IGame,
-  username: string,
-  avatar?: string,
-  active?: boolean,
+  game: IGame;
+  username: string;
+  avatar?: string;
+  active?: boolean;
   gamePlayer?: GamePlayerType;
-  isCurrentPlayer?: boolean,
-  isMyTurn?: boolean,
+  isCurrentPlayer?: boolean;
+  isMyTurn?: boolean;
 }) {
   return (
     <div className={`game-player-container${active ? ' game-player-container-active' : ''}`}>

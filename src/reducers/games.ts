@@ -74,13 +74,13 @@ const games = (state: IGamesState = initialState, action: ActionTypes.Action): I
     case ActionTypes.UPDATE_GAME:
       return {
         ...state,
-        allGames: state.allGames.map(game => game.number === action.game.number ? { ...game, ...action.game } : { ...game }),
+        allGames: state.allGames.map(game => game.id === action.game.id ? { ...game, ...action.game } : { ...game }),
       };
 
     case ActionTypes.REMOVE_GAME:
       return {
         ...state,
-        allGames: state.allGames.filter(game => game.number !== action.gameNumber),
+        allGames: state.allGames.filter(game => game.id !== action.gameId),
       };
 
     case ActionTypes.RELOAD_GAMES:

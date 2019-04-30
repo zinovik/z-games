@@ -7,12 +7,12 @@ import { PerudoDices } from '../perudo-dices';
 import { IGame } from '../../../../interfaces';
 
 export function PerudoPlayer({ gamePlayer, highlightNumber, isHighlightJoker }: {
-  gamePlayer: IPerudoPlayer,
-  isCurrentPlayer?: boolean,
-  isMyTurn?: boolean,
-  game?: IGame,
-  highlightNumber?: number,
-  isHighlightJoker?: boolean,
+  gamePlayer: IPerudoPlayer;
+  isCurrentPlayer?: boolean;
+  isMyTurn?: boolean;
+  game?: IGame;
+  highlightNumber?: number;
+  isHighlightJoker?: boolean;
 }) {
   const { dices, dicesCount } = gamePlayer;
 

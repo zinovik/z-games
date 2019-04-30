@@ -104,9 +104,9 @@ export const logout = () =>
 
 // Games
 
-export const joinGame = (gameNumber: number) =>
+export const joinGame = (gameId: string) =>
   (dispatch: Dispatch): AnyAction => {
-    socketService.joinGame(gameNumber);
+    socketService.joinGame(gameId);
 
     return dispatch({
       type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
@@ -114,9 +114,9 @@ export const joinGame = (gameNumber: number) =>
     });
   };
 
-export const openGame = (gameNumber: number) =>
+export const openGame = (gameId: string) =>
   (dispatch: Dispatch): AnyAction => {
-    socketService.openGame(gameNumber);
+    socketService.openGame(gameId);
 
     return dispatch({
       type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
@@ -124,9 +124,9 @@ export const openGame = (gameNumber: number) =>
     });
   };
 
-export const watchGame = (gameNumber: number) =>
+export const watchGame = (gameId: string) =>
   (dispatch: Dispatch): AnyAction => {
-    socketService.watchGame(gameNumber);
+    socketService.watchGame(gameId);
 
     return dispatch({
       type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
@@ -134,9 +134,9 @@ export const watchGame = (gameNumber: number) =>
     });
   };
 
-export const leaveGame = (gameNumber: number) =>
+export const leaveGame = (gameId: string) =>
   (dispatch: Dispatch): AnyAction => {
-    socketService.leaveGame(gameNumber);
+    socketService.leaveGame(gameId);
 
     return dispatch({
       type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
@@ -164,9 +164,9 @@ export const readyToGame = () =>
     });
   };
 
-export const startGame = (gameNumber: number) =>
+export const startGame = (gameId: string) =>
   (dispatch: Dispatch): AnyAction => {
-    socketService.startGame(gameNumber);
+    socketService.startGame(gameId);
 
     return dispatch({
       type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
@@ -174,9 +174,9 @@ export const startGame = (gameNumber: number) =>
     });
   };
 
-export const makeMove = ({ gameNumber, move }: { gameNumber: number, move: string }) =>
+export const makeMove = ({ gameId, move }: { gameId: string, move: string }) =>
   (dispatch: Dispatch): AnyAction => {
-    socketService.makeMove({ gameNumber, move });
+    socketService.makeMove({ gameId, move });
 
     return dispatch({
       type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
@@ -248,9 +248,9 @@ export const reloadGames = (filterSettings: IFilterSettings) =>
     socketService.getAllGames(filterSettings);
   };
 
-export const removeGameUser = (gameNumber: number) =>
+export const removeGameUser = (gameId: string) =>
   (dispatch: Dispatch): AnyAction => {
-    socketService.removeGame(gameNumber);
+    socketService.removeGame(gameId);
 
     return dispatch({
       type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
@@ -258,9 +258,9 @@ export const removeGameUser = (gameNumber: number) =>
     });
   };
 
-export const repeatGame = (gameNumber: number) =>
+export const repeatGame = (gameId: string) =>
   (dispatch: Dispatch): AnyAction => {
-    socketService.repeatGame(gameNumber);
+    socketService.repeatGame(gameId);
 
     return dispatch({
       type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
@@ -268,9 +268,9 @@ export const repeatGame = (gameNumber: number) =>
     });
   };
 
-export const updateOption = ({ gameNumber, name, value }: { gameNumber: number, name: string, value: string }) =>
+export const updateOption = ({ gameId, name, value }: { gameId: string, name: string, value: string }) =>
   (dispatch: Dispatch): AnyAction => {
-    socketService.updateOption({ gameNumber, name, value });
+    socketService.updateOption({ gameId, name, value });
 
     return dispatch({
       type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,

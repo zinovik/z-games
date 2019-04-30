@@ -14,9 +14,9 @@ const DICES: string[] = [
 ];
 
 export function PerudoDices({ dices, highlightNumber, isHighlightJoker }: {
-  dices: number[],
-  highlightNumber?: number,
-  isHighlightJoker?: boolean,
+  dices: number[];
+  highlightNumber?: number;
+  isHighlightJoker?: boolean;
 }) {
   return (
     <Typography>

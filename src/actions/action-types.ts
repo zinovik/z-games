@@ -39,7 +39,7 @@ export interface IUpdateAllGames { type: typeof UPDATE_ALL_GAMES, allGames: IGam
 export interface IUpdateOpenGame { type: typeof UPDATE_OPEN_GAME, openGame: IGame };
 export interface IAddNewGame { type: typeof ADD_NEW_GAME, newGame: IGame };
 export interface IUpdateGame { type: typeof UPDATE_GAME, game: IGame };
-export interface IRemoveGame { type: typeof REMOVE_GAME, gameNumber: number };
+export interface IRemoveGame { type: typeof REMOVE_GAME, gameId: string };
 export interface IAddNewLog { type: typeof ADD_NEW_LOG, newLog: ILog };
 
 export interface IUsersRating { type: typeof FETCH_RATING, users: IUser[] };

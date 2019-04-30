@@ -11,10 +11,10 @@ import { IGame, IUser } from '../../../../interfaces';
 import './index.scss';
 
 export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled }: {
-  game: IGame,
-  currentUser: IUser,
-  isButtonsDisabled: boolean,
-  makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
+  game: IGame;
+  currentUser: IUser;
+  isButtonsDisabled: boolean;
+  makeMove: (parameters: { gameId: string, move: string }) => void;
 }) {
   const [chosenCard, setChosenCard] = useState(null as number | null);
   const [takeExpedition, setTakeExpedition] = useState(null as number | null);
@@ -78,7 +78,7 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
       takeExpedition,
     } as ILostCitiesMove;
 
-    makeMove({ gameNumber: game.number, move: JSON.stringify(lostCitiesMove) });
+    makeMove({ gameId: game.id, move: JSON.stringify(lostCitiesMove) });
   };
 
   return (

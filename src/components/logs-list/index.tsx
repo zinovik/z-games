@@ -7,7 +7,7 @@ import { ILog } from '../../interfaces';
 import './index.scss';
 
 export function LogsList({ logs }: {
-  logs: ILog[],
+  logs: ILog[];
 }) {
   return (
     <div className='logs-list-container'>

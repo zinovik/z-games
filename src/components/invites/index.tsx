@@ -13,9 +13,9 @@ export function Invites({
   acceptInvite,
   declineInvite,
 }: {
-  currentUser: IUser,
-  acceptInvite: (inviteId: string) => void,
-  declineInvite: (inviteId: string) => void,
+  currentUser: IUser;
+  acceptInvite: (inviteId: string) => void;
+  declineInvite: (inviteId: string) => void;
 }) {
   const { invitesInvitee, invitesInviter } = currentUser;
 

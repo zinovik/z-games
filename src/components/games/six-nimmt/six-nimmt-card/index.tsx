@@ -7,9 +7,9 @@ import { SixNimmtCattleHeads } from '../six-nimmt-cattle-heads';
 import './index.scss';
 
 export function SixNimmtCard({ card, isClickable, onClick }: {
-  card?: ISixNimmtCard | null,
-  isClickable?: boolean,
-  onClick?: () => void,
+  card?: ISixNimmtCard | null;
+  isClickable?: boolean;
+  onClick?: () => void;
 }) {
   const handleClick = () => {
     if (!isClickable || !onClick) {

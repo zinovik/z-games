@@ -4,7 +4,7 @@ import { arrayOf, number } from 'prop-types';
 import { NoThanksCard } from '../no-thanks-card';
 import './index.scss';
 
-export function NoThanksCardsList({ cards }: { cards: number[] }) {
+export function NoThanksCardsList({ cards }: { cards: number[]; }) {
   return (
     <div className='no-thanks-cards-list-container'>
       {cards.map((card, index) => (

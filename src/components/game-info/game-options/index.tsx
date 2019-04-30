@@ -8,9 +8,9 @@ import { IGame, GameDataType } from '../../../interfaces';
 import './index.scss';
 
 export function GameOptions({ game, isButtonsDisabled, updateOption }: {
-  game: IGame,
-  isButtonsDisabled: boolean,
-  updateOption: ({ gameNumber, name, value }: { gameNumber: number, name: string, value: string }) => void,
+  game: IGame;
+  isButtonsDisabled: boolean;
+  updateOption: (parameters: { gameId: string, name: string, value: string }) => void;
 }) {
   const { gameData } = game;
   const { options }: GameDataType = JSON.parse(gameData);
@@ -19,7 +19,7 @@ export function GameOptions({ game, isButtonsDisabled, updateOption }: {
 
   const handleOptionChange = ({ name, value }: { name: string, value: string }) => {
     updateOption({
-      gameNumber: game.number,
+      gameId: game.id,
       name,
       value,
     });

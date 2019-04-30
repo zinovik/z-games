@@ -6,7 +6,7 @@ import { LostCitiesCard } from '../lost-cities-card';
 
 import './index.scss';
 
-export function LostCitiesCardsList({ cards }: { cards: Array<{ cost: number, expedition: number }> }) {
+export function LostCitiesCardsList({ cards }: { cards: Array<{ cost: number, expedition: number }>; }) {
   return (
     <div className='lost-cities-cards-list-container'>
       {cards.map(({ cost, expedition }, index) => (

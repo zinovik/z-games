@@ -4,12 +4,12 @@ import { number, bool, func } from 'prop-types';
 import './index.scss';
 
 export function LostCitiesCard({ cost, expedition, isHalfCard, isSelected, isClickable, onClick }: {
-  cost: number,
-  expedition: number,
-  isHalfCard?: boolean,
-  isSelected?: boolean,
-  isClickable?: boolean,
-  onClick?: () => void,
+  cost: number;
+  expedition: number;
+  isHalfCard?: boolean;
+  isSelected?: boolean;
+  isClickable?: boolean;
+  onClick?: () => void;
 }) {
 
   const handleClick = () => {

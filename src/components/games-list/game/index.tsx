@@ -12,16 +12,16 @@ import { IGame, IUser } from '../../../interfaces';
 import './index.scss';
 
 export function Game({ game, currentUser, isButtonsDisabled, joinGame, openGame, watchGame }: {
-  game: IGame,
-  currentUser?: IUser,
-  isButtonsDisabled: boolean,
-  joinGame: (gameNumber: number) => void,
-  openGame: (gameNumber: number) => void,
-  watchGame: (gameNumber: number) => void,
+  game: IGame;
+  currentUser?: IUser;
+  isButtonsDisabled: boolean;
+  joinGame: (gameId: string) => void;
+  openGame: (gameId: string) => void;
+  watchGame: (gameId: string) => void;
 }) {
   const [isRulesShown, setIsRulesShown] = useState(false);
 
-  const { number: gameNumber, name, state, players, playersMax, createdAt } = game;
+  const { id: gameId, number: gameNumber, name, state, players, playersMax, createdAt } = game;
 
   const handleLogoClick = () => {
     setIsRulesShown(true);
@@ -32,15 +32,15 @@ export function Game({ game, currentUser, isButtonsDisabled, joinGame, openGame,
   };
 
   const handleJoinClick = () => {
-    joinGame(gameNumber);
+    joinGame(gameId);
   };
 
   const handleOpenClick = () => {
-    openGame(gameNumber);
+    openGame(gameId);
   };
 
   const handleWatchClick = () => {
-    watchGame(gameNumber);
+    watchGame(gameId);
   };
 
   const isAbleToJoin = currentUser && !state && players.length < playersMax && !players.some(player => player.id === currentUser.id);

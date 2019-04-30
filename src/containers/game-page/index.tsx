@@ -48,14 +48,14 @@ function GamePagePure({
   users: IUser[];
   history: History;
   closeGame: () => void;
-  leaveGame: (gameNumber: number) => void;
+  leaveGame: (gameId: string) => void;
   readyToGame: () => void;
-  startGame: (gameNumber: number) => void;
-  removeGame: (gameNumber: number) => void;
-  repeatGame: (gameNumber: number) => void;
+  startGame: (gameId: string) => void;
+  removeGame: (gameId: string) => void;
+  repeatGame: (gameId: string) => void;
   sendMessage: ({ gameId, message }: { gameId: string, message: string }) => void;
-  makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void;
-  updateOption: ({ gameNumber, name, value }: { gameNumber: number, name: string, value: string }) => void;
+  makeMove: ({ gameId, move }: { gameId: string, move: string }) => void;
+  updateOption: ({ gameId, name, value }: { gameId: string, name: string, value: string }) => void;
   newInvite: (data: { gameId: string; userId: string; }) => void;
 }) {
   if (!game || !currentUser) {

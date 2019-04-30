@@ -7,11 +7,11 @@ import { PerudoPlayer } from '../perudo-player';
 import './index.scss';
 
 export function PerudoLastRoundResult({ gamePlayer, username, avatar, lastRoundFigure, isLastRoundMaputo }: {
-  gamePlayer: IPerudoPlayer,
-  username: string,
-  avatar?: string,
-  lastRoundFigure: number,
-  isLastRoundMaputo: boolean,
+  gamePlayer: IPerudoPlayer;
+  username: string;
+  avatar?: string;
+  lastRoundFigure: number;
+  isLastRoundMaputo: boolean;
 }) {
   return (
     <div className='perudo-last-round-result-container'>

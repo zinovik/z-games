@@ -14,7 +14,7 @@ export function SixNimmt({ game, currentUser, isMyTurn, isButtonsDisabled, makeM
 	currentUser: IUser,
 	isMyTurn: boolean,
 	isButtonsDisabled: boolean,
-	makeMove: ({ gameNumber, move }: { gameNumber: number, move: string }) => void,
+	makeMove: ({ gameId, move }: { gameId: string, move: string }) => void,
 }) {
 	const { gameData } = game;
 

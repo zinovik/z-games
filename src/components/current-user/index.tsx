@@ -5,9 +5,9 @@ import { Avatar, Menu, MenuItem, Button } from '@material-ui/core';
 import './index.scss';
 
 export function CurrentUser({ currentUsername, avatar, logout }: {
-  currentUsername: string,
-  avatar: string,
-  logout: () => void,
+  currentUsername: string;
+  avatar: string;
+  logout: () => void;
 }) {
   const [anchorEl, setAnchorEl] = useState(null as HTMLElement | null);
 

@@ -1,15 +1,16 @@
 import React, { Fragment, useState } from 'react';
 import { string, array, func } from 'prop-types';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Fab } from '@material-ui/core';
-import { Add } from '@material-ui/icons';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Fab, Button } from '@material-ui/core';
+import { PersonAdd } from '@material-ui/icons';
 import { IUser } from '../../../interfaces';
 
 import './index.scss';
 
-export function NewInvite({ gameId, users, newInvite }: {
+export function NewInvite({ currentUserId, gameId, users, newInvite }: {
+  currentUserId: string;
   gameId: string;
   users: IUser[];
-  newInvite: (data: { gameId: string; userId: string; }) => void;
+  newInvite: (parameters: { gameId: string; userId: string; }) => void;
 }) {
   const [isModalShow, setIsModalShow] = useState(false);
 
@@ -30,7 +31,7 @@ export function NewInvite({ gameId, users, newInvite }: {
     <Fragment>
       <div className='new-invite-button'>
         <Fab onClick={handleNewGame}>
-          <Add />
+          <PersonAdd />
         </Fab>
       </div>
 
@@ -43,13 +44,12 @@ export function NewInvite({ gameId, users, newInvite }: {
           <DialogActions>
             <div className='new-invite-players'>
               {users.map(user => (
-                <div
+                currentUserId !== user.id && <Button
                   onClick={() => handleCreateInvite(user.id)}
-                  title={`click to invite ${user.username}`}
                   key={`new-invite-${user.id}`}
                 >
                   {user.username}
-                </div>
+                </Button>
               ))}
             </div>
           </DialogActions>
@@ -60,12 +60,14 @@ export function NewInvite({ gameId, users, newInvite }: {
 }
 
 NewInvite.propTypes = {
+  currentUserId: string.isRequired,
   gameId: string.isRequired,
   users: array.isRequired,
   newInvite: func.isRequired,
 };
 
 NewInvite.defaultProps = {
+  currentUserId: '',
   gameId: '',
   users: [],
   newInvite: () => null,

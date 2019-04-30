@@ -9,9 +9,9 @@ import { IUser, IGame, IPlayerResult, GamePlayerType } from '../../interfaces';
 import './index.scss';
 
 export function GameResults({ game, players, gamePlayers }: {
-  game: IGame,
-  players: IUser[],
-  gamePlayers: GamePlayerType[],
+  game: IGame;
+  players: IUser[];
+  gamePlayers: GamePlayerType[];
 }) {
 
   const results: IPlayerResult[] = gamePlayers.map(gamePlayer => {

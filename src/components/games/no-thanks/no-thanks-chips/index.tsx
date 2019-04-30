@@ -4,7 +4,7 @@ import { Typography } from '@material-ui/core';
 
 const CHIP: string = '\u2B24';
 
-export function NoThanksChips({ chips }: { chips: number }) {
+export function NoThanksChips({ chips }: { chips: number; }) {
   return (
     <Typography>
       {Array(chips + 1).join(CHIP)} ({chips})

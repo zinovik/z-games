@@ -3,7 +3,7 @@ import { number, bool } from 'prop-types';
 
 import './index.scss';
 
-export function NoThanksCard({ card, dim }: { card: number, dim?: boolean }) {
+export function NoThanksCard({ card, dim }: { card: number; dim?: boolean; }) {
   return (
     <div className={`no-thanks-card${dim ? ' no-thanks-card-dim' : ''}`}>
       {card}

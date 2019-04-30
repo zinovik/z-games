@@ -9,7 +9,7 @@ import { IInvite } from '../../../interfaces';
 
 import './index.scss';
 
-export function InviteInviter({ invite }: { invite: IInvite }) {
+export function InviteInviter({ invite }: { invite: IInvite; }) {
 
   const [isRulesShown, setIsRulesShown] = useState(false);
 
