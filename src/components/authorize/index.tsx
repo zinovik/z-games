@@ -114,6 +114,7 @@ export function Authorize({ serverUrl, register, authorize }: {
               onChange={handleTabChange}
               indicatorColor='primary'
               textColor='primary'
+              autoFocus={true}
             >
               <Tab label='Sign in' />
               <Tab label='Sign up' />

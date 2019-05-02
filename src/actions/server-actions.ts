@@ -1,11 +1,8 @@
 import { Dispatch, AnyAction } from 'redux';
 import { push } from 'connected-react-router';
 
-import { SocketService } from '../services';
 import { IUser, IUsersOnline, IGame, ILog, IState, IInvite } from '../interfaces';
 import * as ActionTypes from './action-types';
-
-const socketService = SocketService.Instance;
 
 export const updateStatus = (isConnected: boolean) =>
   (dispatch: Dispatch): AnyAction => {
@@ -144,12 +141,10 @@ export const addInvite = (invite: IInvite) =>
         invite,
       });
 
-      // TODO: Dialog window
-      if (confirm(`You was invited to the new game by ${invite.createdBy.username}. Do you want to join?`)) {
-        return socketService.acceptInvite(invite.id);
-      }
-
-      socketService.declineInvite(invite.id);
+      dispatch({
+        type: ActionTypes.UPDATE_ACTIVE_INVITE,
+        invite,
+      });
     }
   };
 

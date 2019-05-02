@@ -16,7 +16,7 @@ import {
   startGame as startGameWithoutDispatch,
   sendMessage as sendMessageWithoutDispatch,
   makeMove as makeMoveWithoutDispatch,
-  removeGameUser as removeGameWithoutDispatch,
+  updateRemovingGame as updateRemovingGameWithoutDispatch,
   repeatGame as repeatGameWithoutDispatch,
   updateOption as updateOptionWithoutDispatch,
   newInvite as newInviteWithoutDispatch,
@@ -36,7 +36,7 @@ function GamePagePure({
   startGame,
   sendMessage,
   makeMove,
-  removeGame,
+  updateRemovingGame,
   repeatGame,
   updateOption,
   newInvite,
@@ -51,7 +51,7 @@ function GamePagePure({
   leaveGame: (gameId: string) => void;
   readyToGame: () => void;
   startGame: (gameId: string) => void;
-  removeGame: (gameId: string) => void;
+  updateRemovingGame: (gameId: string) => void;
   repeatGame: (gameId: string) => void;
   sendMessage: ({ gameId, message }: { gameId: string, message: string }) => void;
   makeMove: ({ gameId, move }: { gameId: string, move: string }) => void;
@@ -86,7 +86,7 @@ function GamePagePure({
                 leaveGame={leaveGame}
                 readyToGame={readyToGame}
                 startGame={startGame}
-                removeGame={removeGame}
+                updateRemovingGame={updateRemovingGame}
                 repeatGame={repeatGame}
                 updateOption={updateOption}
                 newInvite={newInvite}
@@ -123,7 +123,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   startGame: bindActionCreators(startGameWithoutDispatch, dispatch),
   sendMessage: bindActionCreators(sendMessageWithoutDispatch, dispatch),
   makeMove: bindActionCreators(makeMoveWithoutDispatch, dispatch),
-  removeGame: bindActionCreators(removeGameWithoutDispatch, dispatch),
+  updateRemovingGame: bindActionCreators(updateRemovingGameWithoutDispatch, dispatch),
   repeatGame: bindActionCreators(repeatGameWithoutDispatch, dispatch),
   updateOption: bindActionCreators(updateOptionWithoutDispatch, dispatch),
   newInvite: bindActionCreators(newInviteWithoutDispatch, dispatch),

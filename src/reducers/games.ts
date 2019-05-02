@@ -20,6 +20,7 @@ export const initialState = {
   isHasMore: true,
   isLoadingAllGames: false,
   lastAllGamesCount: 0,
+  removingGame: null,
 };
 
 const games = (state: IGamesState = initialState, action: ActionTypes.Action): IGamesState => {
@@ -95,6 +96,12 @@ const games = (state: IGamesState = initialState, action: ActionTypes.Action): I
         isHasMore: isScrollReload ? state.isHasMore : true,
         lastAllGamesCount: isScrollReload ? state.lastAllGamesCount : 0,
         isLoadingAllGames: true,
+      };
+
+    case ActionTypes.UPDATE_REMOVING_GAME:
+      return {
+        ...state,
+        removingGame: action.removingGame,
       };
 
     default:

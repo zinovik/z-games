@@ -30,6 +30,8 @@ export const ADD_INVITE_INVITER = 'ADD_INVITE_INVITER';
 export const ADD_INVITE_INVITEE = 'ADD_INVITE_INVITEE';
 export const UPDATE_INVITE = 'UPDATE_INVITE';
 
+export const UPDATE_REMOVING_GAME = 'UPDATE_REMOVING_GAME';
+export const UPDATE_ACTIVE_INVITE = 'UPDATE_ACTIVE_INVITE';
 
 export interface IUpdateStatus { type: typeof UPDATE_STATUS, isConnected: boolean };
 export interface IUpdateIsButtonsDisabled { type: typeof UPDATE_IS_BUTTONS_DISABLED, isButtonsDisabled: boolean };
@@ -58,6 +60,9 @@ export interface IAddInviteInviter { type: typeof ADD_INVITE_INVITER, invite: II
 export interface IAddInviteInvitee { type: typeof ADD_INVITE_INVITEE, invite: IInvite };
 export interface IUpdateInvite { type: typeof UPDATE_INVITE, invite: IInvite };
 
+export interface IUpdateRemovingGame { type: typeof UPDATE_REMOVING_GAME, removingGame: string | null };
+export interface IUpdateActiveInvite { type: typeof UPDATE_ACTIVE_INVITE, invite: IInvite | null };
+
 
 export type Action = IUpdateStatus
   | IUpdateCurrentUser
@@ -78,4 +83,6 @@ export type Action = IUpdateStatus
   | IReloadGames
   | IAddInviteInviter
   | IAddInviteInvitee
-  | IUpdateInvite;
+  | IUpdateInvite
+  | IUpdateRemovingGame
+  | IUpdateActiveInvite;
