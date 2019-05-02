@@ -48,6 +48,7 @@ export function NewGame({ newGame }: {
                   onClick={() => handleCreateGame(gameName)}
                   title={`click to create new ${gameName} game`}
                   key={`new-game-${gameName}`}
+                  alt='game logo'
                 />
               ))}
             </div>

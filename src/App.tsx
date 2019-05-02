@@ -15,11 +15,14 @@ import { ActivatePage } from './containers/activate-page';
 import { Loading } from './components/loading';
 import { NotificationError } from './components/notification-error';
 import { Notification } from './components/notification';
+import { Confirm } from './components/confirm';
 import {
   removeNotification as removeNotificationWithoutDispatch,
   removeError as removeErrorWithoutDispatch,
+  removeGameUser as removeGameWithoutDispatch,
+  closeInvite as closeInviteWithoutDispatch,
 } from './actions';
-import { IState, IUser, IError, INotification } from './interfaces';
+import { IState, IUser, IError, INotification, IInvite } from './interfaces';
 
 import './App.scss';
 
@@ -27,17 +30,32 @@ export const CurrentUserContext = createContext(null as IUser | null);
 
 interface IAppProps extends Props<{}> {
   isConnected: boolean,
-  currentUser: IUser,
+  currentUser: IUser | null,
   errors: IError[],
   notifications: INotification[],
+  removingGame: string | null,
+  activeInvite: IInvite | null,
   removeError: (errorId: number) => void,
   removeNotification: (errorId: number) => void,
+  removeGame: (isConfirmed: boolean) => void,
+  closeInvite: (isConfirmed: boolean) => void,
 }
 
 class App extends Component<IAppProps, {}> {
 
   public render() {
-    const { isConnected, currentUser, errors, notifications, removeError, removeNotification } = this.props;
+    const {
+      isConnected,
+      currentUser,
+      errors,
+      notifications,
+      removeError,
+      removeNotification,
+      removingGame,
+      activeInvite,
+      removeGame,
+      closeInvite,
+    } = this.props;
 
     return (
       <CurrentUserContext.Provider value={currentUser}>
@@ -76,6 +94,15 @@ class App extends Component<IAppProps, {}> {
           />
         ))}
 
+        {removingGame && <Confirm
+          text='Are you sure?'
+          confirm={removeGame}
+        />}
+        {activeInvite && <Confirm
+          text={`${activeInvite.createdBy.username} invites you to play ${activeInvite.game.name}. Join?`}
+          confirm={closeInvite}
+        />}
+
       </CurrentUserContext.Provider>
     );
   }
@@ -87,11 +114,15 @@ const mapStateToProps = (state: IState) => ({
   currentUser: state.users.currentUser,
   errors: state.errors.errors,
   notifications: state.notifications.notifications,
+  removingGame: state.games.removingGame,
+  activeInvite: state.users.activeInvite,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   removeError: bindActionCreators(removeErrorWithoutDispatch, dispatch),
   removeNotification: bindActionCreators(removeNotificationWithoutDispatch, dispatch),
+  removeGame: bindActionCreators(removeGameWithoutDispatch, dispatch),
+  closeInvite: bindActionCreators(closeInviteWithoutDispatch, dispatch),
 });
 
 export default connect(

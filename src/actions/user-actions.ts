@@ -2,7 +2,7 @@ import { Dispatch, AnyAction } from 'redux';
 import { push } from 'connected-react-router';
 
 import { SocketService, registerUser, authorizeUser, activateUser, fetchUsersRating } from '../services';
-import { IFilterSettings } from '../interfaces';
+import { IFilterSettings, IState, IInvite } from '../interfaces';
 import * as ActionTypes from './action-types';
 
 const socketService = SocketService.Instance;
@@ -248,16 +248,6 @@ export const reloadGames = (filterSettings: IFilterSettings) =>
     socketService.getAllGames(filterSettings);
   };
 
-export const removeGameUser = (gameId: string) =>
-  (dispatch: Dispatch): AnyAction => {
-    socketService.removeGame(gameId);
-
-    return dispatch({
-      type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
-      isButtonsDisabled: true,
-    });
-  };
-
 export const repeatGame = (gameId: string) =>
   (dispatch: Dispatch): AnyAction => {
     socketService.repeatGame(gameId);
@@ -291,4 +281,58 @@ export const declineInvite = (inviteId: string) =>
 export const newInvite = ({ gameId, userId }: { gameId: string; userId: string; }) =>
   (dispatch: Dispatch): void => {
     socketService.newInvite({ gameId, userId });
+  };
+
+export const updateRemovingGame = (removingGame: string) =>
+  (dispatch: Dispatch): void => {
+    dispatch({
+      type: ActionTypes.UPDATE_REMOVING_GAME,
+      removingGame,
+    });
+  };
+
+export const updateActiveGame = (invite: IInvite) =>
+  (dispatch: Dispatch): void => {
+    dispatch({
+      type: ActionTypes.UPDATE_REMOVING_GAME,
+      invite,
+    });
+  };
+
+export const removeGameUser = (isConfirmed: boolean) =>
+  (dispatch: Dispatch, getState: () => IState): void => {
+    const { removingGame } = getState().games;
+
+    if (!removingGame) {
+      return;
+    }
+
+    if (isConfirmed) {
+      socketService.removeGame(removingGame);
+    }
+
+    dispatch({
+      type: ActionTypes.UPDATE_REMOVING_GAME,
+      removingGame: null,
+    });
+  };
+
+export const closeInvite = (isConfirmed: boolean) =>
+  (dispatch: Dispatch, getState: () => IState): void => {
+    const { activeInvite } = getState().users;
+
+    if (!activeInvite) {
+      return;
+    }
+
+    if (isConfirmed)  {
+      socketService.acceptInvite(activeInvite.id);
+    } else {
+      socketService.declineInvite(activeInvite.id);
+    }
+
+    dispatch({
+      type: ActionTypes.UPDATE_ACTIVE_INVITE,
+      activeInvite: null,
+    });
   };

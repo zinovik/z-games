@@ -48,6 +48,7 @@ export function InviteInvitee({ invite, acceptInvite, declineInvite }: {
             className='game-img'
             onClick={handleLogoClick}
             title={`click to see ${invite.game.name} game rules`}
+            alt='game-logo'
           />
         </div>
 

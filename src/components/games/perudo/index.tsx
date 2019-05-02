@@ -17,6 +17,9 @@ export function Perudo({ game, currentUser, isMyTurn, isButtonsDisabled, makeMov
 	isButtonsDisabled: boolean;
 	makeMove: ({ gameId, move }: { gameId: string, move: string }) => void;
 }) {
+	const [isResultsHidden, setIsResultsHidden] = useState(false);
+	const [currentRoundState, setCurrentRoundState] = useState(1);
+
 	const { gameData, players } = game;
 
 	if (!currentUser) {
@@ -35,8 +38,9 @@ export function Perudo({ game, currentUser, isMyTurn, isButtonsDisabled, makeMov
 		players: gamePlayers,
 	}: IPerudoData = JSON.parse(gameData);
 
-	const [isResultsHidden, setIsResultsHidden] = useState(currentRound === 1);
-	const [currentRoundState, setCurrentRoundState] = useState(1);
+	if (currentRound === 1 || isResultsHidden) {
+		setIsResultsHidden(currentRound === 1);
+	}
 
 	if (lastRoundResults.length && currentRoundState !== currentRound && isResultsHidden) {
 		setIsResultsHidden(false);

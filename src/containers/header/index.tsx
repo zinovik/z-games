@@ -75,7 +75,7 @@ export function HeaderPure({ serverUrl, currentUser, usersOnline, history, regis
 					<div className='header-logo-container'>
 						<Typography>
 							<Button key={`${LINKS[0]}1`} onClick={() => { nextPath(`/${LINKS[0].toLowerCase()}`); }}>
-								<img className='header-logo-small' src='/images/logo-small.png' />
+								<img className='header-logo-small' src='/images/logo-small.png' alt='header logo' />
 							</Button>
 						</Typography>
 

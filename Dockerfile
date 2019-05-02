@@ -23,4 +23,4 @@ COPY tslint.json /usr/src/app/
 RUN yarn
 
 # Build and run the app
-CMD yarn dev
+CMD yarn start:dev

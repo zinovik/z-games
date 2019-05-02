@@ -20,7 +20,7 @@ export function GameInfo({
   leaveGame,
   readyToGame,
   startGame,
-  removeGame,
+  updateRemovingGame,
   repeatGame,
   updateOption,
   newInvite,
@@ -33,7 +33,7 @@ export function GameInfo({
   leaveGame: (gameId: string) => void;
   readyToGame: () => void;
   startGame: (gameId: string) => void;
-  removeGame: (gameId: string) => void;
+  updateRemovingGame: (gameId: string) => void;
   repeatGame: (gameId: string) => void;
   updateOption: (parameters: { gameId: string, name: string, value: string }) => void;
   newInvite: (parameters: { gameId: string; userId: string; }) => void;
@@ -65,10 +65,7 @@ export function GameInfo({
   };
 
   const handleRemoveClick = () => {
-    // TODO: Warning
-    if (confirm('Are you sure?')) {
-      removeGame(game.id);
-    }
+    updateRemovingGame(game.id);
   };
 
   const handleRepeatClick = () => {
@@ -96,6 +93,7 @@ export function GameInfo({
             className='game-info-img'
             onClick={handleLogoClick}
             title={`click to see ${game.name} game rules`}
+            alt='game logo'
           />
         </Typography>
 
@@ -179,7 +177,7 @@ GameInfo.propTypes = {
   leaveGame: func.isRequired,
   readyToGame: func.isRequired,
   startGame: func.isRequired,
-  removeGame: func.isRequired,
+  updateRemovingGame: func.isRequired,
   updateOption: func.isRequired,
   newInvite: func.isRequired,
 };
@@ -193,7 +191,7 @@ GameInfo.defaultProps = {
   leaveGame: () => null,
   readyToGame: () => null,
   startGame: () => null,
-  removeGame: () => null,
+  updateRemovingGame: () => null,
   repeatGame: () => null,
   updateOption: () => null,
   newInvite: () => null,

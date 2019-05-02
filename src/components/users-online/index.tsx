@@ -21,7 +21,7 @@ export function UsersOnline({ usersOnline }: { usersOnline: IUsersOnline; }) {
     <Fragment>
       <Typography
         variant='h6'
-        aria-owns={open ? 'users-popper' : undefined}
+        aria-owns={window.open ? 'users-popper' : undefined}
         aria-haspopup='true'
         onMouseEnter={handleShow}
         onMouseLeave={handleHide}

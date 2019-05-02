@@ -12,6 +12,7 @@ const initialState = {
   },
   usersRating: [],
   serverUrl: SERVER_URL,
+  activeInvite: null,
 };
 
 const users = (state: IUsersState = initialState, action: ActionTypes.Action): IUsersState => {
@@ -103,6 +104,12 @@ const users = (state: IUsersState = initialState, action: ActionTypes.Action): I
       // TODO: Check and remove invites
       return {
         ...state,
+      };
+
+    case ActionTypes.UPDATE_ACTIVE_INVITE:
+      return {
+        ...state,
+        activeInvite: action.invite,
       };
 
     default:

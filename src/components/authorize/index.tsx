@@ -86,7 +86,7 @@ export function Authorize({ serverUrl, register, authorize }: {
 
     const usernameRegexp = /[0-9a-zA-Z]{3,30}/;
     const passwordRegexp = /[0-9a-zA-Z]{6,30}/;
-    const emailRegexp = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    const emailRegexp = /^([a-zA-Z0-9_\-.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 
     const isUsernameOk = usernameRegexp.test(username);
     const isPasswordOk = passwordRegexp.test(password);
@@ -114,6 +114,7 @@ export function Authorize({ serverUrl, register, authorize }: {
               onChange={handleTabChange}
               indicatorColor='primary'
               textColor='primary'
+              autoFocus={true}
             >
               <Tab label='Sign in' />
               <Tab label='Sign up' />
@@ -165,7 +166,7 @@ export function Authorize({ serverUrl, register, authorize }: {
 
             <Typography>
               <Button onClick={handleSignInGoogle}>
-                <img src='/images/btn_google_signin_dark_normal_web.png' />
+                <img src='/images/btn_google_signin_dark_normal_web.png' alt='google login' />
               </Button>
             </Typography>
           </form>

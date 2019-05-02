@@ -24,7 +24,7 @@ export function PerudoPlayer({ gamePlayer, highlightNumber, isHighlightJoker }: 
         isHighlightJoker={isHighlightJoker}
       />}
 
-      {!dices || !dices.length && <Typography>
+      {(!dices || !dices.length) && <Typography>
         {dicesCount} dices
       </Typography>}
     </Fragment>
