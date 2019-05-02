@@ -1,4 +1,4 @@
-import { GamePlayerType } from 'src/interfaces';
+import { GamePlayerType } from '.';
 
 export interface IPlayerResult {
   username: string;

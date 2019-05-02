@@ -31,7 +31,12 @@ export class SocketService {
   }
 
   constructor() {
-    this.connectToTheServer(SERVER_URL);
+    const token = localStorage.getItem('token');
+
+    this.SocketClient = io(SERVER_URL, {
+      query: { token },
+    }) as (typeof Socket) & { query: { token: string } };
+    // this.connectToTheServer(SERVER_URL);
 
     setInterval(() => {
       this.reconnect();

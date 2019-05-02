@@ -23,7 +23,7 @@ function HomePagePure({ match: { params: { token } }, refreshToken }: {
       <div className='home-page-content'>
         <div className='home-page-logo-container'>
           <Typography>
-            <img className='logo' src='/images/logo.png' />
+            <img className='logo' src='/images/logo.png' alt='logo' />
           </Typography>
 
           <Typography variant='h5' color='primary'>

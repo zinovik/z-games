@@ -11,7 +11,7 @@ import { PerudoPlayer } from '../../components/games/perudo/perudo-player';
 import { LostCitiesPlayer } from '../../components/games/lost-cities/lost-cities-player';
 import { SixNimmtPlayer } from '../../components/games/six-nimmt/six-nimmt-player';
 
-import { IGame, GamePlayerType } from 'src/interfaces';
+import { IGame, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
 

@@ -30,7 +30,7 @@ export const CurrentUserContext = createContext(null as IUser | null);
 
 interface IAppProps extends Props<{}> {
   isConnected: boolean,
-  currentUser: IUser,
+  currentUser: IUser | null,
   errors: IError[],
   notifications: INotification[],
   removingGame: string | null,

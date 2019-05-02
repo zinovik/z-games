@@ -93,6 +93,7 @@ export function GameInfo({
             className='game-info-img'
             onClick={handleLogoClick}
             title={`click to see ${game.name} game rules`}
+            alt='game logo'
           />
         </Typography>
 

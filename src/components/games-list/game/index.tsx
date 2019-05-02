@@ -64,6 +64,7 @@ export function Game({ game, currentUser, isButtonsDisabled, joinGame, openGame,
             className='game-img'
             onClick={handleLogoClick}
             title={`click to see ${name} game rules`}
+            alt='game logo'
           />
         </div>
 
