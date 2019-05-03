@@ -2,14 +2,16 @@
   flex: 0 0 100%;
   display: flex;
   flex-direction: column;
+  overflow-y: hidden;
 }
 
 .chat-new-message {
-  flex: 0 1 5%;
+  flex: 0 1 1%;
 }
 
 .chat-logs {
-  flex: 0 1 95%;
+  flex: 0 1 99%;
   display: flex;
   flex-direction: column;
+  overflow-y: hidden;
 }

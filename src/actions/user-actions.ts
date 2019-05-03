@@ -189,13 +189,13 @@ export const sendMessage = ({ gameId, message }: { gameId: string, message: stri
     socketService.sendMessage({ gameId, message });
   };
 
-export const newGame = (gameName: string) =>
+export const newGame = ({ name, isPrivate }: { name: string, isPrivate: boolean }) =>
   (dispatch: Dispatch): AnyAction => {
-    socketService.newGame(gameName);
+    socketService.newGame({ name, isPrivate });
 
     return dispatch({
       type: ActionTypes.ADD_NOTIFICATION,
-      message: `New ${gameName} game was successfully created`,
+      message: `New ${name} game was successfully created`,
     });
   };
 

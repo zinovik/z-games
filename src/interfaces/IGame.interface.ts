@@ -11,6 +11,7 @@ export interface IGame {
   createdBy: IUser;
   gameData: string;
   players: IUser[];
+  isPrivate: boolean;
 
   watchersOnline: IUser[];
   logs: ILog[];

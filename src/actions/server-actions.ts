@@ -39,14 +39,23 @@ export const updateOpenGame = (openGameToUpdate: IGame) =>
       const { currentUser } = getState().users;
 
       if (currentUser) {
-        const { nextPlayers } = openGameToUpdate;
-        const isMyTurn = nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id);
+        const { openGame } = getState().games;
 
-        if (isMyTurn) {
+        let wasMyTurn = false;
+
+        if (openGame) {
+          const { nextPlayers: nextPlayersOld } = openGame;
+          wasMyTurn = nextPlayersOld.some(nextPlayer => nextPlayer.id === currentUser.id);
+        }
+
+        const { nextPlayers: nextPlayersNew } = openGameToUpdate;
+        const isMyTurn = nextPlayersNew.some(nextPlayer => nextPlayer.id === currentUser.id);
+
+        if (!wasMyTurn && isMyTurn) {
           dispatch({
             type: ActionTypes.ADD_NOTIFICATION,
             message: 'Your turn!',
-          })
+          });
         }
       }
     }
@@ -87,10 +96,27 @@ export const removeGameServer = (gameId: string) =>
   });
 
 export const addNewLog = (newLog: ILog) =>
-  (dispatch: Dispatch): AnyAction => dispatch({
-    type: ActionTypes.ADD_NEW_LOG,
-    newLog,
-  });
+  (dispatch: Dispatch, getState: () => IState): void => {
+    dispatch({
+      type: ActionTypes.ADD_NEW_LOG,
+      newLog,
+    });
+
+    if (newLog.type !== 'message') {
+      return;
+    }
+
+    const { currentUser } = getState().users;
+
+    if (!currentUser || currentUser.id === newLog.createdBy.id) {
+      return;
+    }
+
+    dispatch({
+      type: ActionTypes.ADD_NOTIFICATION,
+      message: `${newLog.createdBy.username}: ${newLog.text}`,
+    });
+  }
 
 export const setNewToken = (newToken: string) =>
   (dispatch: Dispatch): void => {

@@ -58,11 +58,9 @@ export function InviteInvitee({ invite, acceptInvite, declineInvite }: {
             {`invite by ${invite.createdBy && invite.createdBy.username}`}
           </Typography>
 
-          {invite.isClosed && (
-            <Typography className={invite.isAccepted ? 'invite-invitee-accepted' : invite.isDeclined ? 'invite-invitee-declined' : ''}>
-              {invite.isAccepted ? 'accepted' : invite.isDeclined ? 'declined' : 'expired'}
-            </Typography>
-          )}
+          <Typography className={invite.isClosed ? invite.isAccepted ? 'invite-invitee-accepted' : invite.isDeclined ? 'invite-invitee-declined' : '' : 'invite-invitee-pending'}>
+            {invite.isClosed ? invite.isAccepted ? 'accepted' : invite.isDeclined ? 'declined' : 'expired' : 'pending'}
+          </Typography>
 
         </CardContent>
 

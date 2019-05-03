@@ -38,8 +38,8 @@ export function Perudo({ game, currentUser, isMyTurn, isButtonsDisabled, makeMov
 		players: gamePlayers,
 	}: IPerudoData = JSON.parse(gameData);
 
-	if (currentRound === 1 || isResultsHidden) {
-		setIsResultsHidden(currentRound === 1);
+	if ((currentRound === 1) && !isResultsHidden) {
+		setIsResultsHidden(true);
 	}
 
 	if (lastRoundResults.length && currentRoundState !== currentRound && isResultsHidden) {

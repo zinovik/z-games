@@ -1,6 +1,5 @@
 import React from 'react';
 import { string, bool, object } from 'prop-types';
-import { Typography, Avatar } from '@material-ui/core';
 import { NAME as NO_THANKS, INoThanksPlayer } from 'z-games-no-thanks';
 import { NAME as PERUDO, IPerudoPlayer } from 'z-games-perudo';
 import { NAME as LOST_CITIES, ILostCitiesPlayer } from 'z-games-lost-cities';
@@ -10,7 +9,7 @@ import { NoThanksPlayer } from '../../components/games/no-thanks/no-thanks-playe
 import { PerudoPlayer } from '../../components/games/perudo/perudo-player';
 import { LostCitiesPlayer } from '../../components/games/lost-cities/lost-cities-player';
 import { SixNimmtPlayer } from '../../components/games/six-nimmt/six-nimmt-player';
-
+import { User } from '../user';
 import { IGame, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
@@ -35,15 +34,7 @@ export function GamePlayer({
   return (
     <div className={`game-player-container${active ? ' game-player-container-active' : ''}`}>
 
-      <div className='game-player-user'>
-        <Avatar src={avatar}>
-          {username[0]}
-        </Avatar>
-
-        <Typography className='game-player-username'>
-          {username}
-        </Typography>
-      </div>
+      <User username={username} avatar={avatar} />
 
       {game.name === NO_THANKS && <NoThanksPlayer
         gamePlayer={gamePlayer as INoThanksPlayer}
