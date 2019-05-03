@@ -45,11 +45,9 @@ export function InviteInviter({ invite }: { invite: IInvite; }) {
             {`${invite.invitee && invite.invitee.username} was invited`}
           </Typography>
 
-          {invite.isClosed && (
-            <Typography className={invite.isAccepted ? 'invite-inviter-accepted' : invite.isDeclined ? 'invite-inviter-declined' : ''}>
-              {invite.isAccepted ? 'accepted' : invite.isDeclined ? 'declined' : 'expired'}
-            </Typography>
-          )}
+          <Typography className={invite.isClosed ? invite.isAccepted ? 'invite-inviter-accepted' : invite.isDeclined ? 'invite-inviter-declined' : '' : 'invite-inviter-pending'}>
+            {invite.isClosed ? invite.isAccepted ? 'accepted' : invite.isDeclined ? 'declined' : 'expired' : 'pending'}
+          </Typography>
 
         </CardContent>
 

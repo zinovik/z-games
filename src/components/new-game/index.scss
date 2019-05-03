@@ -4,8 +4,13 @@ div.new-game-button {
   right: 30px;
 }
 
-.new-game-games {
+.new-game-actions {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
+
+  .new-game-games {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 }

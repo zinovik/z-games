@@ -177,8 +177,8 @@ export class SocketService {
     this.SocketClient.emit('message', { gameId, message });
   }
 
-  public newGame(gameId: string) {
-    this.SocketClient.emit('new-game', gameId);
+  public newGame({ name, isPrivate }: { name: string, isPrivate: boolean }) {
+    this.SocketClient.emit('new-game', { name, isPrivate });
   }
 
   public removeGame(gameId: string) {

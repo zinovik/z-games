@@ -2,6 +2,8 @@ import React, { Fragment, useState } from 'react';
 import { string, array, func } from 'prop-types';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Fab, Button } from '@material-ui/core';
 import { PersonAdd } from '@material-ui/icons';
+
+import { User } from '../../user';
 import { IUser } from '../../../interfaces';
 
 import './index.scss';
@@ -48,7 +50,7 @@ export function NewInvite({ currentUserId, gameId, users, newInvite }: {
                   onClick={() => handleCreateInvite(user.id)}
                   key={`new-invite-${user.id}`}
                 >
-                  {user.username}
+                  <User username={user.username} avatar={user.avatar} />
                 </Button>
               ))}
             </div>

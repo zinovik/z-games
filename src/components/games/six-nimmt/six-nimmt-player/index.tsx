@@ -59,7 +59,7 @@ export function SixNimmtPlayer({ gamePlayer, isCurrentPlayer, isMyTurn, game }: 
         </div>}
       </div>
 
-      {cardsTakenCount !== undefined && <Typography>
+      {cardsTakenCount !== undefined && <Typography className='six-nimmt-player-cards-and-points'>
         {cardsTakenCount} cards taken | {points} (+{pointsCurrentRound}) points
       </Typography>}
     </Fragment>

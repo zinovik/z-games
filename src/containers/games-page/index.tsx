@@ -35,7 +35,7 @@ function GamesPagePure({
   filterSettings: IFilterSettings,
   isHasMore: boolean,
   isLoadingAllGames: boolean,
-  newGame: (gameName: string) => void,
+  newGame: (parameters: { name: string, isPrivate: boolean }) => void,
   joinGame: (gameId: string) => void,
   openGame: (gameId: string) => void,
   watchGame: (gameId: string) => void,

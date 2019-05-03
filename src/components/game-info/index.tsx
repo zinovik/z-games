@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { object, string, bool, func, array } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
+import { Lock } from '@material-ui/icons';
 import { GAME_NOT_STARTED, GAME_FINISHED } from 'z-games-base-game';
 
 import { GameRules } from '../game-rules';
@@ -72,7 +73,7 @@ export function GameInfo({
     repeatGame(game.id);
   };
 
-  const { playersOnline, watchersOnline } = game;
+  const { playersOnline, watchersOnline, isPrivate } = game;
   const gameDataParsed: GameDataType = JSON.parse(game.gameData);
   const { players: gamePlayers }: { players: GamePlayerType[] } = gameDataParsed;
 
@@ -100,7 +101,7 @@ export function GameInfo({
         <div className='game-info-players'>
 
           <Typography>
-            #{game.number}: {game.name}
+            {isPrivate && <Lock />} #{game.number}: {game.name}
           </Typography>
 
           {game.state === GAME_NOT_STARTED && <Typography>

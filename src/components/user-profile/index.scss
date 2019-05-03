@@ -1,0 +1,14 @@
+.user-profile-container {
+  width: 100%;
+  padding: 2px;
+  text-align: center;
+  
+  table {
+    tr {
+      th, th:last-child, td, td:last-child {
+        text-align: center;
+        padding: 5px;
+      }
+    }
+  }
+}

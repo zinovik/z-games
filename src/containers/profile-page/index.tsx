@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { Typography } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
 import { History } from 'history';
 
 import { CurrentUserContext } from '../../App';
 import { Header } from '../header';
+import { UserProfile } from '../../components/user-profile';
 
 import './index.scss';
 
@@ -16,7 +16,6 @@ function ProfilePagePure({ history }: { history: History }) {
     return null;
   }
 
-  const { username, email, firstName, lastName, gamesPlayed, gamesWon, invitesInviter, invitesInvitee } = currentUser;
 
   return (
     <main className='profile-page-container'>
@@ -24,35 +23,7 @@ function ProfilePagePure({ history }: { history: History }) {
       <Header />
 
       <div className='profile-page-content'>
-        <div className='profile-page-data'>
-          <Typography variant='h5'>
-            {username}
-          </Typography>
-
-          <Typography>
-            {email}
-          </Typography>
-
-          <Typography>
-            {`${firstName} ${lastName}`}
-          </Typography>
-
-          <Typography>
-            Games Played: {gamesPlayed}
-          </Typography>
-
-          <Typography>
-            Games Won: {gamesWon}
-          </Typography>
-
-          <Typography>
-            Games Inviter: {invitesInviter.map(invite => invite.game.number).join(', ')}
-          </Typography>
-
-          <Typography>
-            Games Invitee: {invitesInvitee.map(invite => invite.game.number).join(', ')}
-          </Typography>
-        </div>
+        <UserProfile user={currentUser} />
       </div>
 
     </main>

@@ -5,7 +5,7 @@ export interface ILog {
   gameId: string;
   id: string;
   type: string;
-  user: IUser;
+  createdBy: IUser;
 
   text?: string;
 }
