@@ -4,7 +4,12 @@ div.new-invite-button {
   right: 30px;
 }
 
-.new-invite-players {
+.new-invite-users-container {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+
+  .new-invite-users-online {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }
