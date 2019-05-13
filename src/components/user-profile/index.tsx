@@ -25,7 +25,7 @@ export function UserProfile({ user }: { user: IUser }) {
             <TableCell align='right'>{gamesWon}/{gamesPlayed}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align='right'>Current Games</TableCell>
+            <TableCell align='right'>Games</TableCell>
             <TableCell align='right'>{currentGames.map(game => `${game.name} (${game.number})`).join(', ')}</TableCell>
           </TableRow>
           <TableRow>

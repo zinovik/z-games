@@ -20,7 +20,7 @@ export function NewInvite({ currentUserId, gameId, users, newInvite }: {
   const [timer, setTimer] = useState();
 
   const loadUsers = async (username: string) => {
-    if (username.length < 4) {
+    if (!username) {
       return;
     }
 
