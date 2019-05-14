@@ -2,7 +2,7 @@ import React from 'react';
 import { array } from 'prop-types';
 
 import { Log } from './log';
-import { ILog } from '../../interfaces';
+import { ILog } from '../../../interfaces';
 
 import './index.scss';
 

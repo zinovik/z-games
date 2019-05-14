@@ -25,10 +25,15 @@ export function NewInvite({ currentUserId, gameId, users, newInvite }: {
     }
 
     setIsLoading(true);
-    const fetchResult = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/get-users/${username}`);
+    const token = localStorage.getItem('token');
+    const fetchResult = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/find/${username}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      }
+    });
     setIsLoading(false);
 
-    if (fetchResult.status !== 200) {
+    if (fetchResult.status !== 200) { // TODO
       return;
     }
 

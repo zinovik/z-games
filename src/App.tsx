@@ -67,6 +67,7 @@ class App extends Component<IAppProps, {}> {
           <Route path='/game/:number' component={GamePage} />
           <Route path='/rating' component={RatingPage} />
           <Route path='/rules' component={RulesPage} />
+          <Route path='/profile/:username' component={ProfilePage} />
           <Route path='/profile' component={ProfilePage} />
           <Route path='/about' component={AboutPage} />
           <Route path='/activate/:token' component={ActivatePage} />

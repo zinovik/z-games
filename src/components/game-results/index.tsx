@@ -3,7 +3,7 @@ import { object, array } from 'prop-types';
 import { Typography } from '@material-ui/core';
 import { INoThanksPlayer } from 'z-games-no-thanks';
 
-import { GamePlayer } from '../../components/game-player';
+import { GamePlayer } from '../game-player';
 import { IUser, IGame, IPlayerResult, GamePlayerType } from '../../interfaces';
 
 import './index.scss';

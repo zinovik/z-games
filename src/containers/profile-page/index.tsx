@@ -8,14 +8,21 @@ import { UserProfile } from '../../components/user-profile';
 
 import './index.scss';
 
-function ProfilePagePure({ history }: { history: History }) {
-  const currentUser = useContext(CurrentUserContext);
+function ProfilePagePure({ match: { params: { username } }, history }: {
+  match: { params: { username: string } },
+  history: History,
+}) {
+  let currentUser = useContext(CurrentUserContext);
+
+  if (username) {
+    currentUser = null;
+    return null;
+  }
 
   if (!currentUser) {
     history.push('home');
     return null;
   }
-
 
   return (
     <main className='profile-page-container'>

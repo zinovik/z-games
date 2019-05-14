@@ -29,8 +29,8 @@ export function NewMessage({ gameId, sendMessage }: {
   return (
     <div className='new-message-container'>
       <Input
-        type="text"
-        placeholder="Message"
+        type='text'
+        placeholder='Message'
         value={message}
         onChange={handleMessageChange}
         onKeyPress={handleKeyPress}
