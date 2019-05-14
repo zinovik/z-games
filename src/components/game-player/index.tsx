@@ -5,10 +5,10 @@ import { NAME as PERUDO, IPerudoPlayer } from 'z-games-perudo';
 import { NAME as LOST_CITIES, ILostCitiesPlayer } from 'z-games-lost-cities';
 import { NAME as SIX_NIMMT, ISixNimmtPlayer } from 'z-games-six-nimmt';
 
-import { NoThanksPlayer } from '../../components/games/no-thanks/no-thanks-player';
-import { PerudoPlayer } from '../../components/games/perudo/perudo-player';
-import { LostCitiesPlayer } from '../../components/games/lost-cities/lost-cities-player';
-import { SixNimmtPlayer } from '../../components/games/six-nimmt/six-nimmt-player';
+import { NoThanksPlayer } from '../games/no-thanks/no-thanks-player';
+import { PerudoPlayer } from '../games/perudo/perudo-player';
+import { LostCitiesPlayer } from '../games/lost-cities/lost-cities-player';
+import { SixNimmtPlayer } from '../games/six-nimmt/six-nimmt-player';
 import { User } from '../user';
 import { IGame, GamePlayerType } from '../../interfaces';
 

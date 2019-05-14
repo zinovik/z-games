@@ -6,13 +6,13 @@ import { NAME as PERUDO } from 'z-games-perudo';
 import { NAME as LOST_CITIES } from 'z-games-lost-cities';
 import { NAME as SIX_NIMMT } from 'z-games-six-nimmt';
 
-import { GamePlayers } from '../../components/game-players';
-import { GamePlayer } from '../../components/game-player';
-import { GameResults } from '../../components/game-results';
-import { NoThanks } from '../../components/games/no-thanks';
-import { Perudo } from '../../components/games/perudo';
-import { LostCities } from '../../components/games/lost-cities';
-import { SixNimmt } from '../../components/games/six-nimmt';
+import { GamePlayers } from './game-players';
+import { GamePlayer } from '../game-player';
+import { GameResults } from '../game-results';
+import { NoThanks } from '../games/no-thanks';
+import { Perudo } from '../games/perudo';
+import { LostCities } from '../games/lost-cities';
+import { SixNimmt } from '../games/six-nimmt';
 import { IGame, IUser, GameDataType, GamePlayerType } from '../../interfaces';
 
 import './index.scss';

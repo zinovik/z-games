@@ -2,6 +2,8 @@ import React, { Fragment, MouseEvent, useState } from 'react';
 import { string, func } from 'prop-types';
 import { Avatar, Menu, MenuItem, Button } from '@material-ui/core';
 
+import { UserUpdate } from './user-update';
+
 import './index.scss';
 
 export function CurrentUser({ currentUsername, avatar, logout }: {
@@ -10,6 +12,7 @@ export function CurrentUser({ currentUsername, avatar, logout }: {
   logout: () => void;
 }) {
   const [anchorEl, setAnchorEl] = useState(null as HTMLElement | null);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   const handleMenuOpen = (event: MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -19,10 +22,20 @@ export function CurrentUser({ currentUsername, avatar, logout }: {
     setAnchorEl(null);
   };
 
+  const handleUpdate = () => {
+    setIsUpdating(true);
+
+    handleMenuClose();
+  };
+
   const handleLogOutClick = async () => {
     logout();
 
     handleMenuClose();
+  };
+
+  const close = () => {
+    setIsUpdating(false);
   };
 
   return (
@@ -45,9 +58,11 @@ export function CurrentUser({ currentUsername, avatar, logout }: {
         open={Boolean(anchorEl)}
         onClose={handleMenuClose}
       >
+        <MenuItem onClick={handleUpdate}>Update</MenuItem>
         <MenuItem onClick={handleLogOutClick}>Log out</MenuItem>
       </Menu>
 
+      {isUpdating && <UserUpdate currentUsername={currentUsername} close={close} />}
     </Fragment>
   );
 }

@@ -1,8 +1,8 @@
 import React from 'react';
 import { array, string, func } from 'prop-types';
 
-import { NewMessage } from '../../components/new-message';
-import { LogsList } from '../../components/logs-list';
+import { NewMessage } from './new-message';
+import { LogsList } from './logs-list';
 import { ILog } from '../../interfaces';
 
 import './index.scss';
