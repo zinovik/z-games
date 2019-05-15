@@ -5,4 +5,9 @@ export interface IState {
   games: IGamesState;
   errors: IErrorsState;
   notifications: INotificationsState;
+  router: {
+    location: {
+      pathname: string,
+    },
+  };
 }

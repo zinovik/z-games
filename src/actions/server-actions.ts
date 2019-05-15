@@ -31,7 +31,7 @@ export const updateAllGames = (allGames: IGame[]) =>
   });
 
 export const updateOpenGame = (openGameToUpdate: IGame) =>
-  (dispatch: Dispatch, getState: () => IState): AnyAction => {
+  (dispatch: Dispatch, getState: () => IState): void => {
 
     const gameNumber = openGameToUpdate && openGameToUpdate.number;
 
@@ -53,9 +53,14 @@ export const updateOpenGame = (openGameToUpdate: IGame) =>
 
         if (!wasMyTurn && isMyTurn) {
           dispatch({
-            type: ActionTypes.ADD_NOTIFICATION,
-            message: 'Your turn!',
+            type: ActionTypes.ENABLE_YOUR_TURN,
           });
+
+          setTimeout(() => {
+            dispatch({
+              type: ActionTypes.DISABLE_YOUR_TURN,
+            });
+          }, 1000);
         }
       }
     }
@@ -70,11 +75,17 @@ export const updateOpenGame = (openGameToUpdate: IGame) =>
       isButtonsDisabled: false,
     });
 
-    if (gameNumber === undefined || gameNumber === null) {
-      return dispatch(push('/games'));
-    }
+    const { router: { location: { pathname } } } = getState();
 
-    return dispatch(push(`/game/${gameNumber}`));
+    if (gameNumber === undefined || gameNumber === null) {
+      if (pathname !== '/games') {
+        dispatch(push('/games'));
+      }
+    } else {
+      if (pathname !== `/game/${gameNumber}`) {
+        dispatch(push(`/game/${gameNumber}`));
+      }
+    }
   };
 
 export const addNewGame = (newGameToAdd: IGame) =>
@@ -176,8 +187,13 @@ export const addInvite = (invite: IInvite) =>
 
 export const updateInvite = (invite: IInvite) =>
   (dispatch: Dispatch): AnyAction => {
-    return dispatch({
+    dispatch({
       type: ActionTypes.UPDATE_INVITE,
       invite,
+    });
+
+    return dispatch({
+      type: ActionTypes.ADD_NOTIFICATION,
+      message: `Game ${invite.game.number} invite was ${invite.isAccepted ? 'accepted' : 'declined'}`,
     });
   };

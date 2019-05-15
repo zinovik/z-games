@@ -12,6 +12,7 @@ import { UsersOnline } from '../../components/users-online';
 import {
 	register as registerWithoutDispatch,
 	authorize as authorizeWithoutDispatch,
+	updateCurrentUser as updateCurrentUserWithoutDispatch,
 	logout as logoutWithoutDispatch,
 } from '../../actions';
 import { IUser, IUsersOnline, IState } from '../../interfaces';
@@ -20,13 +21,14 @@ import './index.scss';
 
 const MENU_WIDTH_MIN = 700;
 
-export function HeaderPure({ serverUrl, currentUser, usersOnline, history, register, authorize, logout }: {
+export function HeaderPure({ serverUrl, currentUser, usersOnline, history, register, authorize, updateCurrentUser, logout }: {
 	serverUrl: string,
 	currentUser: IUser,
 	usersOnline: IUsersOnline,
 	history: History,
 	register: (serverUrl: string, username: string, password: string, email: string) => Promise<void>,
 	authorize: (serverUrl: string, username: string, password: string) => Promise<void>,
+	updateCurrentUser: (parameters: IUser) => void,
 	logout: () => void,
 }) {
 	const [width, setWidth] = useState(0);
@@ -101,6 +103,7 @@ export function HeaderPure({ serverUrl, currentUser, usersOnline, history, regis
 					{currentUsername && <CurrentUser
 						currentUsername={currentUsername}
 						avatar={avatar}
+						updateCurrentUser={updateCurrentUser}
 						logout={logout}
 					/>}
 				</div>
@@ -141,6 +144,7 @@ const mapStateToProps = (state: IState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
 	register: bindActionCreators(registerWithoutDispatch, dispatch),
 	authorize: bindActionCreators(authorizeWithoutDispatch, dispatch),
+	updateCurrentUser: bindActionCreators(updateCurrentUserWithoutDispatch, dispatch),
 	logout: bindActionCreators(logoutWithoutDispatch, dispatch),
 });
 

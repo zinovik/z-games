@@ -45,11 +45,13 @@ export function UsersOnline({ usersOnline }: { usersOnline: IUsersOnline; }) {
         }}
         disableRestoreFocus={true}
       >
-        {usersOnline.users.map((user, index) => (
-          <Typography key={index}>
-            {user.username}
-          </Typography>)
-        )}
+        <div className='users-online-usernames'>
+          {usersOnline.users.map((user, index) => (
+            <Typography key={index}>
+              {user.username}
+            </Typography>)
+          )}
+        </div>
       </Popover>
 
     </Fragment>

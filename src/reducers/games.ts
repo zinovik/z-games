@@ -21,6 +21,7 @@ export const initialState = {
   isLoadingAllGames: false,
   lastAllGamesCount: 0,
   removingGame: null,
+  isYourTurn: false,
 };
 
 const games = (state: IGamesState = initialState, action: ActionTypes.Action): IGamesState => {
@@ -102,6 +103,18 @@ const games = (state: IGamesState = initialState, action: ActionTypes.Action): I
       return {
         ...state,
         removingGame: action.removingGame,
+      };
+
+    case ActionTypes.ENABLE_YOUR_TURN:
+      return {
+        ...state,
+        isYourTurn: true,
+      };
+
+    case ActionTypes.DISABLE_YOUR_TURN:
+      return {
+        ...state,
+        isYourTurn: false,
       };
 
     default:

@@ -15,7 +15,7 @@ function ProfilePagePure({ match: { params: { username } }, history }: {
   let currentUser = useContext(CurrentUserContext);
 
   if (username) {
-    currentUser = null;
+    currentUser = null; // TODO
     return null;
   }
 
