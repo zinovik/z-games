@@ -33,6 +33,9 @@ export const UPDATE_INVITE = 'UPDATE_INVITE';
 export const UPDATE_REMOVING_GAME = 'UPDATE_REMOVING_GAME';
 export const UPDATE_ACTIVE_INVITE = 'UPDATE_ACTIVE_INVITE';
 
+export const ENABLE_YOUR_TURN = 'ENABLE_YOUR_TURN';
+export const DISABLE_YOUR_TURN = 'DISABLE_YOUR_TURN';
+
 export interface IUpdateStatus { type: typeof UPDATE_STATUS, isConnected: boolean };
 export interface IUpdateIsButtonsDisabled { type: typeof UPDATE_IS_BUTTONS_DISABLED, isButtonsDisabled: boolean };
 export interface IUpdateCurrentUser { type: typeof UPDATE_CURRENT_USER, currentUser: IUser | null };
@@ -63,6 +66,9 @@ export interface IUpdateInvite { type: typeof UPDATE_INVITE, invite: IInvite };
 export interface IUpdateRemovingGame { type: typeof UPDATE_REMOVING_GAME, removingGame: string | null };
 export interface IUpdateActiveInvite { type: typeof UPDATE_ACTIVE_INVITE, invite: IInvite | null };
 
+export interface IEnableYourTurn { type: typeof ENABLE_YOUR_TURN };
+export interface IDisableYourTurn { type: typeof DISABLE_YOUR_TURN };
+
 
 export type Action = IUpdateStatus
   | IUpdateCurrentUser
@@ -85,4 +91,6 @@ export type Action = IUpdateStatus
   | IAddInviteInvitee
   | IUpdateInvite
   | IUpdateRemovingGame
-  | IUpdateActiveInvite;
+  | IUpdateActiveInvite
+  | IEnableYourTurn
+  | IDisableYourTurn;

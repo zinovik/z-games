@@ -34,7 +34,10 @@ const users = (state: IUsersState = initialState, action: ActionTypes.Action): I
     case ActionTypes.UPDATE_CURRENT_USER:
       return {
         ...state,
-        currentUser: action.currentUser,
+        currentUser: state.currentUser && action.currentUser ? {
+          ...state.currentUser,
+          ...action.currentUser,
+        } : action.currentUser,
       };
 
     case ActionTypes.UPDATE_USERS_ONLINE:

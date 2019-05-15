@@ -10,10 +10,13 @@ import {
   Button,
 } from '@material-ui/core';
 
+import { IUser } from '../../../interfaces';
+
 import './index.scss';
 
-export function UserUpdate({ currentUsername, close }: {
+export function UserUpdate({ currentUsername, updateCurrentUser, close }: {
   currentUsername: string,
+  updateCurrentUser: (parameters: IUser) => void,
   close: () => void;
 }) {
   const [username, setUsername] = useState(currentUsername);
@@ -22,7 +25,7 @@ export function UserUpdate({ currentUsername, close }: {
     setUsername(event.target.value);
   };
 
-  const handleUpdate = async() => {
+  const handleUpdate = async () => {
     const token = localStorage.getItem('token');
     const fetchResult = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/update`, {
       method: 'POST',
@@ -34,10 +37,10 @@ export function UserUpdate({ currentUsername, close }: {
     });
 
     if (fetchResult.status !== 200) { // TODO
-      console.log(fetchResult.status);
       return;
     }
 
+    updateCurrentUser({ username } as IUser);
     close();
   };
 
@@ -73,10 +76,12 @@ export function UserUpdate({ currentUsername, close }: {
 
 UserUpdate.propTypes = {
   currentUsername: string.isRequired,
+  updateCurrentUser: func.isRequired,
   close: func.isRequired,
 };
 
 UserUpdate.defaultProps = {
   currentUsername: '',
+  updateCurrentUser: () => null,
   close: () => null,
 };

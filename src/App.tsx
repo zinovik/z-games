@@ -16,6 +16,7 @@ import { Loading } from './components/loading';
 import { NotificationError } from './components/notification-error';
 import { Notification } from './components/notification';
 import { Confirm } from './components/confirm';
+import { YourTurn } from './components/your-turn';
 import {
   removeNotification as removeNotificationWithoutDispatch,
   removeError as removeErrorWithoutDispatch,
@@ -35,6 +36,7 @@ interface IAppProps extends Props<{}> {
   notifications: INotification[],
   removingGame: string | null,
   activeInvite: IInvite | null,
+  isYourTurn: boolean,
   removeError: (errorId: number) => void,
   removeNotification: (errorId: number) => void,
   removeGame: (isConfirmed: boolean) => void,
@@ -55,6 +57,7 @@ class App extends Component<IAppProps, {}> {
       activeInvite,
       removeGame,
       closeInvite,
+      isYourTurn,
     } = this.props;
 
     return (
@@ -104,6 +107,8 @@ class App extends Component<IAppProps, {}> {
           confirm={closeInvite}
         />}
 
+        {isYourTurn && <YourTurn />}
+
       </CurrentUserContext.Provider>
     );
   }
@@ -117,6 +122,7 @@ const mapStateToProps = (state: IState) => ({
   notifications: state.notifications.notifications,
   removingGame: state.games.removingGame,
   activeInvite: state.users.activeInvite,
+  isYourTurn: state.games.isYourTurn,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

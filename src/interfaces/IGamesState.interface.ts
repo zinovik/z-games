@@ -8,4 +8,5 @@ export interface IGamesState {
   isLoadingAllGames: boolean,
   lastAllGamesCount: number,
   removingGame: string | null;
+  isYourTurn: boolean;
 }

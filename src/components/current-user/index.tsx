@@ -3,12 +3,14 @@ import { string, func } from 'prop-types';
 import { Avatar, Menu, MenuItem, Button } from '@material-ui/core';
 
 import { UserUpdate } from './user-update';
+import { IUser } from '../../interfaces';
 
 import './index.scss';
 
-export function CurrentUser({ currentUsername, avatar, logout }: {
+export function CurrentUser({ currentUsername, avatar, updateCurrentUser, logout }: {
   currentUsername: string;
   avatar: string;
+  updateCurrentUser: (parameters: IUser) => void,
   logout: () => void;
 }) {
   const [anchorEl, setAnchorEl] = useState(null as HTMLElement | null);
@@ -62,7 +64,7 @@ export function CurrentUser({ currentUsername, avatar, logout }: {
         <MenuItem onClick={handleLogOutClick}>Log out</MenuItem>
       </Menu>
 
-      {isUpdating && <UserUpdate currentUsername={currentUsername} close={close} />}
+      {isUpdating && <UserUpdate currentUsername={currentUsername} updateCurrentUser={updateCurrentUser} close={close} />}
     </Fragment>
   );
 }
@@ -70,11 +72,13 @@ export function CurrentUser({ currentUsername, avatar, logout }: {
 CurrentUser.propTypes = {
   currentUsername: string.isRequired,
   avatar: string.isRequired,
+  updateCurrentUser: func.isRequired,
   logout: func.isRequired,
 };
 
 CurrentUser.defaultProps = {
   currentUsername: '',
   avatar: '',
+  updateCurrentUser: () => null,
   logout: () => null,
 };
