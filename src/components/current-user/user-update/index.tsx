@@ -67,6 +67,19 @@ export function UserUpdate({ currentUsername, updateCurrentUser, close }: {
           <Button onClick={handleUpdate} disabled={!username}>
             Update
           </Button>
+
+          <input
+            accept='image/*'
+            id='button-file-avatar'
+            multiple
+            type='file'
+            className='file-input'
+          />
+          <label htmlFor='button-file-avatar'>
+            <Button component='span'>
+              Update avatar
+            </Button>
+          </label>
         </DialogActions>
 
       </DialogContent>
