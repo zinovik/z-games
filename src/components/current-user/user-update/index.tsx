@@ -71,7 +71,7 @@ export function UserUpdate({ currentUsername, updateCurrentUser, close }: {
           <input
             accept='image/*'
             id='button-file-avatar'
-            multiple
+            multiple={true}
             type='file'
             className='file-input'
           />
