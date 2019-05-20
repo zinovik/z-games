@@ -104,9 +104,18 @@ const users = (state: IUsersState = initialState, action: ActionTypes.Action): I
       };
 
     case ActionTypes.REMOVE_GAME:
-      // TODO: Check and remove invites
+      if (!state.currentUser) {
+        return {
+          ...state,
+        };
+      }
       return {
         ...state,
+        currentUser: {
+          ...state.currentUser,
+          invitesInvitee: state.currentUser.invitesInvitee.filter(invite => invite.game.id !== action.gameId),
+          invitesInviter: state.currentUser.invitesInviter.filter(invite => invite.game.id !== action.gameId),
+        },
       };
 
     case ActionTypes.UPDATE_ACTIVE_INVITE:

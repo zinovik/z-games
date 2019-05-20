@@ -81,7 +81,7 @@ export function GameInfo({
     && game.players.length <= game.playersMax
     && gamePlayers.every(gamePlayer => gamePlayer.ready);
 
-  const isAccessToRemove = game.createdBy.id === currentUserId;
+  const isAccessToRemove = game.createdBy && game.createdBy.id === currentUserId;
 
   const isAccessToRepeat = gamePlayers.some(gamePlayer => gamePlayer.id === currentUserId);
 
