@@ -43,7 +43,11 @@ export function Game({ game, currentUser, isButtonsDisabled, joinGame, openGame,
     watchGame(gameId);
   };
 
-  const isAbleToJoin = currentUser && (!isPrivate || currentUser.id === game.createdBy.id) && !state && players.length < playersMax && !players.some(player => player.id === currentUser.id);
+  const isAbleToJoin = currentUser
+    && (!isPrivate || currentUser.id === (game.createdBy && game.createdBy.id))
+    && !state
+    && players.length < playersMax
+    && !players.some(player => player.id === currentUser.id);
   const isAbleToOpen = currentUser && players.some(player => player.id === currentUser.id);
   const isAbleToWatch = currentUser && !isPrivate && state > GAME_NOT_STARTED && !players.some(player => player.id === currentUser.id);
 
