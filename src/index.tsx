@@ -1,7 +1,7 @@
 import React from 'react';
 import thunk from 'redux-thunk';
 import { render } from 'react-dom';
-import registerServiceWorker, { unregister } from './registerServiceWorker';
+// import registerServiceWorker, { unregister } from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -9,6 +9,7 @@ import { MuiThemeProvider, createMuiTheme, CssBaseline, colors } from '@material
 import { createBrowserHistory } from 'history';
 import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
 
+import { initializeFirebase, askForPermissionToReceiveNotifications } from './push-notification';
 import App from './App';
 import createRootReducer from './reducers';
 import { SocketService } from './services';
@@ -43,7 +44,7 @@ const enhancers = reduxDevTools ?
 const store = createStore(createRootReducer(history), {}, enhancers);
 socketService.provideDispatch(store.dispatch);
 
-unregister();
+// unregister();
 render(
   <BrowserRouter>
     <Provider store={store}>
@@ -57,4 +58,11 @@ render(
   </BrowserRouter>,
   document.getElementById('root') as HTMLElement,
 );
-registerServiceWorker();
+// registerServiceWorker();
+
+initializeFirebase()
+  .then(() => {
+    // const token = askForPermissionToReceiveNotifications();
+    askForPermissionToReceiveNotifications();
+    // TODO: Add token to the user
+  });
