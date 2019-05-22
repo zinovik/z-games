@@ -18,4 +18,6 @@ export interface IGame {
 
   nextPlayers: IUser[];
   playersOnline: IUser[];
+
+  previousMoveAt: string;
 }
