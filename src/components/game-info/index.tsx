@@ -2,11 +2,12 @@ import React, { Fragment, useState } from 'react';
 import { object, string, bool, func, array } from 'prop-types';
 import { Button, Typography } from '@material-ui/core';
 import { Lock } from '@material-ui/icons';
-import { GAME_NOT_STARTED, GAME_FINISHED } from 'z-games-base-game';
+import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED, BaseGame } from 'z-games-base-game';
 
 import { GameRules } from '../game-rules';
 import { GameOptions } from './game-options';
 import { NewInvite } from './new-invite';
+import { GameMoveTime } from './game-move-time';
 import { GamesServices } from '../../services';
 import { IGame, GamePlayerType, GameDataType, IUser } from '../../interfaces';
 
@@ -73,9 +74,12 @@ export function GameInfo({
     repeatGame(game.id);
   };
 
-  const { playersOnline, watchersOnline, isPrivate } = game;
+  const { playersOnline, watchersOnline, isPrivate, nextPlayers, previousMoveAt } = game;
   const gameDataParsed: GameDataType = JSON.parse(game.gameData);
   const { players: gamePlayers }: { players: GamePlayerType[] } = gameDataParsed;
+
+  const maxTimeOption = gameDataParsed.options.find(option => option.name === 'Max Time');
+  const maxTime = BaseGame.getMaxTimeVariants()[maxTimeOption!.value];
 
   const isAbleToStart = game.players.length >= game.playersMin
     && game.players.length <= game.playersMax
@@ -122,6 +126,10 @@ export function GameInfo({
               }
 
               {game.players.find(player => player.id === gamePlayer.id) && game.players.find(player => player.id === gamePlayer.id)!.username}
+
+              {nextPlayers.some(nextPlayer => nextPlayer.id === gamePlayer.id)
+                && <img src='/images/sandglass.gif' alt='sandglass' className='sandglass' />}
+
             </Typography>
           ))}
 
@@ -153,6 +161,12 @@ export function GameInfo({
 
         {isRulesShown && <GameRules gameName={game.name} close={handleRulesClose} />}
       </div>
+
+      {game.state === GAME_STARTED && <GameMoveTime
+        previousMoveAt={previousMoveAt}
+        maxTime={maxTime}
+      />}
+
       {gameDataParsed.options && gameDataParsed.options.length > 0 && <GameOptions
         game={game}
         isButtonsDisabled={isButtonsDisabled || game.state !== GAME_NOT_STARTED}
