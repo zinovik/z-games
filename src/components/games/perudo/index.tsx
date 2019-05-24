@@ -17,8 +17,8 @@ export function Perudo({ game, currentUser, isMyTurn, isButtonsDisabled, makeMov
 	isButtonsDisabled: boolean;
 	makeMove: ({ gameId, move }: { gameId: string, move: string }) => void;
 }) {
-	const [isResultsHidden, setIsResultsHidden] = useState(false);
-	const [currentRoundState, setCurrentRoundState] = useState(1);
+	const [isHideResultsClicked, setIsHideResultsClicked] = useState(false);
+	const [hideResultsClickedRound, setHideResultsClickedRound] = useState(1);
 
 	const { gameData, players } = game;
 
@@ -33,26 +33,25 @@ export function Perudo({ game, currentUser, isMyTurn, isButtonsDisabled, makeMov
 		lastPlayerId,
 		isMaputoRound,
 		lastRoundResults,
-		lastRoundFigure,
+		lastRoundDiceFigure,
+		lastRoundDiceNumber,
 		isLastRoundMaputo,
 		players: gamePlayers,
 	}: IPerudoData = JSON.parse(gameData);
 
-	if ((currentRound === 1) && !isResultsHidden) {
-		setIsResultsHidden(true);
-	}
-
-	if (lastRoundResults.length && currentRoundState !== currentRound && isResultsHidden) {
-		setIsResultsHidden(false);
+	if ((!lastRoundResults.length || currentDiceNumber || currentDiceFigure) && !isHideResultsClicked) {
+		setIsHideResultsClicked(true);
+	} else if (hideResultsClickedRound !== currentRound && !currentDiceNumber && !currentDiceFigure && isHideResultsClicked) {
+		setIsHideResultsClicked(false);
 	}
 
 	const hideClick = () => {
-		setCurrentRoundState(currentRound);
-		setIsResultsHidden(true);
+		setIsHideResultsClicked(true);
+		setHideResultsClickedRound(currentRound);
 	};
 
 	const lastRoundResultsClick = () => {
-		setIsResultsHidden(false);
+		setIsHideResultsClicked(false);
 	};
 
 	const currentGamePlayer = gamePlayers.find(gamePlayer => gamePlayer.id === currentUser.id);
@@ -70,19 +69,21 @@ export function Perudo({ game, currentUser, isMyTurn, isButtonsDisabled, makeMov
 
 	return (
 		<Fragment>
-			{!isResultsHidden && <Fragment>
+			{!isHideResultsClicked && <Fragment>
 				<PerudoLastRoundResults
 					gamePlayers={lastRoundResults}
 					players={players}
-					lastRoundFigure={lastRoundFigure}
+					lastRoundDiceFigure={lastRoundDiceFigure}
+					lastRoundDiceNumber={lastRoundDiceNumber}
+					lastPlayerUsername={lastPlayer && lastPlayer.username}
 					isLastRoundMaputo={isLastRoundMaputo}
 					hideClick={hideClick}
 				/>
 			</Fragment>}
 
-			{isResultsHidden && <Fragment>
+			{isHideResultsClicked && <Fragment>
 
-				{lastRoundResults.length > 0 && <Button
+				{lastRoundResults.length > 0 && !currentDiceNumber && !currentDiceFigure && <Button
 					onClick={lastRoundResultsClick}>
 					Show Last Round Results
 				</Button>}

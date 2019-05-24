@@ -5,7 +5,8 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
-import { MuiThemeProvider, createMuiTheme, CssBaseline, colors } from '@material-ui/core';
+import { createMuiTheme, CssBaseline, colors } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/styles';
 import { createBrowserHistory } from 'history';
 import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
 
@@ -25,9 +26,6 @@ const theme = createMuiTheme({
     secondary: {
       main: colors.lightBlue[900],
     },
-  },
-  typography: {
-    useNextVariants: true,
   },
 });
 
@@ -49,10 +47,10 @@ render(
   <BrowserRouter>
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <MuiThemeProvider theme={theme}>
+        <ThemeProvider theme={theme}>
           <CssBaseline />
           <App />
-        </MuiThemeProvider>
+        </ThemeProvider>
       </ConnectedRouter>
     </Provider>
   </BrowserRouter>,
