@@ -6,11 +6,11 @@ import { PerudoPlayer } from '../perudo-player';
 import { User } from '../../../user';
 import './index.scss';
 
-export function PerudoLastRoundResult({ gamePlayer, username, avatar, lastRoundFigure, isLastRoundMaputo }: {
+export function PerudoLastRoundResult({ gamePlayer, username, avatar, lastRoundDiceFigure, isLastRoundMaputo }: {
   gamePlayer: IPerudoPlayer;
   username: string;
   avatar?: string;
-  lastRoundFigure: number;
+  lastRoundDiceFigure: number;
   isLastRoundMaputo: boolean;
 }) {
   return (
@@ -20,7 +20,7 @@ export function PerudoLastRoundResult({ gamePlayer, username, avatar, lastRoundF
       <div className='perudo-last-round-result-player-result'>
         <PerudoPlayer
           gamePlayer={gamePlayer}
-          highlightNumber={lastRoundFigure}
+          highlightNumber={lastRoundDiceFigure}
           isHighlightJoker={!isLastRoundMaputo}
         />
       </div>
@@ -32,7 +32,7 @@ PerudoLastRoundResult.propTypes = {
   gamePlayer: object.isRequired,
   username: string.isRequired,
   avatar: string,
-  lastRoundFigure: number,
+  lastRoundDiceFigure: number,
   isLastRoundMaputo: bool,
 };
 

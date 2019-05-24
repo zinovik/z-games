@@ -32,7 +32,7 @@ export function GameOptions({ game, isButtonsDisabled, updateOption }: {
           <InputLabel>{option.name}</InputLabel>
           <Select
             value={options.find(currentOption => currentOption.name === option.name)!.value}
-            onChange={(event: ChangeEvent<HTMLSelectElement>) => { handleOptionChange({ name: option.name, value: event.target.value }); }}
+            onChange={(event: ChangeEvent<any>) => { handleOptionChange({ name: option.name, value: event.target.value }); }}
             disabled={isButtonsDisabled}
           >
             {option.values.map(value => (
