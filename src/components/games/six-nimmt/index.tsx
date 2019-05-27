@@ -22,7 +22,16 @@ export function SixNimmt({ game, currentUser, isMyTurn, isButtonsDisabled, makeM
 		return null;
 	}
 
-	const { cardsTable, currentRound, currentRoundMove }: ISixNimmtData = JSON.parse(gameData);
+	const { cardsTable, currentRound, currentRoundMove, previousMoves }: ISixNimmtData = JSON.parse(gameData);
+
+	const previousCards = previousMoves.map(move => {
+		const currentPlayer = game.players.find(player => player.id === move.playerId);
+
+		return {
+			username: currentPlayer && currentPlayer.username,
+			card: move.card,
+		};
+	}).sort((a, b) => a.card.cardNumber - b.card.cardNumber);
 
 	return (
 		<Fragment>
@@ -30,6 +39,22 @@ export function SixNimmt({ game, currentUser, isMyTurn, isButtonsDisabled, makeM
 			<Typography>
 				Round: {currentRound} | Move: {currentRoundMove}
 			</Typography>
+
+			{previousCards.length > 0 && <div>
+				<Typography>
+					Previous cards:
+				</Typography>
+			</div>}
+
+			{previousCards.map(move => (
+				<div className='six-nimmt-previous-move' key={move.username}>
+
+					<Typography>
+						{`${move.card.cardNumber} - ${move.username}`}
+					</Typography>
+
+				</div>
+			))}
 
 			{cardsTable && cardsTable.map((cards, rowIndex) => (
 				<div className='six-nimmt-cards-table' key={`table-cards-row-${rowIndex}`}>
