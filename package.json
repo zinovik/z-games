@@ -52,13 +52,13 @@
   "devDependencies": {
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "^24.0.13",
-    "@types/node": "^12.0.3",
+    "@types/node": "^12.0.4",
     "@types/react": "^16.8.19",
     "@types/react-dom": "^16.8.4",
     "@types/react-redux": "^7.0.9",
     "@types/react-router-dom": "^4.3.3",
     "@types/socket.io-client": "^1.4.32",
-    "tslint": "^5.16.0",
+    "tslint": "^5.17.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^4.0.0",
     "typescript": "^3.5.1"
