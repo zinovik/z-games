@@ -1,6 +1,11 @@
 .game-results-container {
+  width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  justify-content: flex-start;
+  overflow: auto;
 }
 
 .game-results-player {
