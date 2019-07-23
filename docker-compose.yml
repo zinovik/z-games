@@ -25,8 +25,8 @@ services:
     volumes:
       - ../z-games-api:/usr/src/app
       - /usr/src/app/node_modules/
-    ports:
-      - 4000:4000
+    expose:
+      - "4000"
     depends_on:
       - database_postgresql
       - database_mongodb
@@ -36,7 +36,7 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules/
-    ports:
-      - 3000:3000
+    expose:
+      - "3000"
     depends_on:
       - api

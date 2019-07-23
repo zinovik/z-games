@@ -1,4 +1,5 @@
 {
+  "defaultSeverity": "error",
   "extends": ["tslint:recommended", "tslint-react", "tslint-config-prettier"],
   "linterOptions": {
     "exclude": [
@@ -7,11 +8,15 @@
       "coverage/lcov-report/*.js"
     ]
   },
+  "jsRules": {
+    "no-unused-expression": true
+  },
   "rules": {
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "member-access": false,
     "jsx-no-lambda": false,
     "no-console": false
-  }
+  },
+  "rulesDirectory": []
 }
