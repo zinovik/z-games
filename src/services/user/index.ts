@@ -1,4 +1,3 @@
-
 import { IUser, IRegister, IActivate, ILogin } from '../../interfaces';
 
 const makePostRequest = async (serverUrl: string, route: string, body: IRegister | IActivate | ILogin) => {

@@ -16,9 +16,7 @@ const initialState = {
 };
 
 const users = (state: IUsersState = initialState, action: ActionTypes.Action): IUsersState => {
-
   switch (action.type) {
-
     case ActionTypes.UPDATE_STATUS:
       return {
         ...state,
@@ -34,19 +32,20 @@ const users = (state: IUsersState = initialState, action: ActionTypes.Action): I
     case ActionTypes.UPDATE_CURRENT_USER:
       return {
         ...state,
-        currentUser: state.currentUser && action.currentUser ? {
-          ...state.currentUser,
-          ...action.currentUser,
-        } : action.currentUser,
+        currentUser:
+          state.currentUser && action.currentUser
+            ? {
+                ...state.currentUser,
+                ...action.currentUser,
+              }
+            : action.currentUser,
       };
 
     case ActionTypes.UPDATE_USERS_ONLINE:
       return {
         ...state,
         usersOnline: {
-          users: [
-            ...action.usersOnline.users,
-          ],
+          users: [...action.usersOnline.users],
           usersCount: action.usersOnline.usersCount,
         },
       };
@@ -98,8 +97,8 @@ const users = (state: IUsersState = initialState, action: ActionTypes.Action): I
         ...state,
         currentUser: {
           ...state.currentUser,
-          invitesInvitee: state.currentUser.invitesInvitee.map(invite => invite.id === action.invite.id ? { ...action.invite } : { ...invite }),
-          invitesInviter: state.currentUser.invitesInviter.map(invite => invite.id === action.invite.id ? { ...action.invite } : { ...invite }),
+          invitesInvitee: state.currentUser.invitesInvitee.map(invite => (invite.id === action.invite.id ? { ...action.invite } : { ...invite })),
+          invitesInviter: state.currentUser.invitesInviter.map(invite => (invite.id === action.invite.id ? { ...action.invite } : { ...invite })),
         },
       };
 
@@ -126,9 +125,7 @@ const users = (state: IUsersState = initialState, action: ActionTypes.Action): I
 
     default:
       return state;
-
   }
-
 };
 
 export default users;

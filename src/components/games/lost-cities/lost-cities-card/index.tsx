@@ -3,7 +3,14 @@ import { number, bool, func } from 'prop-types';
 
 import './index.scss';
 
-export function LostCitiesCard({ cost, expedition, isHalfCard, isSelected, isClickable, onClick }: {
+export function LostCitiesCard({
+  cost,
+  expedition,
+  isHalfCard,
+  isSelected,
+  isClickable,
+  onClick,
+}: {
   cost: number;
   expedition: number;
   isHalfCard?: boolean;
@@ -11,7 +18,6 @@ export function LostCitiesCard({ cost, expedition, isHalfCard, isSelected, isCli
   isClickable?: boolean;
   onClick?: () => void;
 }) {
-
   const handleClick = () => {
     if (!isClickable || !onClick) {
       return;
@@ -22,16 +28,18 @@ export function LostCitiesCard({ cost, expedition, isHalfCard, isSelected, isCli
 
   return (
     <div
-      className={`lost-cities-card lost-cities-card-expedition-${expedition}`
-        + `${isSelected ? ' lost-cities-card-selected' : ''}`
-        + `${isClickable ? ' lost-cities-card-clickable' : ''}`
-        + `${isHalfCard ? ' lost-cities-card-half' : ''}`}
+      className={
+        `lost-cities-card lost-cities-card-expedition-${expedition}` +
+        `${isSelected ? ' lost-cities-card-selected' : ''}` +
+        `${isClickable ? ' lost-cities-card-clickable' : ''}` +
+        `${isHalfCard ? ' lost-cities-card-half' : ''}`
+      }
       onClick={handleClick}
     >
       {cost < 0 ? '' : cost || 'X'}
     </div>
   );
-};
+}
 
 LostCitiesCard.propTypes = {
   cost: number.isRequired,

@@ -8,14 +8,19 @@ import { IGame, IUser } from '../../../../interfaces';
 
 import './index.scss';
 
-export function SixNimmtMove({ game, currentUser, makeMove, isButtonsDisabled }: {
+export function SixNimmtMove({
+  game,
+  currentUser,
+  makeMove,
+  isButtonsDisabled,
+}: {
   game: IGame;
   currentUser: IUser;
   isButtonsDisabled: boolean;
-  makeMove: (parameters: { gameId: string, move: string }) => void;
+  makeMove: (parameters: { gameId: string; move: string }) => void;
 }) {
-	const [isMoved, setIsMoved] = useState(false);
-	const [oldGameData, setOldGameData] = useState('');
+  const [isMoved, setIsMoved] = useState(false);
+  const [oldGameData, setOldGameData] = useState('');
 
   if (!currentUser) {
     return null;
@@ -56,47 +61,50 @@ export function SixNimmtMove({ game, currentUser, makeMove, isButtonsDisabled }:
   };
 
   return (
-    <div className='six-nimmt-buttons'>
+    <div className="six-nimmt-buttons">
+      {isCardsPlaying && (
+        <Fragment>
+          <div>
+            <Typography>Choose card from the hand to play:</Typography>
+          </div>
+          <div className="six-nimmt-cards-container">
+            {cardsHand.map((card, index) => (
+              <SixNimmtCard
+                card={card}
+                isClickable={!isButtonsDisabled && !isMoved}
+                onClick={() => {
+                  moveCard(index);
+                }}
+                key={`six-nimmt-card-button-${index}`}
+              />
+            ))}
+          </div>
+        </Fragment>
+      )}
 
-      {isCardsPlaying && <Fragment>
-        <div>
-          <Typography>
-            Choose card from the hand to play:
-          </Typography>
-        </div>
-        <div className='six-nimmt-cards-container'>
-          {cardsHand.map((card, index) => (
-            <SixNimmtCard
-              card={card}
-              isClickable={!isButtonsDisabled && !isMoved}
-              onClick={() => { moveCard(index); }}
-              key={`six-nimmt-card-button-${index}`}
-            />
-          ))}
-        </div>
-      </Fragment>}
-
-      {!isCardsPlaying && <Fragment>
-        <div>
-          <Typography>
-            Choose row number to take:
-          </Typography>
-        </div>
-        <div className='six-nimmt-cards-container'>
-          {cardsTable.map((card, index) => (
-            <Button
-              variant='contained'
-              color='primary'
-              className='six-nimmt-button'
-              onClick={() => { moveRowNumber(index); }}
-              disabled={isMoved}
-              key={`roNumber-button-${index}`}
-            >
-              {index + 1}
-            </Button>
-          ))}
-        </div>
-      </Fragment>}
+      {!isCardsPlaying && (
+        <Fragment>
+          <div>
+            <Typography>Choose row number to take:</Typography>
+          </div>
+          <div className="six-nimmt-cards-container">
+            {cardsTable.map((card, index) => (
+              <Button
+                variant="contained"
+                color="primary"
+                className="six-nimmt-button"
+                onClick={() => {
+                  moveRowNumber(index);
+                }}
+                disabled={isMoved}
+                key={`roNumber-button-${index}`}
+              >
+                {index + 1}
+              </Button>
+            ))}
+          </div>
+        </Fragment>
+      )}
     </div>
   );
 }

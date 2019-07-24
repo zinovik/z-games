@@ -5,16 +5,12 @@ import './index.scss';
 
 export function YourTurn() {
   return (
-    <div className='your-turn-container'>
-      <Typography className='your-turn'>
-        YOUR TURN!
-      </Typography>
+    <div className="your-turn-container">
+      <Typography className="your-turn">YOUR TURN!</Typography>
     </div>
   );
-};
+}
 
-YourTurn.propTypes = {
-};
+YourTurn.propTypes = {};
 
-YourTurn.defaultProps = {
-};
+YourTurn.defaultProps = {};

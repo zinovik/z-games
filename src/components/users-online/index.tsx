@@ -6,7 +6,7 @@ import { IUsersOnline } from '../../interfaces';
 
 import './index.scss';
 
-export function UsersOnline({ usersOnline }: { usersOnline: IUsersOnline; }) {
+export function UsersOnline({ usersOnline }: { usersOnline: IUsersOnline }) {
   const [anchorEl, setAnchorEl] = useState(null as HTMLElement | null);
 
   const handleShow = (event: MouseEvent<HTMLElement>) => {
@@ -20,9 +20,9 @@ export function UsersOnline({ usersOnline }: { usersOnline: IUsersOnline; }) {
   return (
     <Fragment>
       <Typography
-        variant='h6'
+        variant="h6"
         aria-owns={window.open ? 'users-popper' : undefined}
-        aria-haspopup='true'
+        aria-haspopup="true"
         onMouseEnter={handleShow}
         onMouseLeave={handleHide}
       >
@@ -30,8 +30,8 @@ export function UsersOnline({ usersOnline }: { usersOnline: IUsersOnline; }) {
       </Typography>
 
       <Popover
-        id='users-popper'
-        className='users-online-popper'
+        id="users-popper"
+        className="users-online-popper"
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
         onClose={handleHide}
@@ -45,23 +45,20 @@ export function UsersOnline({ usersOnline }: { usersOnline: IUsersOnline; }) {
         }}
         disableRestoreFocus={true}
       >
-        <div className='users-online-usernames'>
+        <div className="users-online-usernames">
           {usersOnline.users.map((user, index) => (
-            <Typography key={index}>
-              {user.username}
-            </Typography>)
-          )}
+            <Typography key={index}>{user.username}</Typography>
+          ))}
         </div>
       </Popover>
-
     </Fragment>
   );
 }
 
 UsersOnline.propTypes = {
   usersOnline: object.isRequired,
-}
+};
 
 UsersOnline.defaultProps = {
   usersOnline: [],
-}
+};

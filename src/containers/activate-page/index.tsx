@@ -6,10 +6,16 @@ import { Loading } from '../../components/loading';
 import { activate as activateWithoutDispatch } from '../../actions';
 import { IState } from '../../interfaces';
 
-function ActivatePagePure({ match: { params: { token } }, serverUrl, activate }: {
-  match: { params: { token: string } },
-  serverUrl: string,
-  activate: (serverUrl: string, token: string) => Promise<void>,
+function ActivatePagePure({
+  match: {
+    params: { token },
+  },
+  serverUrl,
+  activate,
+}: {
+  match: { params: { token: string } };
+  serverUrl: string;
+  activate: (serverUrl: string, token: string) => Promise<void>;
 }) {
   const [isActivating, setIsActivating] = useState(false);
 
@@ -22,7 +28,7 @@ function ActivatePagePure({ match: { params: { token } }, serverUrl, activate }:
 }
 
 const mapStateToProps = (state: IState) => ({
-	serverUrl: state.users.serverUrl,
+  serverUrl: state.users.serverUrl,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

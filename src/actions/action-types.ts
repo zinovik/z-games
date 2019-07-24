@@ -36,41 +36,111 @@ export const UPDATE_ACTIVE_INVITE = 'UPDATE_ACTIVE_INVITE';
 export const ENABLE_YOUR_TURN = 'ENABLE_YOUR_TURN';
 export const DISABLE_YOUR_TURN = 'DISABLE_YOUR_TURN';
 
-export interface IUpdateStatus { type: typeof UPDATE_STATUS, isConnected: boolean };
-export interface IUpdateIsButtonsDisabled { type: typeof UPDATE_IS_BUTTONS_DISABLED, isButtonsDisabled: boolean };
-export interface IUpdateCurrentUser { type: typeof UPDATE_CURRENT_USER, currentUser: IUser | null };
-export interface IUpdateUsersOnline { type: typeof UPDATE_USERS_ONLINE, usersOnline: IUsersOnline };
-export interface IUpdateAllGames { type: typeof UPDATE_ALL_GAMES, allGames: IGame[] };
-export interface IUpdateOpenGame { type: typeof UPDATE_OPEN_GAME, openGame: IGame };
-export interface IAddNewGame { type: typeof ADD_NEW_GAME, newGame: IGame };
-export interface IUpdateGame { type: typeof UPDATE_GAME, game: IGame };
-export interface IRemoveGame { type: typeof REMOVE_GAME, gameId: string };
-export interface IAddNewLog { type: typeof ADD_NEW_LOG, newLog: ILog };
+export interface IUpdateStatus {
+  type: typeof UPDATE_STATUS;
+  isConnected: boolean;
+}
+export interface IUpdateIsButtonsDisabled {
+  type: typeof UPDATE_IS_BUTTONS_DISABLED;
+  isButtonsDisabled: boolean;
+}
+export interface IUpdateCurrentUser {
+  type: typeof UPDATE_CURRENT_USER;
+  currentUser: IUser | null;
+}
+export interface IUpdateUsersOnline {
+  type: typeof UPDATE_USERS_ONLINE;
+  usersOnline: IUsersOnline;
+}
+export interface IUpdateAllGames {
+  type: typeof UPDATE_ALL_GAMES;
+  allGames: IGame[];
+}
+export interface IUpdateOpenGame {
+  type: typeof UPDATE_OPEN_GAME;
+  openGame: IGame;
+}
+export interface IAddNewGame {
+  type: typeof ADD_NEW_GAME;
+  newGame: IGame;
+}
+export interface IUpdateGame {
+  type: typeof UPDATE_GAME;
+  game: IGame;
+}
+export interface IRemoveGame {
+  type: typeof REMOVE_GAME;
+  gameId: string;
+}
+export interface IAddNewLog {
+  type: typeof ADD_NEW_LOG;
+  newLog: ILog;
+}
 
-export interface IUsersRating { type: typeof FETCH_RATING, users: IUser[] };
+export interface IUsersRating {
+  type: typeof FETCH_RATING;
+  users: IUser[];
+}
 
-export interface IAddError { type: typeof ADD_ERROR, message: string };
-export interface IRemoveError { type: typeof REMOVE_ERROR, errorId: number };
+export interface IAddError {
+  type: typeof ADD_ERROR;
+  message: string;
+}
+export interface IRemoveError {
+  type: typeof REMOVE_ERROR;
+  errorId: number;
+}
 
-export interface IAddNotification { type: typeof ADD_NOTIFICATION, message: string };
-export interface IRemoveNotification { type: typeof REMOVE_NOTIFICATION, notificationId: number };
+export interface IAddNotification {
+  type: typeof ADD_NOTIFICATION;
+  message: string;
+}
+export interface IRemoveNotification {
+  type: typeof REMOVE_NOTIFICATION;
+  notificationId: number;
+}
 
-export interface IUpdateServerUrl { type: typeof UPDATE_SERVER_URL, serverUrl: string };
+export interface IUpdateServerUrl {
+  type: typeof UPDATE_SERVER_URL;
+  serverUrl: string;
+}
 
-export interface IReloadGames { type: typeof RELOAD_GAMES, filterSettings: IFilterSettings };
+export interface IReloadGames {
+  type: typeof RELOAD_GAMES;
+  filterSettings: IFilterSettings;
+}
 
-export interface IAddInviteInviter { type: typeof ADD_INVITE_INVITER, invite: IInvite };
-export interface IAddInviteInvitee { type: typeof ADD_INVITE_INVITEE, invite: IInvite };
-export interface IUpdateInvite { type: typeof UPDATE_INVITE, invite: IInvite };
+export interface IAddInviteInviter {
+  type: typeof ADD_INVITE_INVITER;
+  invite: IInvite;
+}
+export interface IAddInviteInvitee {
+  type: typeof ADD_INVITE_INVITEE;
+  invite: IInvite;
+}
+export interface IUpdateInvite {
+  type: typeof UPDATE_INVITE;
+  invite: IInvite;
+}
 
-export interface IUpdateRemovingGame { type: typeof UPDATE_REMOVING_GAME, removingGame: string | null };
-export interface IUpdateActiveInvite { type: typeof UPDATE_ACTIVE_INVITE, invite: IInvite | null };
+export interface IUpdateRemovingGame {
+  type: typeof UPDATE_REMOVING_GAME;
+  removingGame: string | null;
+}
+export interface IUpdateActiveInvite {
+  type: typeof UPDATE_ACTIVE_INVITE;
+  invite: IInvite | null;
+}
 
-export interface IEnableYourTurn { type: typeof ENABLE_YOUR_TURN };
-export interface IDisableYourTurn { type: typeof DISABLE_YOUR_TURN };
+export interface IEnableYourTurn {
+  type: typeof ENABLE_YOUR_TURN;
+}
+export interface IDisableYourTurn {
+  type: typeof DISABLE_YOUR_TURN;
+}
 
-
-export type Action = IUpdateStatus
+export type Action =
+  | IUpdateStatus
   | IUpdateCurrentUser
   | IUpdateIsButtonsDisabled
   | IUpdateUsersOnline

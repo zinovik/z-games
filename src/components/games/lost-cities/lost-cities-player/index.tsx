@@ -7,7 +7,12 @@ import { LostCitiesCardsList } from '../lost-cities-cards-list';
 import { LostCitiesExpeditions } from '../lost-cities-expeditions';
 import { IGame } from '../../../../interfaces';
 
-export function LostCitiesPlayer({ gamePlayer, isCurrentPlayer, isMyTurn, game }: {
+export function LostCitiesPlayer({
+  gamePlayer,
+  isCurrentPlayer,
+  isMyTurn,
+  game,
+}: {
   gamePlayer: ILostCitiesPlayer;
   isCurrentPlayer?: boolean;
   isMyTurn?: boolean;
@@ -17,15 +22,15 @@ export function LostCitiesPlayer({ gamePlayer, isCurrentPlayer, isMyTurn, game }
 
   return (
     <Fragment>
-      {(isCurrentPlayer && !isMyTurn) && cardsHand && cardsHand.length > 0 && <Fragment>
-        <LostCitiesCardsList cards={cardsHand} />
-      </Fragment>}
+      {isCurrentPlayer && !isMyTurn && cardsHand && cardsHand.length > 0 && (
+        <Fragment>
+          <LostCitiesCardsList cards={cardsHand} />
+        </Fragment>
+      )}
 
       <LostCitiesExpeditions cards={cardsExpeditions} />
 
-      {points !== undefined && <Typography>
-        {points} points
-      </Typography>}
+      {points !== undefined && <Typography>{points} points</Typography>}
     </Fragment>
   );
 }

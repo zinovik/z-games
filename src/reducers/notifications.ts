@@ -6,9 +6,7 @@ const initialState = {
 };
 
 const notifications = (state: INotificationsState = initialState, action: ActionTypes.Action): INotificationsState => {
-
   switch (action.type) {
-
     case ActionTypes.ADD_NOTIFICATION:
       const notificationId = state.notifications.length && state.notifications[state.notifications.length - 1].id + 1;
 
@@ -29,9 +27,7 @@ const notifications = (state: INotificationsState = initialState, action: Action
 
     default:
       return state;
-
   }
-
 };
 
 export default notifications;

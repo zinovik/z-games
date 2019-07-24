@@ -1,25 +1,13 @@
 import React, { Fragment, useState } from 'react';
 import { func } from 'prop-types';
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  Fab,
-  Typography,
-  FormControlLabel,
-  Checkbox,
-} from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Fab, Typography, FormControlLabel, Checkbox } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 
 import { GamesServices } from '../../services';
 
 import './index.scss';
 
-export function NewGame({ newGame }: {
-  newGame: (parameters: { name: string, isPrivate: boolean }) => void;
-}) {
+export function NewGame({ newGame }: { newGame: (parameters: { name: string; isPrivate: boolean }) => void }) {
   const [isModalShow, setIsModalShow] = useState(false);
   const [isPrivate, setIsPrivate] = useState(false);
 
@@ -42,7 +30,7 @@ export function NewGame({ newGame }: {
 
   return (
     <Fragment>
-      <div className='new-game-button'>
+      <div className="new-game-button">
         <Fab onClick={handleNewGame}>
           <Add />
         </Fab>
@@ -51,25 +39,22 @@ export function NewGame({ newGame }: {
       <Dialog open={isModalShow} onClose={handleClose}>
         <DialogTitle>New game</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Choose a game to create
-          </DialogContentText>
+          <DialogContentText>Choose a game to create</DialogContentText>
           <DialogActions>
-
-            <div className='new-game-actions'>
+            <div className="new-game-actions">
               <Typography>
-                <FormControlLabel control={<Checkbox checked={isPrivate} onChange={handlePrivate} />} label='Private Game' />
+                <FormControlLabel control={<Checkbox checked={isPrivate} onChange={handlePrivate} />} label="Private Game" />
               </Typography>
 
-              <div className='new-game-games'>
-                {Object.keys(GamesServices).map((gameName) => (
+              <div className="new-game-games">
+                {Object.keys(GamesServices).map(gameName => (
                   <img
                     src={`/images/${GamesServices[gameName].getNameWork()}.png`}
-                    className='game-img'
+                    className="game-img"
                     onClick={() => handleCreateGame(gameName)}
                     title={`click to create new ${gameName} game`}
                     key={`new-game-${gameName}`}
-                    alt='game logo'
+                    alt="game logo"
                   />
                 ))}
               </div>

@@ -29,20 +29,20 @@ function GamesPagePure({
   watchGame,
   reloadGames,
 }: {
-  currentUser: IUser,
-  allGames: IGame[],
-  isButtonsDisabled: boolean,
-  filterSettings: IFilterSettings,
-  isHasMore: boolean,
-  isLoadingAllGames: boolean,
-  newGame: (parameters: { name: string, isPrivate: boolean }) => void,
-  joinGame: (gameId: string) => void,
-  openGame: (gameId: string) => void,
-  watchGame: (gameId: string) => void,
-  reloadGames: (filterSettings: IFilterSettings) => void,
+  currentUser: IUser;
+  allGames: IGame[];
+  isButtonsDisabled: boolean;
+  filterSettings: IFilterSettings;
+  isHasMore: boolean;
+  isLoadingAllGames: boolean;
+  newGame: (parameters: { name: string; isPrivate: boolean }) => void;
+  joinGame: (gameId: string) => void;
+  openGame: (gameId: string) => void;
+  watchGame: (gameId: string) => void;
+  reloadGames: (filterSettings: IFilterSettings) => void;
 }) {
   return (
-    <main className='games-page-container'>
+    <main className="games-page-container">
       <Header />
 
       {currentUser && <NewGame newGame={newGame} />}

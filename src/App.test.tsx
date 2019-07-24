@@ -24,7 +24,7 @@ it('renders without crashing', () => {
         <App />
       </Provider>
     </Router>,
-    div
+    div,
   );
   unmountComponentAtNode(div);
 });

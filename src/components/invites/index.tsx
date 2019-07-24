@@ -21,27 +21,23 @@ export function Invites({
 
   return (
     <Fragment>
+      {invitesInvitee.length > 0 && (
+        <div className="invites-invitee-container">
+          {invitesInvitee.map(invite => (
+            <InviteInvitee key={invite.id} invite={invite} acceptInvite={acceptInvite} declineInvite={declineInvite} />
+          ))}
+        </div>
+      )}
 
-      {invitesInvitee.length > 0 && <div className='invites-invitee-container'>
-        {invitesInvitee.map(invite => (
-          <InviteInvitee key={invite.id}
-            invite={invite}
-            acceptInvite={acceptInvite}
-            declineInvite={declineInvite}
-          />
-        ))}
-      </div>}
+      <Divider variant="middle" />
 
-      <Divider variant='middle' />
-
-      {invitesInviter.length > 0 && <div className='invites-inviter-container'>
-        {invitesInviter.map(invite => (
-          <InviteInviter key={invite.id}
-            invite={invite}
-          />
-        ))}
-      </div>}
-
+      {invitesInviter.length > 0 && (
+        <div className="invites-inviter-container">
+          {invitesInviter.map(invite => (
+            <InviteInviter key={invite.id} invite={invite} />
+          ))}
+        </div>
+      )}
     </Fragment>
   );
 }

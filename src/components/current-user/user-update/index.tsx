@@ -1,22 +1,18 @@
 import React, { useState, ChangeEvent } from 'react';
 import { string, func } from 'prop-types';
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  DialogActions,
-  TextField,
-  Button,
-} from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Button } from '@material-ui/core';
 
 import { IUser } from '../../../interfaces';
 
 import './index.scss';
 
-export function UserUpdate({ currentUsername, updateCurrentUser, close }: {
-  currentUsername: string,
-  updateCurrentUser: (parameters: IUser) => void,
+export function UserUpdate({
+  currentUsername,
+  updateCurrentUser,
+  close,
+}: {
+  currentUsername: string;
+  updateCurrentUser: (parameters: IUser) => void;
   close: () => void;
 }) {
   const [username, setUsername] = useState(currentUsername);
@@ -31,12 +27,13 @@ export function UserUpdate({ currentUsername, updateCurrentUser, close }: {
       method: 'POST',
       body: JSON.stringify({ username }),
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
     });
 
-    if (fetchResult.status !== 200) { // TODO
+    if (fetchResult.status !== 200) {
+      // TODO
       return;
     }
 
@@ -48,17 +45,9 @@ export function UserUpdate({ currentUsername, updateCurrentUser, close }: {
     <Dialog open={true} onClose={close}>
       <DialogTitle>Update profile</DialogTitle>
       <DialogContent>
+        <DialogContentText>Username</DialogContentText>
 
-        <DialogContentText>
-          Username
-        </DialogContentText>
-
-        <TextField
-          type='text'
-          placeholder='Username'
-          onChange={handleUsernameChange}
-          value={username}
-        />
+        <TextField type="text" placeholder="Username" onChange={handleUsernameChange} value={username} />
 
         <DialogActions>
           <Button onClick={close} autoFocus={true}>
@@ -68,20 +57,11 @@ export function UserUpdate({ currentUsername, updateCurrentUser, close }: {
             Update
           </Button>
 
-          <input
-            accept='image/*'
-            id='button-file-avatar'
-            multiple={true}
-            type='file'
-            className='file-input'
-          />
-          <label htmlFor='button-file-avatar'>
-            <Button component='span'>
-              Update avatar
-            </Button>
+          <input accept="image/*" id="button-file-avatar" multiple={true} type="file" className="file-input" />
+          <label htmlFor="button-file-avatar">
+            <Button component="span">Update avatar</Button>
           </label>
         </DialogActions>
-
       </DialogContent>
     </Dialog>
   );

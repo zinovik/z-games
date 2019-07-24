@@ -19,35 +19,41 @@ function RulesPagePure() {
   };
 
   return (
-    <main className='rules-page-container'>
+    <main className="rules-page-container">
       <Header />
 
-      <div className='rules-page-content'>
-        <div className='rules-page-data'>
+      <div className="rules-page-content">
+        <div className="rules-page-data">
           {Object.keys(GamesServices).map(gameName => (
             <Fragment key={`${gameName}rules`}>
-              <Typography variant='h5' onClick={() => { handleGameNameClick(gameName); }} className='rules-page-game-name'>
+              <Typography
+                variant="h5"
+                onClick={() => {
+                  handleGameNameClick(gameName);
+                }}
+                className="rules-page-game-name"
+              >
                 {gameName}
               </Typography>
-              {GamesServices[gameName].getRules().map((rule, index) => gameNameRules === gameName &&
-                <Typography gutterBottom={true} key={`${gameName}${index}`}>
-                  {rule}
-                </Typography>
+              {GamesServices[gameName].getRules().map(
+                (rule, index) =>
+                  gameNameRules === gameName && (
+                    <Typography gutterBottom={true} key={`${gameName}${index}`}>
+                      {rule}
+                    </Typography>
+                  ),
               )}
             </Fragment>
           ))}
         </div>
       </div>
-
     </main>
   );
 }
 
-const mapStateToProps = () => ({
-});
+const mapStateToProps = () => ({});
 
-const mapDispatchToProps = () => ({
-});
+const mapDispatchToProps = () => ({});
 
 export const RulesPage = connect(
   mapStateToProps,

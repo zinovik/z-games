@@ -6,7 +6,14 @@ import { LostCitiesCard } from '../lost-cities-card';
 
 import './index.scss';
 
-export function LostCitiesExpeditionCards({ cards, expedition, cardsCount, isSelected, isClickable, onClick }: {
+export function LostCitiesExpeditionCards({
+  cards,
+  expedition,
+  cardsCount,
+  isSelected,
+  isClickable,
+  onClick,
+}: {
   cards: number[];
   expedition: number;
   cardsCount?: number;
@@ -14,7 +21,6 @@ export function LostCitiesExpeditionCards({ cards, expedition, cardsCount, isSel
   isClickable?: boolean;
   onClick?: (expedition: number) => void;
 }) {
-
   const handleClick = (clickExpedition: number) => {
     if (!onClick) {
       return;
@@ -24,29 +30,26 @@ export function LostCitiesExpeditionCards({ cards, expedition, cardsCount, isSel
   };
 
   return (
-    <div className='lost-cities-expedition-cards-container'>
-      {cards.length ? cards.map((card, index) => (
-        <LostCitiesCard
-          cost={card}
-          expedition={expedition}
-          key={index}
-          isHalfCard={index !== cards.length - 1}
-          isSelected={isSelected}
-          isClickable={isClickable}
-          onClick={() => { handleClick(expedition) }}
-        />
-      )) : ''}
+    <div className="lost-cities-expedition-cards-container">
+      {cards.length
+        ? cards.map((card, index) => (
+            <LostCitiesCard
+              cost={card}
+              expedition={expedition}
+              key={index}
+              isHalfCard={index !== cards.length - 1}
+              isSelected={isSelected}
+              isClickable={isClickable}
+              onClick={() => {
+                handleClick(expedition);
+              }}
+            />
+          ))
+        : ''}
 
-      {!cards.length && (
-        <LostCitiesCard
-          cost={-1}
-          expedition={expedition}
-        />
-      )}
+      {!cards.length && <LostCitiesCard cost={-1} expedition={expedition} />}
 
-      <Typography>
-        {cardsCount}
-      </Typography>
+      <Typography>{cardsCount}</Typography>
     </div>
   );
 }

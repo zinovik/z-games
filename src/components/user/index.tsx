@@ -4,16 +4,12 @@ import { Avatar, Typography } from '@material-ui/core';
 
 import './index.scss';
 
-export function User({ username, avatar }: { username: string, avatar?: string }) {
+export function User({ username, avatar }: { username: string; avatar?: string }) {
   return (
-    <div className='user-container'>
-      <Avatar src={avatar}>
-        {username[0]}
-      </Avatar>
+    <div className="user-container">
+      <Avatar src={avatar}>{username[0]}</Avatar>
 
-      <Typography className='user-username'>
-        {username}
-      </Typography>
+      <Typography className="user-username">{username}</Typography>
     </div>
   );
 }

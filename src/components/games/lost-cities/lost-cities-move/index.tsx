@@ -10,11 +10,16 @@ import { IGame, IUser } from '../../../../interfaces';
 
 import './index.scss';
 
-export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled }: {
+export function LostCitiesMove({
+  game,
+  currentUser,
+  makeMove,
+  isButtonsDisabled,
+}: {
   game: IGame;
   currentUser: IUser;
   isButtonsDisabled: boolean;
-  makeMove: (parameters: { gameId: string, move: string }) => void;
+  makeMove: (parameters: { gameId: string; move: string }) => void;
 }) {
   const [chosenCard, setChosenCard] = useState(null as number | null);
   const [takeExpedition, setTakeExpedition] = useState(null as number | null);
@@ -60,7 +65,13 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
       takeExpedition,
     } as ILostCitiesMove;
 
-    setIsExpeditionPossible(GamesServices[NAME].checkMove({ gameData, move: JSON.stringify(lostCitiesMove), userId: currentUser.id }));
+    setIsExpeditionPossible(
+      GamesServices[NAME].checkMove({
+        gameData,
+        move: JSON.stringify(lostCitiesMove),
+        userId: currentUser.id,
+      }),
+    );
   };
 
   const choseTakeExpedition = (expedition: number): void => {
@@ -82,36 +93,35 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
   };
 
   return (
-    <div className='lost-cities-buttons'>
-
-      {discards.length !== 0 && <Fragment>
-        <div>
-          <Typography>
-            Choose discard to take if you want
-          </Typography>
-        </div>
-        <LostCitiesExpeditions
-          cards={discards}
-          cardsCount={discardsCount}
-          selectedExpedition={takeExpedition}
-          isClickable={true}
-          onClick={choseTakeExpedition}
-        />
-      </Fragment>}
+    <div className="lost-cities-buttons">
+      {discards.length !== 0 && (
+        <Fragment>
+          <div>
+            <Typography>Choose discard to take if you want</Typography>
+          </div>
+          <LostCitiesExpeditions
+            cards={discards}
+            cardsCount={discardsCount}
+            selectedExpedition={takeExpedition}
+            isClickable={true}
+            onClick={choseTakeExpedition}
+          />
+        </Fragment>
+      )}
 
       <div>
-        <Typography>
-          Choose card from the hand to play:
-        </Typography>
+        <Typography>Choose card from the hand to play:</Typography>
       </div>
-      <div className='lost-cities-cards-container'>
+      <div className="lost-cities-cards-container">
         {cardsHand.map((card, index) => (
           <LostCitiesCard
             cost={card.cost}
             expedition={card.expedition}
             isSelected={chosenCard === index}
             isClickable={!isButtonsDisabled}
-            onClick={() => { choseCard(index); }}
+            onClick={() => {
+              choseCard(index);
+            }}
             key={`card-button${index}`}
           />
         ))}
@@ -119,18 +129,18 @@ export function LostCitiesMove({ game, currentUser, makeMove, isButtonsDisabled 
 
       <div>
         <Button
-          variant='contained'
-          color='primary'
-          className='lost-cities-button'
+          variant="contained"
+          color="primary"
+          className="lost-cities-button"
           onClick={() => move(true)}
           disabled={isButtonsDisabled || chosenCard === null}
         >
           Discard
         </Button>
         <Button
-          variant='contained'
-          color='primary'
-          className='lost-cities-button'
+          variant="contained"
+          color="primary"
+          className="lost-cities-button"
           onClick={() => move(false)}
           disabled={isButtonsDisabled || !isExpeditionPossible}
         >

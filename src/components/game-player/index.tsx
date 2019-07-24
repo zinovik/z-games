@@ -33,37 +33,23 @@ export function GamePlayer({
 }) {
   return (
     <div className={`game-player-container${active ? ' game-player-container-active' : ''}`}>
-
       <User username={username} avatar={avatar} />
 
-      {game.name === NO_THANKS && <NoThanksPlayer
-        gamePlayer={gamePlayer as INoThanksPlayer}
-        isCurrentPlayer={isCurrentPlayer}
-        isMyTurn={isMyTurn}
-        game={game}
-      />}
+      {game.name === NO_THANKS && (
+        <NoThanksPlayer gamePlayer={gamePlayer as INoThanksPlayer} isCurrentPlayer={isCurrentPlayer} isMyTurn={isMyTurn} game={game} />
+      )}
 
-      {game.name === PERUDO && <PerudoPlayer
-        gamePlayer={gamePlayer as IPerudoPlayer}
-        isCurrentPlayer={isCurrentPlayer}
-        isMyTurn={isMyTurn}
-        game={game}
-      />}
+      {game.name === PERUDO && (
+        <PerudoPlayer gamePlayer={gamePlayer as IPerudoPlayer} isCurrentPlayer={isCurrentPlayer} isMyTurn={isMyTurn} game={game} />
+      )}
 
-      {game.name === LOST_CITIES && <LostCitiesPlayer
-        gamePlayer={gamePlayer as ILostCitiesPlayer}
-        isCurrentPlayer={isCurrentPlayer}
-        isMyTurn={isMyTurn}
-        game={game}
-      />}
+      {game.name === LOST_CITIES && (
+        <LostCitiesPlayer gamePlayer={gamePlayer as ILostCitiesPlayer} isCurrentPlayer={isCurrentPlayer} isMyTurn={isMyTurn} game={game} />
+      )}
 
-      {game.name === SIX_NIMMT && <SixNimmtPlayer
-        gamePlayer={gamePlayer as ISixNimmtPlayer}
-        isCurrentPlayer={isCurrentPlayer}
-        isMyTurn={isMyTurn}
-        game={game}
-      />}
-
+      {game.name === SIX_NIMMT && (
+        <SixNimmtPlayer gamePlayer={gamePlayer as ISixNimmtPlayer} isCurrentPlayer={isCurrentPlayer} isMyTurn={isMyTurn} game={game} />
+      )}
     </div>
   );
 }

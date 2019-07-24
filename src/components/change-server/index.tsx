@@ -4,10 +4,7 @@ import { Typography, TextField, Button } from '@material-ui/core';
 
 import './index.scss';
 
-export function ChangeServer({ serverUrl, updateServerUrl }: {
-  serverUrl: string;
-  updateServerUrl: (serverUrl: string) => void;
-}) {
+export function ChangeServer({ serverUrl, updateServerUrl }: { serverUrl: string; updateServerUrl: (serverUrl: string) => void }) {
   const [currentServerUrl, setCurrentServerUrl] = useState('');
   const [isServerUrlInputShowed, setIsServerUrlInputShowed] = useState(false);
 
@@ -27,36 +24,36 @@ export function ChangeServer({ serverUrl, updateServerUrl }: {
       setCurrentServerUrl(serverUrl);
     }
 
-    setIsServerUrlInputShowed(false);  
+    setIsServerUrlInputShowed(false);
   };
 
   return (
     <Fragment>
+      {!isServerUrlInputShowed && <Typography onClick={handleServerUrlClick}>{serverUrl}</Typography>}
 
-      {!isServerUrlInputShowed && <Typography onClick={handleServerUrlClick}>
-        {serverUrl}
-      </Typography>}
+      {isServerUrlInputShowed && (
+        <Fragment>
+          <TextField type="text" value={currentServerUrl} onChange={handleCurrentServerUrlChange} />
 
-      {isServerUrlInputShowed && <Fragment>
+          <div className="change-server-buttons">
+            <Button
+              onClick={() => {
+                handleServerUrlChange(true);
+              }}
+            >
+              Update
+            </Button>
 
-        <TextField
-          type='text'
-          value={currentServerUrl}
-          onChange={handleCurrentServerUrlChange}
-        />
-
-        <div className='change-server-buttons'>
-        <Button onClick={() => { handleServerUrlChange(true) }}>
-          Update
-        </Button>
-
-        <Button onClick={() => { handleServerUrlChange(false) }}>
-          Cancel
-        </Button>
-        </div>
-
-      </Fragment>}
-
+            <Button
+              onClick={() => {
+                handleServerUrlChange(false);
+              }}
+            >
+              Cancel
+            </Button>
+          </div>
+        </Fragment>
+      )}
     </Fragment>
   );
 }

@@ -7,10 +7,11 @@ import games from './games';
 import errors from './errors';
 import notifications from './notifications';
 
-export default (history: History) => combineReducers({
-  router: connectRouter(history),
-  users,
-  games,
-  errors,
-  notifications,
-});
+export default (history: History) =>
+  combineReducers({
+    router: connectRouter(history),
+    users,
+    games,
+    errors,
+    notifications,
+  });

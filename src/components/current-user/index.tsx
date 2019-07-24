@@ -7,10 +7,15 @@ import { IUser } from '../../interfaces';
 
 import './index.scss';
 
-export function CurrentUser({ currentUsername, avatar, updateCurrentUser, logout }: {
+export function CurrentUser({
+  currentUsername,
+  avatar,
+  updateCurrentUser,
+  logout,
+}: {
   currentUsername: string;
   avatar: string;
-  updateCurrentUser: (parameters: IUser) => void,
+  updateCurrentUser: (parameters: IUser) => void;
   logout: () => void;
 }) {
   const [anchorEl, setAnchorEl] = useState(null as HTMLElement | null);
@@ -42,24 +47,11 @@ export function CurrentUser({ currentUsername, avatar, updateCurrentUser, logout
 
   return (
     <Fragment>
-      <Button
-        onClick={handleMenuOpen}
-        aria-owns={anchorEl ? 'user-menu' : undefined}
-        aria-haspopup='true'
-        className='current-user-avatar'
-      >
-
-        <Avatar src={avatar}>
-          {currentUsername[0]}
-        </Avatar>
+      <Button onClick={handleMenuOpen} aria-owns={anchorEl ? 'user-menu' : undefined} aria-haspopup="true" className="current-user-avatar">
+        <Avatar src={avatar}>{currentUsername[0]}</Avatar>
       </Button>
 
-      <Menu
-        id='user-menu'
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleMenuClose}
-      >
+      <Menu id="user-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
         <MenuItem onClick={handleUpdate}>Update</MenuItem>
         <MenuItem onClick={handleLogOutClick}>Log out</MenuItem>
       </Menu>

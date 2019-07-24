@@ -6,10 +6,14 @@ import { Loading } from '../loading';
 
 import './index.scss';
 
-export function Authorize({ serverUrl, register, authorize }: {
+export function Authorize({
+  serverUrl,
+  register,
+  authorize,
+}: {
   serverUrl: string;
-	register: (serverUrl: string, username: string, password: string, email: string) => Promise<void>;
-	authorize: (serverUrl: string, username: string, password: string) => Promise<void>;
+  register: (serverUrl: string, username: string, password: string, email: string) => Promise<void>;
+  authorize: (serverUrl: string, username: string, password: string) => Promise<void>;
 }) {
   const [isModalShow, setIsModalShow] = useState(false);
   const [username, setUsername] = useState('');
@@ -101,76 +105,61 @@ export function Authorize({ serverUrl, register, authorize }: {
 
   return (
     <Fragment>
-      <Button onClick={handleAuthorize}>
-        Sign up/in
-      </Button>
+      <Button onClick={handleAuthorize}>Sign up/in</Button>
 
-      <Modal open={isModalShow} onClose={handleClose} className='authorize-modal'>
-        <Paper className='authorize-modal-paper'>
-
-          <div className='authorize-modal-tabs'>
-            <Tabs
-              value={currentTab}
-              onChange={handleTabChange}
-              indicatorColor='primary'
-              textColor='primary'
-              autoFocus={true}
-            >
-              <Tab label='Sign in' />
-              <Tab label='Sign up' />
+      <Modal open={isModalShow} onClose={handleClose} className="authorize-modal">
+        <Paper className="authorize-modal-paper">
+          <div className="authorize-modal-tabs">
+            <Tabs value={currentTab} onChange={handleTabChange} indicatorColor="primary" textColor="primary" autoFocus={true}>
+              <Tab label="Sign in" />
+              <Tab label="Sign up" />
             </Tabs>
           </div>
 
-          <form className='authorize-modal-form'>
+          <form className="authorize-modal-form">
             <div>
-              <TextField
-                type='text'
-                placeholder='Username'
-                onChange={handleUsernameChange}
-              />
+              <TextField type="text" placeholder="Username" onChange={handleUsernameChange} />
               {isValidated && isUsernameError && <FormHelperText>You can't use this username!</FormHelperText>}
             </div>
 
             <div>
-              <TextField
-                type='password'
-                placeholder='Password'
-                onChange={handlePasswordChange}
-              />
+              <TextField type="password" placeholder="Password" onChange={handlePasswordChange} />
               {isValidated && isPasswordError && <FormHelperText>You can't use this password!</FormHelperText>}
             </div>
 
-            {currentTab === 0 && <div className='authorize-modal-form-button'>
-              <Button variant='contained' color='primary' onClick={handleSignInClick}>Sign in</Button>
-            </div>}
-
-            {currentTab === 1 && <Fragment>
-              <div>
-                <TextField
-                  type='email'
-                  placeholder='Email'
-                  onChange={handleEmailChange}
-                />
-                {isValidated && isEmailError && <FormHelperText>Email isn't valid!</FormHelperText>}
-              </div>
-              <div className='authorize-modal-form-button'>
-                <Button
-                  variant='contained'
-                  color='primary'
-                  onClick={handleSignUpClick}
-                  disabled={isValidated && (isUsernameError || isPasswordError || isEmailError)}>
-                  Sign up
+            {currentTab === 0 && (
+              <div className="authorize-modal-form-button">
+                <Button variant="contained" color="primary" onClick={handleSignInClick}>
+                  Sign in
                 </Button>
               </div>
-            </Fragment>}
+            )}
+
+            {currentTab === 1 && (
+              <Fragment>
+                <div>
+                  <TextField type="email" placeholder="Email" onChange={handleEmailChange} />
+                  {isValidated && isEmailError && <FormHelperText>Email isn't valid!</FormHelperText>}
+                </div>
+                <div className="authorize-modal-form-button">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleSignUpClick}
+                    disabled={isValidated && (isUsernameError || isPasswordError || isEmailError)}
+                  >
+                    Sign up
+                  </Button>
+                </div>
+              </Fragment>
+            )}
 
             <Typography>
               <Button onClick={handleSignInGoogle}>
-                <img src='/images/btn_google_signin_dark_normal_web.png' alt='google login' />
+                <img src="/images/btn_google_signin_dark_normal_web.png" alt="google login" />
               </Button>
             </Typography>
           </form>
-
         </Paper>
       </Modal>
 

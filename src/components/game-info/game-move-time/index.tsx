@@ -5,10 +5,7 @@ import { Typography } from '@material-ui/core';
 
 import './index.scss';
 
-export function GameMoveTime({ previousMoveAt, maxTime }: {
-  previousMoveAt: string;
-  maxTime: number;
-}) {
+export function GameMoveTime({ previousMoveAt, maxTime }: { previousMoveAt: string; maxTime: number }) {
   const [now, setNow] = useState(moment(new Date()));
 
   useEffect(() => {
@@ -23,11 +20,7 @@ export function GameMoveTime({ previousMoveAt, maxTime }: {
   const end = moment(previousMoveAt).add(maxTime);
   const duration = moment.utc(end.diff(now)).format('HH:mm:ss');
 
-  return (
-    <Typography className='game-move-time'>
-      {now > end ? 'Move timeout!' : `Move ends in ${duration}`}
-    </Typography>
-  );
+  return <Typography className="game-move-time">{now > end ? 'Move timeout!' : `Move ends in ${duration}`}</Typography>;
 }
 
 GameMoveTime.propTypes = {

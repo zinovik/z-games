@@ -12,25 +12,27 @@ export function UserProfile({ user }: { user: IUser }) {
   const { avatar, username, email, gamesPlayed, gamesWon, currentGames, createdAt } = user;
 
   return (
-    <div className='user-profile-container'>
+    <div className="user-profile-container">
       <User username={username} avatar={avatar} />
       <Table>
         <TableBody>
           <TableRow>
-            <TableCell align='right'>Email</TableCell>
-            <TableCell align='right'>{email}</TableCell>
+            <TableCell align="right">Email</TableCell>
+            <TableCell align="right">{email}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align='right'>Games Won/Played</TableCell>
-            <TableCell align='right'>{gamesWon}/{gamesPlayed}</TableCell>
+            <TableCell align="right">Games Won/Played</TableCell>
+            <TableCell align="right">
+              {gamesWon}/{gamesPlayed}
+            </TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align='right'>Games</TableCell>
-            <TableCell align='right'>{currentGames.map(game => `${game.name} (${game.number})`).join(', ')}</TableCell>
+            <TableCell align="right">Games</TableCell>
+            <TableCell align="right">{currentGames.map(game => `${game.name} (${game.number})`).join(', ')}</TableCell>
           </TableRow>
           <TableRow>
-            <TableCell align='right'>Registered</TableCell>
-            <TableCell align='right'>{moment(createdAt).fromNow()}</TableCell>
+            <TableCell align="right">Registered</TableCell>
+            <TableCell align="right">{moment(createdAt).fromNow()}</TableCell>
           </TableRow>
         </TableBody>
       </Table>

@@ -6,12 +6,13 @@ import './index.scss';
 
 const CHIP: string = '\u2B24';
 
-export function NoThanksChips({ chips }: { chips: number; }) {
+export function NoThanksChips({ chips }: { chips: number }) {
   return (
-    <Typography className='no-thanks-chips'>
+    <Typography className="no-thanks-chips">
       {new Array(chips).fill(0).map((chip, index) => (
         <span key={`chip-${index}`}>{CHIP}</span>
-      ))} ({chips})
+      ))}{' '}
+      ({chips})
     </Typography>
   );
 }

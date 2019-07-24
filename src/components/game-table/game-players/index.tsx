@@ -6,7 +6,13 @@ import { IUser, IGame, GamePlayerType } from '../../../interfaces';
 
 import './index.scss';
 
-export function GamePlayers({ game, currentUserId, gamePlayers, players, nextPlayers }: {
+export function GamePlayers({
+  game,
+  currentUserId,
+  gamePlayers,
+  players,
+  nextPlayers,
+}: {
   game: IGame;
   currentUserId: string;
   gamePlayers: GamePlayerType[];
@@ -27,14 +33,10 @@ export function GamePlayers({ game, currentUserId, gamePlayers, players, nextPla
   const playersWithNewOrder = [...playersCopy, ...playersBeforeCurrent];
 
   return (
-    <div className='game-players-container'>
-
+    <div className="game-players-container">
       {playersWithNewOrder.map((playerInGame, index) => (
-
         <Fragment key={index}>
-
           {playerInGame.id !== currentUserId && players.find(player => player.id === playerInGame.id) && (
-
             <GamePlayer
               game={game}
               username={players.find(player => player.id === playerInGame.id)!.username}
@@ -42,11 +44,8 @@ export function GamePlayers({ game, currentUserId, gamePlayers, players, nextPla
               active={nextPlayers.some(nextPlayer => nextPlayer.id === playerInGame.id)}
               gamePlayer={playerInGame}
             />
-
           )}
-
         </Fragment>
-
       ))}
     </div>
   );

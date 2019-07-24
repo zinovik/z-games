@@ -10,12 +10,15 @@ import { IInvite } from '../../../interfaces';
 
 import './index.scss';
 
-export function InviteInvitee({ invite, acceptInvite, declineInvite }: {
+export function InviteInvitee({
+  invite,
+  acceptInvite,
+  declineInvite,
+}: {
   invite: IInvite;
   acceptInvite: (inviteId: string) => void;
   declineInvite: (inviteId: string) => void;
 }) {
-
   const [isRulesShown, setIsRulesShown] = useState(false);
 
   const handleRulesClose = () => {
@@ -36,46 +39,46 @@ export function InviteInvitee({ invite, acceptInvite, declineInvite }: {
 
   return (
     <Fragment>
-      <Card className='invite-invitee-card'>
-        <CardHeader
-          title={`#${invite.game.number}: ${invite.game.name}`}
-          subheader={moment(invite.createdAt).fromNow()}
-        />
+      <Card className="invite-invitee-card">
+        <CardHeader title={`#${invite.game.number}: ${invite.game.name}`} subheader={moment(invite.createdAt).fromNow()} />
 
-        <div className='game-img-container'>
+        <div className="game-img-container">
           <img
             src={`/images/${GamesServices[invite.game.name].getNameWork()}.png`}
-            className='game-img'
+            className="game-img"
             onClick={handleLogoClick}
             title={`click to see ${invite.game.name} game rules`}
-            alt='game-logo'
+            alt="game-logo"
           />
         </div>
 
         <CardContent>
+          <Typography>{`invite by ${invite.createdBy && invite.createdBy.username}`}</Typography>
 
-          <Typography>
-            {`invite by ${invite.createdBy && invite.createdBy.username}`}
+          <Typography
+            className={
+              invite.isClosed
+                ? invite.isAccepted
+                  ? 'invite-invitee-accepted'
+                  : invite.isDeclined
+                  ? 'invite-invitee-declined'
+                  : ''
+                : 'invite-invitee-pending'
+            }
+          >
+            {invite.isClosed ? (invite.isAccepted ? 'accepted' : invite.isDeclined ? 'declined' : 'expired') : 'pending'}
           </Typography>
-
-          <Typography className={invite.isClosed ? invite.isAccepted ? 'invite-invitee-accepted' : invite.isDeclined ? 'invite-invitee-declined' : '' : 'invite-invitee-pending'}>
-            {invite.isClosed ? invite.isAccepted ? 'accepted' : invite.isDeclined ? 'declined' : 'expired' : 'pending'}
-          </Typography>
-
         </CardContent>
 
         <CardActions>
-
-          <IconButton onClick={handleAcceptClick} disabled={invite.isClosed} title='Click to accept the invite' >
+          <IconButton onClick={handleAcceptClick} disabled={invite.isClosed} title="Click to accept the invite">
             <Check />
           </IconButton>
 
-          <IconButton onClick={handleDeclineClick} disabled={invite.isClosed} title='Click to decline the invite' >
+          <IconButton onClick={handleDeclineClick} disabled={invite.isClosed} title="Click to decline the invite">
             <Close />
           </IconButton>
-
         </CardActions>
-
       </Card>
 
       {isRulesShown && <GameRules gameName={invite.game.name} close={handleRulesClose} />}

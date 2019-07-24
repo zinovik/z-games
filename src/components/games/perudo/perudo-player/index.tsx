@@ -6,7 +6,11 @@ import { IPerudoPlayer } from 'z-games-perudo';
 import { PerudoDices } from '../perudo-dices';
 import { IGame } from '../../../../interfaces';
 
-export function PerudoPlayer({ gamePlayer, highlightNumber, isHighlightJoker }: {
+export function PerudoPlayer({
+  gamePlayer,
+  highlightNumber,
+  isHighlightJoker,
+}: {
   gamePlayer: IPerudoPlayer;
   isCurrentPlayer?: boolean;
   isMyTurn?: boolean;
@@ -18,15 +22,9 @@ export function PerudoPlayer({ gamePlayer, highlightNumber, isHighlightJoker }: 
 
   return (
     <Fragment>
-      {dices && dices.length > 0 && <PerudoDices
-        dices={dices}
-        highlightNumber={highlightNumber}
-        isHighlightJoker={isHighlightJoker}
-      />}
+      {dices && dices.length > 0 && <PerudoDices dices={dices} highlightNumber={highlightNumber} isHighlightJoker={isHighlightJoker} />}
 
-      {(!dices || !dices.length) && <Typography>
-        {dicesCount} dices
-      </Typography>}
+      {(!dices || !dices.length) && <Typography>{dicesCount} dices</Typography>}
     </Fragment>
   );
 }
