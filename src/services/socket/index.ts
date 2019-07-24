@@ -22,7 +22,6 @@ import { IGame, IUser, IUsersOnline, ILog, IFilterSettings, IInvite } from '../.
 import { SERVER_URL } from '../../config';
 
 export class SocketService {
-
   private static instance: SocketService;
   private SocketClient: (typeof Socket) & { query: { token: string } };
 
@@ -119,7 +118,7 @@ export class SocketService {
 
     this.SocketClient.on('new-invite', (invite: IInvite) => {
       addInvite(invite);
-    })
+    });
 
     this.SocketClient.on('update-invite', (invite: IInvite) => {
       updateInvite(invite);
@@ -132,8 +131,7 @@ export class SocketService {
     this.SocketClient.on('error-message', ({ message }: { message: string }): void => {
       addError(message);
     });
-  }
-
+  };
 
   // updates from the user
 
@@ -169,15 +167,15 @@ export class SocketService {
     this.SocketClient.emit('start-game', gameId);
   }
 
-  public makeMove({ gameId, move }: { gameId: string, move: string }) {
+  public makeMove({ gameId, move }: { gameId: string; move: string }) {
     this.SocketClient.emit('make-move', { gameId, move });
   }
 
-  public sendMessage({ gameId, message }: { gameId: string, message: string }) {
+  public sendMessage({ gameId, message }: { gameId: string; message: string }) {
     this.SocketClient.emit('message', { gameId, message });
   }
 
-  public newGame({ name, isPrivate }: { name: string, isPrivate: boolean }) {
+  public newGame({ name, isPrivate }: { name: string; isPrivate: boolean }) {
     this.SocketClient.emit('new-game', { name, isPrivate });
   }
 
@@ -189,7 +187,7 @@ export class SocketService {
     this.SocketClient.emit('repeat-game', gameId);
   }
 
-  public updateOption({ gameId, name, value }: { gameId: string, name: string, value: string }) {
+  public updateOption({ gameId, name, value }: { gameId: string; name: string; value: string }) {
     this.SocketClient.emit('update-option', { gameId, name, value });
   }
 
@@ -201,7 +199,7 @@ export class SocketService {
     this.SocketClient.emit('decline-invite', inviteId);
   }
 
-  public newInvite({ gameId, userId }: { gameId: string; userId: string; }) {
+  public newInvite({ gameId, userId }: { gameId: string; userId: string }) {
     this.SocketClient.emit('new-invite', { gameId, userId });
   }
 
@@ -212,5 +210,4 @@ export class SocketService {
     this.SocketClient.disconnect();
     this.SocketClient.connect();
   };
-
 }

@@ -7,7 +7,7 @@ export interface IState {
   notifications: INotificationsState;
   router: {
     location: {
-      pathname: string,
-    },
+      pathname: string;
+    };
   };
 }

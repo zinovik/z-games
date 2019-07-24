@@ -6,19 +6,11 @@ import { ILog } from '../../../interfaces';
 
 import './index.scss';
 
-export function LogsList({ logs }: {
-  logs: ILog[];
-}) {
+export function LogsList({ logs }: { logs: ILog[] }) {
   return (
-    <div className='logs-list-container'>
+    <div className="logs-list-container">
       {logs.map(({ type, text, createdAt, createdBy }, index) => (
-        <Log
-          type={type}
-          text={text}
-          createdAt={createdAt}
-          username={createdBy && createdBy.username}
-          key={index}
-        />
+        <Log type={type} text={text} createdAt={createdAt} username={createdBy && createdBy.username} key={index} />
       ))}
     </div>
   );

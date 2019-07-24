@@ -7,7 +7,10 @@ import { NoThanksCardsList } from '../no-thanks-cards-list';
 import { NoThanksChips } from '../no-thanks-chips';
 import { IGame } from '../../../../interfaces';
 
-export function NoThanksPlayer({ gamePlayer, isCurrentPlayer }: {
+export function NoThanksPlayer({
+  gamePlayer,
+  isCurrentPlayer,
+}: {
   gamePlayer: INoThanksPlayer;
   isCurrentPlayer?: boolean;
   isMyTurn?: boolean;
@@ -22,9 +25,7 @@ export function NoThanksPlayer({ gamePlayer, isCurrentPlayer }: {
 
       {isCurrentPlayer && chips !== undefined && <NoThanksChips chips={chips} />}
 
-      {isCurrentPlayer && points !== undefined && <Typography>
-        {points} points
-      </Typography>}
+      {isCurrentPlayer && points !== undefined && <Typography>{points} points</Typography>}
     </Fragment>
   );
 }

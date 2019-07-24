@@ -8,52 +8,50 @@ import { NoThanksCard } from './no-thanks-card';
 import { NoThanksChips } from './no-thanks-chips';
 import { IGame, IUser } from '../../../interfaces';
 
-export function NoThanks({ game, currentUser, isMyTurn, isButtonsDisabled, makeMove }: {
-	game: IGame;
-	currentUser: IUser;
-	isMyTurn: boolean;
-	isButtonsDisabled: boolean;
-	makeMove: ({ gameId, move }: { gameId: string, move: string }) => void;
+export function NoThanks({
+  game,
+  currentUser,
+  isMyTurn,
+  isButtonsDisabled,
+  makeMove,
+}: {
+  game: IGame;
+  currentUser: IUser;
+  isMyTurn: boolean;
+  isButtonsDisabled: boolean;
+  makeMove: ({ gameId, move }: { gameId: string; move: string }) => void;
 }) {
-	const { gameData } = game;
+  const { gameData } = game;
 
-	if (!currentUser) {
-		return null;
-	}
+  if (!currentUser) {
+    return null;
+  }
 
-	const { currentCard, currentCardCost, cardsLeft }: INoThanksData = JSON.parse(gameData);
+  const { currentCard, currentCardCost, cardsLeft }: INoThanksData = JSON.parse(gameData);
 
-	return (
-		<Fragment>
+  return (
+    <Fragment>
+      <Typography>{cardsLeft} cards left</Typography>
+      <NoThanksCard card={currentCard} />
+      <NoThanksChips chips={currentCardCost} />
 
-			<Typography>
-				{cardsLeft} cards left
-			</Typography>
-			<NoThanksCard card={currentCard} />
-			<NoThanksChips chips={currentCardCost} />
-
-			{isMyTurn && <NoThanksMove
-				game={game}
-				currentUser={currentUser}
-				isButtonsDisabled={isButtonsDisabled}
-				makeMove={makeMove}
-			/>}
-		</Fragment>
-	);
+      {isMyTurn && <NoThanksMove game={game} currentUser={currentUser} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />}
+    </Fragment>
+  );
 }
 
 NoThanks.propTypes = {
-	game: object.isRequired,
-	currentUser: object.isRequired,
-	isMyTurn: bool.isRequired,
-	isButtonsDisabled: bool.isRequired,
-	makeMove: func.isRequired,
+  game: object.isRequired,
+  currentUser: object.isRequired,
+  isMyTurn: bool.isRequired,
+  isButtonsDisabled: bool.isRequired,
+  makeMove: func.isRequired,
 };
 
 NoThanks.defaultProps = {
-	game: {},
-	currentUser: {},
-	isMyTurn: false,
-	isButtonsDisabled: false,
-	makeMove: () => null,
+  game: {},
+  currentUser: {},
+  isMyTurn: false,
+  isButtonsDisabled: false,
+  makeMove: () => null,
 };

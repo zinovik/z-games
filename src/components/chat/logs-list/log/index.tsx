@@ -5,29 +5,34 @@ import { Typography } from '@material-ui/core';
 
 import './index.scss';
 
-export function Log({ type, createdAt, username, text }: {
-  type: string;
-  createdAt: Date;
-  username: string;
-  text?: string;
-}) {
+export function Log({ type, createdAt, username, text }: { type: string; createdAt: Date; username: string; text?: string }) {
   return (
     <Typography>
-      <span className='log-time'>{moment(createdAt).calendar()}: </span>
+      <span className="log-time">{moment(createdAt).calendar()}: </span>
 
-      {type === 'message' && <Fragment><span className='log-username'>{username}:</span> <span className='log-message'>{text}</span></Fragment>}
+      {type === 'message' && (
+        <Fragment>
+          <span className="log-username">{username}:</span> <span className="log-message">{text}</span>
+        </Fragment>
+      )}
 
       <span className={`log-${type}`}>
-        {(type === 'connect' ||
-          type === 'disconnect') && <Fragment>{username} has {type}ed</Fragment>}
+        {(type === 'connect' || type === 'disconnect') && (
+          <Fragment>
+            {username} has {type}ed
+          </Fragment>
+        )}
 
-        {(type === 'join' ||
-          type === 'start' ||
-          type === 'open') && <Fragment>{username} has {type}ed the game</Fragment>}
-        {(type === 'create' ||
-          type === 'close' ||
-          type === 'update' ||
-          type === 'leave') && <Fragment>{username} has {type}d the game</Fragment>}
+        {(type === 'join' || type === 'start' || type === 'open') && (
+          <Fragment>
+            {username} has {type}ed the game
+          </Fragment>
+        )}
+        {(type === 'create' || type === 'close' || type === 'update' || type === 'leave') && (
+          <Fragment>
+            {username} has {type}d the game
+          </Fragment>
+        )}
 
         {type === 'ready' && <Fragment>{username} has updated ready status</Fragment>}
 
@@ -37,7 +42,6 @@ export function Log({ type, createdAt, username, text }: {
 
         {type === 'finish' && <Fragment>The game has been finished</Fragment>}
       </span>
-
     </Typography>
   );
 }

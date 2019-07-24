@@ -6,9 +6,7 @@ const initialState = {
 };
 
 const errors = (state: IErrorsState = initialState, action: ActionTypes.Action): IErrorsState => {
-
   switch (action.type) {
-
     case ActionTypes.ADD_ERROR:
       const errorId = state.errors.length && state.errors[state.errors.length - 1].id + 1;
 
@@ -29,9 +27,7 @@ const errors = (state: IErrorsState = initialState, action: ActionTypes.Action):
 
     default:
       return state;
-
   }
-
 };
 
 export default errors;

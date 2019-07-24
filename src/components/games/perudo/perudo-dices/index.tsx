@@ -4,24 +4,18 @@ import { Typography } from '@material-ui/core';
 
 import './index.scss';
 
-const DICES: string[] = [
-  '\u2680',
-  '\u2681',
-  '\u2682',
-  '\u2683',
-  '\u2684',
-  '\u2685',
-];
+const DICES: string[] = ['\u2680', '\u2681', '\u2682', '\u2683', '\u2684', '\u2685'];
 
-export function PerudoDices({ dices, highlightNumber, isHighlightJoker }: {
-  dices: number[];
-  highlightNumber?: number;
-  isHighlightJoker?: boolean;
-}) {
+export function PerudoDices({ dices, highlightNumber, isHighlightJoker }: { dices: number[]; highlightNumber?: number; isHighlightJoker?: boolean }) {
   return (
     <Typography>
       {dices.map((dice, i) => (
-        <span key={i} className={`perudo-dices-dice${dice === highlightNumber || (dice === 1 && highlightNumber && isHighlightJoker) ? ' perudo-dices-highlight' : ''}`}>
+        <span
+          key={i}
+          className={`perudo-dices-dice${
+            dice === highlightNumber || (dice === 1 && highlightNumber && isHighlightJoker) ? ' perudo-dices-highlight' : ''
+          }`}
+        >
           {DICES[dice - 1]}
         </span>
       ))}

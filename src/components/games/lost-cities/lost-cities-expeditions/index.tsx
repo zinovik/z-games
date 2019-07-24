@@ -6,14 +6,19 @@ import { LostCitiesExpeditionCards } from '../lost-cities-expedition-cards';
 
 import './index.scss';
 
-export function LostCitiesExpeditions({ cards, cardsCount, selectedExpedition, isClickable, onClick }: {
-  cards: Array<{ cost: number, expedition: number }>;
+export function LostCitiesExpeditions({
+  cards,
+  cardsCount,
+  selectedExpedition,
+  isClickable,
+  onClick,
+}: {
+  cards: Array<{ cost: number; expedition: number }>;
   cardsCount?: number[];
   selectedExpedition?: number | null;
   isClickable?: boolean;
   onClick?: (expedition: number) => void;
 }) {
-
   const expeditions: number[][] = [];
 
   for (let i = 0; i < EXPEDITIONS_NUMBER; i++) {
@@ -25,7 +30,7 @@ export function LostCitiesExpeditions({ cards, cardsCount, selectedExpedition, i
   });
 
   return (
-    <div className='lost-cities-expeditions'>
+    <div className="lost-cities-expeditions">
       {expeditions.map((expeditionCards, index) => (
         <LostCitiesExpeditionCards
           cards={expeditionCards}

@@ -7,11 +7,16 @@ import { IGame, IUser } from '../../../../interfaces';
 
 import './index.scss';
 
-export function NoThanksMove({ game, currentUser, makeMove, isButtonsDisabled }: {
+export function NoThanksMove({
+  game,
+  currentUser,
+  makeMove,
+  isButtonsDisabled,
+}: {
   game: IGame;
   currentUser: IUser;
   isButtonsDisabled: boolean;
-  makeMove: (parameters: { gameId: string, move: string }) => void;
+  makeMove: (parameters: { gameId: string; move: string }) => void;
 }) {
   const { gameData } = game;
 
@@ -33,21 +38,27 @@ export function NoThanksMove({ game, currentUser, makeMove, isButtonsDisabled }:
   const myChips = currentPlayerInGame && currentPlayerInGame.chips;
 
   return (
-    <div className='no-thanks-buttons'>
+    <div className="no-thanks-buttons">
       <Button
-        variant='contained'
-        color='primary'
-        className='no-thanks-button'
-        onClick={() => { move(false); }}
-        disabled={!myChips || isButtonsDisabled}>
+        variant="contained"
+        color="primary"
+        className="no-thanks-button"
+        onClick={() => {
+          move(false);
+        }}
+        disabled={!myChips || isButtonsDisabled}
+      >
         Pay
       </Button>
       <Button
-        variant='contained'
-        color='primary'
-        className='no-thanks-button'
-        onClick={() => { move(true); }}
-        disabled={isButtonsDisabled}>
+        variant="contained"
+        color="primary"
+        className="no-thanks-button"
+        onClick={() => {
+          move(true);
+        }}
+        disabled={isButtonsDisabled}
+      >
         Take
       </Button>
     </div>

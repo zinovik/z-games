@@ -28,38 +28,28 @@ export function PerudoLastRoundResults({
 }) {
   return (
     <Fragment>
+      <Typography>Last round results</Typography>
 
-      <Typography>
-        Last round results
-      </Typography>
-
-      <Typography>
-        Last bet ({lastPlayerUsername})
-      </Typography>
+      <Typography>Last bet ({lastPlayerUsername})</Typography>
       <PerudoDices dices={Array(lastRoundDiceNumber).fill(lastRoundDiceFigure)} />
 
       {gamePlayers.map((gamePlayer, index) => (
         <Fragment key={index}>
-
-          {players.find(player => player.id === gamePlayer.id) && <PerudoLastRoundResult
-            gamePlayer={gamePlayer}
-            username={players.find(player => player.id === gamePlayer.id)!.username}
-            avatar={players.find(player => player.id === gamePlayer.id)!.avatar}
-            lastRoundDiceFigure={lastRoundDiceFigure}
-            isLastRoundMaputo={isLastRoundMaputo}
-          />}
-
+          {players.find(player => player.id === gamePlayer.id) && (
+            <PerudoLastRoundResult
+              gamePlayer={gamePlayer}
+              username={players.find(player => player.id === gamePlayer.id)!.username}
+              avatar={players.find(player => player.id === gamePlayer.id)!.avatar}
+              lastRoundDiceFigure={lastRoundDiceFigure}
+              isLastRoundMaputo={isLastRoundMaputo}
+            />
+          )}
         </Fragment>
       ))}
 
-      <Button
-        variant='contained'
-        color='primary'
-        className='perudo-last-round-results-button'
-        onClick={hideClick}>
+      <Button variant="contained" color="primary" className="perudo-last-round-results-button" onClick={hideClick}>
         Hide Results
       </Button>
-
     </Fragment>
   );
 }

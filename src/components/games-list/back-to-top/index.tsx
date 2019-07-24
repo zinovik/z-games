@@ -10,7 +10,7 @@ export function BackToTop() {
   };
 
   return (
-    <div className='back-to-top-button'>
+    <div className="back-to-top-button">
       <Fab onClick={handleBackToTop}>
         <ArrowUpward />
       </Fab>
@@ -18,8 +18,6 @@ export function BackToTop() {
   );
 }
 
-BackToTop.propTypes = {
-};
+BackToTop.propTypes = {};
 
-BackToTop.defaultProps = {
-};
+BackToTop.defaultProps = {};

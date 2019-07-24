@@ -30,21 +30,20 @@ import './App.scss';
 export const CurrentUserContext = createContext(null as IUser | null);
 
 interface IAppProps extends Props<{}> {
-  isConnected: boolean,
-  currentUser: IUser | null,
-  errors: IError[],
-  notifications: INotification[],
-  removingGame: string | null,
-  activeInvite: IInvite | null,
-  isYourTurn: boolean,
-  removeError: (errorId: number) => void,
-  removeNotification: (errorId: number) => void,
-  removeGame: (isConfirmed: boolean) => void,
-  closeInvite: (isConfirmed: boolean) => void,
+  isConnected: boolean;
+  currentUser: IUser | null;
+  errors: IError[];
+  notifications: INotification[];
+  removingGame: string | null;
+  activeInvite: IInvite | null;
+  isYourTurn: boolean;
+  removeError: (errorId: number) => void;
+  removeNotification: (errorId: number) => void;
+  removeGame: (isConfirmed: boolean) => void;
+  closeInvite: (isConfirmed: boolean) => void;
 }
 
 class App extends Component<IAppProps, {}> {
-
   public render() {
     const {
       isConnected,
@@ -62,31 +61,25 @@ class App extends Component<IAppProps, {}> {
 
     return (
       <CurrentUserContext.Provider value={currentUser}>
-
         <Switch>
-          <Route path='/home' component={HomePage} />
-          <Route path='/games' component={GamesPage} />
-          <Route path='/invites' component={InvitesPage} />
-          <Route path='/game/:number' component={GamePage} />
-          <Route path='/rating' component={RatingPage} />
-          <Route path='/rules' component={RulesPage} />
-          <Route path='/profile/:username' component={ProfilePage} />
-          <Route path='/profile' component={ProfilePage} />
-          <Route path='/about' component={AboutPage} />
-          <Route path='/activate/:token' component={ActivatePage} />
-          <Route path='/:token' component={HomePage} />
-          <Redirect from='*' to='/home' />
+          <Route path="/home" component={HomePage} />
+          <Route path="/games" component={GamesPage} />
+          <Route path="/invites" component={InvitesPage} />
+          <Route path="/game/:number" component={GamePage} />
+          <Route path="/rating" component={RatingPage} />
+          <Route path="/rules" component={RulesPage} />
+          <Route path="/profile/:username" component={ProfilePage} />
+          <Route path="/profile" component={ProfilePage} />
+          <Route path="/about" component={AboutPage} />
+          <Route path="/activate/:token" component={ActivatePage} />
+          <Route path="/:token" component={HomePage} />
+          <Redirect from="*" to="/home" />
         </Switch>
 
-        <Loading isConnected={isConnected} text='Connecting to the server...' />
+        <Loading isConnected={isConnected} text="Connecting to the server..." />
 
         {errors.map(error => (
-          <NotificationError
-            key={`error${error.id}`}
-            id={error.id}
-            message={error.message}
-            removeError={removeError}
-          />
+          <NotificationError key={`error${error.id}`} id={error.id} message={error.message} removeError={removeError} />
         ))}
 
         {notifications.map(notification => (
@@ -98,21 +91,15 @@ class App extends Component<IAppProps, {}> {
           />
         ))}
 
-        {removingGame && <Confirm
-          text='Are you sure?'
-          confirm={removeGame}
-        />}
-        {activeInvite && <Confirm
-          text={`${activeInvite.createdBy.username} invites you to play ${activeInvite.game.name}. Join?`}
-          confirm={closeInvite}
-        />}
+        {removingGame && <Confirm text="Are you sure?" confirm={removeGame} />}
+        {activeInvite && (
+          <Confirm text={`${activeInvite.createdBy.username} invites you to play ${activeInvite.game.name}. Join?`} confirm={closeInvite} />
+        )}
 
         {isYourTurn && <YourTurn />}
-
       </CurrentUserContext.Provider>
     );
   }
-
 }
 
 const mapStateToProps = (state: IState) => ({

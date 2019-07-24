@@ -21,11 +21,16 @@ import { IGame } from '../../../../interfaces';
 
 import './index.scss';
 
-export function PerudoMove({ game, isMaputoAble, isButtonsDisabled, makeMove }: {
+export function PerudoMove({
+  game,
+  isMaputoAble,
+  isButtonsDisabled,
+  makeMove,
+}: {
   game: IGame;
   isMaputoAble: boolean;
   isButtonsDisabled: boolean;
-  makeMove: (parameters: { gameId: string, move: string }) => void;
+  makeMove: (parameters: { gameId: string; move: string }) => void;
 }) {
   const [diceNumber, setDiceNumber] = useState(0);
   const [diceFigure, setDiceFigure] = useState(0);
@@ -38,11 +43,12 @@ export function PerudoMove({ game, isMaputoAble, isButtonsDisabled, makeMove }: 
   const allDicesCount = countDices(gamePlayers);
 
   if (gameData !== oldGameData) {
-    const {
-      diceNumber: newDiceNumber,
-      diceFigure: newDiceFigure,
-      isBetImpossible: newIsBetImpossible,
-    } = calculateStartBet({ currentDiceNumber, currentDiceFigure, allDicesCount, isMaputoRound });
+    const { diceNumber: newDiceNumber, diceFigure: newDiceFigure, isBetImpossible: newIsBetImpossible } = calculateStartBet({
+      currentDiceNumber,
+      currentDiceFigure,
+      allDicesCount,
+      isMaputoRound,
+    });
 
     setDiceNumber(newDiceNumber);
     setDiceFigure(newDiceFigure);
@@ -55,50 +61,71 @@ export function PerudoMove({ game, isMaputoAble, isButtonsDisabled, makeMove }: 
     const { diceNumber: newDiceNumber } = numberInc(diceNumber);
 
     setDiceNumber(newDiceNumber);
-  }
+  };
 
   const handleNumberDec = (): void => {
-    const { diceNumber: newDiceNumber, diceFigure: newDiceFigure } = numberDec({ diceNumber, diceFigure, currentDiceNumber, currentDiceFigure });
+    const { diceNumber: newDiceNumber, diceFigure: newDiceFigure } = numberDec({
+      diceNumber,
+      diceFigure,
+      currentDiceNumber,
+      currentDiceFigure,
+    });
 
     setDiceNumber(newDiceNumber);
     setDiceFigure(newDiceFigure);
-  }
+  };
 
   const handleFigureInc = (): void => {
-    const { diceNumber: newDiceNumber, diceFigure: newDiceFigure } = figureInc({ diceNumber, diceFigure, currentDiceNumber, currentDiceFigure, allDicesCount });
+    const { diceNumber: newDiceNumber, diceFigure: newDiceFigure } = figureInc({
+      diceNumber,
+      diceFigure,
+      currentDiceNumber,
+      currentDiceFigure,
+      allDicesCount,
+    });
 
     setDiceNumber(newDiceNumber);
     setDiceFigure(newDiceFigure);
-  }
+  };
 
   const handleFigureDec = (): void => {
-    const { diceNumber: newDiceNumber, diceFigure: newDiceFigure } = figureDec({ diceNumber, diceFigure, currentDiceNumber, currentDiceFigure, allDicesCount });
+    const { diceNumber: newDiceNumber, diceFigure: newDiceFigure } = figureDec({
+      diceNumber,
+      diceFigure,
+      currentDiceNumber,
+      currentDiceFigure,
+      allDicesCount,
+    });
 
     setDiceNumber(newDiceNumber);
     setDiceFigure(newDiceFigure);
-  }
+  };
 
   const moveBet = (): void => {
     let perudoMove: IPerudoMove;
 
     if (isMaputoAble) {
-      perudoMove = { number: diceNumber, figure: diceFigure, isMaputo } as IPerudoMove;
+      perudoMove = {
+        number: diceNumber,
+        figure: diceFigure,
+        isMaputo,
+      } as IPerudoMove;
     } else {
       perudoMove = { number: diceNumber, figure: diceFigure } as IPerudoMove;
     }
 
     makeMove({ gameId: game.id, move: JSON.stringify(perudoMove) });
-  }
+  };
 
   const moveNotBelieve = (): void => {
     const perudoMove: IPerudoMove = { notBelieve: true } as IPerudoMove;
 
     makeMove({ gameId: game.id, move: JSON.stringify(perudoMove) });
-  }
+  };
 
   const handleMaputoChange = (): void => {
     setIsMaputo(!isMaputo);
-  }
+  };
 
   const myBetNumberDecDisable = diceNumber <= countMinNumber({ currentDiceNumber, currentDiceFigure, isMaputoRound });
   const myBetNumberIncDisable = diceNumber >= countMaxNumber({ allDicesCount });
@@ -106,46 +133,57 @@ export function PerudoMove({ game, isMaputoAble, isButtonsDisabled, makeMove }: 
   const myBetFigureIncDisable = diceFigure >= countMaxFigure({ currentDiceNumber, currentDiceFigure, allDicesCount });
 
   return (
-    <div className='perudo-my-bet'>
-      <Typography>
-        My bet
-      </Typography>
+    <div className="perudo-my-bet">
+      <Typography>My bet</Typography>
 
       <PerudoDices dices={Array(diceNumber).fill(diceFigure)} />
 
+      <Typography>Dice number</Typography>
       <Typography>
-        Dice number
-      </Typography>
-      <Typography>
-        <Button onClick={handleNumberDec} disabled={myBetNumberDecDisable}>-</Button>
+        <Button onClick={handleNumberDec} disabled={myBetNumberDecDisable}>
+          -
+        </Button>
         {diceNumber}
-        <Button onClick={handleNumberInc} disabled={myBetNumberIncDisable}>+</Button>
+        <Button onClick={handleNumberInc} disabled={myBetNumberIncDisable}>
+          +
+        </Button>
       </Typography>
 
-      {!isMaputoRound && <Fragment>
-        <Typography>
-          Dice figure
-        </Typography>
-        <Typography>
-          <Button onClick={handleFigureDec} disabled={myBetFigureDecDisable}>-</Button>
-          {diceFigure}
-          <Button onClick={handleFigureInc} disabled={myBetFigureIncDisable}>+</Button>
-        </Typography>
-      </Fragment>}
+      {!isMaputoRound && (
+        <Fragment>
+          <Typography>Dice figure</Typography>
+          <Typography>
+            <Button onClick={handleFigureDec} disabled={myBetFigureDecDisable}>
+              -
+            </Button>
+            {diceFigure}
+            <Button onClick={handleFigureInc} disabled={myBetFigureIncDisable}>
+              +
+            </Button>
+          </Typography>
+        </Fragment>
+      )}
 
-      {isMaputoAble && <Typography>
-        <FormControlLabel control={<Checkbox onChange={handleMaputoChange} />} label='Maputo' />
-      </Typography>}
+      {isMaputoAble && (
+        <Typography>
+          <FormControlLabel control={<Checkbox onChange={handleMaputoChange} />} label="Maputo" />
+        </Typography>
+      )}
 
-      <Typography className='perudo-move-buttons'>
-        <Button variant='contained' color='primary' className='perudo-move-button' onClick={moveBet} disabled={isBetImpossible || isButtonsDisabled}>
+      <Typography className="perudo-move-buttons">
+        <Button variant="contained" color="primary" className="perudo-move-button" onClick={moveBet} disabled={isBetImpossible || isButtonsDisabled}>
           Bet
         </Button>
-        <Button variant='contained' color='primary' className='perudo-move-button' onClick={moveNotBelieve} disabled={!currentDiceNumber || !currentDiceFigure || isButtonsDisabled}>
+        <Button
+          variant="contained"
+          color="primary"
+          className="perudo-move-button"
+          onClick={moveNotBelieve}
+          disabled={!currentDiceNumber || !currentDiceFigure || isButtonsDisabled}
+        >
           Not Believe
         </Button>
       </Typography>
-
     </div>
   );
 }

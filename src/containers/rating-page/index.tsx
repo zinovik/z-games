@@ -9,10 +9,14 @@ import { IUser, IState } from '../../interfaces';
 
 import './index.scss';
 
-function RatingPagePure({ serverUrl, usersRating, fetchRating }: {
-  serverUrl: string,
-  usersRating: IUser[],
-  fetchRating: (serverUrl: string) => Promise<void>,
+function RatingPagePure({
+  serverUrl,
+  usersRating,
+  fetchRating,
+}: {
+  serverUrl: string;
+  usersRating: IUser[];
+  fetchRating: (serverUrl: string) => Promise<void>;
 }) {
   const [isFetching, setIsFetched] = useState(false);
 
@@ -22,10 +26,10 @@ function RatingPagePure({ serverUrl, usersRating, fetchRating }: {
   }
 
   return (
-    <main className='rating-page-container'>
+    <main className="rating-page-container">
       <Header />
 
-      <div className='rating-page-content'>
+      <div className="rating-page-content">
         <UsersRating users={usersRating} />
       </div>
     </main>

@@ -7,57 +7,55 @@ import { LostCitiesMove } from './lost-cities-move';
 import { LostCitiesExpeditions } from './lost-cities-expeditions';
 import { IGame, IUser } from '../../../interfaces';
 
-export function LostCities({ game, currentUser, isMyTurn, isButtonsDisabled, makeMove }: {
-	game: IGame;
-	currentUser: IUser;
-	isMyTurn: boolean;
-	isButtonsDisabled: boolean;
-	makeMove: ({ gameId, move }: { gameId: string, move: string }) => void;
+export function LostCities({
+  game,
+  currentUser,
+  isMyTurn,
+  isButtonsDisabled,
+  makeMove,
+}: {
+  game: IGame;
+  currentUser: IUser;
+  isMyTurn: boolean;
+  isButtonsDisabled: boolean;
+  makeMove: ({ gameId, move }: { gameId: string; move: string }) => void;
 }) {
-	const { gameData } = game;
+  const { gameData } = game;
 
-	if (!currentUser) {
-		return null;
-	}
+  if (!currentUser) {
+    return null;
+  }
 
-	const { discards, cardsLeft, discardsCount }: ILostCitiesData = JSON.parse(gameData);
+  const { discards, cardsLeft, discardsCount }: ILostCitiesData = JSON.parse(gameData);
 
-	return (
-		<Fragment>
+  return (
+    <Fragment>
+      <Typography>{cardsLeft} cards left</Typography>
 
-			<Typography>
-				{cardsLeft} cards left
-			</Typography>
+      {(!isMyTurn || (isMyTurn && !discards.length)) && (
+        <Fragment>
+          <Typography>Discards:</Typography>
+          <LostCitiesExpeditions cards={discards} cardsCount={discardsCount} />
+        </Fragment>
+      )}
 
-			{(!isMyTurn || (isMyTurn && !discards.length)) && <Fragment>
-				<Typography>
-					Discards:
-					</Typography>
-				<LostCitiesExpeditions cards={discards} cardsCount={discardsCount} />
-			</Fragment>}
-
-			{isMyTurn && <LostCitiesMove
-				game={game}
-				currentUser={currentUser}
-				isButtonsDisabled={isButtonsDisabled}
-				makeMove={makeMove}
-			/>}
-		</Fragment>
-	);
+      {isMyTurn && <LostCitiesMove game={game} currentUser={currentUser} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />}
+    </Fragment>
+  );
 }
 
 LostCities.propTypes = {
-	game: object.isRequired,
-	currentUser: object.isRequired,
-	isMyTurn: bool.isRequired,
-	isButtonsDisabled: bool.isRequired,
-	makeMove: func.isRequired,
+  game: object.isRequired,
+  currentUser: object.isRequired,
+  isMyTurn: bool.isRequired,
+  isButtonsDisabled: bool.isRequired,
+  makeMove: func.isRequired,
 };
 
 LostCities.defaultProps = {
-	game: {},
-	currentUser: {},
-	isMyTurn: false,
-	isButtonsDisabled: false,
-	makeMove: () => null,
+  game: {},
+  currentUser: {},
+  isMyTurn: false,
+  isButtonsDisabled: false,
+  makeMove: () => null,
 };

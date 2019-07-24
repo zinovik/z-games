@@ -8,11 +8,16 @@ import { IUser } from '../../../interfaces';
 
 import './index.scss';
 
-export function NewInvite({ currentUserId, gameId, users, newInvite }: {
+export function NewInvite({
+  currentUserId,
+  gameId,
+  users,
+  newInvite,
+}: {
   currentUserId: string;
   gameId: string;
   users: IUser[];
-  newInvite: (parameters: { gameId: string; userId: string; }) => void;
+  newInvite: (parameters: { gameId: string; userId: string }) => void;
 }) {
   const [isModalShow, setIsModalShow] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -28,12 +33,13 @@ export function NewInvite({ currentUserId, gameId, users, newInvite }: {
     const token = localStorage.getItem('token');
     const fetchResult = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/find/${username}`, {
       headers: {
-        'Authorization': `Bearer ${token}`,
-      }
+        Authorization: `Bearer ${token}`,
+      },
     });
     setIsLoading(false);
 
-    if (fetchResult.status !== 200) { // TODO
+    if (fetchResult.status !== 200) {
+      // TODO
       return;
     }
 
@@ -71,64 +77,52 @@ export function NewInvite({ currentUserId, gameId, users, newInvite }: {
 
   return (
     <Fragment>
-      <div className='new-invite-button'>
+      <div className="new-invite-button">
         <Fab onClick={handleNewGame}>
           <PersonAdd />
         </Fab>
       </div>
 
       <Dialog open={isModalShow} onClose={handleClose}>
-
         <DialogTitle>New invite</DialogTitle>
 
         <DialogContent>
-
-          <DialogContentText>
-            Choose a player to invite
-          </DialogContentText>
+          <DialogContentText>Choose a player to invite</DialogContentText>
 
           <DialogActions>
-
-            <div className='new-invite-users-container'>
-              {users.length > 1 && <div>
-                <Typography>
-                  Users online:
-                </Typography>
-                <div className='new-invite-users-online'>
-                  {users.map(user => (
-                    currentUserId !== user.id && <Button
-                      onClick={() => handleCreateInvite(user.id)}
-                      key={`new-invite-${user.id}`}
-                    >
-                      <User username={user.username} avatar={user.avatar} />
-                    </Button>
-                  ))}
+            <div className="new-invite-users-container">
+              {users.length > 1 && (
+                <div>
+                  <Typography>Users online:</Typography>
+                  <div className="new-invite-users-online">
+                    {users.map(
+                      user =>
+                        currentUserId !== user.id && (
+                          <Button onClick={() => handleCreateInvite(user.id)} key={`new-invite-${user.id}`}>
+                            <User username={user.username} avatar={user.avatar} />
+                          </Button>
+                        ),
+                    )}
+                  </div>
                 </div>
-              </div>}
+              )}
 
               <div>
-                <TextField
-                  type='text'
-                  placeholder='Username'
-                  onChange={handleUsernameChange}
-                />
+                <TextField type="text" placeholder="Username" onChange={handleUsernameChange} />
               </div>
-              <div className='new-invite-users-online'>
-                {isLoading && <Typography>
-                  Loading...
-                </Typography>}
-                {loadedUsers.map(user => (
-                  currentUserId !== user.id && <Button
-                    onClick={() => handleCreateInvite(user.id)}
-                    key={`new-invite-${user.id}`}
-                  >
-                    <User username={user.username} avatar={user.avatar} />
-                  </Button>
-                ))}
+              <div className="new-invite-users-online">
+                {isLoading && <Typography>Loading...</Typography>}
+                {loadedUsers.map(
+                  user =>
+                    currentUserId !== user.id && (
+                      <Button onClick={() => handleCreateInvite(user.id)} key={`new-invite-${user.id}`}>
+                        <User username={user.username} avatar={user.avatar} />
+                      </Button>
+                    ),
+                )}
               </div>
             </div>
           </DialogActions>
-
         </DialogContent>
       </Dialog>
     </Fragment>

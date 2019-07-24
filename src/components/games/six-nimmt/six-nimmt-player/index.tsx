@@ -9,7 +9,12 @@ import { IGame } from '../../../../interfaces';
 
 import './index.scss';
 
-export function SixNimmtPlayer({ gamePlayer, isCurrentPlayer, isMyTurn, game }: {
+export function SixNimmtPlayer({
+  gamePlayer,
+  isCurrentPlayer,
+  isMyTurn,
+  game,
+}: {
   gamePlayer: ISixNimmtPlayer;
   isCurrentPlayer?: boolean;
   isMyTurn?: boolean;
@@ -26,42 +31,46 @@ export function SixNimmtPlayer({ gamePlayer, isCurrentPlayer, isMyTurn, game }: 
 
   return (
     <Fragment>
-      {(isCurrentPlayer && (!isMyTurn || !isCardsPlaying)) && cardsHand && cardsHand.length > 0 && <Fragment>
-        <SixNimmtCardsList cards={cardsHand} />
-      </Fragment>}
+      {isCurrentPlayer && (!isMyTurn || !isCardsPlaying) && cardsHand && cardsHand.length > 0 && (
+        <Fragment>
+          <SixNimmtCardsList cards={cardsHand} />
+        </Fragment>
+      )}
 
-      <div className='six-nimmt-player-last-info-container'>
-        {lastPlayedCard && <div className='six-nimmt-player-last-info'>
-          <Typography>
-            Last played
-          </Typography>
-          <div>
-            <SixNimmtCard card={lastPlayedCard} />
+      <div className="six-nimmt-player-last-info-container">
+        {lastPlayedCard && (
+          <div className="six-nimmt-player-last-info">
+            <Typography>Last played</Typography>
+            <div>
+              <SixNimmtCard card={lastPlayedCard} />
+            </div>
           </div>
-        </div>}
+        )}
 
-        {lastPlayedCardForPlayers && !lastPlayedCard && <div className='six-nimmt-player-last-info'>
-          <Typography>
-            Last played
-          </Typography>
-          <div>
-            <SixNimmtCard card={lastPlayedCardForPlayers} />
+        {lastPlayedCardForPlayers && !lastPlayedCard && (
+          <div className="six-nimmt-player-last-info">
+            <Typography>Last played</Typography>
+            <div>
+              <SixNimmtCard card={lastPlayedCardForPlayers} />
+            </div>
           </div>
-        </div>}
+        )}
 
-        {lastTakenCards && lastTakenCards.length > 0 && <div className='six-nimmt-player-last-info'>
-          <Typography>
-            Last taken
-          </Typography>
-          <div>
-            <SixNimmtCardsList cards={lastTakenCards} />
+        {lastTakenCards && lastTakenCards.length > 0 && (
+          <div className="six-nimmt-player-last-info">
+            <Typography>Last taken</Typography>
+            <div>
+              <SixNimmtCardsList cards={lastTakenCards} />
+            </div>
           </div>
-        </div>}
+        )}
       </div>
 
-      {cardsTakenCount !== undefined && <Typography className='six-nimmt-player-cards-and-points'>
-        {cardsTakenCount} cards taken | {points} (+{pointsCurrentRound}) points
-      </Typography>}
+      {cardsTakenCount !== undefined && (
+        <Typography className="six-nimmt-player-cards-and-points">
+          {cardsTakenCount} cards taken | {points} (+{pointsCurrentRound}) points
+        </Typography>
+      )}
     </Fragment>
   );
 }

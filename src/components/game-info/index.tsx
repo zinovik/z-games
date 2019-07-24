@@ -37,8 +37,8 @@ export function GameInfo({
   startGame: (gameId: string) => void;
   updateRemovingGame: (gameId: string) => void;
   repeatGame: (gameId: string) => void;
-  updateOption: (parameters: { gameId: string, name: string, value: string }) => void;
-  newInvite: (parameters: { gameId: string; userId: string; }) => void;
+  updateOption: (parameters: { gameId: string; name: string; value: string }) => void;
+  newInvite: (parameters: { gameId: string; userId: string }) => void;
 }) {
   const [isRulesShown, setIsRulesShown] = useState(false);
 
@@ -81,9 +81,8 @@ export function GameInfo({
   const maxTimeOption = gameDataParsed.options.find(option => option.name === 'Max Time');
   const maxTime = BaseGame.getMaxTimeVariants()[maxTimeOption!.value];
 
-  const isAbleToStart = game.players.length >= game.playersMin
-    && game.players.length <= game.playersMax
-    && gamePlayers.every(gamePlayer => gamePlayer.ready);
+  const isAbleToStart =
+    game.players.length >= game.playersMin && game.players.length <= game.playersMax && gamePlayers.every(gamePlayer => gamePlayer.ready);
 
   const isAccessToRemove = game.createdBy && game.createdBy.id === currentUserId;
 
@@ -91,94 +90,101 @@ export function GameInfo({
 
   return (
     <div>
-      <div className='game-info-container'>
+      <div className="game-info-container">
         <Typography>
           <img
             src={`/images/${GamesServices[game.name].getNameWork()}.png`}
-            className='game-info-img'
+            className="game-info-img"
             onClick={handleLogoClick}
             title={`click to see ${game.name} game rules`}
-            alt='game logo'
+            alt="game logo"
           />
         </Typography>
 
-        <div className='game-info-players'>
-
+        <div className="game-info-players">
           <Typography>
             {isPrivate && <Lock />} #{game.number}: {game.name}
           </Typography>
 
-          {game.state === GAME_NOT_STARTED && <Typography>
-            ({game.playersMin} min, {game.playersMax} max)
-          </Typography>}
+          {game.state === GAME_NOT_STARTED && (
+            <Typography>
+              ({game.playersMin} min, {game.playersMax} max)
+            </Typography>
+          )}
 
           {gamePlayers.map((gamePlayer, index) => (
             <Typography key={index}>
+              {playersOnline.some(playerOnline => playerOnline.id === gamePlayer.id) ? (
+                <span className="player-online-dot game-green-dot" />
+              ) : (
+                <span className="player-online-dot game-red-dot" />
+              )}
 
-              {playersOnline.some(playerOnline => playerOnline.id === gamePlayer.id) ?
-                <span className='player-online-dot game-green-dot' /> :
-                <span className='player-online-dot game-red-dot' />
-              }
-
-              {game.state === GAME_NOT_STARTED && (gamePlayer.ready ?
-                <span className='player-ready-dot game-green-dot' /> :
-                <span className='player-ready-dot game-yellow-dot' />)
-              }
+              {game.state === GAME_NOT_STARTED &&
+                (gamePlayer.ready ? <span className="player-ready-dot game-green-dot" /> : <span className="player-ready-dot game-yellow-dot" />)}
 
               {game.players.find(player => player.id === gamePlayer.id) && game.players.find(player => player.id === gamePlayer.id)!.username}
 
-              {nextPlayers.some(nextPlayer => nextPlayer.id === gamePlayer.id)
-                && <img src='/images/sandglass.gif' alt='sandglass' className='sandglass' />}
-
+              {nextPlayers.some(nextPlayer => nextPlayer.id === gamePlayer.id) && (
+                <img src="/images/sandglass.gif" alt="sandglass" className="sandglass" />
+              )}
             </Typography>
           ))}
 
           {watchersOnline.map((watcher, index) => (
             <Typography key={index}>
-              <span className='player-dot game-green-dot' />
+              <span className="player-dot game-green-dot" />
               {watcher.username}
             </Typography>
           ))}
         </div>
 
-        <div className='game-info-buttons'>
-          {isAccessToRemove && <Button onClick={handleRemoveClick} disabled={isButtonsDisabled}>Remove</Button>}
-
-          <Button onClick={handleCloseClick} disabled={isButtonsDisabled}>Close</Button>
-
-          {isAccessToRepeat && game.state === GAME_FINISHED && <Button onClick={handleRepeatClick} disabled={isButtonsDisabled}>Repeat</Button>}
-
-          {game.state === GAME_NOT_STARTED && <Button onClick={handleLeaveClick} disabled={isButtonsDisabled}>Leave</Button>}
-
-          {game.state === GAME_NOT_STARTED && <Fragment>
-            <Button onClick={handleReadyClick} disabled={isButtonsDisabled}>
-              {gamePlayers.find(gamePlayer => gamePlayer.id === currentUserId)!.ready ? 'Not Ready' : 'Ready'}
+        <div className="game-info-buttons">
+          {isAccessToRemove && (
+            <Button onClick={handleRemoveClick} disabled={isButtonsDisabled}>
+              Remove
             </Button>
+          )}
 
-            <Button onClick={handleStartClick} disabled={!isAbleToStart || isButtonsDisabled}>Start</Button>
-          </Fragment>}
+          <Button onClick={handleCloseClick} disabled={isButtonsDisabled}>
+            Close
+          </Button>
+
+          {isAccessToRepeat && game.state === GAME_FINISHED && (
+            <Button onClick={handleRepeatClick} disabled={isButtonsDisabled}>
+              Repeat
+            </Button>
+          )}
+
+          {game.state === GAME_NOT_STARTED && (
+            <Button onClick={handleLeaveClick} disabled={isButtonsDisabled}>
+              Leave
+            </Button>
+          )}
+
+          {game.state === GAME_NOT_STARTED && (
+            <Fragment>
+              <Button onClick={handleReadyClick} disabled={isButtonsDisabled}>
+                {gamePlayers.find(gamePlayer => gamePlayer.id === currentUserId)!.ready ? 'Not Ready' : 'Ready'}
+              </Button>
+
+              <Button onClick={handleStartClick} disabled={!isAbleToStart || isButtonsDisabled}>
+                Start
+              </Button>
+            </Fragment>
+          )}
         </div>
 
         {isRulesShown && <GameRules gameName={game.name} close={handleRulesClose} />}
       </div>
 
-      {game.state === GAME_STARTED && <GameMoveTime
-        previousMoveAt={previousMoveAt}
-        maxTime={maxTime}
-      />}
+      {game.state === GAME_STARTED && <GameMoveTime previousMoveAt={previousMoveAt} maxTime={maxTime} />}
 
-      {gameDataParsed.options && gameDataParsed.options.length > 0 && <GameOptions
-        game={game}
-        isButtonsDisabled={isButtonsDisabled || game.state !== GAME_NOT_STARTED}
-        updateOption={updateOption}
-      />}
+      {gameDataParsed.options && gameDataParsed.options.length > 0 && (
+        <GameOptions game={game} isButtonsDisabled={isButtonsDisabled || game.state !== GAME_NOT_STARTED} updateOption={updateOption} />
+      )}
 
-      {game.state === GAME_NOT_STARTED && <NewInvite
-        currentUserId={currentUserId}
-        gameId={game.id}
-        users={users}
-        newInvite={newInvite}
-      />}
+      {game.state === GAME_NOT_STARTED && <NewInvite currentUserId={currentUserId} gameId={game.id} users={users} newInvite={newInvite} />}
     </div>
   );
 }

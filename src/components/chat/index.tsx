@@ -7,27 +7,31 @@ import { ILog } from '../../interfaces';
 
 import './index.scss';
 
-export function Chat({ logs, gameId, sendMessage }: {
+export function Chat({
+  logs,
+  gameId,
+  sendMessage,
+}: {
   logs: ILog[];
   gameId: string;
-  sendMessage: (parameters: { gameId: string, message: string }) => void;
+  sendMessage: (parameters: { gameId: string; message: string }) => void;
 }) {
   return (
-    <div className='chat-container'>
-      <div className='chat-new-message'>
+    <div className="chat-container">
+      <div className="chat-new-message">
         <NewMessage gameId={gameId} sendMessage={sendMessage} />
       </div>
-      <div className='chat-logs'>
+      <div className="chat-logs">
         <LogsList logs={logs} />
       </div>
     </div>
   );
-};
+}
 
 Chat.propTypes = {
   logs: array.isRequired,
   gameId: string.isRequired,
-  sendMessage: func.isRequired
+  sendMessage: func.isRequired,
 };
 
 Chat.defaultProps = {

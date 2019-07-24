@@ -11,7 +11,14 @@ import { IGame, IUser } from '../../../interfaces';
 
 import './index.scss';
 
-export function Game({ game, currentUser, isButtonsDisabled, joinGame, openGame, watchGame }: {
+export function Game({
+  game,
+  currentUser,
+  isButtonsDisabled,
+  joinGame,
+  openGame,
+  watchGame,
+}: {
   game: IGame;
   currentUser?: IUser;
   isButtonsDisabled: boolean;
@@ -43,11 +50,12 @@ export function Game({ game, currentUser, isButtonsDisabled, joinGame, openGame,
     watchGame(gameId);
   };
 
-  const isAbleToJoin = currentUser
-    && (!isPrivate || currentUser.id === (game.createdBy && game.createdBy.id))
-    && !state
-    && players.length < playersMax
-    && !players.some(player => player.id === currentUser.id);
+  const isAbleToJoin =
+    currentUser &&
+    (!isPrivate || currentUser.id === (game.createdBy && game.createdBy.id)) &&
+    !state &&
+    players.length < playersMax &&
+    !players.some(player => player.id === currentUser.id);
   const isAbleToOpen = currentUser && players.some(player => player.id === currentUser.id);
   const isAbleToWatch = currentUser && !isPrivate && state > GAME_NOT_STARTED && !players.some(player => player.id === currentUser.id);
 
@@ -56,58 +64,60 @@ export function Game({ game, currentUser, isButtonsDisabled, joinGame, openGame,
 
   return (
     <Fragment>
-      <Card className='game-card'>
-        <CardHeader
-          title={`#${gameNumber}: ${name}`}
-          subheader={moment(createdAt).fromNow()}
-        />
+      <Card className="game-card">
+        <CardHeader title={`#${gameNumber}: ${name}`} subheader={moment(createdAt).fromNow()} />
 
-        <div className='game-img-container'>
+        <div className="game-img-container">
           <img
             src={`/images/${GamesServices[name].getNameWork()}.png`}
-            className='game-img'
+            className="game-img"
             onClick={handleLogoClick}
             title={`click to see ${name} game rules`}
-            alt='game logo'
+            alt="game logo"
           />
         </div>
 
         <CardContent>
-
           <Typography>
             {isPrivate && <Lock />}
             {`by ${game.createdBy && game.createdBy.username}`}
           </Typography>
 
           <Typography>
-            {players.length} {players.length === 1 ? 'player' : 'players'}{isGameWithCurrentUser && ' [with me]'}
+            {players.length} {players.length === 1 ? 'player' : 'players'}
+            {isGameWithCurrentUser && ' [with me]'}
           </Typography>
 
           <Typography>
-            {state === GAME_NOT_STARTED && <span className='game-dot game-green-dot' />}
-            {state === GAME_STARTED && <span className='game-dot game-yellow-dot' />}
-            {state === GAME_FINISHED && <span className='game-dot game-red-dot' />}
-            {GAME_STATE_LABEL[state]}{isCurrentUserMove && ' [my move!]'}
+            {state === GAME_NOT_STARTED && <span className="game-dot game-green-dot" />}
+            {state === GAME_STARTED && <span className="game-dot game-yellow-dot" />}
+            {state === GAME_FINISHED && <span className="game-dot game-red-dot" />}
+            {GAME_STATE_LABEL[state]}
+            {isCurrentUserMove && ' [my move!]'}
           </Typography>
-
         </CardContent>
 
-        {currentUser && <CardActions>
+        {currentUser && (
+          <CardActions>
+            {isAbleToJoin && (
+              <IconButton onClick={handleJoinClick} disabled={isButtonsDisabled} title="Click to join the game">
+                <Gamepad />
+              </IconButton>
+            )}
 
-          {isAbleToJoin && <IconButton onClick={handleJoinClick} disabled={isButtonsDisabled} title='Click to join the game' >
-            <Gamepad />
-          </IconButton>}
+            {isAbleToOpen && (
+              <IconButton onClick={handleOpenClick} disabled={isButtonsDisabled} title="Click to open the game">
+                <OpenInBrowser />
+              </IconButton>
+            )}
 
-          {isAbleToOpen && <IconButton onClick={handleOpenClick} disabled={isButtonsDisabled} title='Click to open the game' >
-            <OpenInBrowser />
-          </IconButton>}
-
-          {isAbleToWatch && <IconButton onClick={handleWatchClick} disabled={isButtonsDisabled} title='Click to watch the game' >
-            <RemoveRedEye />
-          </IconButton>}
-
-        </CardActions>}
-
+            {isAbleToWatch && (
+              <IconButton onClick={handleWatchClick} disabled={isButtonsDisabled} title="Click to watch the game">
+                <RemoveRedEye />
+              </IconButton>
+            )}
+          </CardActions>
+        )}
       </Card>
 
       {isRulesShown && <GameRules gameName={name} close={handleRulesClose} />}

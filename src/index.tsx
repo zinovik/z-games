@@ -35,9 +35,12 @@ const history = createBrowserHistory();
 
 const reduxDevTools = (window as any).__REDUX_DEVTOOLS_EXTENSION__;
 
-const enhancers = reduxDevTools ?
-  compose(applyMiddleware(routerMiddleware(history), thunk), reduxDevTools()) :
-  applyMiddleware(routerMiddleware(history), thunk);
+const enhancers = reduxDevTools
+  ? compose(
+      applyMiddleware(routerMiddleware(history), thunk),
+      reduxDevTools(),
+    )
+  : applyMiddleware(routerMiddleware(history), thunk);
 
 const store = createStore(createRootReducer(history), {}, enhancers);
 socketService.provideDispatch(store.dispatch);
@@ -58,9 +61,8 @@ render(
 );
 // registerServiceWorker();
 
-initializeFirebase()
-  .then(() => {
-    // const token = askForPermissionToReceiveNotifications();
-    askForPermissionToReceiveNotifications();
-    // TODO: Add token to the user
-  });
+initializeFirebase().then(() => {
+  // const token = askForPermissionToReceiveNotifications();
+  askForPermissionToReceiveNotifications();
+  // TODO: Add token to the user
+});

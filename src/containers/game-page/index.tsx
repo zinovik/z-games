@@ -53,10 +53,10 @@ function GamePagePure({
   startGame: (gameId: string) => void;
   updateRemovingGame: (gameId: string) => void;
   repeatGame: (gameId: string) => void;
-  sendMessage: ({ gameId, message }: { gameId: string, message: string }) => void;
-  makeMove: ({ gameId, move }: { gameId: string, move: string }) => void;
-  updateOption: ({ gameId, name, value }: { gameId: string, name: string, value: string }) => void;
-  newInvite: (data: { gameId: string; userId: string; }) => void;
+  sendMessage: ({ gameId, message }: { gameId: string; message: string }) => void;
+  makeMove: ({ gameId, move }: { gameId: string; move: string }) => void;
+  updateOption: ({ gameId, name, value }: { gameId: string; name: string; value: string }) => void;
+  newInvite: (data: { gameId: string; userId: string }) => void;
 }) {
   if (!game || !currentUser) {
     return null;
@@ -64,19 +64,14 @@ function GamePagePure({
 
   return (
     <main>
-      <div className='game-page-container'>
+      <div className="game-page-container">
         <div className={`game-page-table${game.state === GAME_NOT_STARTED ? ' game-page-table-not-started' : ''}`}>
-          <GameTable
-            game={game}
-            currentUser={currentUser}
-            isButtonsDisabled={isButtonsDisabled}
-            makeMove={makeMove}
-          />
+          <GameTable game={game} currentUser={currentUser} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />
         </div>
 
-        <div className='game-page-info-chat-container'>
-          <div className='game-page-info-container'>
-            <Paper className='game-page-info'>
+        <div className="game-page-info-chat-container">
+          <div className="game-page-info-container">
+            <Paper className="game-page-info">
               <GameInfo
                 game={game}
                 currentUserId={currentUser.id}
@@ -94,13 +89,9 @@ function GamePagePure({
             </Paper>
           </div>
 
-          <div className='game-page-chat-container'>
-            <Paper className='game-page-chat'>
-              <Chat
-                logs={game.logs}
-                gameId={game.id}
-                sendMessage={sendMessage}
-              />
+          <div className="game-page-chat-container">
+            <Paper className="game-page-chat">
+              <Chat logs={game.logs} gameId={game.id} sendMessage={sendMessage} />
             </Paper>
           </div>
         </div>

@@ -13,7 +13,10 @@ export const initialState = {
     isWithoutMe: true,
     isMyMove: true,
     isNotMyMove: true,
-    isGames: gamesNames.reduce((acc: any, gameName: string) => { acc[gameName] = true; return acc; }, {}),
+    isGames: gamesNames.reduce((acc: any, gameName: string) => {
+      acc[gameName] = true;
+      return acc;
+    }, {}),
     limit: 21,
     offset: 0,
   },
@@ -25,9 +28,7 @@ export const initialState = {
 };
 
 const games = (state: IGamesState = initialState, action: ActionTypes.Action): IGamesState => {
-
   switch (action.type) {
-
     case ActionTypes.UPDATE_ALL_GAMES:
       return {
         ...state,
@@ -55,10 +56,7 @@ const games = (state: IGamesState = initialState, action: ActionTypes.Action): I
           ...state,
           openGame: {
             ...state.openGame,
-            logs: [
-              action.newLog,
-              ...state.openGame.logs,
-            ]
+            logs: [action.newLog, ...state.openGame.logs],
           },
         };
       }
@@ -67,16 +65,13 @@ const games = (state: IGamesState = initialState, action: ActionTypes.Action): I
     case ActionTypes.ADD_NEW_GAME:
       return {
         ...state,
-        allGames: [
-          action.newGame,
-          ...state.allGames,
-        ],
+        allGames: [action.newGame, ...state.allGames],
       };
 
     case ActionTypes.UPDATE_GAME:
       return {
         ...state,
-        allGames: state.allGames.map(game => game.id === action.game.id ? { ...game, ...action.game } : { ...game }),
+        allGames: state.allGames.map(game => (game.id === action.game.id ? { ...game, ...action.game } : { ...game })),
       };
 
     case ActionTypes.REMOVE_GAME:
@@ -119,9 +114,7 @@ const games = (state: IGamesState = initialState, action: ActionTypes.Action): I
 
     default:
       return state;
-
   }
-
-}
+};
 
 export default games;

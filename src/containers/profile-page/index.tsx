@@ -8,9 +8,14 @@ import { UserProfile } from '../../components/user-profile';
 
 import './index.scss';
 
-function ProfilePagePure({ match: { params: { username } }, history }: {
-  match: { params: { username: string } },
-  history: History,
+function ProfilePagePure({
+  match: {
+    params: { username },
+  },
+  history,
+}: {
+  match: { params: { username: string } };
+  history: History;
 }) {
   let currentUser = useContext(CurrentUserContext);
 
@@ -25,14 +30,12 @@ function ProfilePagePure({ match: { params: { username } }, history }: {
   }
 
   return (
-    <main className='profile-page-container'>
-
+    <main className="profile-page-container">
       <Header />
 
-      <div className='profile-page-content'>
+      <div className="profile-page-content">
         <UserProfile user={currentUser} />
       </div>
-
     </main>
   );
 }

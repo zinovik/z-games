@@ -17,11 +17,16 @@ import { IGame, IUser, GameDataType, GamePlayerType } from '../../interfaces';
 
 import './index.scss';
 
-export function GameTable({ game, currentUser, isButtonsDisabled, makeMove }: {
+export function GameTable({
+  game,
+  currentUser,
+  isButtonsDisabled,
+  makeMove,
+}: {
   game: IGame;
   currentUser: IUser;
   isButtonsDisabled: boolean;
-  makeMove: (parameters: { gameId: string, move: string }) => void;
+  makeMove: (parameters: { gameId: string; move: string }) => void;
 }) {
   const [oldGameData, setOldGameData] = useState('');
 
@@ -39,70 +44,48 @@ export function GameTable({ game, currentUser, isButtonsDisabled, makeMove }: {
 
   return (
     <Fragment>
-      {game.state === GAME_STARTED && <div className='game-table-container'>
+      {game.state === GAME_STARTED && (
+        <div className="game-table-container">
+          <GamePlayers game={game} currentUserId={currentUser.id} gamePlayers={gamePlayers} players={players} nextPlayers={nextPlayers} />
 
-        <GamePlayers
-          game={game}
-          currentUserId={currentUser.id}
-          gamePlayers={gamePlayers}
-          players={players}
-          nextPlayers={nextPlayers}
-        />
+          <div className="game-table-center">
+            {name === NO_THANKS && (
+              <NoThanks game={game} currentUser={currentUser} isMyTurn={isMyTurn} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />
+            )}
 
-        <div className='game-table-center'>
+            {name === PERUDO && (
+              <Perudo game={game} currentUser={currentUser} isMyTurn={isMyTurn} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />
+            )}
 
-          {name === NO_THANKS && <NoThanks
-            game={game}
-            currentUser={currentUser}
-            isMyTurn={isMyTurn}
-            isButtonsDisabled={isButtonsDisabled}
-            makeMove={makeMove}
-          />}
+            {name === LOST_CITIES && (
+              <LostCities game={game} currentUser={currentUser} isMyTurn={isMyTurn} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />
+            )}
 
-          {name === PERUDO && <Perudo
-            game={game}
-            currentUser={currentUser}
-            isMyTurn={isMyTurn}
-            isButtonsDisabled={isButtonsDisabled}
-            makeMove={makeMove}
-          />}
+            {name === SIX_NIMMT && (
+              <SixNimmt game={game} currentUser={currentUser} isMyTurn={isMyTurn} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />
+            )}
+          </div>
 
-          {name === LOST_CITIES && <LostCities
-            game={game}
-            currentUser={currentUser}
-            isMyTurn={isMyTurn}
-            isButtonsDisabled={isButtonsDisabled}
-            makeMove={makeMove}
-          />}
-
-          {name === SIX_NIMMT && <SixNimmt
-            game={game}
-            currentUser={currentUser}
-            isMyTurn={isMyTurn}
-            isButtonsDisabled={isButtonsDisabled}
-            makeMove={makeMove}
-          />}
-
+          <div>
+            {isPlayer && (
+              <GamePlayer
+                game={game}
+                username={currentUser.username}
+                avatar={currentUser.avatar}
+                active={nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id)}
+                gamePlayer={gamePlayers.find(gamePlayer => gamePlayer.id === currentUser.id)}
+                isCurrentPlayer={true}
+                isMyTurn={isMyTurn}
+              />
+            )}
+          </div>
         </div>
-
-        <div>
-          {isPlayer && <GamePlayer
-            game={game}
-            username={currentUser.username}
-            avatar={currentUser.avatar}
-            active={nextPlayers.some(nextPlayer => nextPlayer.id === currentUser.id)}
-            gamePlayer={gamePlayers.find(gamePlayer => gamePlayer.id === currentUser.id)}
-            isCurrentPlayer={true}
-            isMyTurn={isMyTurn}
-          />}
-        </div>
-
-      </div>}
+      )}
 
       {state === GAME_FINISHED && <GameResults game={game} players={players} gamePlayers={gamePlayers || []} />}
     </Fragment>
   );
-};
+}
 
 GameTable.propTypes = {
   game: object.isRequired,

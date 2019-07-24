@@ -4,10 +4,7 @@ import { Dispatch, bindActionCreators } from 'redux';
 
 import { Header } from '../header';
 import { Invites } from '../../components/invites';
-import {
-  acceptInvite as acceptInviteWithoutDispatch,
-  declineInvite as declineInviteWithoutDispatch,
-} from '../../actions';
+import { acceptInvite as acceptInviteWithoutDispatch, declineInvite as declineInviteWithoutDispatch } from '../../actions';
 import { IUser, IState } from '../../interfaces';
 
 import './index.scss';
@@ -17,19 +14,15 @@ function InvitesPagePure({
   acceptInvite,
   declineInvite,
 }: {
-  currentUser: IUser,
-  acceptInvite: (inviteId: string) => void,
-  declineInvite: (inviteId: string) => void,
+  currentUser: IUser;
+  acceptInvite: (inviteId: string) => void;
+  declineInvite: (inviteId: string) => void;
 }) {
   return (
-    <main className='games-page-container'>
+    <main className="games-page-container">
       <Header />
 
-      {currentUser && <Invites
-        currentUser={currentUser}
-        acceptInvite={acceptInvite}
-        declineInvite={declineInvite}
-      />}
+      {currentUser && <Invites currentUser={currentUser} acceptInvite={acceptInvite} declineInvite={declineInvite} />}
     </main>
   );
 }
