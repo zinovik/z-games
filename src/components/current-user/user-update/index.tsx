@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent } from 'react';
 import { string, func } from 'prop-types';
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Button } from '@material-ui/core';
 
+import { Loading } from '../../loading';
 import { IUser } from '../../../interfaces';
 
 import './index.scss';
@@ -16,12 +17,13 @@ export function UserUpdate({
   close: () => void;
 }) {
   const [username, setUsername] = useState(currentUsername);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
   };
 
-  const handleUpdate = async () => {
+  const handleUsernameUpdate = async () => {
     const token = localStorage.getItem('token');
     const fetchResult = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/update`, {
       method: 'POST',
@@ -41,6 +43,38 @@ export function UserUpdate({
     close();
   };
 
+  const handleAvatarUpdate = async ({ target }: ChangeEvent<HTMLInputElement>) => {
+    if (!target || !target.files || !target.files[0]) {
+      return;
+    }
+
+    setIsLoading(true);
+
+    const formData = new FormData();
+
+    formData.append('file', target.files[0]);
+
+    const token = localStorage.getItem('token');
+    const fetchResult = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/avatar`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    setIsLoading(false);
+
+    if (fetchResult.status !== 201 || !fetchResult || !fetchResult.body) {
+      // TODO
+      return;
+    }
+
+    const { avatar } = await fetchResult.json();
+    updateCurrentUser({ avatar } as IUser);
+    close();
+  };
+
   return (
     <Dialog open={true} onClose={close}>
       <DialogTitle>Update profile</DialogTitle>
@@ -49,20 +83,29 @@ export function UserUpdate({
 
         <TextField type="text" placeholder="Username" onChange={handleUsernameChange} value={username} />
 
-        <DialogActions>
-          <Button onClick={close} autoFocus={true}>
-            Cancel
-          </Button>
-          <Button onClick={handleUpdate} disabled={!username}>
-            Update
-          </Button>
+        <DialogActions className="user-update-buttons">
+          <div>
+            <Button onClick={close} autoFocus={true}>
+              Cancel
+            </Button>
+            <Button onClick={handleUsernameUpdate} disabled={!username}>
+              Update
+            </Button>
+          </div>
 
-          <input accept="image/*" id="button-file-avatar" multiple={true} type="file" className="file-input" />
-          <label htmlFor="button-file-avatar">
-            <Button component="span">Update avatar</Button>
-          </label>
+          <div>
+            <input accept="image/*" id="button-file-avatar" multiple={true} type="file" className="file-input" onChange={handleAvatarUpdate} />
+          </div>
+
+          <div className="user-update-avatar-button">
+            <label htmlFor="button-file-avatar">
+              <Button component="span">Update avatar</Button>
+            </label>
+          </div>
         </DialogActions>
       </DialogContent>
+
+      {isLoading && <Loading />}
     </Dialog>
   );
 }
