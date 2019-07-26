@@ -61,8 +61,22 @@ render(
 );
 // registerServiceWorker();
 
-initializeFirebase().then(() => {
-  // const token = askForPermissionToReceiveNotifications();
-  askForPermissionToReceiveNotifications();
-  // TODO: Add token to the user
-});
+(async () => {
+  await initializeFirebase();
+  const notificationsToken = await askForPermissionToReceiveNotifications();
+
+  const token = localStorage.getItem('token');
+  const fetchResult = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/update`, {
+    method: 'POST',
+    body: JSON.stringify({ notificationsToken }),
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
+  });
+
+  if (fetchResult.status !== 200) {
+    // TODO
+    return;
+  }
+})();

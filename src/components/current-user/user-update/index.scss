@@ -1,3 +1,12 @@
-.file-input {
-  display: none;
+.user-update-buttons {
+  display: flex;
+  flex-direction: column;
+
+  .file-input {
+    display: none;
+  }
+
+  div.user-update-avatar-button {
+    margin: 0px;
+  }
 }
