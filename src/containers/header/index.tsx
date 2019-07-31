@@ -19,7 +19,7 @@ import { IUser, IUsersOnline, IState } from '../../interfaces';
 
 import './index.scss';
 
-const MENU_WIDTH_MIN = 700;
+const MENU_WIDTH_MIN = 720;
 
 export function HeaderPure({
   serverUrl,
@@ -46,7 +46,9 @@ export function HeaderPure({
   const currentUsername = currentUser && currentUser.username;
   const avatar = currentUser && currentUser.avatar;
 
-  const LINKS = currentUser ? ['Home', 'Games', 'Invites', 'Rating', 'Rules', 'Profile', 'About'] : ['Home', 'Games', 'Rating', 'Rules', 'About'];
+  const LINKS = currentUser
+    ? ['Home', 'All Games', 'Invites', 'Rating', 'Rules', 'Profile', 'About']
+    : ['Home', 'All Games', 'Rating', 'Rules', 'About'];
 
   const handleDrawerToggle = (): void => {
     setIsDrawerShown(!isDrawerShown);
@@ -86,7 +88,7 @@ export function HeaderPure({
               <Button
                 key={`${LINKS[0]}1`}
                 onClick={() => {
-                  nextPath(`/${LINKS[0].toLowerCase()}`);
+                  nextPath(`/${LINKS[0].toLowerCase().replace(' ', '-')}`);
                 }}
               >
                 <img className="header-logo-small" src="/images/logo-small.png" alt="header logo" />
@@ -102,7 +104,7 @@ export function HeaderPure({
                 <Button
                   key={`${label}1`}
                   onClick={() => {
-                    nextPath(`/${label.toLowerCase()}`);
+                    nextPath(`/${label.toLowerCase().replace(' ', '-')}`);
                   }}
                 >
                   {label === 'Invites' && invitesCount > 0 ? (

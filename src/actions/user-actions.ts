@@ -19,7 +19,7 @@ export const register = (serverUrl: string, username: string, password: string, 
     });
   }
 
-  dispatch(push('/games'));
+  dispatch(push('/all-games'));
 
   return dispatch({
     type: ActionTypes.ADD_NOTIFICATION,
@@ -42,7 +42,7 @@ export const authorize = (serverUrl: string, username: string, password: string)
   localStorage.setItem('token', token);
   socketService.reconnect();
 
-  dispatch(push('/games'));
+  dispatch(push('/all-games'));
 
   return dispatch({
     type: ActionTypes.ADD_NOTIFICATION,
@@ -61,7 +61,7 @@ export const activate = (serverUrl: string, activationToken: string) => async (d
       message: error.message,
     });
   } finally {
-    dispatch(push('/games'));
+    dispatch(push('/all-games'));
   }
 
   localStorage.setItem('token', token);
@@ -188,7 +188,7 @@ export const refreshToken = (newToken: string) => (dispatch: Dispatch): AnyActio
   localStorage.setItem('token', newToken);
   socketService.reconnect();
 
-  dispatch(push('/games'));
+  dispatch(push('/all-games'));
 
   return dispatch({
     type: ActionTypes.ADD_NOTIFICATION,

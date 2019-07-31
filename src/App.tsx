@@ -1,10 +1,10 @@
-import React, { Component, Props, createContext } from 'react';
+import React, { Props, createContext } from 'react';
 import { Dispatch, bindActionCreators } from 'redux';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { HomePage } from './containers/home-page';
-import { GamesPage } from './containers/games-page';
+import { AllGamesPage } from './containers/all-games-page';
 import { InvitesPage } from './containers/invites-page';
 import { GamePage } from './containers/game-page';
 import { RatingPage } from './containers/rating-page';
@@ -43,64 +43,60 @@ interface IAppProps extends Props<{}> {
   closeInvite: (isConfirmed: boolean) => void;
 }
 
-class App extends Component<IAppProps, {}> {
-  public render() {
-    const {
-      isConnected,
-      currentUser,
-      errors,
-      notifications,
-      removeError,
-      removeNotification,
-      removingGame,
-      activeInvite,
-      removeGame,
-      closeInvite,
-      isYourTurn,
-    } = this.props;
+const App = ({
+  isConnected,
+  currentUser,
+  errors,
+  notifications,
+  removeError,
+  removeNotification,
+  removingGame,
+  activeInvite,
+  removeGame,
+  closeInvite,
+  isYourTurn,
+}: IAppProps) => {
+  return (
+    <CurrentUserContext.Provider value={currentUser}>
+      <Switch>
+        <Route path="/home" component={HomePage} />
+        <Route path="/all-games" component={AllGamesPage} />
+        <Route path="/invites" component={InvitesPage} />
+        <Route path="/game/:number" component={GamePage} />
+        <Route path="/rating" component={RatingPage} />
+        <Route path="/rules" component={RulesPage} />
+        <Route path="/profile/:username" component={ProfilePage} />
+        <Route path="/profile" component={ProfilePage} />
+        <Route path="/about" component={AboutPage} />
+        <Route path="/activate/:token" component={ActivatePage} />
+        <Route path="/:token" component={HomePage} />
+        <Redirect from="*" to="/home" />
+      </Switch>
 
-    return (
-      <CurrentUserContext.Provider value={currentUser}>
-        <Switch>
-          <Route path="/home" component={HomePage} />
-          <Route path="/games" component={GamesPage} />
-          <Route path="/invites" component={InvitesPage} />
-          <Route path="/game/:number" component={GamePage} />
-          <Route path="/rating" component={RatingPage} />
-          <Route path="/rules" component={RulesPage} />
-          <Route path="/profile/:username" component={ProfilePage} />
-          <Route path="/profile" component={ProfilePage} />
-          <Route path="/about" component={AboutPage} />
-          <Route path="/activate/:token" component={ActivatePage} />
-          <Route path="/:token" component={HomePage} />
-          <Redirect from="*" to="/home" />
-        </Switch>
+      <Loading isConnected={isConnected} text="Connecting to the server..." />
 
-        <Loading isConnected={isConnected} text="Connecting to the server..." />
+      {errors.map(error => (
+        <NotificationError key={`error${error.id}`} id={error.id} message={error.message} removeError={removeError} />
+      ))}
 
-        {errors.map(error => (
-          <NotificationError key={`error${error.id}`} id={error.id} message={error.message} removeError={removeError} />
-        ))}
+      {notifications.map(notification => (
+        <Notification
+          key={`notification${notification.id}`}
+          id={notification.id}
+          message={notification.message}
+          removeNotification={removeNotification}
+        />
+      ))}
 
-        {notifications.map(notification => (
-          <Notification
-            key={`notification${notification.id}`}
-            id={notification.id}
-            message={notification.message}
-            removeNotification={removeNotification}
-          />
-        ))}
+      {removingGame && <Confirm text="Are you sure?" confirm={removeGame} />}
+      {activeInvite && (
+        <Confirm text={`${activeInvite.createdBy.username} invites you to play ${activeInvite.game.name}. Join?`} confirm={closeInvite} />
+      )}
 
-        {removingGame && <Confirm text="Are you sure?" confirm={removeGame} />}
-        {activeInvite && (
-          <Confirm text={`${activeInvite.createdBy.username} invites you to play ${activeInvite.game.name}. Join?`} confirm={closeInvite} />
-        )}
-
-        {isYourTurn && <YourTurn />}
-      </CurrentUserContext.Provider>
-    );
-  }
-}
+      {isYourTurn && <YourTurn />}
+    </CurrentUserContext.Provider>
+  );
+};
 
 const mapStateToProps = (state: IState) => ({
   isConnected: state.users.isConnected,
