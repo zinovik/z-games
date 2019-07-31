@@ -1,7 +1,6 @@
 import React from 'react';
 import thunk from 'redux-thunk';
 import { render } from 'react-dom';
-// import registerServiceWorker, { unregister } from './registerServiceWorker';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { BrowserRouter } from 'react-router-dom';
@@ -45,7 +44,6 @@ const enhancers = reduxDevTools
 const store = createStore(createRootReducer(history), {}, enhancers);
 socketService.provideDispatch(store.dispatch);
 
-// unregister();
 render(
   <BrowserRouter>
     <Provider store={store}>
@@ -59,13 +57,17 @@ render(
   </BrowserRouter>,
   document.getElementById('root') as HTMLElement,
 );
-// registerServiceWorker();
 
 (async () => {
   await initializeFirebase();
   const notificationsToken = await askForPermissionToReceiveNotifications();
 
   const token = localStorage.getItem('token');
+
+  if (!token) {
+    return;
+  }
+
   const fetchResult = await fetch(`${process.env.REACT_APP_SERVER_URL}/api/users/update`, {
     method: 'POST',
     body: JSON.stringify({ notificationsToken }),

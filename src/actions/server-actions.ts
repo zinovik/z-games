@@ -79,8 +79,8 @@ export const updateOpenGame = (openGameToUpdate: IGame) => (dispatch: Dispatch, 
   } = getState();
 
   if (gameNumber === undefined || gameNumber === null) {
-    if (pathname !== '/games') {
-      dispatch(push('/games'));
+    if (pathname !== '/all-games') {
+      dispatch(push('/all-games'));
     }
   } else {
     if (pathname !== `/game/${gameNumber}`) {

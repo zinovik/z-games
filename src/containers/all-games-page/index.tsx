@@ -16,7 +16,7 @@ import { IUser, IGame, IState, IFilterSettings } from '../../interfaces';
 
 import './index.scss';
 
-function GamesPagePure({
+function AllGamesPagePure({
   currentUser,
   allGames,
   isButtonsDisabled,
@@ -80,7 +80,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
   reloadGames: bindActionCreators(reloadGamesWithoutDispatch, dispatch),
 });
 
-export const GamesPage = connect(
+export const AllGamesPage = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(GamesPagePure as ComponentType<any>);
+)(AllGamesPagePure as ComponentType<any>);
