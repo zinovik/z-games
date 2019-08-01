@@ -44,13 +44,19 @@
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "format": "prettier --write \"src/**/*.ts*\" \"test*/**/*.ts*\"",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "engines": {
     "node": ">= 12",
     "npm": ">= 6.9"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^5.1.10",
+    "@storybook/addon-links": "^5.1.10",
+    "@storybook/addons": "^5.1.10",
+    "@storybook/react": "^5.1.10",
     "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "^24.0.16",
     "@types/node": "^12.6.8",
