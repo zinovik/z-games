@@ -1,6 +1,6 @@
-import { IUser, IRegister, IActivate, ILogin } from '../../interfaces';
+import { IUser, IRegister, IActivate, ILogin, IForgotPassword } from '../../interfaces';
 
-const makePostRequest = async (serverUrl: string, route: string, body: IRegister | IActivate | ILogin) => {
+const makePostRequest = async (serverUrl: string, route: string, body: IRegister | IActivate | ILogin | IForgotPassword) => {
   const fetchResult = await fetch(`${serverUrl}/api/users/${route}`, {
     method: 'post',
     body: JSON.stringify(body),
@@ -36,6 +36,12 @@ export const authorizeUser = async (serverUrl: string, username: string, passwor
   return await makePostRequest(serverUrl, 'authorize', {
     username,
     password,
+  });
+};
+
+export const forgotUserPassword = async (serverUrl: string, username: string): Promise<{ token: string }> => {
+  return await makePostRequest(serverUrl, 'forgot-password', {
+    username,
   });
 };
 

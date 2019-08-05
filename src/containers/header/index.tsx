@@ -12,6 +12,7 @@ import { UsersOnline } from '../../components/users-online';
 import {
   register as registerWithoutDispatch,
   authorize as authorizeWithoutDispatch,
+  forgotPassword as forgotPasswordWithoutDispatch,
   updateCurrentUser as updateCurrentUserWithoutDispatch,
   logout as logoutWithoutDispatch,
 } from '../../actions';
@@ -28,6 +29,7 @@ export function HeaderPure({
   history,
   register,
   authorize,
+  forgotPassword,
   updateCurrentUser,
   logout,
 }: {
@@ -37,6 +39,7 @@ export function HeaderPure({
   history: History;
   register: (serverUrl: string, username: string, password: string, email: string) => Promise<void>;
   authorize: (serverUrl: string, username: string, password: string) => Promise<void>;
+  forgotPassword: (serverUrl: string, username: string) => Promise<void>;
   updateCurrentUser: (parameters: IUser) => void;
   logout: () => void;
 }) {
@@ -119,7 +122,7 @@ export function HeaderPure({
             </nav>
           )}
 
-          {!currentUsername && <Authorize serverUrl={serverUrl} register={register} authorize={authorize} />}
+          {!currentUsername && <Authorize serverUrl={serverUrl} register={register} authorize={authorize} forgotPassword={forgotPassword} />}
 
           {currentUsername && <CurrentUser currentUsername={currentUsername} avatar={avatar} updateCurrentUser={updateCurrentUser} logout={logout} />}
         </div>
@@ -167,6 +170,7 @@ const mapStateToProps = (state: IState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   register: bindActionCreators(registerWithoutDispatch, dispatch),
   authorize: bindActionCreators(authorizeWithoutDispatch, dispatch),
+  forgotPassword: bindActionCreators(forgotPasswordWithoutDispatch, dispatch),
   updateCurrentUser: bindActionCreators(updateCurrentUserWithoutDispatch, dispatch),
   logout: bindActionCreators(logoutWithoutDispatch, dispatch),
 });

@@ -27,8 +27,8 @@ function AboutPagePure({ serverUrl, updateServerUrl }: { serverUrl: string; upda
 
           <Typography>
             The easiest way is to create issue here:{' '}
-            <a href="https://github.com/zinovik/z-games-api/issues#zenhub" className="about-page-link">
-              https://github.com/zinovik/z-games-api/issues#zenhub
+            <a href="https://github.com/users/zinovik/projects/1" className="about-page-link">
+              https://github.com/users/zinovik/projects/1
             </a>
           </Typography>
 

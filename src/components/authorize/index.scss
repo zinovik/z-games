@@ -12,6 +12,15 @@
       justify-content: center;
       align-items: center;
 
+      .authorize-modal-forget-password-container {
+        padding-top: 10px;
+
+        .authorize-modal-forget-password:hover {
+          cursor: pointer;
+          text-decoration: underline;
+        }
+      }
+
       .authorize-modal-form-button {
         padding: 10px;
       }
