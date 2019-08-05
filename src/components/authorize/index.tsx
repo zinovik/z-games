@@ -10,10 +10,12 @@ export function Authorize({
   serverUrl,
   register,
   authorize,
+  forgotPassword,
 }: {
   serverUrl: string;
   register: (serverUrl: string, username: string, password: string, email: string) => Promise<void>;
   authorize: (serverUrl: string, username: string, password: string) => Promise<void>;
+  forgotPassword: (serverUrl: string, username: string) => Promise<void>;
 }) {
   const [isModalShow, setIsModalShow] = useState(false);
   const [username, setUsername] = useState('');
@@ -61,6 +63,12 @@ export function Authorize({
   const handleSignInClick = async () => {
     setIsLoading(true);
     await authorize(serverUrl, username, password);
+    setIsLoading(false);
+  };
+
+  const handleForgotPasswordClick = async () => {
+    setIsLoading(true);
+    await forgotPassword(serverUrl, username);
     setIsLoading(false);
   };
 
@@ -130,10 +138,17 @@ export function Authorize({
             </div>
 
             {currentTab === 0 && (
-              <div className="authorize-modal-form-button">
-                <Button variant="contained" color="primary" onClick={handleSignInClick}>
-                  Sign in
-                </Button>
+              <div>
+                <div className="authorize-modal-forget-password-container">
+                  <a className="authorize-modal-forget-password" onClick={handleForgotPasswordClick}>
+                    Forgot password?
+                  </a>
+                </div>
+                <div className="authorize-modal-form-button">
+                  <Button variant="contained" color="primary" onClick={handleSignInClick}>
+                    Sign in
+                  </Button>
+                </div>
               </div>
             )}
 
@@ -174,10 +189,12 @@ Authorize.propTypes = {
   serverUrl: string.isRequired,
   register: func.isRequired,
   authorize: func.isRequired,
+  forgotPassword: func.isRequired,
 };
 
 Authorize.defaultProps = {
   serverUrl: '',
   register: () => null,
   authorize: () => null,
+  forgotPassword: () => null,
 };

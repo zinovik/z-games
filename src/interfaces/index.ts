@@ -8,6 +8,7 @@ export * from './IUsersState.interface';
 export * from './IGamesState.interface';
 export * from './IRegister.interface';
 export * from './ILogin.interface';
+export * from './IForgotPassword.interface';
 export * from './IActivate.interface';
 export * from './IErrorsState.interface';
 export * from './IError.interface';

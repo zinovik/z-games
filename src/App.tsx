@@ -12,6 +12,7 @@ import { RulesPage } from './containers/rules-page';
 import { ProfilePage } from './containers/profile-page';
 import { AboutPage } from './containers/about-page';
 import { ActivatePage } from './containers/activate-page';
+import { ResetPage } from './containers/reset-page';
 import { Loading } from './components/loading';
 import { NotificationError } from './components/notification-error';
 import { Notification } from './components/notification';
@@ -69,6 +70,7 @@ const App = ({
         <Route path="/profile" component={ProfilePage} />
         <Route path="/about" component={AboutPage} />
         <Route path="/activate/:token" component={ActivatePage} />
+        <Route path="/reset/:token" component={ResetPage} />
         <Route path="/:token" component={HomePage} />
         <Redirect from="*" to="/home" />
       </Switch>

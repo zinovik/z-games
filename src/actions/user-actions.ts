@@ -1,7 +1,7 @@
 import { Dispatch, AnyAction } from 'redux';
 import { push } from 'connected-react-router';
 
-import { SocketService, registerUser, authorizeUser, activateUser, fetchUsersRating } from '../services';
+import { SocketService, registerUser, authorizeUser, activateUser, forgotUserPassword, fetchUsersRating } from '../services';
 import { IFilterSettings, IState, IInvite } from '../interfaces';
 import * as ActionTypes from './action-types';
 
@@ -47,6 +47,24 @@ export const authorize = (serverUrl: string, username: string, password: string)
   return dispatch({
     type: ActionTypes.ADD_NOTIFICATION,
     message: 'You have successfully logged in!',
+  });
+};
+
+export const forgotPassword = (serverUrl: string, username: string) => async (dispatch: Dispatch): Promise<AnyAction> => {
+  try {
+    await forgotUserPassword(serverUrl, username);
+  } catch (error) {
+    return dispatch({
+      type: ActionTypes.ADD_ERROR,
+      message: error.message,
+    });
+  }
+
+  dispatch(push('/all-games'));
+
+  return dispatch({
+    type: ActionTypes.ADD_NOTIFICATION,
+    message: 'Check email to reset your password account!',
   });
 };
 
