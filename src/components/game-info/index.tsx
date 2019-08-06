@@ -68,7 +68,7 @@ export function GameInfo({
     repeatGame(game.id);
   };
 
-  const { playersOnline, watchersOnline, isPrivate, nextPlayers, previousMoveAt } = game;
+  const { playersOnline, watchersOnline, isPrivate, previousMoveAt } = game;
   const gameDataParsed: GameDataType = JSON.parse(game.gameData);
   const { players: gamePlayers }: { players: GamePlayerType[] } = gameDataParsed;
 
@@ -114,10 +114,6 @@ export function GameInfo({
               )}
 
               {game.players.find(player => player.id === gamePlayer.id) && game.players.find(player => player.id === gamePlayer.id)!.username}
-
-              {nextPlayers.some(nextPlayer => nextPlayer.id === gamePlayer.id) && (
-                <img src="/images/sandglass.gif" alt="sandglass" className="sandglass" />
-              )}
             </Typography>
           ))}
 

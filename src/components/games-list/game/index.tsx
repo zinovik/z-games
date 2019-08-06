@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { Fragment, useState } from 'react';
 import { object, func } from 'prop-types';
 import { Card, CardHeader, CardContent, Typography, IconButton, CardActions } from '@material-ui/core';
-import { Gamepad, OpenInBrowser, RemoveRedEye, Lock } from '@material-ui/icons';
+import { OpenInBrowser, Lock } from '@material-ui/icons';
 import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED, GAME_STATE_LABEL } from 'z-games-base-game';
 
 import { GameRules } from '../../game-rules';
@@ -15,20 +15,16 @@ export function Game({
   game,
   currentUser,
   isButtonsDisabled,
-  joinGame,
   openGame,
-  watchGame,
 }: {
   game: IGame;
   currentUser?: IUser;
   isButtonsDisabled: boolean;
-  joinGame: (gameId: string) => void;
   openGame: (gameId: string) => void;
-  watchGame: (gameId: string) => void;
 }) {
   const [isRulesShown, setIsRulesShown] = useState(false);
 
-  const { id: gameId, number: gameNumber, name, state, players, playersMax, createdAt, isPrivate } = game;
+  const { id: gameId, number: gameNumber, name, state, players, createdAt, isPrivate } = game;
 
   const handleLogoClick = () => {
     setIsRulesShown(true);
@@ -38,26 +34,11 @@ export function Game({
     setIsRulesShown(false);
   };
 
-  const handleJoinClick = () => {
-    joinGame(gameId);
-  };
-
   const handleOpenClick = () => {
     openGame(gameId);
   };
 
-  const handleWatchClick = () => {
-    watchGame(gameId);
-  };
-
-  const isAbleToJoin =
-    currentUser &&
-    (!isPrivate || currentUser.id === (game.createdBy && game.createdBy.id)) &&
-    !state &&
-    players.length < playersMax &&
-    !players.some(player => player.id === currentUser.id);
   const isAbleToOpen = currentUser && players.some(player => player.id === currentUser.id);
-  const isAbleToWatch = currentUser && !isPrivate && state > GAME_NOT_STARTED && !players.some(player => player.id === currentUser.id);
 
   const isGameWithCurrentUser = currentUser && game.players && game.players.some(gamePlayer => gamePlayer.id === currentUser.id);
   const isCurrentUserMove = currentUser && game.nextPlayers && game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id);
@@ -99,21 +80,9 @@ export function Game({
 
         {currentUser && (
           <CardActions>
-            {isAbleToJoin && (
-              <IconButton onClick={handleJoinClick} disabled={isButtonsDisabled} title="Click to join the game">
-                <Gamepad />
-              </IconButton>
-            )}
-
             {isAbleToOpen && (
               <IconButton onClick={handleOpenClick} disabled={isButtonsDisabled} title="Click to open the game">
                 <OpenInBrowser />
-              </IconButton>
-            )}
-
-            {isAbleToWatch && (
-              <IconButton onClick={handleWatchClick} disabled={isButtonsDisabled} title="Click to watch the game">
-                <RemoveRedEye />
               </IconButton>
             )}
           </CardActions>
@@ -128,14 +97,10 @@ export function Game({
 Game.propTypes = {
   game: object.isRequired,
   currentUser: object,
-  joinGame: func.isRequired,
   openGame: func.isRequired,
-  watchGame: func.isRequired,
 };
 
 Game.defaultProps = {
   game: {},
-  joinGame: () => null,
   openGame: () => null,
-  watchGame: () => null,
 };

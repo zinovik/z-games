@@ -103,15 +103,7 @@ export function GamesList({
               (isWithMe && currentUser && game.players && game.players.some(gamePlayer => gamePlayer.id === currentUser.id))) &&
             ((isNotMyMove && (!currentUser || !game.nextPlayers || !game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id))) ||
               (isMyMove && currentUser && game.nextPlayers && game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id))) && (
-              <Game
-                game={game}
-                currentUser={currentUser}
-                key={`game${index}`}
-                isButtonsDisabled={isButtonsDisabled}
-                joinGame={joinGame}
-                openGame={openGame}
-                watchGame={watchGame}
-              />
+              <Game game={game} currentUser={currentUser} key={`game${index}`} isButtonsDisabled={isButtonsDisabled} openGame={openGame} />
             ),
         )}
       </div>
