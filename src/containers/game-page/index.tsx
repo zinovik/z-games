@@ -12,7 +12,6 @@ import { Chat } from '../../components/chat';
 import {
   closeGame as closeGameWithoutDispatch,
   leaveGame as leaveGameWithoutDispatch,
-  readyToGame as readyToGameWithoutDispatch,
   startGame as startGameWithoutDispatch,
   sendMessage as sendMessageWithoutDispatch,
   makeMove as makeMoveWithoutDispatch,
@@ -32,7 +31,6 @@ function GamePagePure({
   users,
   closeGame,
   leaveGame,
-  readyToGame,
   startGame,
   sendMessage,
   makeMove,
@@ -49,7 +47,6 @@ function GamePagePure({
   history: History;
   closeGame: () => void;
   leaveGame: (gameId: string) => void;
-  readyToGame: () => void;
   startGame: (gameId: string) => void;
   updateRemovingGame: (gameId: string) => void;
   repeatGame: (gameId: string) => void;
@@ -79,7 +76,6 @@ function GamePagePure({
                 users={users}
                 closeGame={closeGame}
                 leaveGame={leaveGame}
-                readyToGame={readyToGame}
                 startGame={startGame}
                 updateRemovingGame={updateRemovingGame}
                 repeatGame={repeatGame}
@@ -110,7 +106,6 @@ const mapStateToProps = (state: IState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   closeGame: bindActionCreators(closeGameWithoutDispatch, dispatch),
   leaveGame: bindActionCreators(leaveGameWithoutDispatch, dispatch),
-  readyToGame: bindActionCreators(readyToGameWithoutDispatch, dispatch),
   startGame: bindActionCreators(startGameWithoutDispatch, dispatch),
   sendMessage: bindActionCreators(sendMessageWithoutDispatch, dispatch),
   makeMove: bindActionCreators(makeMoveWithoutDispatch, dispatch),

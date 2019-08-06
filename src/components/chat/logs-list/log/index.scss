@@ -11,14 +11,22 @@
   font-style: italic;
 }
 
-.log-connect, .log-open, .log-join {
+.log-connect,
+.log-open,
+.log-join {
   color: lightgreen;
 }
 
-.log-disconnect, .log-close, .log-leave {
+.log-disconnect,
+.log-close,
+.log-leave {
   color: lightcoral;
 }
 
-.log-create, .log-ready, .log-start, .log-move, .log-finish, .log-update {
+.log-create,
+.log-start,
+.log-move,
+.log-finish,
+.log-update {
   color: lightblue;
 }
