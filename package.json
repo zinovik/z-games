@@ -14,11 +14,11 @@
     "board games"
   ],
   "dependencies": {
-    "@material-ui/core": "^4.3.0",
+    "@material-ui/core": "^4.3.1",
     "@material-ui/icons": "^4.2.1",
     "@material-ui/styles": "^4.3.0",
     "connected-react-router": "^6.5.2",
-    "firebase": "^6.3.3",
+    "firebase": "^6.3.4",
     "hoist-non-react-statics": "^3.3.0",
     "moment": "^2.24.0",
     "node-sass": "^4.12.0",
@@ -31,11 +31,11 @@
     "redux-thunk": "^2.3.0",
     "serve": "^11.1.0",
     "socket.io-client": "^2.2.0",
-    "z-games-base-game": "^0.0.21",
-    "z-games-lost-cities": "^0.0.19",
-    "z-games-no-thanks": "^0.0.17",
-    "z-games-perudo": "^0.0.17",
-    "z-games-six-nimmt": "^0.0.23"
+    "z-games-base-game": "^0.0.22",
+    "z-games-lost-cities": "^0.0.20",
+    "z-games-no-thanks": "^0.0.18",
+    "z-games-perudo": "^0.0.18",
+    "z-games-six-nimmt": "^0.0.24"
   },
   "scripts": {
     "start": "serve -s build",
@@ -43,7 +43,7 @@
     "build": "react-scripts build",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "format": "prettier --write \"src/**/*.ts*\" \"test*/**/*.ts*\"",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public"
@@ -58,13 +58,14 @@
     "@storybook/addons": "^5.1.10",
     "@storybook/react": "^5.1.10",
     "@types/hoist-non-react-statics": "^3.3.1",
-    "@types/jest": "^24.0.16",
-    "@types/node": "^12.6.8",
-    "@types/react": "^16.8.23",
+    "@types/jest": "^24.0.17",
+    "@types/node": "^12.6.9",
+    "@types/react": "^16.8.24",
     "@types/react-dom": "^16.8.5",
     "@types/react-redux": "^7.1.1",
     "@types/react-router-dom": "^4.3.4",
     "@types/socket.io-client": "^1.4.32",
+    "husky": "^3.0.2",
     "prettier": "^1.18.2",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
@@ -86,5 +87,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run format && npm run lint && npm run test && npm run build"
+    }
   }
 }

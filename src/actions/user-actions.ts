@@ -162,15 +162,6 @@ export const closeGame = () => (dispatch: Dispatch): AnyAction => {
   });
 };
 
-export const readyToGame = () => (dispatch: Dispatch): AnyAction => {
-  socketService.readyToGame();
-
-  return dispatch({
-    type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
-    isButtonsDisabled: true,
-  });
-};
-
 export const startGame = (gameId: string) => (dispatch: Dispatch): AnyAction => {
   socketService.startGame(gameId);
 

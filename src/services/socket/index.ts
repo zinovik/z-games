@@ -159,10 +159,6 @@ export class SocketService {
     this.SocketClient.emit('close-game');
   }
 
-  public readyToGame() {
-    this.SocketClient.emit('toggle-ready');
-  }
-
   public startGame(gameId: string) {
     this.SocketClient.emit('start-game', gameId);
   }

@@ -20,7 +20,6 @@ export function GameInfo({
   users,
   closeGame,
   leaveGame,
-  readyToGame,
   startGame,
   updateRemovingGame,
   repeatGame,
@@ -33,7 +32,6 @@ export function GameInfo({
   users: IUser[];
   closeGame: () => void;
   leaveGame: (gameId: string) => void;
-  readyToGame: () => void;
   startGame: (gameId: string) => void;
   updateRemovingGame: (gameId: string) => void;
   repeatGame: (gameId: string) => void;
@@ -58,10 +56,6 @@ export function GameInfo({
     leaveGame(game.id);
   };
 
-  const handleReadyClick = () => {
-    readyToGame();
-  };
-
   const handleStartClick = () => {
     startGame(game.id);
   };
@@ -81,8 +75,7 @@ export function GameInfo({
   const maxTimeOption = gameDataParsed.options.find(option => option.name === 'Max Time');
   const maxTime = BaseGame.getMaxTimeVariants()[maxTimeOption!.value];
 
-  const isAbleToStart =
-    game.players.length >= game.playersMin && game.players.length <= game.playersMax && gamePlayers.every(gamePlayer => gamePlayer.ready);
+  const isAbleToStart = game.players.length >= game.playersMin && game.players.length <= game.playersMax;
 
   const isAccessToRemove = game.createdBy && game.createdBy.id === currentUserId;
 
@@ -119,9 +112,6 @@ export function GameInfo({
               ) : (
                 <span className="player-online-dot game-red-dot" />
               )}
-
-              {game.state === GAME_NOT_STARTED &&
-                (gamePlayer.ready ? <span className="player-ready-dot game-green-dot" /> : <span className="player-ready-dot game-yellow-dot" />)}
 
               {game.players.find(player => player.id === gamePlayer.id) && game.players.find(player => player.id === gamePlayer.id)!.username}
 
@@ -164,9 +154,9 @@ export function GameInfo({
 
           {game.state === GAME_NOT_STARTED && (
             <Fragment>
-              <Button onClick={handleReadyClick} disabled={isButtonsDisabled}>
+              {/* <Button onClick={handleReadyClick} disabled={isButtonsDisabled}>
                 {gamePlayers.find(gamePlayer => gamePlayer.id === currentUserId)!.ready ? 'Not Ready' : 'Ready'}
-              </Button>
+              </Button> */}
 
               <Button onClick={handleStartClick} disabled={!isAbleToStart || isButtonsDisabled}>
                 Start
@@ -196,7 +186,6 @@ GameInfo.propTypes = {
   users: array.isRequired,
   closeGame: func.isRequired,
   leaveGame: func.isRequired,
-  readyToGame: func.isRequired,
   startGame: func.isRequired,
   updateRemovingGame: func.isRequired,
   updateOption: func.isRequired,
@@ -210,7 +199,6 @@ GameInfo.defaultProps = {
   users: [],
   closeGame: () => null,
   leaveGame: () => null,
-  readyToGame: () => null,
   startGame: () => null,
   updateRemovingGame: () => null,
   repeatGame: () => null,

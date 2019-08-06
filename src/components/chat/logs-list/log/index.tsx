@@ -34,8 +34,6 @@ export function Log({ type, createdAt, username, text }: { type: string; created
           </Fragment>
         )}
 
-        {type === 'ready' && <Fragment>{username} has updated ready status</Fragment>}
-
         {type === 'watch' && <Fragment>{username} has started to watch the game</Fragment>}
 
         {type === 'move' && <Fragment>{username} has made a move</Fragment>}
