@@ -2,7 +2,7 @@ import { IUser, ILog } from './';
 
 export interface IGame {
   id: string;
-  number: string;
+  number: number;
   name: string;
   state: number;
   playersMax: number;

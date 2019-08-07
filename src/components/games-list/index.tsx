@@ -20,7 +20,8 @@ export function GamesList({
   isHasMore,
   isLoadingAllGames,
   joinGame,
-  openGamePage,
+  openGame,
+  watchGame,
   reloadGames,
 }: {
   allGames: IGame[];
@@ -30,7 +31,8 @@ export function GamesList({
   isHasMore: boolean;
   isLoadingAllGames: boolean;
   joinGame: (gameId: string) => void;
-  openGamePage: (gameNumber: string) => void;
+  openGame: (gameId: string) => void;
+  watchGame: (gameId: string) => void;
   reloadGames: (filterSettings: IFilterSettings) => void;
 }) {
   const [isBackToTop, setIsBackToTop] = useState(false);
@@ -116,7 +118,9 @@ export function GamesList({
                 currentUser={currentUser}
                 key={`game${index}`}
                 isButtonsDisabled={isButtonsDisabled}
-                openGamePage={openGamePage}
+                joinGame={joinGame}
+                openGame={openGame}
+                watchGame={watchGame}
               />
             ),
         )}
@@ -139,7 +143,8 @@ GamesList.propTypes = {
   isLoadingAllGames: bool.isRequired,
   currentUser: object,
   joinGame: func.isRequired,
-  openGamePage: func.isRequired,
+  openGame: func.isRequired,
+  watchGame: func.isRequired,
   reloadGames: func.isRequired,
 };
 
@@ -151,6 +156,7 @@ GamesList.defaultProps = {
   isHasMore: false,
   isLoadingAllGames: false,
   joinGame: () => null,
-  openGamePage: () => null,
+  openGame: () => null,
+  watchGame: () => null,
   reloadGames: () => null,
 };

@@ -141,12 +141,22 @@ export const joinGame = (gameId: string) => (dispatch: Dispatch): AnyAction => {
   });
 };
 
-export const openGamePage = (gameNumber: string) => (dispatch: Dispatch): void => {
-  dispatch(push(`/game/${gameNumber}`));
+export const openGame = (gameId: string) => (dispatch: Dispatch): AnyAction => {
+  socketService.openGame(gameId);
+
+  return dispatch({
+    type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
+    isButtonsDisabled: true,
+  });
 };
 
-export const openGame = (gameNumber: string) => (dispatch: Dispatch): void => {
-  socketService.openGame(gameNumber);
+export const watchGame = (gameId: string) => (dispatch: Dispatch): AnyAction => {
+  socketService.watchGame(gameId);
+
+  return dispatch({
+    type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
+    isButtonsDisabled: true,
+  });
 };
 
 export const leaveGame = (gameId: string) => (dispatch: Dispatch): AnyAction => {

@@ -63,7 +63,7 @@ const App = ({
         <Route path="/home" component={HomePage} />
         <Route path="/all-games" component={AllGamesPage} />
         <Route path="/invites" component={InvitesPage} />
-        <Route path="/game/:gameNumber" component={GamePage} />
+        <Route path="/game/:number" component={GamePage} />
         <Route path="/rating" component={RatingPage} />
         <Route path="/rules" component={RulesPage} />
         <Route path="/profile/:username" component={ProfilePage} />

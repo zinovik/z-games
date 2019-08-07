@@ -1,4 +1,4 @@
-import React, { ComponentType, useState } from 'react';
+import React, { ComponentType } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Dispatch, bindActionCreators } from 'redux';
@@ -10,7 +10,6 @@ import { GameInfo } from '../../components/game-info';
 import { GameTable } from '../../components/game-table';
 import { Chat } from '../../components/chat';
 import {
-  openGame as openGameWithoutDispatch,
   closeGame as closeGameWithoutDispatch,
   leaveGame as leaveGameWithoutDispatch,
   startGame as startGameWithoutDispatch,
@@ -26,14 +25,10 @@ import { IUser, IGame, IState } from '../../interfaces';
 import './index.scss';
 
 function GamePagePure({
-  match: {
-    params: { gameNumber },
-  },
   currentUser,
   game,
   isButtonsDisabled,
   users,
-  openGame,
   closeGame,
   leaveGame,
   startGame,
@@ -44,13 +39,12 @@ function GamePagePure({
   updateOption,
   newInvite,
 }: {
-  match: { params: { gameNumber: string } };
+  match: { params: { number: string } };
   currentUser: IUser;
   game: IGame;
   isButtonsDisabled: boolean;
   users: IUser[];
   history: History;
-  openGame: (gameNumber: string) => void;
   closeGame: () => void;
   leaveGame: (gameId: string) => void;
   startGame: (gameId: string) => void;
@@ -61,15 +55,8 @@ function GamePagePure({
   updateOption: ({ gameId, name, value }: { gameId: string; name: string; value: string }) => void;
   newInvite: (data: { gameId: string; userId: string }) => void;
 }) {
-  const [isGameOpen, setIsGameOpen] = useState(false);
-
-  if (!isGameOpen) {
-    openGame(gameNumber);
-    setIsGameOpen(true);
-  }
-
   if (!game || !currentUser) {
-    return <div>Loading...</div>;
+    return null;
   }
 
   return (
@@ -117,7 +104,6 @@ const mapStateToProps = (state: IState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  openGame: bindActionCreators(openGameWithoutDispatch, dispatch),
   closeGame: bindActionCreators(closeGameWithoutDispatch, dispatch),
   leaveGame: bindActionCreators(leaveGameWithoutDispatch, dispatch),
   startGame: bindActionCreators(startGameWithoutDispatch, dispatch),
