@@ -35,7 +35,9 @@ export function NoThanks({
       <NoThanksCard card={currentCard} />
       <NoThanksChips chips={currentCardCost} />
 
-      {isMyTurn && <NoThanksMove game={game} currentUser={currentUser} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />}
+      {isMyTurn && (
+        <NoThanksMove game={game} currentUser={currentUser} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />
+      )}
     </Fragment>
   );
 }

@@ -22,7 +22,9 @@ export function PerudoPlayer({
 
   return (
     <Fragment>
-      {dices && dices.length > 0 && <PerudoDices dices={dices} highlightNumber={highlightNumber} isHighlightJoker={isHighlightJoker} />}
+      {dices && dices.length > 0 && (
+        <PerudoDices dices={dices} highlightNumber={highlightNumber} isHighlightJoker={isHighlightJoker} />
+      )}
 
       {(!dices || !dices.length) && <Typography>{dicesCount} dices</Typography>}
     </Fragment>

@@ -65,7 +65,10 @@ export function GamesFilter({
   return (
     <div className="games-filter-container">
       <Typography>
-        <FormControlLabel control={<Checkbox checked={isNotStarted} onChange={handleNotStarted} />} label="Not Started" />
+        <FormControlLabel
+          control={<Checkbox checked={isNotStarted} onChange={handleNotStarted} />}
+          label="Not Started"
+        />
         <FormControlLabel control={<Checkbox checked={isStarted} onChange={handleStarted} />} label="Started" />
         <FormControlLabel control={<Checkbox checked={isFinished} onChange={handleFinished} />} label="Finished" />
       </Typography>
@@ -73,12 +76,18 @@ export function GamesFilter({
       {currentUser && (
         <Fragment>
           <Typography>
-            <FormControlLabel control={<Checkbox checked={isWithoutMe} onChange={handleWithoutMe} />} label="Without Me" />
+            <FormControlLabel
+              control={<Checkbox checked={isWithoutMe} onChange={handleWithoutMe} />}
+              label="Without Me"
+            />
             <FormControlLabel control={<Checkbox checked={isWithMe} onChange={handleWithMe} />} label="With Me" />
           </Typography>
 
           <Typography>
-            <FormControlLabel control={<Checkbox checked={isNotMyMove} onChange={handleNotMyMove} />} label="Not My Move" />
+            <FormControlLabel
+              control={<Checkbox checked={isNotMyMove} onChange={handleNotMyMove} />}
+              label="Not My Move"
+            />
             <FormControlLabel control={<Checkbox checked={isMyMove} onChange={handleMyMove} />} label="My Move" />
           </Typography>
         </Fragment>

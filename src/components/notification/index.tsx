@@ -3,7 +3,15 @@ import { number, string, func } from 'prop-types';
 import { Snackbar, SnackbarContent, IconButton } from '@material-ui/core';
 import { Close } from '@material-ui/icons';
 
-export function Notification({ id, message, removeNotification }: { id: number; message: string; removeNotification: (errorId: number) => void }) {
+export function Notification({
+  id,
+  message,
+  removeNotification,
+}: {
+  id: number;
+  message: string;
+  removeNotification: (errorId: number) => void;
+}) {
   const handleClose = () => {
     removeNotification(id);
   };

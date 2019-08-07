@@ -4,7 +4,10 @@ import { Dispatch, bindActionCreators } from 'redux';
 
 import { Header } from '../header';
 import { Invites } from '../../components/invites';
-import { acceptInvite as acceptInviteWithoutDispatch, declineInvite as declineInviteWithoutDispatch } from '../../actions';
+import {
+  acceptInvite as acceptInviteWithoutDispatch,
+  declineInvite as declineInviteWithoutDispatch,
+} from '../../actions';
 import { IUser, IState } from '../../interfaces';
 
 import './index.scss';

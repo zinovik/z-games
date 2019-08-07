@@ -2,7 +2,18 @@ import React, { useState, useEffect, ComponentType } from 'react';
 import { Dispatch, bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { AppBar, Toolbar, Button, IconButton, Drawer, List, ListItem, ListItemText, Typography, Badge } from '@material-ui/core';
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  IconButton,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
+  Typography,
+  Badge,
+} from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
 import { History } from 'history';
 
@@ -122,9 +133,23 @@ export function HeaderPure({
             </nav>
           )}
 
-          {!currentUsername && <Authorize serverUrl={serverUrl} register={register} authorize={authorize} forgotPassword={forgotPassword} />}
+          {!currentUsername && (
+            <Authorize
+              serverUrl={serverUrl}
+              register={register}
+              authorize={authorize}
+              forgotPassword={forgotPassword}
+            />
+          )}
 
-          {currentUsername && <CurrentUser currentUsername={currentUsername} avatar={avatar} updateCurrentUser={updateCurrentUser} logout={logout} />}
+          {currentUsername && (
+            <CurrentUser
+              currentUsername={currentUsername}
+              avatar={avatar}
+              updateCurrentUser={updateCurrentUser}
+              logout={logout}
+            />
+          )}
         </div>
       </Toolbar>
 

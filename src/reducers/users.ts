@@ -97,8 +97,12 @@ const users = (state: IUsersState = initialState, action: ActionTypes.Action): I
         ...state,
         currentUser: {
           ...state.currentUser,
-          invitesInvitee: state.currentUser.invitesInvitee.map(invite => (invite.id === action.invite.id ? { ...action.invite } : { ...invite })),
-          invitesInviter: state.currentUser.invitesInviter.map(invite => (invite.id === action.invite.id ? { ...action.invite } : { ...invite })),
+          invitesInvitee: state.currentUser.invitesInvitee.map(invite =>
+            invite.id === action.invite.id ? { ...action.invite } : { ...invite },
+          ),
+          invitesInviter: state.currentUser.invitesInviter.map(invite =>
+            invite.id === action.invite.id ? { ...action.invite } : { ...invite },
+          ),
         },
       };
 

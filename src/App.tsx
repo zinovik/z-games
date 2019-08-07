@@ -92,7 +92,10 @@ const App = ({
 
       {removingGame && <Confirm text="Are you sure?" confirm={removeGame} />}
       {activeInvite && (
-        <Confirm text={`${activeInvite.createdBy.username} invites you to play ${activeInvite.game.name}. Join?`} confirm={closeInvite} />
+        <Confirm
+          text={`${activeInvite.createdBy.username} invites you to play ${activeInvite.game.name}. Join?`}
+          confirm={closeInvite}
+        />
       )}
 
       {isYourTurn && <YourTurn />}

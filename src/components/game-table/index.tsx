@@ -46,23 +46,53 @@ export function GameTable({
     <Fragment>
       {game.state === GAME_STARTED && (
         <div className="game-table-container">
-          <GamePlayers game={game} currentUserId={currentUser.id} gamePlayers={gamePlayers} players={players} nextPlayers={nextPlayers} />
+          <GamePlayers
+            game={game}
+            currentUserId={currentUser.id}
+            gamePlayers={gamePlayers}
+            players={players}
+            nextPlayers={nextPlayers}
+          />
 
           <div className="game-table-center">
             {name === NO_THANKS && (
-              <NoThanks game={game} currentUser={currentUser} isMyTurn={isMyTurn} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />
+              <NoThanks
+                game={game}
+                currentUser={currentUser}
+                isMyTurn={isMyTurn}
+                isButtonsDisabled={isButtonsDisabled}
+                makeMove={makeMove}
+              />
             )}
 
             {name === PERUDO && (
-              <Perudo game={game} currentUser={currentUser} isMyTurn={isMyTurn} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />
+              <Perudo
+                game={game}
+                currentUser={currentUser}
+                isMyTurn={isMyTurn}
+                isButtonsDisabled={isButtonsDisabled}
+                makeMove={makeMove}
+              />
             )}
 
             {name === LOST_CITIES && (
-              <LostCities game={game} currentUser={currentUser} isMyTurn={isMyTurn} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />
+              <LostCities
+                game={game}
+                currentUser={currentUser}
+                isMyTurn={isMyTurn}
+                isButtonsDisabled={isButtonsDisabled}
+                makeMove={makeMove}
+              />
             )}
 
             {name === SIX_NIMMT && (
-              <SixNimmt game={game} currentUser={currentUser} isMyTurn={isMyTurn} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />
+              <SixNimmt
+                game={game}
+                currentUser={currentUser}
+                isMyTurn={isMyTurn}
+                isButtonsDisabled={isButtonsDisabled}
+                makeMove={makeMove}
+              />
             )}
           </div>
 

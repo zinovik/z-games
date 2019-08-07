@@ -57,10 +57,13 @@ export function Game({
     players.length < playersMax &&
     !players.some(player => player.id === currentUser.id);
   const isAbleToOpen = currentUser && players.some(player => player.id === currentUser.id);
-  const isAbleToWatch = currentUser && !isPrivate && state > GAME_NOT_STARTED && !players.some(player => player.id === currentUser.id);
+  const isAbleToWatch =
+    currentUser && !isPrivate && state > GAME_NOT_STARTED && !players.some(player => player.id === currentUser.id);
 
-  const isGameWithCurrentUser = currentUser && game.players && game.players.some(gamePlayer => gamePlayer.id === currentUser.id);
-  const isCurrentUserMove = currentUser && game.nextPlayers && game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id);
+  const isGameWithCurrentUser =
+    currentUser && game.players && game.players.some(gamePlayer => gamePlayer.id === currentUser.id);
+  const isCurrentUserMove =
+    currentUser && game.nextPlayers && game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id);
 
   return (
     <Fragment>

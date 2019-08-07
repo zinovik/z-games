@@ -4,7 +4,13 @@ import { Button, Input } from '@material-ui/core';
 
 import './index.scss';
 
-export function NewMessage({ gameId, sendMessage }: { gameId: string; sendMessage: (parameters: { gameId: string; message: string }) => void }) {
+export function NewMessage({
+  gameId,
+  sendMessage,
+}: {
+  gameId: string;
+  sendMessage: (parameters: { gameId: string; message: string }) => void;
+}) {
   const [message, setMessage] = useState('');
 
   const handleMessageChange = (event: ChangeEvent<HTMLInputElement>) => {

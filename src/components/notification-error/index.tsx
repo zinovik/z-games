@@ -5,7 +5,15 @@ import { Close } from '@material-ui/icons';
 
 import './index.scss';
 
-export function NotificationError({ id, message, removeError }: { id: number; message: string; removeError: (errorId: number) => void }) {
+export function NotificationError({
+  id,
+  message,
+  removeError,
+}: {
+  id: number;
+  message: string;
+  removeError: (errorId: number) => void;
+}) {
   const handleClose = () => {
     removeError(id);
   };

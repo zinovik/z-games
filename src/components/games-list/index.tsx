@@ -99,10 +99,20 @@ export function GamesList({
               (isStarted && game.state === GAME_STARTED) ||
               (isFinished && game.state === GAME_FINISHED)) &&
             isGames[game.name] &&
-            ((isWithoutMe && (!currentUser || !game.players || !game.players.some(gamePlayer => gamePlayer.id === currentUser.id))) ||
-              (isWithMe && currentUser && game.players && game.players.some(gamePlayer => gamePlayer.id === currentUser.id))) &&
-            ((isNotMyMove && (!currentUser || !game.nextPlayers || !game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id))) ||
-              (isMyMove && currentUser && game.nextPlayers && game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id))) && (
+            ((isWithoutMe &&
+              (!currentUser || !game.players || !game.players.some(gamePlayer => gamePlayer.id === currentUser.id))) ||
+              (isWithMe &&
+                currentUser &&
+                game.players &&
+                game.players.some(gamePlayer => gamePlayer.id === currentUser.id))) &&
+            ((isNotMyMove &&
+              (!currentUser ||
+                !game.nextPlayers ||
+                !game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id))) ||
+              (isMyMove &&
+                currentUser &&
+                game.nextPlayers &&
+                game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id))) && (
               <Game
                 game={game}
                 currentUser={currentUser}

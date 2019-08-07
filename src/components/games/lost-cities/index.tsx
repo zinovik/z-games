@@ -39,7 +39,14 @@ export function LostCities({
         </Fragment>
       )}
 
-      {isMyTurn && <LostCitiesMove game={game} currentUser={currentUser} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />}
+      {isMyTurn && (
+        <LostCitiesMove
+          game={game}
+          currentUser={currentUser}
+          isButtonsDisabled={isButtonsDisabled}
+          makeMove={makeMove}
+        />
+      )}
     </Fragment>
   );
 }

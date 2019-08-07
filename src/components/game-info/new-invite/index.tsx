@@ -1,6 +1,16 @@
 import React, { Fragment, useState, ChangeEvent } from 'react';
 import { string, array, func } from 'prop-types';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Fab, Button, TextField, Typography } from '@material-ui/core';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Fab,
+  Button,
+  TextField,
+  Typography,
+} from '@material-ui/core';
 import { PersonAdd } from '@material-ui/icons';
 
 import { User } from '../../user';
