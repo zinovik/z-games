@@ -25,7 +25,7 @@ export const askForPermissionToReceiveNotifications = async (): Promise<string |
     const messaging = firebase.messaging();
     await messaging.requestPermission();
     const token = await messaging.getToken();
-    // console.log(token);
+
     return token;
   } catch (error) {
     console.error(error);

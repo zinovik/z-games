@@ -20,8 +20,7 @@ export function GamesList({
   isHasMore,
   isLoadingAllGames,
   joinGame,
-  openGame,
-  watchGame,
+  openGamePage,
   reloadGames,
 }: {
   allGames: IGame[];
@@ -31,8 +30,7 @@ export function GamesList({
   isHasMore: boolean;
   isLoadingAllGames: boolean;
   joinGame: (gameId: string) => void;
-  openGame: (gameId: string) => void;
-  watchGame: (gameId: string) => void;
+  openGamePage: (gameNumber: string) => void;
   reloadGames: (filterSettings: IFilterSettings) => void;
 }) {
   const [isBackToTop, setIsBackToTop] = useState(false);
@@ -99,11 +97,27 @@ export function GamesList({
               (isStarted && game.state === GAME_STARTED) ||
               (isFinished && game.state === GAME_FINISHED)) &&
             isGames[game.name] &&
-            ((isWithoutMe && (!currentUser || !game.players || !game.players.some(gamePlayer => gamePlayer.id === currentUser.id))) ||
-              (isWithMe && currentUser && game.players && game.players.some(gamePlayer => gamePlayer.id === currentUser.id))) &&
-            ((isNotMyMove && (!currentUser || !game.nextPlayers || !game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id))) ||
-              (isMyMove && currentUser && game.nextPlayers && game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id))) && (
-              <Game game={game} currentUser={currentUser} key={`game${index}`} isButtonsDisabled={isButtonsDisabled} openGame={openGame} />
+            ((isWithoutMe &&
+              (!currentUser || !game.players || !game.players.some(gamePlayer => gamePlayer.id === currentUser.id))) ||
+              (isWithMe &&
+                currentUser &&
+                game.players &&
+                game.players.some(gamePlayer => gamePlayer.id === currentUser.id))) &&
+            ((isNotMyMove &&
+              (!currentUser ||
+                !game.nextPlayers ||
+                !game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id))) ||
+              (isMyMove &&
+                currentUser &&
+                game.nextPlayers &&
+                game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id))) && (
+              <Game
+                game={game}
+                currentUser={currentUser}
+                key={`game${index}`}
+                isButtonsDisabled={isButtonsDisabled}
+                openGamePage={openGamePage}
+              />
             ),
         )}
       </div>
@@ -125,8 +139,7 @@ GamesList.propTypes = {
   isLoadingAllGames: bool.isRequired,
   currentUser: object,
   joinGame: func.isRequired,
-  openGame: func.isRequired,
-  watchGame: func.isRequired,
+  openGamePage: func.isRequired,
   reloadGames: func.isRequired,
 };
 
@@ -138,7 +151,6 @@ GamesList.defaultProps = {
   isHasMore: false,
   isLoadingAllGames: false,
   joinGame: () => null,
-  openGame: () => null,
-  watchGame: () => null,
+  openGamePage: () => null,
   reloadGames: () => null,
 };

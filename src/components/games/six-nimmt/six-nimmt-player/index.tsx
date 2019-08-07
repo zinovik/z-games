@@ -20,7 +20,15 @@ export function SixNimmtPlayer({
   isMyTurn?: boolean;
   game?: IGame;
 }) {
-  const { cardsHand, cardsTakenCount, points, pointsCurrentRound, lastPlayedCard, lastPlayedCardForPlayers, lastTakenCards } = gamePlayer;
+  const {
+    cardsHand,
+    cardsTakenCount,
+    points,
+    pointsCurrentRound,
+    lastPlayedCard,
+    lastPlayedCardForPlayers,
+    lastTakenCards,
+  } = gamePlayer;
 
   let isCardsPlaying = false;
 

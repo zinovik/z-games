@@ -80,7 +80,6 @@ export class SocketService {
 
       this.SocketClient.emit('get-all-games', initialState.filterSettings);
       this.SocketClient.emit('get-current-user');
-      this.SocketClient.emit('get-opened-game');
     });
 
     this.SocketClient.on('update-current-user', (currentUser: IUser): void => {
@@ -143,12 +142,8 @@ export class SocketService {
     this.SocketClient.emit('join-game', gameId);
   }
 
-  public openGame(gameId: string) {
-    this.SocketClient.emit('open-game', gameId);
-  }
-
-  public watchGame(gameId: string) {
-    this.SocketClient.emit('watch-game', gameId);
+  public openGame(gameNumber: string) {
+    this.SocketClient.emit('open-game', gameNumber);
   }
 
   public leaveGame(gameId: string) {

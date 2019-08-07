@@ -1,6 +1,14 @@
 import React, { useState, ChangeEvent } from 'react';
 import { string, func } from 'prop-types';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, TextField, Button } from '@material-ui/core';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  TextField,
+  Button,
+} from '@material-ui/core';
 
 import { Loading } from '../../loading';
 import { IUser } from '../../../interfaces';
@@ -94,7 +102,14 @@ export function UserUpdate({
           </div>
 
           <div>
-            <input accept="image/*" id="button-file-avatar" multiple={true} type="file" className="file-input" onChange={handleAvatarUpdate} />
+            <input
+              accept="image/*"
+              id="button-file-avatar"
+              multiple={true}
+              type="file"
+              className="file-input"
+              onChange={handleAvatarUpdate}
+            />
           </div>
 
           <div className="user-update-avatar-button">

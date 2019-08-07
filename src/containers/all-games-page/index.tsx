@@ -8,8 +8,7 @@ import { GamesList } from '../../components/games-list';
 import {
   newGame as newGameWithoutDispatch,
   joinGame as joinGameWithoutDispatch,
-  openGame as openGameWithoutDispatch,
-  watchGame as watchGameWithoutDispatch,
+  openGamePage as openGamePageWithoutDispatch,
   reloadGames as reloadGamesWithoutDispatch,
 } from '../../actions';
 import { IUser, IGame, IState, IFilterSettings } from '../../interfaces';
@@ -25,8 +24,7 @@ function AllGamesPagePure({
   isLoadingAllGames,
   newGame,
   joinGame,
-  openGame,
-  watchGame,
+  openGamePage,
   reloadGames,
 }: {
   currentUser: IUser;
@@ -37,8 +35,7 @@ function AllGamesPagePure({
   isLoadingAllGames: boolean;
   newGame: (parameters: { name: string; isPrivate: boolean }) => void;
   joinGame: (gameId: string) => void;
-  openGame: (gameId: string) => void;
-  watchGame: (gameId: string) => void;
+  openGamePage: (gameNumber: string) => void;
   reloadGames: (filterSettings: IFilterSettings) => void;
 }) {
   return (
@@ -55,8 +52,7 @@ function AllGamesPagePure({
         isHasMore={isHasMore}
         isLoadingAllGames={isLoadingAllGames}
         joinGame={joinGame}
-        openGame={openGame}
-        watchGame={watchGame}
+        openGamePage={openGamePage}
         reloadGames={reloadGames}
       />
     </main>
@@ -75,8 +71,7 @@ const mapStateToProps = (state: IState) => ({
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   newGame: bindActionCreators(newGameWithoutDispatch, dispatch),
   joinGame: bindActionCreators(joinGameWithoutDispatch, dispatch),
-  openGame: bindActionCreators(openGameWithoutDispatch, dispatch),
-  watchGame: bindActionCreators(watchGameWithoutDispatch, dispatch),
+  openGamePage: bindActionCreators(openGamePageWithoutDispatch, dispatch),
   reloadGames: bindActionCreators(reloadGamesWithoutDispatch, dispatch),
 });
 

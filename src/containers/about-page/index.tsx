@@ -10,7 +10,13 @@ import { IState } from '../../interfaces';
 
 import './index.scss';
 
-function AboutPagePure({ serverUrl, updateServerUrl }: { serverUrl: string; updateServerUrl: (serverUrl: string) => void }) {
+function AboutPagePure({
+  serverUrl,
+  updateServerUrl,
+}: {
+  serverUrl: string;
+  updateServerUrl: (serverUrl: string) => void;
+}) {
   return (
     <main className="about-page-container">
       <Header />
@@ -19,10 +25,13 @@ function AboutPagePure({ serverUrl, updateServerUrl }: { serverUrl: string; upda
         <div className="about-page-data">
           <Typography variant="h5">Z-Games</Typography>
 
-          <Typography>Z-Games is a tiny board games portal that is slowly being developed since the warm fall of 2017</Typography>
+          <Typography>
+            Z-Games is a tiny board games portal that is slowly being developed since the warm fall of 2017
+          </Typography>
 
           <Typography>
-            Currently, there is only four games: No, Thanks, Perudo, Lost Cities and 6 nimmt!. But we are working on it and you can help ;)
+            Currently, there is only four games: No, Thanks, Perudo, Lost Cities and 6 nimmt!. But we are working on it
+            and you can help ;)
           </Typography>
 
           <Typography>

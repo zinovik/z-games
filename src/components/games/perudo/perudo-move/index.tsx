@@ -39,11 +39,17 @@ export function PerudoMove({
   const [oldGameData, setOldGameData] = useState('');
 
   const { gameData } = game;
-  const { currentDiceNumber, currentDiceFigure, isMaputoRound, players: gamePlayers }: IPerudoData = JSON.parse(gameData);
+  const { currentDiceNumber, currentDiceFigure, isMaputoRound, players: gamePlayers }: IPerudoData = JSON.parse(
+    gameData,
+  );
   const allDicesCount = countDices(gamePlayers);
 
   if (gameData !== oldGameData) {
-    const { diceNumber: newDiceNumber, diceFigure: newDiceFigure, isBetImpossible: newIsBetImpossible } = calculateStartBet({
+    const {
+      diceNumber: newDiceNumber,
+      diceFigure: newDiceFigure,
+      isBetImpossible: newIsBetImpossible,
+    } = calculateStartBet({
       currentDiceNumber,
       currentDiceFigure,
       allDicesCount,
@@ -171,7 +177,13 @@ export function PerudoMove({
       )}
 
       <Typography className="perudo-move-buttons">
-        <Button variant="contained" color="primary" className="perudo-move-button" onClick={moveBet} disabled={isBetImpossible || isButtonsDisabled}>
+        <Button
+          variant="contained"
+          color="primary"
+          className="perudo-move-button"
+          onClick={moveBet}
+          disabled={isBetImpossible || isButtonsDisabled}
+        >
           Bet
         </Button>
         <Button

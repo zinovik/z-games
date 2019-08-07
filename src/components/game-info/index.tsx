@@ -113,7 +113,8 @@ export function GameInfo({
                 <span className="player-online-dot game-red-dot" />
               )}
 
-              {game.players.find(player => player.id === gamePlayer.id) && game.players.find(player => player.id === gamePlayer.id)!.username}
+              {game.players.find(player => player.id === gamePlayer.id) &&
+                game.players.find(player => player.id === gamePlayer.id)!.username}
             </Typography>
           ))}
 
@@ -167,10 +168,16 @@ export function GameInfo({
       {game.state === GAME_STARTED && <GameMoveTime previousMoveAt={previousMoveAt} maxTime={maxTime} />}
 
       {gameDataParsed.options && gameDataParsed.options.length > 0 && (
-        <GameOptions game={game} isButtonsDisabled={isButtonsDisabled || game.state !== GAME_NOT_STARTED} updateOption={updateOption} />
+        <GameOptions
+          game={game}
+          isButtonsDisabled={isButtonsDisabled || game.state !== GAME_NOT_STARTED}
+          updateOption={updateOption}
+        />
       )}
 
-      {game.state === GAME_NOT_STARTED && <NewInvite currentUserId={currentUserId} gameId={game.id} users={users} newInvite={newInvite} />}
+      {game.state === GAME_NOT_STARTED && (
+        <NewInvite currentUserId={currentUserId} gameId={game.id} users={users} newInvite={newInvite} />
+      )}
     </div>
   );
 }

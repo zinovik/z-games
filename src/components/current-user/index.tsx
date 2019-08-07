@@ -47,7 +47,12 @@ export function CurrentUser({
 
   return (
     <Fragment>
-      <Button onClick={handleMenuOpen} aria-owns={anchorEl ? 'user-menu' : undefined} aria-haspopup="true" className="current-user-avatar">
+      <Button
+        onClick={handleMenuOpen}
+        aria-owns={anchorEl ? 'user-menu' : undefined}
+        aria-haspopup="true"
+        className="current-user-avatar"
+      >
         <Avatar src={avatar}>{currentUsername[0]}</Avatar>
       </Button>
 
@@ -56,7 +61,9 @@ export function CurrentUser({
         <MenuItem onClick={handleLogOutClick}>Log out</MenuItem>
       </Menu>
 
-      {isUpdating && <UserUpdate currentUsername={currentUsername} updateCurrentUser={updateCurrentUser} close={close} />}
+      {isUpdating && (
+        <UserUpdate currentUsername={currentUsername} updateCurrentUser={updateCurrentUser} close={close} />
+      )}
     </Fragment>
   );
 }

@@ -47,7 +47,12 @@ export function Perudo({
 
   if ((!lastRoundResults.length || currentDiceNumber || currentDiceFigure) && !isHideResultsClicked) {
     setIsHideResultsClicked(true);
-  } else if (hideResultsClickedRound !== currentRound && !currentDiceNumber && !currentDiceFigure && isHideResultsClicked) {
+  } else if (
+    hideResultsClickedRound !== currentRound &&
+    !currentDiceNumber &&
+    !currentDiceFigure &&
+    isHideResultsClicked
+  ) {
     setIsHideResultsClicked(false);
   }
 
@@ -110,7 +115,14 @@ export function Perudo({
               </div>
             )}
 
-            {isMyTurn && <PerudoMove game={game} isMaputoAble={isMaputoAble} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />}
+            {isMyTurn && (
+              <PerudoMove
+                game={game}
+                isMaputoAble={isMaputoAble}
+                isButtonsDisabled={isButtonsDisabled}
+                makeMove={makeMove}
+              />
+            )}
           </div>
         </Fragment>
       )}

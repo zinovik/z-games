@@ -40,7 +40,10 @@ export function InviteInvitee({
   return (
     <Fragment>
       <Card className="invite-invitee-card">
-        <CardHeader title={`#${invite.game.number}: ${invite.game.name}`} subheader={moment(invite.createdAt).fromNow()} />
+        <CardHeader
+          title={`#${invite.game.number}: ${invite.game.name}`}
+          subheader={moment(invite.createdAt).fromNow()}
+        />
 
         <div className="game-img-container">
           <img
@@ -66,7 +69,13 @@ export function InviteInvitee({
                 : 'invite-invitee-pending'
             }
           >
-            {invite.isClosed ? (invite.isAccepted ? 'accepted' : invite.isDeclined ? 'declined' : 'expired') : 'pending'}
+            {invite.isClosed
+              ? invite.isAccepted
+                ? 'accepted'
+                : invite.isDeclined
+                ? 'declined'
+                : 'expired'
+              : 'pending'}
           </Typography>
         </CardContent>
 

@@ -4,7 +4,13 @@ import { Typography, TextField, Button } from '@material-ui/core';
 
 import './index.scss';
 
-export function ChangeServer({ serverUrl, updateServerUrl }: { serverUrl: string; updateServerUrl: (serverUrl: string) => void }) {
+export function ChangeServer({
+  serverUrl,
+  updateServerUrl,
+}: {
+  serverUrl: string;
+  updateServerUrl: (serverUrl: string) => void;
+}) {
   const [currentServerUrl, setCurrentServerUrl] = useState('');
   const [isServerUrlInputShowed, setIsServerUrlInputShowed] = useState(false);
 

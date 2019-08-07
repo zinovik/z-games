@@ -15,16 +15,16 @@ export function Game({
   game,
   currentUser,
   isButtonsDisabled,
-  openGame,
+  openGamePage,
 }: {
   game: IGame;
   currentUser?: IUser;
   isButtonsDisabled: boolean;
-  openGame: (gameId: string) => void;
+  openGamePage: (gameNumber: string) => void;
 }) {
   const [isRulesShown, setIsRulesShown] = useState(false);
 
-  const { id: gameId, number: gameNumber, name, state, players, createdAt, isPrivate } = game;
+  const { number: gameNumber, name, state, players, createdAt, isPrivate } = game;
 
   const handleLogoClick = () => {
     setIsRulesShown(true);
@@ -35,13 +35,15 @@ export function Game({
   };
 
   const handleOpenClick = () => {
-    openGame(gameId);
+    openGamePage(gameNumber);
   };
 
   const isAbleToOpen = currentUser && players.some(player => player.id === currentUser.id);
 
-  const isGameWithCurrentUser = currentUser && game.players && game.players.some(gamePlayer => gamePlayer.id === currentUser.id);
-  const isCurrentUserMove = currentUser && game.nextPlayers && game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id);
+  const isGameWithCurrentUser =
+    currentUser && game.players && game.players.some(gamePlayer => gamePlayer.id === currentUser.id);
+  const isCurrentUserMove =
+    currentUser && game.nextPlayers && game.nextPlayers.some(gamePlayer => gamePlayer.id === currentUser.id);
 
   return (
     <Fragment>
@@ -97,10 +99,10 @@ export function Game({
 Game.propTypes = {
   game: object.isRequired,
   currentUser: object,
-  openGame: func.isRequired,
+  openGamePage: func.isRequired,
 };
 
 Game.defaultProps = {
   game: {},
-  openGame: () => null,
+  openGamePage: () => null,
 };

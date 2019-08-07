@@ -5,7 +5,17 @@ import { Typography } from '@material-ui/core';
 
 import './index.scss';
 
-export function Log({ type, createdAt, username, text }: { type: string; createdAt: Date; username: string; text?: string }) {
+export function Log({
+  type,
+  createdAt,
+  username,
+  text,
+}: {
+  type: string;
+  createdAt: Date;
+  username: string;
+  text?: string;
+}) {
   return (
     <Typography>
       <span className="log-time">{moment(createdAt).calendar()}: </span>

@@ -1,7 +1,14 @@
 import { Dispatch, AnyAction } from 'redux';
 import { push } from 'connected-react-router';
 
-import { SocketService, registerUser, authorizeUser, activateUser, forgotUserPassword, fetchUsersRating } from '../services';
+import {
+  SocketService,
+  registerUser,
+  authorizeUser,
+  activateUser,
+  forgotUserPassword,
+  fetchUsersRating,
+} from '../services';
 import { IFilterSettings, IState, IInvite } from '../interfaces';
 import * as ActionTypes from './action-types';
 
@@ -9,7 +16,9 @@ const socketService = SocketService.Instance;
 
 // Users
 
-export const register = (serverUrl: string, username: string, password: string, email: string) => async (dispatch: Dispatch): Promise<AnyAction> => {
+export const register = (serverUrl: string, username: string, password: string, email: string) => async (
+  dispatch: Dispatch,
+): Promise<AnyAction> => {
   try {
     await registerUser(serverUrl, username, password, email);
   } catch (error) {
@@ -27,7 +36,9 @@ export const register = (serverUrl: string, username: string, password: string, 
   });
 };
 
-export const authorize = (serverUrl: string, username: string, password: string) => async (dispatch: Dispatch): Promise<AnyAction> => {
+export const authorize = (serverUrl: string, username: string, password: string) => async (
+  dispatch: Dispatch,
+): Promise<AnyAction> => {
   let token = '';
 
   try {
@@ -50,7 +61,9 @@ export const authorize = (serverUrl: string, username: string, password: string)
   });
 };
 
-export const forgotPassword = (serverUrl: string, username: string) => async (dispatch: Dispatch): Promise<AnyAction> => {
+export const forgotPassword = (serverUrl: string, username: string) => async (
+  dispatch: Dispatch,
+): Promise<AnyAction> => {
   try {
     await forgotUserPassword(serverUrl, username);
   } catch (error) {
@@ -68,7 +81,9 @@ export const forgotPassword = (serverUrl: string, username: string) => async (di
   });
 };
 
-export const activate = (serverUrl: string, activationToken: string) => async (dispatch: Dispatch): Promise<AnyAction> => {
+export const activate = (serverUrl: string, activationToken: string) => async (
+  dispatch: Dispatch,
+): Promise<AnyAction> => {
   let token = '';
 
   try {
@@ -126,22 +141,12 @@ export const joinGame = (gameId: string) => (dispatch: Dispatch): AnyAction => {
   });
 };
 
-export const openGame = (gameId: string) => (dispatch: Dispatch): AnyAction => {
-  socketService.openGame(gameId);
-
-  return dispatch({
-    type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
-    isButtonsDisabled: true,
-  });
+export const openGamePage = (gameNumber: string) => (dispatch: Dispatch): void => {
+  dispatch(push(`/game/${gameNumber}`));
 };
 
-export const watchGame = (gameId: string) => (dispatch: Dispatch): AnyAction => {
-  socketService.watchGame(gameId);
-
-  return dispatch({
-    type: ActionTypes.UPDATE_IS_BUTTONS_DISABLED,
-    isButtonsDisabled: true,
-  });
+export const openGame = (gameNumber: string) => (dispatch: Dispatch): void => {
+  socketService.openGame(gameNumber);
 };
 
 export const leaveGame = (gameId: string) => (dispatch: Dispatch): AnyAction => {
@@ -184,7 +189,9 @@ export const sendMessage = ({ gameId, message }: { gameId: string; message: stri
   socketService.sendMessage({ gameId, message });
 };
 
-export const newGame = ({ name, isPrivate }: { name: string; isPrivate: boolean }) => (dispatch: Dispatch): AnyAction => {
+export const newGame = ({ name, isPrivate }: { name: string; isPrivate: boolean }) => (
+  dispatch: Dispatch,
+): AnyAction => {
   socketService.newGame({ name, isPrivate });
 
   return dispatch({
@@ -246,7 +253,9 @@ export const repeatGame = (gameId: string) => (dispatch: Dispatch): AnyAction =>
   });
 };
 
-export const updateOption = ({ gameId, name, value }: { gameId: string; name: string; value: string }) => (dispatch: Dispatch): AnyAction => {
+export const updateOption = ({ gameId, name, value }: { gameId: string; name: string; value: string }) => (
+  dispatch: Dispatch,
+): AnyAction => {
   socketService.updateOption({ gameId, name, value });
 
   return dispatch({

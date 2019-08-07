@@ -24,7 +24,11 @@ export function PerudoLastRoundResult({
       <User username={username} avatar={avatar} />
 
       <div className="perudo-last-round-result-player-result">
-        <PerudoPlayer gamePlayer={gamePlayer} highlightNumber={lastRoundDiceFigure} isHighlightJoker={!isLastRoundMaputo} />
+        <PerudoPlayer
+          gamePlayer={gamePlayer}
+          highlightNumber={lastRoundDiceFigure}
+          isHighlightJoker={!isLastRoundMaputo}
+        />
       </div>
     </div>
   );

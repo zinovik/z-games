@@ -68,7 +68,9 @@ export function SixNimmt({
           </div>
         ))}
 
-      {isMyTurn && <SixNimmtMove game={game} currentUser={currentUser} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />}
+      {isMyTurn && (
+        <SixNimmtMove game={game} currentUser={currentUser} isButtonsDisabled={isButtonsDisabled} makeMove={makeMove} />
+      )}
     </Fragment>
   );
 }

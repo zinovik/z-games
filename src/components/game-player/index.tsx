@@ -36,19 +36,39 @@ export function GamePlayer({
       <User username={username} avatar={avatar} />
 
       {game.name === NO_THANKS && (
-        <NoThanksPlayer gamePlayer={gamePlayer as INoThanksPlayer} isCurrentPlayer={isCurrentPlayer} isMyTurn={isMyTurn} game={game} />
+        <NoThanksPlayer
+          gamePlayer={gamePlayer as INoThanksPlayer}
+          isCurrentPlayer={isCurrentPlayer}
+          isMyTurn={isMyTurn}
+          game={game}
+        />
       )}
 
       {game.name === PERUDO && (
-        <PerudoPlayer gamePlayer={gamePlayer as IPerudoPlayer} isCurrentPlayer={isCurrentPlayer} isMyTurn={isMyTurn} game={game} />
+        <PerudoPlayer
+          gamePlayer={gamePlayer as IPerudoPlayer}
+          isCurrentPlayer={isCurrentPlayer}
+          isMyTurn={isMyTurn}
+          game={game}
+        />
       )}
 
       {game.name === LOST_CITIES && (
-        <LostCitiesPlayer gamePlayer={gamePlayer as ILostCitiesPlayer} isCurrentPlayer={isCurrentPlayer} isMyTurn={isMyTurn} game={game} />
+        <LostCitiesPlayer
+          gamePlayer={gamePlayer as ILostCitiesPlayer}
+          isCurrentPlayer={isCurrentPlayer}
+          isMyTurn={isMyTurn}
+          game={game}
+        />
       )}
 
       {game.name === SIX_NIMMT && (
-        <SixNimmtPlayer gamePlayer={gamePlayer as ISixNimmtPlayer} isCurrentPlayer={isCurrentPlayer} isMyTurn={isMyTurn} game={game} />
+        <SixNimmtPlayer
+          gamePlayer={gamePlayer as ISixNimmtPlayer}
+          isCurrentPlayer={isCurrentPlayer}
+          isMyTurn={isMyTurn}
+          game={game}
+        />
       )}
     </div>
   );

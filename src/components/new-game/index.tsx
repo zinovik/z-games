@@ -1,6 +1,16 @@
 import React, { Fragment, useState } from 'react';
 import { func } from 'prop-types';
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Fab, Typography, FormControlLabel, Checkbox } from '@material-ui/core';
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  Fab,
+  Typography,
+  FormControlLabel,
+  Checkbox,
+} from '@material-ui/core';
 import { Add } from '@material-ui/icons';
 
 import { GamesServices } from '../../services';
@@ -43,7 +53,10 @@ export function NewGame({ newGame }: { newGame: (parameters: { name: string; isP
           <DialogActions>
             <div className="new-game-actions">
               <Typography>
-                <FormControlLabel control={<Checkbox checked={isPrivate} onChange={handlePrivate} />} label="Private Game" />
+                <FormControlLabel
+                  control={<Checkbox checked={isPrivate} onChange={handlePrivate} />}
+                  label="Private Game"
+                />
               </Typography>
 
               <div className="new-game-games">
