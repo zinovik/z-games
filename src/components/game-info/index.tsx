@@ -1,6 +1,6 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { object, string, bool, func, array } from 'prop-types';
-import { Button, Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 import { Lock } from '@material-ui/icons';
 import { GAME_NOT_STARTED, GAME_STARTED, GAME_FINISHED, BaseGame } from 'z-games-base-game';
 
@@ -8,7 +8,10 @@ import { GameRules } from '../game-rules';
 import { GameOptions } from './game-options';
 import { NewInvite } from './new-invite';
 import { GameMoveTime } from './game-move-time';
+import { StartGame } from './start-game';
 import { CloseGame } from './close-game';
+import { LeaveGame } from './leave-game';
+import { RepeatGame } from './repeat-game';
 import { RemoveGame } from './remove-game';
 import { GamesServices } from '../../services';
 import { IGame, GamePlayerType, GameDataType, IUser } from '../../interfaces';
@@ -132,28 +135,6 @@ export function GameInfo({
           ))}
         </div>
 
-        <div className="game-info-buttons">
-          {isAccessToRepeat && game.state === GAME_FINISHED && (
-            <Button onClick={handleRepeatClick} disabled={isButtonsDisabled}>
-              Repeat
-            </Button>
-          )}
-
-          {game.state === GAME_NOT_STARTED && (
-            <Button onClick={handleLeaveClick} disabled={isButtonsDisabled}>
-              Leave
-            </Button>
-          )}
-
-          {game.state === GAME_NOT_STARTED && (
-            <Fragment>
-              <Button onClick={handleStartClick} disabled={!isAbleToStart || isButtonsDisabled}>
-                Start
-              </Button>
-            </Fragment>
-          )}
-        </div>
-
         {isRulesShown && <GameRules gameName={game.name} close={handleRulesClose} />}
       </div>
 
@@ -177,7 +158,13 @@ export function GameInfo({
         />
       )}
 
+      {game.state === GAME_NOT_STARTED && isAbleToStart && <StartGame start={handleStartClick} />}
+
       <CloseGame close={handleCloseClick} />
+
+      {game.state === GAME_NOT_STARTED && <LeaveGame leave={handleLeaveClick} />}
+
+      {isAccessToRepeat && game.state === GAME_FINISHED && <RepeatGame repeat={handleRepeatClick} />}
 
       {isAccessToRemove && <RemoveGame remove={handleRemoveClick} />}
     </div>
