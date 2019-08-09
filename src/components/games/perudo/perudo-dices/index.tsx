@@ -16,7 +16,7 @@ export function PerudoDices({
   isHighlightJoker?: boolean;
 }) {
   return (
-    <Typography>
+    <Typography className="perudo-dices-container">
       {dices.map((dice, i) => (
         <span
           key={i}

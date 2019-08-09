@@ -63,7 +63,13 @@ export function SixNimmt({
         cardsTable.map((cards, rowIndex) => (
           <div className="six-nimmt-cards-table" key={`table-cards-row-${rowIndex}`}>
             {new Array(ROW_MAX_LENGTH).fill(0).map((row, cardIndex) => (
-              <SixNimmtCard card={cards[cardIndex]} key={`table-card-${rowIndex}-${cardIndex}`} />
+              <SixNimmtCard
+                card={cards[cardIndex]}
+                key={`table-card-${rowIndex}-${cardIndex}`}
+                isActive={previousCards.some(
+                  move => move.card.cardNumber === (cards[cardIndex] && cards[cardIndex].cardNumber),
+                )}
+              />
             ))}
           </div>
         ))}
