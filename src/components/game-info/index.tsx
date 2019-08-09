@@ -8,6 +8,8 @@ import { GameRules } from '../game-rules';
 import { GameOptions } from './game-options';
 import { NewInvite } from './new-invite';
 import { GameMoveTime } from './game-move-time';
+import { CloseGame } from './close-game';
+import { RemoveGame } from './remove-game';
 import { GamesServices } from '../../services';
 import { IGame, GamePlayerType, GameDataType, IUser } from '../../interfaces';
 
@@ -131,16 +133,6 @@ export function GameInfo({
         </div>
 
         <div className="game-info-buttons">
-          {isAccessToRemove && (
-            <Button onClick={handleRemoveClick} disabled={isButtonsDisabled}>
-              Remove
-            </Button>
-          )}
-
-          <Button onClick={handleCloseClick} disabled={isButtonsDisabled}>
-            Close
-          </Button>
-
           {isAccessToRepeat && game.state === GAME_FINISHED && (
             <Button onClick={handleRepeatClick} disabled={isButtonsDisabled}>
               Repeat
@@ -155,10 +147,6 @@ export function GameInfo({
 
           {game.state === GAME_NOT_STARTED && (
             <Fragment>
-              {/* <Button onClick={handleReadyClick} disabled={isButtonsDisabled}>
-                {gamePlayers.find(gamePlayer => gamePlayer.id === currentUserId)!.ready ? 'Not Ready' : 'Ready'}
-              </Button> */}
-
               <Button onClick={handleStartClick} disabled={!isAbleToStart || isButtonsDisabled}>
                 Start
               </Button>
@@ -180,8 +168,18 @@ export function GameInfo({
       )}
 
       {game.state === GAME_NOT_STARTED && (
-        <NewInvite currentUserId={currentUserId} gameId={game.id} users={users} newInvite={newInvite} />
+        <NewInvite
+          currentUserId={currentUserId}
+          gameId={game.id}
+          users={users}
+          newInvite={newInvite}
+          isSecond={isAccessToRemove}
+        />
       )}
+
+      <CloseGame close={handleCloseClick} />
+
+      {isAccessToRemove && <RemoveGame remove={handleRemoveClick} />}
     </div>
   );
 }

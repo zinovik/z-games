@@ -164,7 +164,7 @@ export function HeaderPure({
                       <ListItemText
                         primary={label}
                         onClick={() => {
-                          nextPath(`/${label.toLowerCase()}`);
+                          nextPath(`/${label.toLowerCase().replace(' ', '-')}`);
                         }}
                       />
                     </Badge>
@@ -172,7 +172,7 @@ export function HeaderPure({
                     <ListItemText
                       primary={label}
                       onClick={() => {
-                        nextPath(`/${label.toLowerCase()}`);
+                        nextPath(`/${label.toLowerCase().replace(' ', '-')}`);
                       }}
                     />
                   )}

@@ -22,11 +22,13 @@ export function NewInvite({
   currentUserId,
   gameId,
   users,
+  isSecond,
   newInvite,
 }: {
   currentUserId: string;
   gameId: string;
   users: IUser[];
+  isSecond?: boolean;
   newInvite: (parameters: { gameId: string; userId: string }) => void;
 }) {
   const [isModalShow, setIsModalShow] = useState(false);
@@ -87,7 +89,7 @@ export function NewInvite({
 
   return (
     <Fragment>
-      <div className="new-invite-button">
+      <div className={`new-invite-button${isSecond ? '-second' : ''}`}>
         <Fab onClick={handleNewGame}>
           <PersonAdd />
         </Fab>

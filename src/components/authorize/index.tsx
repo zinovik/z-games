@@ -147,9 +147,9 @@ export function Authorize({
             {currentTab === 0 && (
               <div>
                 <div className="authorize-modal-forget-password-container">
-                  <a className="authorize-modal-forget-password" onClick={handleForgotPasswordClick}>
+                  <span className="authorize-modal-forget-password" onClick={handleForgotPasswordClick}>
                     Forgot password?
-                  </a>
+                  </span>
                 </div>
                 <div className="authorize-modal-form-button">
                   <Button variant="contained" color="primary" onClick={handleSignInClick}>

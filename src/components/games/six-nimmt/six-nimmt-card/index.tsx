@@ -10,10 +10,12 @@ export function SixNimmtCard({
   card,
   isClickable,
   onClick,
+  isActive,
 }: {
   card?: ISixNimmtCard | null;
   isClickable?: boolean;
   onClick?: () => void;
+  isActive?: boolean;
 }) {
   const handleClick = () => {
     if (!isClickable || !onClick) {
@@ -24,7 +26,12 @@ export function SixNimmtCard({
   };
 
   return (
-    <div className={`six-nimmt-card${isClickable ? ' six-nimmt-card-clickable' : ''}`} onClick={handleClick}>
+    <div
+      className={`six-nimmt-card${isClickable ? ' six-nimmt-card-clickable' : ''}${
+        isActive ? ' six-nimmt-card-active' : ''
+      }`}
+      onClick={handleClick}
+    >
       {card && <div>{card.cardNumber}</div>}
 
       <SixNimmtCattleHeads cattleHeads={card ? card.cattleHeads : 0} />
