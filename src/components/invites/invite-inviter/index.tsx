@@ -28,15 +28,17 @@ export function InviteInviter({ invite }: { invite: IInvite }) {
           subheader={moment(invite.createdAt).fromNow()}
         />
 
-        <div className="game-img-container">
-          <img
-            src={`/images/${GamesServices[invite.game.name].getNameWork()}.png`}
-            className="game-img"
-            onClick={handleLogoClick}
-            title={`click to see ${invite.game.name} game rules`}
-            alt="game logo"
-          />
-        </div>
+        {!invite.isClosed && (
+          <div className="game-img-container">
+            <img
+              src={`/images/${GamesServices[invite.game.name].getNameWork()}.png`}
+              className="game-img"
+              onClick={handleLogoClick}
+              title={`click to see ${invite.game.name} game rules`}
+              alt="game logo"
+            />
+          </div>
+        )}
 
         <CardContent>
           <Typography>{`${invite.invitee && invite.invitee.username} was invited`}</Typography>

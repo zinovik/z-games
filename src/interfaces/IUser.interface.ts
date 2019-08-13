@@ -2,6 +2,7 @@ import { IGame, IInvite } from './';
 
 export interface IUser {
   avatar: string;
+  country: string;
   createdAt: Date;
   email: string;
   firstName: string;

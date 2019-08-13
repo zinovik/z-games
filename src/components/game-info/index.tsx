@@ -121,6 +121,15 @@ export function GameInfo({
               {game.players.find(player => player.id === gamePlayer.id) &&
                 game.players.find(player => player.id === gamePlayer.id)!.username}
 
+              {game.players.find(player => player.id === gamePlayer.id) &&
+                game.players.find(player => player.id === gamePlayer.id)!.country && (
+                  <img
+                    src={game.players.find(player => player.id === gamePlayer.id)!.country}
+                    className="player-online-country"
+                    alt="country flag"
+                  />
+                )}
+
               {nextPlayers.some(nextPlayer => nextPlayer.id === gamePlayer.id) && (
                 <img src="/images/sandglass.gif" alt="sandglass" className="sandglass" />
               )}
