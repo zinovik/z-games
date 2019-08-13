@@ -45,15 +45,17 @@ export function InviteInvitee({
           subheader={moment(invite.createdAt).fromNow()}
         />
 
-        <div className="game-img-container">
-          <img
-            src={`/images/${GamesServices[invite.game.name].getNameWork()}.png`}
-            className="game-img"
-            onClick={handleLogoClick}
-            title={`click to see ${invite.game.name} game rules`}
-            alt="game-logo"
-          />
-        </div>
+        {!invite.isClosed && (
+          <div className="game-img-container">
+            <img
+              src={`/images/${GamesServices[invite.game.name].getNameWork()}.png`}
+              className="game-img"
+              onClick={handleLogoClick}
+              title={`click to see ${invite.game.name} game rules`}
+              alt="game-logo"
+            />
+          </div>
+        )}
 
         <CardContent>
           <Typography>{`invite by ${invite.createdBy && invite.createdBy.username}`}</Typography>
