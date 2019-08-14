@@ -1,12 +1,14 @@
 .game-info-container {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: center;
   flex-direction: row;
 }
 
 .game-info-img {
   cursor: pointer;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .game-info-players {

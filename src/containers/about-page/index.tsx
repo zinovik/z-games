@@ -41,6 +41,13 @@ function AboutPagePure({
             </a>
           </Typography>
 
+          <Typography>
+            Also, you can check development documentation here:{' '}
+            <a href="https://github.com/zinovik/z-games-api#readme" className="about-page-link">
+              https://github.com/zinovik/z-games-api#readme
+            </a>
+          </Typography>
+
           <ChangeServer serverUrl={serverUrl} updateServerUrl={updateServerUrl} />
         </div>
       </div>
